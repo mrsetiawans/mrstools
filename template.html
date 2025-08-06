@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}}</title>
+    <style>
+        /* Universal Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Fauna+One&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Caveat:wght@400;700&display=swap');
+
+        /* Universal Reset and Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            width: calc(100% - 2rem);
+            margin: auto;
+        }
+
+        .card {
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: clamp(2rem, 5.5vw, 2.6rem);
+            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            transform: scale(0.9) rotate(-1.5deg);
+            opacity: 0;
+            animation: cardAppearMagical 2s ease-out forwards 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes cardAppearMagical { to { transform: scale(1) rotate(0deg); opacity: 1; } }
+
+        #countdown { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2.2rem 0; animation: countdownAppear 2s ease-out 1.2s forwards; opacity: 0; }
+        @media (min-width: 500px) { #countdown { grid-template-columns: repeat(4, 1fr); } }
+        @keyframes countdownAppear { to { opacity: 1; } }
+
+        .countdown-number { font-family: 'Cinzel Decorative', cursive; font-size: clamp(1.55rem, 5.6vw, 2.35rem); font-weight: 700; display: block; }
+        .countdown-label { font-family: 'Fauna One', serif; font-size: clamp(0.62rem, 2.75vw, 0.82rem); text-transform: uppercase; letter-spacing: 1.2px; margin-top: 0.5rem; font-weight: 400; }
+
+        .reveal-btn { padding: 0.9rem 1.8rem; border-radius: 30px; font-family: 'Cinzel Decorative', cursive; font-size: clamp(0.9rem, 3.8vw, 1.1rem); font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin: 2.2rem 0; display: none; text-transform: uppercase; letter-spacing: 1px; }
+
+        .birthday-content { display: none; animation: contentAppearMystic 2s ease-out forwards; margin-top: 2.2rem; }
+        @keyframes contentAppearMystic { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        .birthday-message { border-radius: 16px; padding: 1.6rem; margin: 1.1rem 0; backdrop-filter: blur(9px); font-size: clamp(0.9rem, 3.5vw, 1.05rem); line-height: 1.75; }
+        .birthday-message h2 { font-family: 'Cinzel Decorative', cursive; margin-bottom: 0.8rem; font-size: clamp(1.5rem, 4.5vw, 2.2rem); font-weight: 700; }
+        
+        .special-wish-btn { padding: 0.8rem 1.6rem; border-radius: 25px; font-family: 'Fauna One', serif; font-size: clamp(0.8rem, 3.2vw, 1rem); font-weight: 600; cursor: pointer; margin: 1.6rem 0; transition: all 0.3s ease; display: none; }
+        .special-wish-container { display: none; border-radius: 16px; padding: 1.8rem; margin: 1.6rem 0; box-shadow: 0 12px 42px rgba(0, 0, 0, 0.65); text-align: left; line-height: 1.8; font-size: clamp(0.88rem, 3.1vw, 0.98rem); animation: fadeInSpecialWish 1s ease-out; }
+        @keyframes fadeInSpecialWish { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        .badge { position: absolute; top: -11px; right: -11px; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 23px; animation: badgeSway 3s ease-in-out infinite; z-index: 100; }
+        @keyframes badgeSway { 0%, 100% { transform: rotate(-5deg) scale(1); } 50% { transform: rotate(5deg) scale(1.1); } }
+
+        /* ==================== THEME: OCEAN ==================== */
+        body[data-theme="ocean"] {
+            background: linear-gradient(170deg, #041a30 0%, #0a2f4a 25%, #103d5a 50%, #185470 75%, #0d2340 100%);
+            color: #e8f4f8;
+        }
+        body[data-theme="ocean"] .card { background: rgba(4, 16, 28, 0.92); border: 2px solid rgba(60, 130, 160, 0.7); }
+        body[data-theme="ocean"] .header-title { color: #87ceeb; text-shadow: 0 0 15px rgba(135, 206, 235, 0.65), 0 0 25px rgba(173, 216, 230, 0.45); }
+        body[data-theme="ocean"] .subtitle { color: rgba(179, 217, 230, 0.93); }
+        body[data-theme="ocean"] .countdown-item { background: rgba(50, 120, 150, 0.28); border: 1px solid rgba(70, 160, 200, 0.7); box-shadow: 0 0 16px rgba(70, 160, 200, 0.45); }
+        body[data-theme="ocean"] .countdown-item:hover { box-shadow: 0 10px 33px rgba(15, 70, 100, 0.65), 0 0 24px rgba(70, 160, 200, 0.75); }
+        body[data-theme="ocean"] .countdown-number { color: #b3d9e6; }
+        body[data-theme="ocean"] .countdown-label { color: rgba(179, 217, 230, 0.9); }
+        body[data-theme="ocean"] .reveal-btn { background: linear-gradient(45deg, #1e5f8e, #082f47, #2e7db8); color: #d8f4f8; border: 1px solid rgba(100,170,200,0.55); box-shadow: 0 7px 28px rgba(3, 35, 60, 0.7), inset 0 -3px 8px rgba(0,0,0,0.4); }
+        body[data-theme="ocean"] .reveal-btn:hover { box-shadow: 0 11px 36px rgba(3, 35, 60, 0.8), 0 0 30px #87ceeb, inset 0 -3px 8px rgba(0,0,0,0.45); }
+        body[data-theme="ocean"] .birthday-message { background: rgba(70, 160, 200, 0.15); border: 1px solid rgba(90, 180, 220, 0.55); color: #e8f4f8; }
+        body[data-theme="ocean"] .birthday-message h2 { color: #87ceeb; }
+        body[data-theme="ocean"] .special-wish-btn { background: linear-gradient(45deg, #3498db, #2980b9); color: #041a30; border: 1px solid rgba(135,206,235,0.45); box-shadow: 0 5px 22px rgba(15, 70, 100,0.5); }
+        body[data-theme="ocean"] .special-wish-btn:hover { box-shadow: 0 9px 30px rgba(15, 70, 100,0.6), 0 0 18px #b3d9e6; }
+        body[data-theme="ocean"] .special-wish-container { background: rgba(5, 20, 35, 0.94); color: #e8f4f8; border: 1px solid #285070; }
+        body[data-theme="ocean"] .special-wish-container strong { color: #87ceeb; }
+        body[data-theme="ocean"] .special-wish-container em { color: #b3d9e6; }
+        body[data-theme="ocean"] .footer { color: rgba(179, 217, 230, 0.88); }
+        body[data-theme="ocean"] .badge { background: linear-gradient(135deg, #2e7db8, #0a3d5a); color: #d8f4f8; box-shadow: 0 5px 18px rgba(3, 35, 60, 0.6); }
+
+        /* ==================== THEME: FOREST ==================== */
+        body[data-theme="forest"] {
+            background: linear-gradient(170deg, #061006 0%, #0a1c0a 25%, #102810 50%, #183818 75%, #0d1a0d 100%);
+            color: #e8f5e9;
+        }
+        body[data-theme="forest"] .card { background: rgba(4, 12, 6, 0.92); border: 2px solid rgba(60, 110, 70, 0.7); }
+        body[data-theme="forest"] .header-title { color: #b8e0b8; text-shadow: 0 0 15px rgba(140, 200, 140, 0.65), 0 0 25px rgba(160, 220, 160, 0.45); }
+        body[data-theme="forest"] .subtitle { color: rgba(195, 225, 195, 0.93); }
+        body[data-theme="forest"] .countdown-item { background: rgba(50, 100, 60, 0.28); border: 1px solid rgba(70, 120, 80, 0.7); box-shadow: 0 0 16px rgba(70, 120, 80, 0.45); }
+        body[data-theme="forest"] .countdown-item:hover { box-shadow: 0 10px 33px rgba(15, 50, 25, 0.65), 0 0 24px rgba(70, 120, 80, 0.75); }
+        body[data-theme="forest"] .countdown-number { color: #cfe8cf; }
+        body[data-theme="forest"] .countdown-label { color: rgba(185, 215, 185, 0.9); }
+        body[data-theme="forest"] .reveal-btn { background: linear-gradient(45deg, #134e13, #082808, #1e681e); color: #d8f8d8; border: 1px solid rgba(90,160,100,0.55); box-shadow: 0 7px 28px rgba(3, 20, 8, 0.7), inset 0 -3px 8px rgba(0,0,0,0.4); }
+        body[data-theme="forest"] .reveal-btn:hover { box-shadow: 0 11px 36px rgba(3, 20, 8, 0.8), 0 0 30px #b8e0b8, inset 0 -3px 8px rgba(0,0,0,0.45); }
+        body[data-theme="forest"] .birthday-message { background: rgba(70, 120, 80, 0.15); border: 1px solid rgba(90, 150, 100, 0.55); color: #e8f5e9; }
+        body[data-theme="forest"] .birthday-message h2 { color: #b8e0b8; }
+        body[data-theme="forest"] .special-wish-btn { background: linear-gradient(45deg, #388e3c, #2e7d32); color: #061006; border: 1px solid rgba(110,190,120,0.45); box-shadow: 0 5px 22px rgba(15, 50, 25,0.5); }
+        body[data-theme="forest"] .special-wish-btn:hover { box-shadow: 0 9px 30px rgba(15, 50, 25,0.6), 0 0 18px #cfe8cf; }
+        body[data-theme="forest"] .special-wish-container { background: rgba(5, 14, 7, 0.94); color: #e8f5e9; border: 1px solid #284828; }
+        body[data-theme="forest"] .special-wish-container strong { color: #b8e0b8; }
+        body[data-theme="forest"] .special-wish-container em { color: #cfe8cf; }
+        body[data-theme="forest"] .footer { color: rgba(195, 225, 195, 0.88); }
+        body[data-theme="forest"] .badge { background: linear-gradient(135deg, #1e681e, #0a3d0a); color: #d8f8d8; box-shadow: 0 5px 18px rgba(3, 20, 8, 0.6); }
+
+        /* ==================== THEME: SKY DAY ==================== */
+        body[data-theme="sky_day"] {
+            background: linear-gradient(to bottom, #4A90E2 0%, #87CEEB 50%, #B0E0E6 80%, #E0F2F7 100%);
+            color: #1A237E;
+        }
+        body[data-theme="sky_day"] .card { background: rgba(240, 248, 255, 0.97); border: 2px solid #ADD8E6; box-shadow: 0 18px 50px rgba(70, 130, 180, 0.28); }
+        body[data-theme="sky_day"] .header-title { color: #005A9C; text-shadow: 1px 1px 2px rgba(255,255,255,0.8), 0 0 10px rgba(135, 206, 235, 0.4); }
+        body[data-theme="sky_day"] .subtitle { color: #333A7A; }
+        body[data-theme="sky_day"] .countdown-item { background: rgba(173, 216, 230, 0.2); border: 1px solid rgba(70, 130, 180, 0.5); box-shadow: 0 0 10px rgba(135, 206, 235, 0.2); }
+        body[data-theme="sky_day"] .countdown-item:hover { box-shadow: 0 10px 20px rgba(70, 130, 180, 0.3), 0 0 15px rgba(173, 216, 230, 0.4); }
+        body[data-theme="sky_day"] .countdown-number { color: #003366; text-shadow: 0 1px 2px rgba(255,255,255,0.6); }
+        body[data-theme="sky_day"] .countdown-label { color: #1C3F60; }
+        body[data-theme="sky_day"] .reveal-btn { background: linear-gradient(45deg, #87CEFA, #B0E0E6, #FFD700); color: #002244; border: 1px solid rgba(70, 130, 180, 0.6); box-shadow: 0 6px 18px rgba(70, 130, 180, 0.35), inset 0 -2px 4px rgba(0,0,0,0.1); }
+        body[data-theme="sky_day"] .reveal-btn:hover { box-shadow: 0 10px 25px rgba(70, 130, 180, 0.45), 0 0 18px #FFFFE0, inset 0 -2px 4px rgba(0,0,0,0.15); }
+        body[data-theme="sky_day"] .birthday-message { background: rgba(224, 242, 251, 0.3); border: 1px solid rgba(135, 206, 235, 0.5); color: #1A237E; }
+        body[data-theme="sky_day"] .birthday-message h2 { color: #004080; }
+        body[data-theme="sky_day"] .special-wish-btn { background: linear-gradient(45deg, #FFDFBA, #FFFFE0); color: #A0522D; border: none; box-shadow: 0 5px 15px rgba(255,218,185,0.3); }
+        body[data-theme="sky_day"] .special-wish-btn:hover { box-shadow: 0 8px 20px rgba(255,218,185,0.4), 0 0 10px #FFFACD; }
+        body[data-theme="sky_day"] .special-wish-container { background: rgba(255, 250, 240, 0.96); color: #483C32; border: 1px solid #DCDCDC; }
+        body[data-theme="sky_day"] .special-wish-container strong { color: #006994; }
+        body[data-theme="sky_day"] .special-wish-container em { color: #5F9EA0; }
+        body[data-theme="sky_day"] .footer { color: #333A7A; }
+        body[data-theme="sky_day"] .badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: #003366; box-shadow: 0 5px 12px rgba(255, 165, 0, 0.45); }
+
+        /* ==================== THEME: GHIBLI SUNSET ==================== */
+        body[data-theme="ghibli_sunset"] {
+            background: linear-gradient(to bottom, #2a3a64 0%, #514a7e 25%, #b86a77 50%, #f39c12 75%, #f7ce68 100%);
+            background-size: 100% 200%;
+            animation: sunsetSkyAmbience 70s linear infinite;
+            color: #f5f5f5;
+        }
+        @keyframes sunsetSkyAmbience { 0% { background-position: 0% 0%; } 50% { background-position: 0% 100%; } 100% { background-position: 0% 0%; } }
+        body[data-theme="ghibli_sunset"] .card { background: rgba(30, 40, 60, 0.85); border: 2px solid rgba(247, 206, 104, 0.65); }
+        body[data-theme="ghibli_sunset"] .header-title { color: #f7e700; text-shadow: 0 0 10px rgba(243, 156, 18, 0.7), 0 0 18px rgba(231, 76, 60, 0.5); }
+        body[data-theme="ghibli_sunset"] .subtitle { color: rgba(230, 230, 230, 0.95); }
+        body[data-theme="ghibli_sunset"] .countdown-item { background: rgba(247, 206, 104, 0.18); border: 1px solid rgba(249, 248, 113, 0.55); box-shadow: 0 0 10px rgba(243, 156, 18, 0.25); }
+        body[data-theme="ghibli_sunset"] .countdown-item:hover { box-shadow: 0 8px 18px rgba(230, 126, 34, 0.4), 0 0 15px rgba(249, 248, 113, 0.5); }
+        body[data-theme="ghibli_sunset"] .countdown-number { color: #fafafa; }
+        body[data-theme="ghibli_sunset"] .countdown-label { color: rgba(224, 224, 224, 0.85); }
+        body[data-theme="ghibli_sunset"] .reveal-btn { background: linear-gradient(45deg, #e77f31, #d35400, #f1c40f); color: white; border: none; box-shadow: 0 6px 20px rgba(180, 70, 20, 0.45), inset 0 -2px 5px rgba(0,0,0,0.2); }
+        body[data-theme="ghibli_sunset"] .reveal-btn:hover { box-shadow: 0 9px 25px rgba(180, 70, 20, 0.6), 0 0 20px #fadb7a, inset 0 -2px 5px rgba(0,0,0,0.3); }
+        body[data-theme="ghibli_sunset"] .birthday-message { background: rgba(249, 248, 113, 0.12); border: 1px solid rgba(243, 156, 18, 0.45); color: #f0f0f0; }
+        body[data-theme="ghibli_sunset"] .birthday-message h2 { color: #f3c85a; }
+        body[data-theme="ghibli_sunset"] .special-wish-btn { background: linear-gradient(45deg, #c07958, #e89f71); color: white; border: none; box-shadow: 0 4px 15px rgba(160,90,70,0.45); }
+        body[data-theme="ghibli_sunset"] .special-wish-btn:hover { box-shadow: 0 7px 20px rgba(160,90,70,0.55), 0 0 10px #f7ce68; }
+        body[data-theme="ghibli_sunset"] .special-wish-container { background: rgba(45, 55, 80, 0.92); color: #e8e8e8; border: 1px solid #b88b71; }
+        body[data-theme="ghibli_sunset"] .special-wish-container strong { color: #f3c85a; }
+        body[data-theme="ghibli_sunset"] .special-wish-container em { color: #f7e700; }
+        body[data-theme="ghibli_sunset"] .footer { color: rgba(220, 220, 220, 0.8); }
+        body[data-theme="ghibli_sunset"] .badge { background: linear-gradient(135deg, #f7bf4a, #e67e22); color: #2c3e50; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.55); }
+
+        /* ==================== THEME: GHIBLI DAY ==================== */
+        body[data-theme="ghibli_day"] {
+            background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 60%, #D1FFBD 100%);
+            color: #3E2723;
+        }
+        body[data-theme="ghibli_day"] .card { background: rgba(255, 253, 240, 0.95); border: 2px solid #A1CCA5; box-shadow: 0 15px 45px rgba(80, 100, 80, 0.25); }
+        body[data-theme="ghibli_day"] .header-title { color: #4CAF50; text-shadow: 1px 1px 2px rgba(255,255,255,0.7), 0 0 8px rgba(102, 187, 106, 0.3); }
+        body[data-theme="ghibli_day"] .subtitle { color: #5D4037; }
+        body[data-theme="ghibli_day"] .countdown-item { background: rgba(161, 204, 165, 0.15); border: 1px solid rgba(102, 187, 106, 0.45); box-shadow: 0 0 8px rgba(102, 187, 106, 0.15); }
+        body[data-theme="ghibli_day"] .countdown-item:hover { box-shadow: 0 8px 18px rgba(76, 175, 80, 0.25), 0 0 12px rgba(129, 199, 132, 0.35); }
+        body[data-theme="ghibli_day"] .countdown-number { color: #2E7D32; }
+        body[data-theme="ghibli_day"] .countdown-label { color: #4E342E; }
+        body[data-theme="ghibli_day"] .reveal-btn { background: linear-gradient(45deg, #FFB74D, #81C784, #FFD54F); color: #3E2723; border: 1px solid rgba(76, 175, 80, 0.5); box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3), inset 0 -2px 4px rgba(0,0,0,0.1); }
+        body[data-theme="ghibli_day"] .reveal-btn:hover { box-shadow: 0 8px 22px rgba(76, 175, 80, 0.4), 0 0 15px #FFF9C4, inset 0 -2px 4px rgba(0,0,0,0.15); }
+        body[data-theme="ghibli_day"] .birthday-message { background: rgba(220, 255, 200, 0.25); border: 1px solid rgba(102, 187, 106, 0.4); color: #3E2723; }
+        body[data-theme="ghibli_day"] .birthday-message h2 { color: #388E3C; }
+        body[data-theme="ghibli_day"] .special-wish-btn { background: linear-gradient(45deg, #FFCC80, #FFB74D); color: #BF360C; border: none; box-shadow: 0 4px 12px rgba(255,152,0,0.25); }
+        body[data-theme="ghibli_day"] .special-wish-btn:hover { box-shadow: 0 7px 18px rgba(255,152,0,0.35), 0 0 8px #FFE0B2; }
+        body[data-theme="ghibli_day"] .special-wish-container { background: rgba(255, 248, 220, 0.95); color: #4E342E; border: 1px solid #D2B48C; }
+        body[data-theme="ghibli_day"] .special-wish-container strong { color: #00695C; }
+        body[data-theme="ghibli_day"] .special-wish-container em { color: #5D4037; }
+        body[data-theme="ghibli_day"] .footer { color: #5D4037; }
+        body[data-theme="ghibli_day"] .badge { background: linear-gradient(135deg, #FFD54F, #FFA000); color: #4E342E; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4); }
+
+        /* Generic particle container styles */
+        .particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+    </style>
+</head>
+<body data-theme="{{theme}}">
+
+    <div id="background-elements"></div>
+    <div id="particle-container-1" class="particle-container"></div>
+    <div id="particle-container-2" class="particle-container"></div>
+    <div id="particle-container-3" class="particle-container"></div>
+
+    <div class="container">
+        <div class="card" id="mainCard">
+            <div class="badge">{{badge}}</div>
+            
+            <h1 id="main-title" class="header-title">{{main_title}}</h1>
+            <p id="subtitle" class="subtitle">{{subtitle}}</p>
+            
+            <div id="countdown">
+                <div class="countdown-item"> <span id="days" class="countdown-number">00</span> <div class="countdown-label">Hari</div> </div>
+                <div class="countdown-item"> <span id="hours" class="countdown-number">00</span> <div class="countdown-label">Jam</div> </div>
+                <div class="countdown-item"> <span id="minutes" class="countdown-number">00</span> <div class="countdown-label">Menit</div> </div>
+                <div class="countdown-item"> <span id="seconds" class="countdown-number">00</span> <div class="countdown-label">Detik</div> </div>
+            </div>
+
+            <button id="reveal-btn" class="reveal-btn">{{reveal_button}}</button>
+
+            <div id="birthday-content" class="birthday-content">
+                <div class="birthday-message"> <h2>{{message1_title}}</h2> <p>{{message1_content}}</p> </div>
+                <div class="birthday-message"> <p>{{message2_content}}</p> </div>
+                <div class="birthday-message"> <p>{{message3_content}}</p> </div>
+                <button id="special-wish-btn" class="special-wish-btn">{{special_wish_button}}</button>
+                <div id="special-wish-container" class="special-wish-container"></div>
+            </div>
+
+            <div class="footer">{{footer}}</div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- CONFIGURATION ---
+        const birthdayDate = new Date({{year}}, {{month}}, {{day}}, 0, 0, 0).getTime();
+        const specialWishContent = `{{special_wish}}`;
+        const theme = document.body.getAttribute('data-theme');
+        const audio = new Audio('https://cdn.sanity.io/files/zhgxj6ko/production/20096b856584fe42be47145334272a834c663ffe.mp3');
+        audio.loop = true;
+        let musicStarted = false;
+        
+        // --- DOM ELEMENTS ---
+        const cardEl = document.getElementById('mainCard');
+        const countdownEl = document.getElementById('countdown');
+        const birthdayContentEl = document.getElementById('birthday-content');
+        const revealBtn = document.getElementById('reveal-btn');
+        const specialWishBtn = document.getElementById('special-wish-btn');
+        const specialWishContainer = document.getElementById('special-wish-container');
+
+        // --- THEME SETUP ---
+        function setupTheme() {
+            const bgContainer = document.getElementById('background-elements');
+            const particleContainer1 = document.getElementById('particle-container-1');
+            const particleContainer2 = document.getElementById('particle-container-2');
+            const particleContainer3 = document.getElementById('particle-container-3');
+
+            const creators = {
+                ocean: () => {
+                    bgContainer.innerHTML = `
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 45vh; z-index: 1; pointer-events: none; overflow: hidden;">
+                            <svg viewBox="0 0 1200 350" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: 0; z-index: 1; opacity: 0.65;"><path d="M0,350 L0,240 Q130,220 290,260 T580,230 T850,270 T1100,220 T1200,250 L1200,350 Z" fill="#041a30"/></svg>
+                            <svg viewBox="0 0 1200 320" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: -3vh; z-index: 2; opacity: 0.8;"><path d="M0,320 L0,210 Q160,190 340,230 T630,200 T900,240 T1150,190 T1200,220 L1200,320 Z" fill="#0a2f4a"/></svg>
+                            <svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: -6vh; z-index: 3; opacity: 0.95;"><path d="M0,280 L0,190 Q190,170 380,210 T680,180 T980,220 T1200,190 L1200,280 Z" fill="#185470"/></svg>
+                        </div>`;
+                    createParticles(particleContainer1, 150, 'sea-sparkle', 11);
+                    createParticles(particleContainer2, 35, 'sea-bubble', 8.5);
+                },
+                forest: () => {
+                    bgContainer.innerHTML = `
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 45vh; z-index: 1; pointer-events: none; overflow: hidden;">
+                            <svg viewBox="0 0 1200 350" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: 0; z-index: 1; opacity: 0.65;"><path d="M0,350 L0,240 Q130,200 290,240 T580,210 T850,250 T1100,200 T1200,230 L1200,350 Z" fill="#040c04"/></svg>
+                            <svg viewBox="0 0 1200 320" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: -3vh; z-index: 2; opacity: 0.8;"><path d="M0,320 L0,210 Q160,170 340,210 T630,180 T900,220 T1150,170 T1200,200 L1200,320 Z" fill="#081808"/></svg>
+                            <svg viewBox="0 0 1200 280" preserveAspectRatio="xMidYMax slice" style="position: absolute; bottom: -6vh; z-index: 3; opacity: 0.95;"><path d="M0,280 L0,190 Q190,150 380,190 T680,160 T980,200 T1200,170 L1200,280 Z" fill="#102810"/></svg>
+                        </div>`;
+                    createParticles(particleContainer1, 150, 'firefly', 11);
+                    createParticles(particleContainer2, 35, 'forest-sparkle', 8.5);
+                },
+                sky_day: () => {
+                     bgContainer.innerHTML = `
+                        <div style="position: fixed; top: 10vh; left: 70vw; z-index: 2; pointer-events: none;"><div class="sun"></div></div>
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 30vh; z-index: 1; pointer-events: none; overflow: hidden;">
+                            <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMin slice"><path d="M-200,200 Q-100,120 0,150 C100,100 200,180 300,140 S450,80 600,130 S750,180 900,120 S1050,150 1200,100 S1350,160 1500,120 L1500,200 L-200,200 Z" fill="rgba(255,255,255,0.4)" /></svg>
+                        </div>`;
+                    createParticles(particleContainer1, 70, 'star-wisp', 12);
+                },
+                ghibli_sunset: () => {
+                     bgContainer.innerHTML = `
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 30vh; z-index: 1; pointer-events: none; overflow: hidden;">
+                             <svg viewBox="0 0 1200 220" preserveAspectRatio="xMidYMin slice"><path d="M0,220 L0,150 Q150,100 300,150 T600,120 T900,160 T1200,110 L1200,220 Z" fill="#253035" /><path d="M0,220 L0,170 Q200,130 400,170 T700,140 T1000,180 T1200,150 L1200,220 Z" fill="#384c3c" opacity="0.9"/><path d="M0,220 L0,190 Q180,160 350,190 T650,170 T950,200 T1200,180 L1200,220 Z" fill="#4a754a" opacity="0.9"/></svg>
+                        </div>`;
+                    createParticles(particleContainer1, 80, 'ghibli-firefly', 8);
+                },
+                 ghibli_day: () => {
+                    bgContainer.innerHTML = `
+                        <div style="position: fixed; top: 8vh; left: 75vw; z-index: 2; pointer-events: none;"><div class="sun"></div></div>
+                        <div style="position: fixed; bottom: 0; left: 0; width: 100%; height: 35vh; z-index: 1; pointer-events: none; overflow: hidden;">
+                            <svg viewBox="0 0 1200 250" preserveAspectRatio="xMidYMin slice"><path d="M0,250 L0,180 Q120,140 280,180 T550,160 T800,190 T1050,150 T1200,170 L1200,250 Z" fill="#556B2F" opacity="0.95" /><path d="M0,250 L0,200 Q150,170 350,200 T650,180 T900,210 T1200,190 L1200,250 Z" fill="#6B8E23" opacity="0.9" /><path d="M0,250 L0,220 Q200,200 400,220 T700,200 T1000,230 T1200,210 L1200,250 Z" fill="#90EE90" opacity="0.85" /></svg>
+                        </div>`;
+                    createParticles(particleContainer1, 60, 'ghibli-day-firefly', 10);
+                }
+            };
+            
+            // Add particle CSS dynamically
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = `
+                .sea-sparkle { position: absolute; width: 2.5px; height: 2.5px; background: #40e0d0; border-radius: 50%; animation: drift 11s infinite linear; opacity: 0; }
+                .sea-bubble { position: absolute; width: 2px; height: 2px; background: #00bfff; border-radius: 50%; animation: floatUp 8.5s infinite linear; opacity: 0; }
+                .firefly { position: absolute; width: 2.5px; height: 2.5px; background: #f8f8a0; border-radius: 50%; animation: drift 11s infinite linear; opacity: 0; }
+                .forest-sparkle { position: absolute; width: 2px; height: 2px; background: #a0d0a0; border-radius: 50%; animation: floatUp 8.5s infinite linear; opacity: 0; }
+                .star-wisp { position: absolute; width: 3px; height: 3px; background: #FFFACD; border-radius: 50%; animation: drift 12s infinite ease-in-out; opacity: 0; }
+                .ghibli-firefly { position: absolute; width: 4px; height: 4px; background: #f9f871; border-radius: 50%; animation: drift 8s infinite ease-in-out; opacity: 0; }
+                .ghibli-day-firefly { position: absolute; width: 5px; height: 5px; background: #FFAB40; border-radius: 50%; animation: drift 10s infinite ease-in-out; opacity: 0; }
+                .sun { width: 150px; height: 150px; background: radial-gradient(circle, rgba(255, 255, 224, 0.98) 0%, rgba(255, 223, 100, 0.9) 40%, rgba(255, 165, 0, 0) 100%); border-radius: 50%;}
+                @keyframes drift { 0% { opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translate(var(--drift-x, 40px), var(--drift-y, -50px)); opacity: 0; } }
+                @keyframes floatUp { 0% { opacity: 0; transform: translateY(100vh); } 10% { opacity: 0.8; } 100% { transform: translateY(-10vh) translateX(var(--drift-x, 40px)); opacity: 0; } }
+            `;
+            document.head.appendChild(styleSheet);
+            
+            if (creators[theme]) {
+                creators[theme]();
+            }
+        }
+
+        function createParticles(container, count, className, delayMultiplier) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = className;
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDelay = Math.random() * delayMultiplier + 's';
+                particle.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 120}px`);
+                particle.style.setProperty('--drift-y', `${(Math.random() - 0.5) * 120}px`);
+                container.appendChild(particle);
+            }
+        }
+        
+        // --- EVENT HANDLERS ---
+        revealBtn.addEventListener('click', () => {
+            revealBtn.style.display = 'none';
+            cardEl.classList.add('content-revealed');
+            birthdayContentEl.style.display = 'block';
+            specialWishBtn.style.display = 'inline-block';
+            
+            // On-reveal animations
+            const particleContainer3 = document.getElementById('particle-container-3');
+            if (theme === 'forest') createParticles(particleContainer3, 45, 'leaf-fall', 9); // Example
+            if (theme === 'ocean') createParticles(particleContainer3, 35, 'rising-bubble', 14); // Example
+
+            if (!musicStarted) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => musicStarted = true)
+                    .catch(e => {
+                        document.body.addEventListener('click', () => { if(!musicStarted) audio.play().then(()=>musicStarted=true); }, { once: true });
+                    });
+                }
+            }
+        });
+
+        specialWishBtn.addEventListener('click', () => {
+            specialWishContainer.innerHTML = specialWishContent;
+            specialWishContainer.style.display = 'block';
+            specialWishContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // --- COUNTDOWN LOGIC ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = birthdayDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownEl.style.display = 'none';
+                if(birthdayContentEl.style.display !== 'block') {
+                   revealBtn.style.display = 'inline-block';
+                }
+                return;
+            }
+
+            document.getElementById('days').textContent = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+
+        // --- INITIALIZATION ---
+        setupTheme();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    });
+    </script>
+</body>
+</html>
