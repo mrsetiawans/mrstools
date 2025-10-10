@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Tamu Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style untuk webkit-based browser (Chrome, Safari) */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.8);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white text-2xl font-bold rounded-full mb-4">
+                BT
+            </div>
+            <h1 class="text-3xl font-bold text-white">Buku Tamu</h1>
+            <p class="text-gray-400 mt-2">Silakan isi formulir kunjungan Anda dengan lengkap.</p>
+        </div>
+
+        <!-- Form -->
+        <form id="guest-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tanggal & Jam Datang -->
+                <div>
+                    <label for="tanggal_jam" class="block mb-2 text-sm font-medium text-gray-300">Tanggal & Jam Datang <span class="text-red-500">*</span></label>
+                    <input type="datetime-local" id="tanggal_jam" name="Tanggal & Jam Datang" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+                
+                <!-- Spacer for layout balance on desktop -->
+                <div class="hidden md:block"></div>
+
+                <!-- Nama Lengkap -->
+                <div>
+                    <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-gray-300">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" id="nama_lengkap" name="Nama Lengkap" placeholder="Contoh: Dr. Budi Santoso, M.Si" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+
+                <!-- Instansi/Asal -->
+                <div>
+                    <label for="instansi" class="block mb-2 text-sm font-medium text-gray-300">Instansi/Asal <span class="text-red-500">*</span></label>
+                    <input type="text" id="instansi" name="Instansi/Asal" placeholder="Contoh: PT Maju Bersama" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+
+                <!-- Jabatan/Posisi -->
+                <div>
+                    <label for="jabatan" class="block mb-2 text-sm font-medium text-gray-300">Jabatan/Posisi</label>
+                    <input type="text" id="jabatan" name="Jabatan/Posisi" placeholder="Contoh: Direktur Operasional" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+
+                <!-- Nomor Kontak -->
+                <div>
+                    <label for="nomor_kontak" class="block mb-2 text-sm font-medium text-gray-300">Nomor Kontak <span class="text-red-500">*</span></label>
+                    <input type="text" id="nomor_kontak" name="Nomor Kontak" placeholder="081234567890" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                </div>
+            </div>
+
+            <!-- Tujuan Kunjungan -->
+            <div>
+                <label for="tujuan_kunjungan" class="block mb-2 text-sm font-medium text-gray-300">Tujuan Kunjungan <span class="text-red-500">*</span></label>
+                <textarea id="tujuan_kunjungan" name="Tujuan Kunjungan" rows="4" placeholder="Jelaskan tujuan kunjungan Anda..." required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+            </div>
+
+            <!-- Tujuan ke -->
+            <div>
+                <label for="tujuan_ke" class="block mb-2 text-sm font-medium text-gray-300">Tujuan ke <span class="text-red-500">*</span></label>
+                <input type="text" id="tujuan_ke" name="Tujuan ke" placeholder="Contoh: Ruang Direktur / Lantai 3" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <!-- Tombol Submit -->
+            <div class="pt-4">
+                <button type="submit" id="submit-button" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-3 text-center transition duration-300 ease-in-out">
+                    Kirim Data Kunjungan
+                </button>
+            </div>
+        </form>
+
+        <!-- Pesan Status -->
+        <div id="status-message" class="mt-6 text-center text-sm p-4 rounded-lg hidden"></div>
+    </div>
+
+    <script>
+        // PENTING: Ganti URL ini dengan URL Web App dari Google Apps Script Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztFZkkq8Lic8GLQQevp4W2VdWS84FNi-6rbbx-kICOPNfw7r9AO-uH9OGl5rz9aJd5/exec';
+
+        const form = document.getElementById('guest-form');
+        const submitButton = document.getElementById('submit-button');
+        const statusMessage = document.getElementById('status-message');
+
+        // Set default value untuk input tanggal dan waktu ke waktu sekarang
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('tanggal_jam').value = now.toISOString().slice(0, 16);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Tampilkan status loading
+            submitButton.disabled = true;
+            submitButton.textContent = 'Mengirim...';
+            statusMessage.classList.add('hidden');
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                redirect: 'follow'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    // Tampilkan pesan sukses
+                    statusMessage.textContent = 'Terima kasih! Data kunjungan Anda telah berhasil disimpan.';
+                    statusMessage.classList.remove('hidden', 'bg-red-900', 'text-red-300');
+                    statusMessage.classList.add('bg-green-900', 'text-green-300');
+                    form.reset();
+                     // Set ulang tanggal & waktu default setelah reset
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                    document.getElementById('tanggal_jam').value = now.toISOString().slice(0, 16);
+                } else {
+                    throw new Error(data.message || 'Terjadi kesalahan yang tidak diketahui.');
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                // Tampilkan pesan error
+                statusMessage.textContent = 'Maaf, terjadi kesalahan saat mengirim data. Silakan coba lagi.';
+                statusMessage.classList.remove('hidden', 'bg-green-900', 'text-green-300');
+                statusMessage.classList.add('bg-red-900', 'text-red-300');
+            })
+            .finally(() => {
+                // Kembalikan tombol ke keadaan semula
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim Data Kunjungan';
+            });
+        });
+    </script>
+
+</body>
+</html>
