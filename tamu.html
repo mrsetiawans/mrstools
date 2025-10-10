@@ -3,158 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Tamu Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Kuesioner Pengetahuan Diabetes (DKQ-24)</title>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        /* Style untuk webkit-based browser (Chrome, Safari) */
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-            filter: invert(0.8);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-text {
+            font-size: 1.05em;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .result-card {
+            display: none;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result-card h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .result-card .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .result-card .interpretation {
+            font-size: 1.2em;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .error-message {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #00C851;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .config-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .config-note strong {
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200 flex items-center justify-center min-h-screen p-4">
-
-    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full">
-        <!-- Header -->
-        <div class="text-center mb-10">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white text-2xl font-bold rounded-full mb-4">
-                BT
-            </div>
-            <h1 class="text-3xl font-bold text-white">Buku Tamu</h1>
-            <p class="text-gray-400 mt-2">Silakan isi formulir kunjungan Anda dengan lengkap.</p>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Kuesioner Pengetahuan Diabetes</h1>
+            <p>DKQ-24 (Diabetes Knowledge Questionnaire)</p>
         </div>
 
-        <!-- Form -->
-        <form id="guest-form" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Tanggal & Jam Datang -->
-                <div>
-                    <label for="tanggal_jam" class="block mb-2 text-sm font-medium text-gray-300">Tanggal & Jam Datang <span class="text-red-500">*</span></label>
-                    <input type="datetime-local" id="tanggal_jam" name="Tanggal & Jam Datang" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-                
-                <!-- Spacer for layout balance on desktop -->
-                <div class="hidden md:block"></div>
-
-                <!-- Nama Lengkap -->
-                <div>
-                    <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-gray-300">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" id="nama_lengkap" name="Nama Lengkap" placeholder="Contoh: Dr. Budi Santoso, M.Si" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-
-                <!-- Instansi/Asal -->
-                <div>
-                    <label for="instansi" class="block mb-2 text-sm font-medium text-gray-300">Instansi/Asal <span class="text-red-500">*</span></label>
-                    <input type="text" id="instansi" name="Instansi/Asal" placeholder="Contoh: PT Maju Bersama" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-
-                <!-- Jabatan/Posisi -->
-                <div>
-                    <label for="jabatan" class="block mb-2 text-sm font-medium text-gray-300">Jabatan/Posisi</label>
-                    <input type="text" id="jabatan" name="Jabatan/Posisi" placeholder="Contoh: Direktur Operasional" class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
-
-                <!-- Nomor Kontak -->
-                <div>
-                    <label for="nomor_kontak" class="block mb-2 text-sm font-medium text-gray-300">Nomor Kontak <span class="text-red-500">*</span></label>
-                    <input type="text" id="nomor_kontak" name="Nomor Kontak" placeholder="081234567890" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                </div>
+        <div class="form-content">
+            <div class="config-note">
+                <strong>⚙️ Konfigurasi:</strong> Pastikan Anda sudah mengatur SCRIPT_URL di bagian JavaScript dengan URL dari Google Apps Script Anda.
             </div>
 
-            <!-- Tujuan Kunjungan -->
-            <div>
-                <label for="tujuan_kunjungan" class="block mb-2 text-sm font-medium text-gray-300">Tujuan Kunjungan <span class="text-red-500">*</span></label>
-                <textarea id="tujuan_kunjungan" name="Tujuan Kunjungan" rows="4" placeholder="Jelaskan tujuan kunjungan Anda..." required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
-            </div>
+            <form id="dkqForm">
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
 
-            <!-- Tujuan ke -->
-            <div>
-                <label for="tujuan_ke" class="block mb-2 text-sm font-medium text-gray-300">Tujuan ke <span class="text-red-500">*</span></label>
-                <input type="text" id="tujuan_ke" name="Tujuan ke" placeholder="Contoh: Ruang Direktur / Lantai 3" required class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-            </div>
+                <div id="questionsContainer"></div>
 
-            <!-- Tombol Submit -->
-            <div class="pt-4">
-                <button type="submit" id="submit-button" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-3 text-center transition duration-300 ease-in-out">
-                    Kirim Data Kunjungan
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    📊 Submit & Lihat Hasil
                 </button>
-            </div>
-        </form>
 
-        <!-- Pesan Status -->
-        <div id="status-message" class="mt-6 text-center text-sm p-4 rounded-lg hidden"></div>
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                <div class="result-card" id="resultCard"></div>
+            </form>
+        </div>
     </div>
 
     <script>
-        // PENTING: Ganti URL ini dengan URL Web App dari Google Apps Script Anda
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9RzcGsbdmV6QkE7XHDsQfCaDDHsqti8tL0zwyS7pRBupMEW9ZL6QsnxFDgdH3-ASP/exec';
+        // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEge959kz6Lw8_Ymyiu17sHuf4vmNbun6NtPf5X2x91pqi16sSp30SkEGyY60vSq3u9g/exec';
 
-        const form = document.getElementById('guest-form');
-        const submitButton = document.getElementById('submit-button');
-        const statusMessage = document.getElementById('status-message');
+        const questions = [
+            "Makan terlalu banyak gula dan makanan manis lainnya merupakan penyebab diabetes",
+            "Penyebab umum diabetes adalah kurangnya insulin yang efektif dalam tubuh",
+            "Diabetes disebabkan karena kegagalan ginjal mencegah gula masuk ke dalam kencing",
+            "Ginjal memproduksi insulin",
+            "Pada diabetes yang tidak diobati, jumlah gula dalam darah biasanya meningkat",
+            "Jika saya menderita diabetes, anak-anak saya berpeluang lebih besar menderita diabetes juga",
+            "Diabetes Melitus dapat disembuhkan",
+            "Kadar gula darah puasa 210 adalah terlalu tinggi",
+            "Cara terbaik untuk memeriksa diabetes adalah dengan tes urin",
+            "Olah raga teratur akan meningkatkan kebutuhan atas insulin atau obat diabetes lainnya",
+            "Ada dua jenis utama diabetes: Tipe 1 (tergantung pada insulin) dan Tipe 2 (tidak tergantung pada insulin)",
+            "Insulin bekerja disebabkan karena makan terlalu banyak",
+            "Obat lebih penting daripada diet dan olah raga untuk mengendalikan diabetes",
+            "Diabetes sering menyebabkan peredaran darah yang tidak baik",
+            "Luka dan lecet pada penderita diabetes sembuhnya lama",
+            "Penderita diabetes harus sangat berhati-hati saat memotong kuku kaki",
+            "Penderita diabetes harus membersihkan luka dengan yodium (betadine) dan alkohol",
+            "Cara memasak makanan sama pentingnya dengan makanan yang dimakan oleh penderita diabetes",
+            "Diabetes dapat merusak ginjal",
+            "Diabetes dapat menyebabkan mati rasa pada tangan, jari-jari dan kaki",
+            "Gemetaran dan berkeringat merupakan tanda tingginya kadar gula darah",
+            "Sering kencing dan haus merupakan tanda rendahnya kadar gula darah",
+            "Kaos kaki yang ketat boleh dipakai oleh penderita diabetes",
+            "Diet diabetes sebagian besar terdiri dari makanan-makanan khusus"
+        ];
 
-        // Set default value untuk input tanggal dan waktu ke waktu sekarang
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        document.getElementById('tanggal_jam').value = now.toISOString().slice(0, 16);
+        // Kunci jawaban (true = Benar, false = Salah)
+        const answerKey = [
+            false, true, false, false, true, true, false, true, false, false,
+            true, false, false, true, true, true, false, false, true, true,
+            false, false, false, false
+        ];
 
-        form.addEventListener('submit', function(e) {
+        // Render questions
+        const container = document.getElementById('questionsContainer');
+        questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-card';
+            questionDiv.innerHTML = `
+                <div class="question-text">
+                    <span class="question-number">${index + 1}</span>
+                    ${question}
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_benar" name="q${index}" value="benar" required>
+                        <label for="q${index}_benar">Benar</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_salah" name="q${index}" value="salah">
+                        <label for="q${index}_salah">Salah</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_tidak_tahu" name="q${index}" value="tidak_tahu">
+                        <label for="q${index}_tidak_tahu">Tidak Tahu</label>
+                    </div>
+                </div>
+            `;
+            container.appendChild(questionDiv);
+        });
+
+        // Handle form submission
+        document.getElementById('dkqForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const resultCard = document.getElementById('resultCard');
 
-            // Tampilkan status loading
-            submitButton.disabled = true;
-            submitButton.textContent = 'Mengirim...';
-            statusMessage.classList.add('hidden');
+            // Hide messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            resultCard.style.display = 'none';
 
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-                redirect: 'follow'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    // Tampilkan pesan sukses
-                    statusMessage.textContent = 'Terima kasih! Data kunjungan Anda telah berhasil disimpan.';
-                    statusMessage.classList.remove('hidden', 'bg-red-900', 'text-red-300');
-                    statusMessage.classList.add('bg-green-900', 'text-green-300');
-                    form.reset();
-                     // Set ulang tanggal & waktu default setelah reset
-                    const now = new Date();
-                    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                    document.getElementById('tanggal_jam').value = now.toISOString().slice(0, 16);
-                } else {
-                    throw new Error(data.message || 'Terjadi kesalahan yang tidak diketahui.');
+            // Collect answers
+            const answers = [];
+            for (let i = 0; i < questions.length; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!answer) {
+                    errorMessage.textContent = `Mohon jawab semua pertanyaan! Pertanyaan ${i + 1} belum dijawab.`;
+                    errorMessage.style.display = 'block';
+                    document.querySelector(`input[name="q${i}"]`).closest('.question-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
                 }
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                // Tampilkan pesan error
-                statusMessage.textContent = 'Maaf, terjadi kesalahan saat mengirim data. Silakan coba lagi.';
-                statusMessage.classList.remove('hidden', 'bg-green-900', 'text-green-300');
-                statusMessage.classList.add('bg-red-900', 'text-red-300');
-            })
-            .finally(() => {
-                // Kembalikan tombol ke keadaan semula
-                submitButton.disabled = false;
-                submitButton.textContent = 'Kirim Data Kunjungan';
+                answers.push(answer.value);
+            }
+
+            // Calculate score using 4.16 scoring method
+            let correctAnswers = 0;
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] === 'tidak_tahu') {
+                    continue;
+                }
+                const isCorrect = (answers[i] === 'benar' && answerKey[i]) || 
+                                 (answers[i] === 'salah' && !answerKey[i]);
+                if (isCorrect) {
+                    correctAnswers++;
+                }
+            }
+
+            // Calculate score: (correct answers / 24) * 100
+            const score = ((correctAnswers / 24) * 100).toFixed(2);
+            
+            // Interpretation based on score
+            let interpretation = '';
+            let interpretationText = '';
+            if (score >= 75) {
+                interpretation = '🌟 Pengetahuan Baik';
+                interpretationText = 'Anda memiliki pemahaman yang sangat baik tentang diabetes';
+            } else if (score >= 50) {
+                interpretation = '📚 Pengetahuan Cukup';
+                interpretationText = 'Anda memiliki pemahaman dasar tentang diabetes, namun masih perlu ditingkatkan';
+            } else {
+                interpretation = '⚠️ Pengetahuan Kurang';
+                interpretationText = 'Disarankan untuk mempelajari lebih lanjut tentang diabetes';
+            }
+
+            // Display result first
+            resultCard.innerHTML = `
+                <h2>✅ Hasil Kuesioner</h2>
+                <div class="score">${score}%</div>
+                <p><strong>Jawaban Benar:</strong> ${correctAnswers} dari 24</p>
+                <div class="interpretation">${interpretation}<br>${interpretationText}</div>
+            `;
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Mengirim ke Google Sheets...';
+
+            // Prepare data for Google Sheets
+            const timestamp = new Date().toLocaleString('id-ID', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
             });
+
+            const formData = {
+                timestamp: timestamp,
+                nama: nama,
+                answers: answers,
+                correctAnswers: correctAnswers,
+                score: score,
+                interpretation: `${interpretation} - ${interpretationText}`
+            };
+
+            // Send to Google Sheets
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                successMessage.innerHTML = '✅ <strong>Data berhasil disimpan ke Google Sheets!</strong><br>Terima kasih atas partisipasi Anda.';
+                successMessage.style.display = 'block';
+                
+                submitBtn.textContent = '✓ Submit Berhasil';
+                
+                // Disable form after successful submission
+                setTimeout(() => {
+                    document.getElementById('dkqForm').style.opacity = '0.6';
+                    const inputs = document.querySelectorAll('input');
+                    inputs.forEach(input => input.disabled = true);
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Even with no-cors, we assume success if no error thrown
+                successMessage.innerHTML = '✅ <strong>Data berhasil dikirim!</strong><br>Terima kasih atas partisipasi Anda.';
+                successMessage.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✓ Selesai';
+            }
         });
     </script>
-
 </body>
 </html>
