@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Tamu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1d35 0%, #2d3561 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #2a3150;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 750px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #a0aec0;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            color: #e2e8f0;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        label .required {
+            color: #fc8181;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a1d35;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #252942;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #718096;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .error {
+            color: #fc8181;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        input.error-input, textarea.error-input {
+            border-color: #fc8181;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #48bb78;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">BT</div>
+            <h1>Buku Tamu</h1>
+            <p class="subtitle">Silakan isi formulir kunjungan Anda dengan lengkap</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Data berhasil disimpan! Terima kasih atas kunjungan Anda.
+        </div>
+
+        <form id="guestbookForm">
+            <div class="form-group">
+                <label>Tanggal & Jam Datang <span class="required">*</span></label>
+                <input type="datetime-local" id="datetime" name="datetime" required>
+                <div class="error" id="datetimeError">Tanggal dan jam harus diisi</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nama Lengkap <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Dr. Budi Santoso, M.Si" required>
+                    <div class="error" id="nameError">Nama lengkap harus diisi</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Instansi/Asal <span class="required">*</span></label>
+                    <input type="text" id="institution" name="institution" placeholder="PT Maju Bersama / Universitas Indonesia" required>
+                    <div class="error" id="institutionError">Instansi/asal harus diisi</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Jabatan/Posisi</label>
+                    <input type="text" id="position" name="position" placeholder="Direktur Operasional / Mahasiswa S1">
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor Kontak <span class="required">*</span></label>
+                    <input type="text" id="contact" name="contact" placeholder="081234567890 / email@domain.com" required>
+                    <div class="error" id="contactError">Nomor kontak harus diisi</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tujuan Kunjungan <span class="required">*</span></label>
+                <textarea id="purpose" name="purpose" placeholder="Rapat koordinasi proyek pembangunan sistem informasi..." required></textarea>
+                <div class="error" id="purposeError">Tujuan kunjungan harus diisi</div>
+            </div>
+
+            <div class="form-group">
+                <label>Tujuan ke <span class="required">*</span></label>
+                <input type="text" id="destination" name="destination" placeholder="Bagian IT / Ruang Direktur / Lantai 3" required>
+                <div class="error" id="destinationError">Tujuan harus diisi</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Submit Buku Tamu</button>
+        </form>
+    </div>
+
+    <script>
+        // Set default datetime to current
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('datetime').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Form validation and submission
+        document.getElementById('guestbookForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('input, textarea').forEach(el => el.classList.remove('error-input'));
+            
+            // Validate form
+            let isValid = true;
+            const requiredFields = ['datetime', 'name', 'institution', 'contact', 'purpose', 'destination'];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('error-input');
+                    document.getElementById(field + 'Error').style.display = 'block';
+                }
+            });
+            
+            if (!isValid) return;
+            
+            // Get form data
+            const formData = {
+                timestamp: new Date().toISOString(),
+                datetime: document.getElementById('datetime').value,
+                name: document.getElementById('name').value,
+                institution: document.getElementById('institution').value,
+                position: document.getElementById('position').value,
+                contact: document.getElementById('contact').value,
+                purpose: document.getElementById('purpose').value,
+                destination: document.getElementById('destination').value
+            };
+            
+            // Disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
+            
+            try {
+                // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+                const scriptURL = 'https://script.google.com/macros/s/AKfycby7KQFn7nA3976fCsx7oocurAIW7YKKB7YeQDpzYRqpjKCBqVlGfYjRasI3L9WxV3ax/exec';
+                
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'no-cors'
+                });
+                
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Reset form
+                document.getElementById('guestbookForm').reset();
+                
+                // Reset datetime to current
+                document.getElementById('datetime').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+                
+            } catch (error) {
+                alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+                console.error('Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Buku Tamu';
+            }
+        });
+
+        // Real-time validation
+        document.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.classList.remove('error-input');
+                    const errorEl = document.getElementById(this.id + 'Error');
+                    if (errorEl) errorEl.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
