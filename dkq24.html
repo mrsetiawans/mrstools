@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuesioner Penelitian (DKQ-24)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+            color: #4a5568;
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .header {
+            background-color: #2d3748;
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .header p { color: #a0aec0; font-size: 1rem; }
+        .form-content { padding: 2.5rem; }
+        .form-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .form-section:last-of-type { border-bottom: none; margin-bottom: 0; }
+        .form-section h2 {
+            font-size: 1.25rem;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group:last-child { margin-bottom: 0; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fff;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+        }
+        .question-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        .question-text {
+            font-size: 1rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+        }
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #4299e1;
+            color: white;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            margin-right: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 0.75rem; }
+        .radio-option, .checkbox-option { display: flex; align-items: center; }
+        .radio-option input[type="radio"], .checkbox-option input[type="checkbox"] { 
+            width: 18px; height: 18px; margin-right: 10px; cursor: pointer; 
+            accent-color: #4299e1;
+        }
+        .radio-option label, .checkbox-option label { cursor: pointer; font-weight: 400; font-size: 0.95rem; margin: 0; }
+        .submit-btn {
+            background-color: #2d3748;
+            color: white; border: none; padding: 1rem 2rem;
+            font-size: 1rem; border-radius: 8px; cursor: pointer;
+            width: 100%; font-weight: 600;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #1a202c;
+            transform: translateY(-2px);
+        }
+        .submit-btn:disabled { background-color: #a0aec0; cursor: not-allowed; transform: none; }
+        .result-card {
+            display: none; background: #f7fafc; color: #2d3748;
+            padding: 2.5rem; border-radius: 12px; margin-top: 2rem;
+            text-align: center; border: 1px solid #e2e8f0;
+        }
+        .result-card h2 { font-size: 1.5rem; margin-bottom: 1rem; color: #2d3748; font-weight: 700; }
+        .result-card .score { font-size: 3.5rem; font-weight: 700; margin: 1.5rem 0; color: #4299e1; }
+        .result-card .interpretation { font-size: 1.1rem; margin-top: 1rem; line-height: 1.6; }
+        .message {
+            padding: 1rem; border-radius: 8px; margin-top: 1.5rem;
+            display: none; text-align: center; font-size: 0.9rem;
+        }
+        .error-message { background: #fed7d7; color: #c53030; }
+        .success-message { background: #c6f6d5; color: #2f855a; }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .header { padding: 2rem; }
+            .header h1 { font-size: 1.5rem; }
+            .form-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kuesioner Penelitian</h1>
+        </div>
+
+        <div class="form-content">
+            <form id="researchForm">
+                
+                <!-- BAGIAN 1: DATA DEMOGRAFI -->
+                <div class="form-section">
+                    <h2>I. Karakteristik Responden</h2>
+                    <div class="form-group">
+                        <label for="kodePasien">Kode Pasien</label>
+                        <input type="text" id="kodePasien" name="kodePasien" placeholder="Contoh: P001" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap (Inisial diperbolehkan)</label>
+                        <input type="text" id="nama" name="nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usia">Usia (Tahun)</label>
+                        <input type="number" id="usia" name="usia" min="18" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Kelamin</label>
+                        <div class="radio-group" style="flex-direction: row; gap: 2rem;">
+                             <div class="radio-option">
+                                <input type="radio" id="laki-laki" name="jenisKelamin" value="Laki-laki" required>
+                                <label for="laki-laki">Laki-laki</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="perempuan" name="jenisKelamin" value="Perempuan">
+                                <label for="perempuan">Perempuan</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pendidikan">Tingkat Pendidikan Terakhir</label>
+                        <select id="pendidikan" name="pendidikan" required>
+                            <option value="" disabled selected>-- Pilih Pendidikan --</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA">SMA</option>
+                            <option value="Perguruan Tinggi">Perguruan Tinggi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lamaDiabetes">Lama Menderita Diabetes Tipe 2</label>
+                        <select id="lamaDiabetes" name="lamaDiabetes" required>
+                            <option value="" disabled selected>-- Pilih Durasi --</option>
+                            <option value="< 1 Tahun">&lt; 1 Tahun</option>
+                            <option value="1-4 Tahun">1-4 Tahun</option>
+                            <option value="> 5 Tahun">&gt; 5 Tahun</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kapanInformasi">Kapan terakhir kali Anda menerima informasi tentang diabetes?</label>
+                         <select id="kapanInformasi" name="kapanInformasi" required>
+                            <option value="" disabled selected>-- Pilih Waktu --</option>
+                            <option value="< 1 bulan lalu">&lt; 1 bulan lalu</option>
+                            <option value="1-6 bulan lalu">1-6 bulan lalu</option>
+                            <option value="6-12 bulan lalu">6-12 bulan lalu</option>
+                            <option value="> 1 tahun lalu">&gt; 1 tahun lalu</option>
+                             <option value="Tidak ingat">Tidak ingat</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dari mana saja sumber informasi tersebut? (Boleh pilih lebih dari satu)</label>
+                        <div class="checkbox-group">
+                             <div class="checkbox-option">
+                                <input type="checkbox" id="info_penyuluhan" name="sumberInformasi" value="Penyuluhan/Petugas Kesehatan">
+                                <label for="info_penyuluhan">Penyuluhan/Petugas Kesehatan</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="info_socmed" name="sumberInformasi" value="Media Sosial">
+                                <label for="info_socmed">Media Sosial (Instagram, Facebook, dll.)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="info_youtube" name="sumberInformasi" value="YouTube">
+                                <label for="info_youtube">YouTube</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="info_webinar" name="sumberInformasi" value="Webinar/Seminar Online">
+                                <label for="info_webinar">Webinar/Seminar Online</label>
+                            </div>
+                             <div class="checkbox-option">
+                                <input type="checkbox" id="info_tv" name="sumberInformasi" value="Televisi/Radio">
+                                <label for="info_tv">Televisi/Radio</label>
+                            </div>
+                             <div class="checkbox-option">
+                                <input type="checkbox" id="info_keluarga" name="sumberInformasi" value="Keluarga/Teman">
+                                <label for="info_keluarga">Keluarga/Teman</label>
+                            </div>
+                             <div class="checkbox-option">
+                                <input type="checkbox" id="info_lainnya" name="sumberInformasi" value="Lainnya">
+                                <label for="info_lainnya">Lainnya</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGIAN 2: KUESIONER PENGETAHUAN -->
+                <div class="form-section">
+                    <h2>II. Kuesioner Pengetahuan Diabetes (DKQ-24)</h2>
+                    <div id="questionsContainer"></div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Kirim Jawaban
+                </button>
+
+                <div class="message error-message" id="errorMessage"></div>
+                <div class="message success-message" id="successMessage"></div>
+                <div class="result-card" id="resultCard"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwP7t5JhMJSNpnKFudbWruvKhY0ge59rPd6taxuCNNjXIxXlderLsJBLn92GWLgbnsoyg/exec';
+
+        const questions = [
+            "Makan terlalu banyak gula dan makanan manis lainnya merupakan penyebab diabetes",
+            "Penyebab umum diabetes adalah kurangnya insulin yang efektif dalam tubuh",
+            "Diabetes disebabkan karena kegagalan ginjal mencegah gula masuk ke dalam kencing",
+            "Ginjal memproduksi insulin",
+            "Pada diabetes yang tidak diobati, jumlah gula dalam darah biasanya meningkat",
+            "Jika saya menderita diabetes, anak-anak saya berpeluang lebih besar menderita diabetes juga",
+            "Diabetes Melitus dapat disembuhkan",
+            "Kadar gula darah puasa 210 adalah terlalu tinggi",
+            "Cara terbaik untuk memeriksa diabetes adalah dengan tes urin",
+            "Olah raga teratur akan meningkatkan kebutuhan atas insulin atau obat diabetes lainnya",
+            "Ada dua jenis utama diabetes: Tipe 1 (tergantung pada insulin) dan Tipe 2 (tidak tergantung pada insulin)",
+            "Insulin bekerja disebabkan karena makan terlalu banyak",
+            "Obat lebih penting daripada diet dan olah raga untuk mengendalikan diabetes",
+            "Diabetes sering menyebabkan peredaran darah yang tidak baik",
+            "Luka dan lecet pada penderita diabetes sembuhnya lama",
+            "Penderita diabetes harus sangat berhati-hati saat memotong kuku kaki",
+            "Penderita diabetes harus membersihkan luka dengan yodium (betadine) dan alkohol",
+            "Cara memasak makanan sama pentingnya dengan makanan yang dimakan oleh penderita diabetes",
+            "Diabetes dapat merusak ginjal",
+            "Diabetes dapat menyebabkan mati rasa pada tangan, jari-jari dan kaki",
+            "Gemetaran dan berkeringat merupakan tanda tingginya kadar gula darah",
+            "Sering kencing dan haus merupakan tanda rendahnya kadar gula darah",
+            "Kaos kaki yang ketat boleh dipakai oleh penderita diabetes",
+            "Diet diabetes sebagian besar terdiri dari makanan-makanan khusus"
+        ];
+        const answerKey = [
+            false, true, false, false, true, true, false, true, false, false,
+            true, false, false, true, true, true, false, true, true, true,
+            false, false, false, false
+        ];
+
+        const container = document.getElementById('questionsContainer');
+        questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-card';
+            questionDiv.innerHTML = `
+                <div class="question-text">
+                    <span class="question-number">${index + 1}</span>
+                    <span>${question}</span>
+                </div>
+                <div class="radio-group" style="flex-direction:row; gap: 2rem; margin-left: 40px;">
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_benar" name="q${index}" value="benar" required>
+                        <label for="q${index}_benar">Benar</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_salah" name="q${index}" value="salah">
+                        <label for="q${index}_salah">Salah</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q${index}_tidak_tahu" name="q${index}" value="tidak_tahu">
+                        <label for="q${index}_tidak_tahu">Tidak Tahu</label>
+                    </div>
+                </div>
+            `;
+            container.appendChild(questionDiv);
+        });
+
+        document.getElementById('researchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const resultCard = document.getElementById('resultCard');
+
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            resultCard.style.display = 'none';
+
+            // Kumpulkan data demografis
+            const kodePasien = document.getElementById('kodePasien').value;
+            const nama = document.getElementById('nama').value;
+            const usia = document.getElementById('usia').value;
+            const jenisKelamin = document.querySelector('input[name="jenisKelamin"]:checked')?.value;
+            const pendidikan = document.getElementById('pendidikan').value;
+            const lamaDiabetes = document.getElementById('lamaDiabetes').value;
+            const kapanInformasi = document.getElementById('kapanInformasi').value;
+            const sumberInformasiNodes = document.querySelectorAll('input[name="sumberInformasi"]:checked');
+            const sumberInformasi = Array.from(sumberInformasiNodes).map(cb => cb.value).join(', ');
+
+
+            // Kumpulkan jawaban kuesioner
+            const answers = [];
+            for (let i = 0; i < questions.length; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!answer) {
+                    errorMessage.textContent = `Mohon jawab semua pertanyaan. Pertanyaan #${i + 1} belum dijawab.`;
+                    errorMessage.style.display = 'block';
+                    const questionCard = document.querySelector(`input[name="q${i}"]`).closest('.question-card');
+                    questionCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    questionCard.style.border = '1px solid #c53030';
+                    setTimeout(()=> { questionCard.style.border = '1px solid #e2e8f0'; }, 3000);
+                    return;
+                }
+                answers.push(answer.value);
+            }
+
+            // Hitung skor
+            let correctAnswers = 0;
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] === 'tidak_tahu') continue;
+                const isCorrect = (answers[i] === 'benar' && answerKey[i]) || (answers[i] === 'salah' && !answerKey[i]);
+                if (isCorrect) correctAnswers++;
+            }
+            const score = (correctAnswers / 24 * 100).toFixed(2);
+            
+            // Tentukan interpretasi
+            let interpretation = '';
+            if (score >= 76) {
+                interpretation = 'Tingkat Pengetahuan Kategori Baik';
+            } else if (score >= 56) {
+                interpretation = 'Tingkat Pengetahuan Kategori Cukup';
+            } else {
+                interpretation = 'Tingkat Pengetahuan Kategori Kurang';
+            }
+
+            // Tampilkan hasil
+            resultCard.innerHTML = `
+                <h2>Hasil Kuesioner Anda</h2>
+                <div class="score">${score}</div>
+                <p><strong>Jawaban Benar:</strong> ${correctAnswers} dari 24</p>
+                <div class="interpretation">${interpretation}</div>
+            `;
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Mengirim Data...';
+
+            // Siapkan data untuk Google Sheets
+            const timestamp = new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'medium' });
+            const formData = {
+                timestamp, kodePasien, nama, usia, jenisKelamin, pendidikan, lamaDiabetes, kapanInformasi,
+                sumberInformasi: sumberInformasi.length > 0 ? sumberInformasi : 'Tidak diisi',
+                answers, correctAnswers, score, interpretation
+            };
+
+            // Kirim data
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                successMessage.innerHTML = '<strong>Data berhasil disimpan!</strong> Terima kasih atas partisipasi Anda.';
+                successMessage.style.display = 'block';
+                submitBtn.textContent = '✓ Data Terkirim';
+                
+                const formElements = document.getElementById('researchForm').elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    formElements[i].disabled = true;
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'Gagal mengirim data. Namun, hasil Anda sudah ditampilkan di atas. Silakan coba lagi nanti atau hubungi peneliti.';
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Coba Kirim Ulang';
+            }
+        });
+    </script>
+</body>
+</html>
+
