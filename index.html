@@ -9,7 +9,65 @@
   <tbody id="isi-tabel">
     </tbody>
 </table>
+/* Mengatur font dasar untuk halaman agar terlihat bersih */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: 40px;
+  background-color: #fdfdfd;
+}
 
+/* 1. Pengaturan dasar untuk seluruh tabel */
+#tabel-saya {
+  width: 100%; /* Lebar tabel penuh mengisi kontainer */
+  border-collapse: collapse; /* Menghilangkan jarak antar border sel */
+  margin-top: 25px;
+  font-size: 0.9em;
+  
+  /* Efek bayangan (shadow) untuk membuatnya terlihat "mengambang" */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  
+  /* Sudut melengkung (rounded corners) */
+  border-radius: 8px;
+  overflow: hidden; /* Penting agar shadow & radius terlihat rapi */
+}
+
+/* 2. Pengaturan untuk sel header (th) dan sel data (td) */
+#tabel-saya th,
+#tabel-saya td {
+  padding: 12px 15px; /* Memberi "ruang napas" di dalam sel */
+  text-align: left; /* Teks rata kiri */
+}
+
+/* 3. Membuat header tabel (thead) tampil beda */
+#tabel-saya thead th {
+  background-color: #007bff; /* Warna biru sebagai header */
+  color: #ffffff; /* Teks warna putih */
+  font-weight: 600; /* Sedikit lebih tebal */
+  text-transform: uppercase; /* Huruf besar semua untuk header */
+}
+
+/* 4. Membuat baris data (tbody) mudah dibaca */
+#tabel-saya tbody tr {
+  border-bottom: 1px solid #dddddd; /* Garis pemisah antar baris */
+  transition: background-color 0.2s ease; /* Transisi halus saat di-hover */
+}
+
+/* 5. Efek "Zebra-striping" (baris ganjil-genap beda warna) */
+#tabel-saya tbody tr:nth-of-type(even) {
+  background-color: #f8f8f8; /* Warna abu-abu sangat muda */
+}
+
+/* 6. Efek "Hover" (warna berubah saat mouse di atas baris) */
+#tabel-saya tbody tr:hover {
+  background-color: #f1f1f1; /* Warna hover */
+  cursor: pointer; /* Mengubah kursor menjadi tangan */
+}
+
+/* 7. Menghilangkan garis di baris paling bawah */
+#tabel-saya tbody tr:last-of-type {
+  border-bottom: none;
+}
 <script>
   // Ambil data dari file JSON
   fetch('tabel_data.json')
