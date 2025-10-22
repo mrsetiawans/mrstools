@@ -72,7 +72,7 @@
 <body>
 
   <h1>Daftar Karyawan</h1>
-  <p>Data ini diambil secara dinamis dari file <code>data.json</code>.</p>
+  <p>Data ini diambil secara dinamis dari file <code>tabel_data.json</code>.</p>
 
   <table id="tabel-saya">
     <thead>
@@ -96,7 +96,7 @@
     //   { "nama": "Dewi", "umur": 28, "pekerjaan": "Marketing" }
     // ]
   
-    fetch('data.json') // (Pastikan nama file JSON Anda benar)
+    fetch('tabel_data.json') // (Pastikan nama file JSON Anda benar)
       .then(response => response.json())
       .then(data => {
         const tbody = document.getElementById('isi-tabel');
