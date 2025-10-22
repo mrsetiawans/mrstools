@@ -1,0 +1,5 @@
+[
+  { "nama": "Budi", "umur": 25, "pekerjaan": "Developer" },
+  { "nama": "Ani", "umur": 30, "pekerjaan": "Desainer" },
+  { "nama": "Candra", "umur": 22, "pekerjaan": "Mahasiswa" }
+]
