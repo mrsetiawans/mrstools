@@ -1,0 +1,32 @@
+<table id="tabel-saya">
+  <thead>
+    <tr>
+      <th>Nama</th>
+      <th>Umur</th>
+      <th>Pekerjaan</th>
+    </tr>
+  </thead>
+  <tbody id="isi-tabel">
+    </tbody>
+</table>
+
+<script>
+  // Ambil data dari file JSON
+  fetch('tabel_data.json')
+    .then(response => response.json()) // Ubah respons menjadi JSON
+    .then(data => {
+      // 'data' sekarang berisi array dari file JSON
+      const tbody = document.getElementById('isi-tabel');
+      
+      // Loop setiap item data dan buat baris tabel (tr)
+      data.forEach(item => {
+        let baris = `<tr>
+                      <td>${item.nama}</td>
+                      <td>${item.umur}</td>
+                      <td>${item.pekerjaan}</td>
+                    </tr>`;
+        tbody.innerHTML += baris; // Masukkan baris ke dalam tabel
+      });
+    })
+    .catch(error => console.error('Error mengambil data:', error));
+</script>
