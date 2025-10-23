@@ -1,405 +1,530 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark"> <!-- Mulai dengan mode gelap secara default -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemutar Video Online Canggih</title>
-    <!-- Memuat Tailwind CSS untuk styling -->
+    <title>Pemutar Video Online</title>
+    <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat ikon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Menggunakan font Inter yang modern */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        /* Menggunakan font Inter */
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Style kustom untuk placeholder riwayat */
-        #recentUrlsList:empty::before {
-            content: "Belum ada riwayat video.";
-            color: #9ca3af; /* text-gray-400 */
-            font-style: italic;
+
+        /* Styling kustom untuk video player */
+        video {
+            width: 100%;
+            height: auto;
+            max-height: 65vh; /* Batasi tinggi video agar UI lain muat */
+            border-radius: 0.5rem; /* Sudut membulat */
+            background-color: #000;
+        }
+
+        /* Indikator kustom (volume, skip, dll) */
+        #video-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Animasi fade out untuk indikator */
+        #video-indicator.show {
+            opacity: 1;
+        }
+
+        /* Menjaga rasio aspek video */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border-radius: 0.5rem;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Agar video pas tanpa terpotong */
         }
     </style>
+    <script>
+        // Konfigurasi Tailwind untuk mode gelap berbasis class
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4 sm:p-8">
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white flex items-center justify-center min-h-screen p-4 sm:p-8 transition-colors duration-300">
 
-    <div class="bg-gray-800 shadow-2xl rounded-xl p-6 md:p-8 w-full max-w-3xl">
+    <div class="bg-gray-100 dark:bg-gray-800 shadow-2xl rounded-xl p-6 md:p-8 w-full max-w-3xl transition-colors duration-300">
         
-        <!-- Judul -->
-        <h1 class="text-2xl sm:text-3xl font-bold text-center text-cyan-400 mb-6">
-            Pemutar Video Online
-        </h1>
-        
-        <p class="text-center text-gray-400 mb-6">
-            Tempelkan URL video (contoh: .mp4, .webm) di bawah ini untuk memutarnya.
-        </p>
-
-        <!-- Form Input URL -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-6">
-            <input 
-                type="text" 
-                id="videoUrlInput"
-                placeholder="https-://.../video.mp4"
-                class="flex-grow bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-3 transition duration-200"
-            >
-            <button 
-                id="clearButton"
-                class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-5 rounded-lg transition duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
-            >
-                Bersihkan
+        <!-- Judul & Tombol Tema -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-cyan-600 dark:text-cyan-400">
+                Pemutar Video Online
+            </h1>
+            <button id="theme-toggle" class="text-2xl text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition" title="Ganti Tema">
+                <!-- Ikon akan diisi oleh JS (fa-sun atau fa-moon) -->
+                <i class="fas"></i>
             </button>
-            <button 
-                id="playButton"
-                class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
-            >
+        </div>
+        
+        <!-- Input URL -->
+        <div class="flex flex-col sm:flex-row gap-3 mb-4">
+            <div class="relative flex-grow">
+                <input type="text" id="video-url" placeholder="Tempel URL video di sini..." class="w-full p-3 pr-10 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 dark:text-white">
+                <button id="clear-input" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" title="Bersihkan input">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <button id="play-button" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
                 Putar
             </button>
         </div>
 
-        <!-- Area Video Player -->
-        <div class="bg-black rounded-lg overflow-hidden shadow-inner aspect-video">
-            <video 
-                id="videoPlayer"
-                controls 
-                autoplay
-                playsinline
-                class="w-full h-full"
-            >
-                <!-- Pesan ini akan tampil jika browser tidak mendukung tag video -->
-                Browser Anda tidak mendukung tag video.
-            </video>
-        </div>
-
         <!-- Kontrol Tambahan -->
-        <div id="controlsWrapper" class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
             <!-- Kontrol Kecepatan -->
             <div class="flex items-center gap-2">
-                <label for="speedControl" class="text-sm font-medium text-gray-300">Kecepatan:</label>
-                <select id="speedControl" disabled class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 p-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                <label for="playback-speed" class="text-sm font-medium text-gray-700 dark:text-gray-300">Kecepatan:</label>
+                <select id="playback-speed" class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 dark:text-gray-100">
                     <option value="0.25">0.25x</option>
                     <option value="0.5">0.5x</option>
                     <option value="0.75">0.75x</option>
                     <option value="1" selected>1x (Normal)</option>
+                    <option value="1.25">1.25x</option>
                     <option value="1.5">1.5x</option>
+                    <option value="1.75">1.75x</option>
                     <option value="2">2x</option>
                 </select>
             </div>
             
             <!-- Tombol Picture-in-Picture -->
-            <button 
-                id="pipButton"
-                disabled
-                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <button id="pip-button" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg text-sm transition duration-200">
                 Picture-in-Picture
             </button>
         </div>
 
-        <!-- Pesan Error -->
-        <p id="errorMessage" class="text-red-400 text-center mt-4 hidden">
-            <!-- Pesan error akan diisi oleh JavaScript -->
-        </p>
+        <!-- Area Pemutar Video -->
+        <div id="video-wrapper" class="video-container mb-4">
+            <video id="video-player" controls>
+                Browser Anda tidak mendukung tag video.
+            </video>
+            <!-- Indikator kustom -->
+            <div id="video-indicator"></div>
+        </div>
 
         <!-- Riwayat Video -->
-        <div class="mt-8">
-            <h2 class="text-xl font-semibold text-cyan-300 mb-3">Riwayat Video</h2>
-            <div id="recentUrlsList" class="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2">
-                <!-- Riwayat akan diisi oleh JavaScript -->
+        <div id="history-container" class="hidden">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Riwayat Tontonan</h2>
+                <button id="clear-history" class="text-sm text-red-500 hover:text-red-400 dark:text-red-400 dark:hover:text-red-300 transition" title="Bersihkan riwayat">
+                    <i class="fas fa-trash-can"></i> Bersihkan
+                </button>
+            </div>
+            <div id="history-list" class="flex flex-col gap-2 max-h-32 overflow-y-auto">
+                <!-- Riwayat akan ditambahkan oleh JS -->
             </div>
         </div>
+
+        <!-- Pesan Error -->
+        <p id="error-message" class="text-red-500 dark:text-red-400 text-center mt-4 hidden"></p>
     </div>
 
     <script>
-        // Mendapatkan elemen-elemen dari HTML
-        const videoUrlInput = document.getElementById('videoUrlInput');
-        const playButton = document.getElementById('playButton');
-        const clearButton = document.getElementById('clearButton'); // Baru
-        const videoPlayer = document.getElementById('videoPlayer');
-        const errorMessage = document.getElementById('errorMessage');
-        const speedControl = document.getElementById('speedControl'); // Baru
-        const pipButton = document.getElementById('pipButton'); // Baru
-        const recentUrlsList = document.getElementById('recentUrlsList'); // Baru
+        // --- Variabel Global & Elemen DOM ---
+        const videoUrlInput = document.getElementById('video-url');
+        const playButton = document.getElementById('play-button');
+        const clearButton = document.getElementById('clear-input');
+        const videoPlayer = document.getElementById('video-player');
+        const errorMessage = document.getElementById('error-message');
+        const speedControl = document.getElementById('playback-speed');
+        const pipButton = document.getElementById('pip-button');
+        const videoWrapper = document.getElementById('video-wrapper');
+        const videoIndicator = document.getElementById('video-indicator');
+        const historyContainer = document.getElementById('history-container');
+        const historyList = document.getElementById('history-list');
+        const clearHistoryButton = document.getElementById('clear-history');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
 
-        // Variabel untuk menyimpan riwayat
-        let recentUrls = [];
+        // --- Variabel State ---
+        const STORAGE_KEY = 'videoPlayerData';
+        let videoHistory = [];
+        let currentTheme = 'dark'; // Default
+        let indicatorTimeout;
+        let lastSaveTime = 0; // Untuk throttle simpan posisi video
 
-        // --- Fungsi Utama ---
+        // --- Fungsi Penyimpanan & Tema (Fitur Baru) ---
 
-        // Fungsi untuk memuat dan memutar video
+        function saveData() {
+            const dataToSave = {
+                history: videoHistory,
+                theme: currentTheme
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+        }
+
+        function loadData() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                videoHistory = parsedData.history || [];
+                applyTheme(parsedData.theme || 'dark');
+                renderHistory();
+            } else {
+                // Jika tidak ada data, atur tema default
+                applyTheme('dark');
+            }
+        }
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.documentElement.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            currentTheme = theme;
+        }
+
+        function toggleTheme() {
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+            saveData(); // Simpan pilihan tema baru
+        }
+
+        function clearHistory() {
+            videoHistory = [];
+            saveData();
+            renderHistory(); // Ini akan mengosongkan dan menyembunyikan list
+        }
+
+        // --- Fungsi Pemutar Video ---
+
         function loadVideo() {
             const videoUrl = videoUrlInput.value.trim();
+            if (videoUrl === '') {
+                showError("URL video tidak boleh kosong.");
+                return;
+            }
 
-            if (videoUrl) {
-                // Sembunyikan pesan error sebelumnya
-                hideError();
+            try {
+                new URL(videoUrl);
                 
-                try {
-                    // Set sumber video player ke URL yang dimasukkan
-                    videoPlayer.src = videoUrl;
-                    
-                    // Set kecepatan dari dropdown
-                    videoPlayer.playbackRate = parseFloat(speedControl.value);
-
-                    // Muat video baru
-                    videoPlayer.load();
-                    
-                    // Coba putar video
-                    videoPlayer.play().catch(error => {
-                        console.warn("Autoplay dicegah:", error);
-                    });
-
-                    // Tambahkan ke riwayat
-                    addUrlToHistory(videoUrl);
-
-                } catch (e) {
-                    console.error("Error saat memuat video:", e);
-                    showError("Format URL tidak valid.");
+                videoPlayer.src = videoUrl;
+                
+                // Cari riwayat untuk video ini
+                const historyItem = videoHistory.find(item => item.url === videoUrl);
+                
+                videoPlayer.load();
+                
+                // Jika ada riwayat, atur posisi video
+                if (historyItem && historyItem.currentTime > 0) {
+                    videoPlayer.addEventListener('loadedmetadata', () => {
+                        videoPlayer.currentTime = historyItem.currentTime;
+                    }, { once: true }); // 'once: true' agar event ini hanya jalan sekali
                 }
+                
+                videoPlayer.play().catch(e => {
+                    showError("Tidak dapat memutar video. Pastikan URL benar dan browser diizinkan memutar otomatis.");
+                    console.error("Play error:", e);
+                });
+                
+                videoPlayer.playbackRate = parseFloat(speedControl.value);
+                showError(""); 
+                addToHistory(videoUrl); // Panggil setelah video dimuat
 
-            } else {
-                // Tampilkan error jika input kosong
-                showError("Silakan masukkan URL video terlebih dahulu.");
+            } catch (_) {
+                showError("Format URL tidak valid.");
             }
         }
 
-        // Fungsi untuk membersihkan input dan video
-        function clearInput() {
-            videoUrlInput.value = '';
-            videoPlayer.src = '';
-            videoPlayer.load();
-            hideError();
-            disableControls(); // Nonaktifkan kontrol saat dibersihkan
-        }
-
-        // Fungsi untuk menampilkan pesan error
         function showError(message) {
             errorMessage.textContent = message;
-            errorMessage.classList.remove('hidden');
+            errorMessage.classList.toggle('hidden', message === '');
         }
 
-        // Fungsi untuk menyembunyikan pesan error
-        function hideError() {
-            errorMessage.classList.add('hidden');
-            errorMessage.textContent = '';
-        }
+        // --- Fungsi Kontrol Tambahan ---
 
-        // Fungsi untuk mengaktifkan kontrol
-        function enableControls() {
-            speedControl.disabled = false;
-            if (document.pictureInPictureEnabled) {
-                pipButton.disabled = false;
-            } else {
-                pipButton.title = "Picture-in-Picture tidak didukung di browser ini.";
-            }
-        }
-
-        // Fungsi untuk menonaktifkan kontrol
-        function disableControls() {
-            speedControl.disabled = true;
-            pipButton.disabled = true;
-        }
-
-        // --- Fungsi Riwayat ---
-
-        function addUrlToHistory(url) {
-            // Hapus jika URL sudah ada agar bisa dipindah ke atas
-            recentUrls = recentUrls.filter(item => item !== url);
-            
-            // Tambahkan ke awal array
-            recentUrls.unshift(url);
-            
-            // Batasi hanya 5 riwayat
-            recentUrls = recentUrls.slice(0, 5);
-            
-            // Perbarui tampilan daftar riwayat
-            updateRecentUrlsList();
-        }
-
-        function updateRecentUrlsList() {
-            // Kosongkan daftar
-            recentUrlsList.innerHTML = '';
-            
-            // Buat elemen untuk setiap URL di riwayat
-            recentUrls.forEach(url => {
-                const link = document.createElement('a');
-                link.href = '#';
-                link.textContent = url;
-                link.className = "block bg-gray-700 hover:bg-gray-600 text-sm text-cyan-200 p-2 rounded truncate transition duration-150 cursor-pointer";
-                link.title = url;
-                
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    videoUrlInput.value = url;
-                    loadVideo();
-                });
-                
-                recentUrlsList.appendChild(link);
-            });
-        }
-
-        // --- Pintasan Keyboard ---
-
-        // Fungsi untuk Play/Pause
-        function togglePlay() {
-            if (videoPlayer.paused) {
-                videoPlayer.play();
-            } else {
-                videoPlayer.pause();
-            }
-        }
-
-        // Fungsi untuk Fullscreen
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                // Coba masuk mode layar penuh pada elemen video
-                videoPlayer.requestFullscreen().catch(err => {
-                    showError(`Gagal mode layar penuh: ${err.message}`);
-                });
-            } else {
-                // Keluar dari mode layar penuh
-                document.exitFullscreen();
-            }
-        }
-
-        // Fungsi untuk menangani pintasan keyboard
-        function handleKeyShortcuts(event) {
-            // Jangan jalankan pintasan jika pengguna sedang mengetik di input URL
-            // atau memilih kecepatan (fokus pada <input> atau <select>)
-            const targetNode = event.target.nodeName;
-            if (targetNode === 'INPUT' || targetNode === 'SELECT') {
-                return;
-            }
-
-            // Hanya jalankan jika ada video yang dimuat
-            if (!videoPlayer.src) {
-                return;
-            }
-
-            // Mencegah aksi default browser (misal: spasi = scroll halaman)
-            switch (event.key) {
-                case ' ':
-                case 'ArrowLeft':
-                case 'ArrowRight':
-                case 'ArrowUp':
-                case 'ArrowDown':
-                case 'f':
-                case 'm':
-                    event.preventDefault();
-                    break;
-                default:
-                    return; // Keluar jika bukan tombol pintasan yang kita inginkan
-            }
-            
-            // Logika untuk setiap pintasan
-            switch (event.key) {
-                case ' ': // Spasi
-                    togglePlay();
-                    break;
-                case 'ArrowRight': // Panah Kanan
-                    videoPlayer.currentTime += 5;
-                    break;
-                case 'ArrowLeft': // Panah Kiri
-                    videoPlayer.currentTime -= 5;
-                    break;
-                case 'ArrowUp': // Panah Atas
-                    let newVolumeUp = Math.min(videoPlayer.volume + 0.1, 1);
-                    videoPlayer.volume = newVolumeUp;
-                    videoPlayer.muted = false; // Otomatis unmute jika menaikkan volume
-                    break;
-                case 'ArrowDown': // Panah Bawah
-                    let newVolumeDown = Math.max(videoPlayer.volume - 0.1, 0);
-                    videoPlayer.volume = newVolumeDown;
-                    if (newVolumeDown === 0) {
-                        videoPlayer.muted = true; // Otomatis mute jika volume 0
-                    }
-                    break;
-                case 'm': // Tombol 'm'
-                    videoPlayer.muted = !videoPlayer.muted;
-                    break;
-                case 'f': // Tombol 'f'
-                    toggleFullScreen();
-                    break;
-            }
-        }
-
-        // --- Event Listeners ---
-
-        // Tombol "Putar"
-        playButton.addEventListener('click', loadVideo);
-
-        // Tombol "Bersihkan"
-        clearButton.addEventListener('click', clearInput);
-
-        // Enter di input
-        videoUrlInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                loadVideo();
-            }
-        });
-
-        // Kontrol Kecepatan
         speedControl.addEventListener('change', () => {
             videoPlayer.playbackRate = parseFloat(speedControl.value);
         });
 
-        // Tombol Picture-in-Picture
-        pipButton.addEventListener('click', () => {
-            if (document.pictureInPictureElement) {
-                // Keluar dari mode PiP jika sudah di dalamnya
-                document.exitPictureInPicture().catch(err => {
-                    console.error("Gagal keluar dari PiP:", err);
+        pipButton.addEventListener('click', async () => {
+            // ... (Fungsi PiP tetap sama) ...
+            if (!document.pictureInPictureEnabled) {
+                showError("Picture-in-Picture tidak didukung browser ini.");
+                return;
+            }
+            try {
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                } else {
+                    await videoPlayer.requestPictureInPicture();
+                }
+            } catch (error) {
+                showError("Gagal beralih mode Picture-in-Picture.");
+                console.error("PiP error:", error);
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            videoUrlInput.value = '';
+            videoUrlInput.focus();
+        });
+
+        // --- Fungsi Riwayat (Diperbarui) ---
+
+        // Helper untuk format waktu (00:00)
+        function formatTime(seconds) {
+            const flooredSeconds = Math.floor(seconds);
+            const min = Math.floor(flooredSeconds / 60);
+            const sec = flooredSeconds % 60;
+            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        function getFileNameFromUrl(url) {
+            // ... (Fungsi ini tetap sama) ...
+            try {
+                const parsedUrl = new URL(url);
+                const pathSegments = parsedUrl.pathname.split('/');
+                const fileName = pathSegments.pop() || pathSegments.pop() || "Video Tanpa Nama"; 
+                return decodeURIComponent(fileName);
+            } catch (e) {
+                return url.substring(url.lastIndexOf('/') + 1) || url;
+            }
+        }
+
+        function addToHistory(url) {
+            // Cek apakah sudah ada, jika ada, pindahkan ke atas
+            const existingIndex = videoHistory.findIndex(item => item.url === url);
+            if (existingIndex > -1) {
+                // Hapus dari posisi lama dan pindahkan ke atas
+                const item = videoHistory.splice(existingIndex, 1)[0];
+                videoHistory.unshift(item); // Pindahkan ke awal
+            } else {
+                // Jika item baru, tambahkan ke atas
+                const displayName = getFileNameFromUrl(url);
+                videoHistory.unshift({ url: url, name: displayName, currentTime: 0 });
+            }
+            
+            // Batasi riwayat hanya 5 item
+            if (videoHistory.length > 5) {
+                videoHistory = videoHistory.slice(0, 5);
+            }
+            
+            saveData(); // Simpan riwayat baru
+            renderHistory();
+        }
+
+        function renderHistory() {
+            if (videoHistory.length === 0) {
+                historyContainer.classList.add('hidden');
+                return;
+            }
+
+            historyContainer.classList.remove('hidden');
+            historyList.innerHTML = ''; // Kosongkan daftar
+
+            videoHistory.forEach(item => {
+                const historyItem = document.createElement('button');
+                historyItem.className = "w-full text-left p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg text-sm text-gray-800 dark:text-gray-300 transition flex justify-between items-center";
+                historyItem.title = item.url; 
+                
+                const savedTime = item.currentTime ? formatTime(item.currentTime) : '00:00';
+                
+                // Tampilkan nama file dan waktu tersimpan
+                historyItem.innerHTML = `
+                    <span class="truncate">${item.name}</span>
+                    <span class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0 ml-2">${savedTime}</span>
+                `;
+                
+                historyItem.onclick = () => {
+                    videoUrlInput.value = item.url;
+                    loadVideo();
+                };
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Fungsi untuk simpan posisi video (throttle)
+        function saveVideoPosition() {
+            const now = Date.now();
+            // Hanya simpan setiap 3 detik (3000ms) untuk mengurangi beban
+            if (now - lastSaveTime < 3000) return; 
+
+            lastSaveTime = now;
+            const currentSrc = videoPlayer.src;
+            if (!currentSrc || videoPlayer.currentTime === 0) return;
+
+            const historyItem = videoHistory.find(item => item.url === currentSrc);
+            if (historyItem) {
+                historyItem.currentTime = videoPlayer.currentTime;
+                saveData(); // Simpan data terbaru
+                renderHistory(); // Perbarui tampilan waktu di riwayat
+            }
+        }
+
+        // --- Fungsi Pintasan Keyboard ---
+        
+        function showIndicator(message) {
+            // ... (Fungsi ini tetap sama) ...
+            videoIndicator.innerHTML = message; 
+            videoIndicator.classList.add('show');
+            if (indicatorTimeout) clearTimeout(indicatorTimeout);
+            indicatorTimeout = setTimeout(() => {
+                videoIndicator.classList.remove('show');
+            }, 1000);
+        }
+
+        function updateVolumeIndicator() {
+            // ... (Fungsi ini tetap sama) ...
+            let iconClass = '';
+            let volumePercent = Math.round(videoPlayer.volume * 100);
+
+            if (videoPlayer.muted || volumePercent === 0) {
+                iconClass = 'fas fa-volume-xmark';
+                volumePercent = 0;
+            } else if (volumePercent <= 25) { 
+                iconClass = 'fas fa-volume-off'; 
+            } else if (volumePercent <= 75) { 
+                iconClass = 'fas fa-volume-low'; 
+            } else { 
+                iconClass = 'fas fa-volume-high'; 
+            }
+            const indicatorHTML = `
+                <div class="flex items-center gap-3" style="white-space: nowrap;">
+                    <i class="${iconClass}" style="font-size: 1.75rem;"></i>
+                    <span style="font-size: 1.5rem; font-weight: bold;">${volumePercent}%</span>
+                </div>
+            `;
+            showIndicator(indicatorHTML);
+        }
+
+        function toggleFullscreen() {
+            // ... (Fungsi ini tetap sama) ...
+            if (!document.fullscreenElement) {
+                videoPlayer.requestFullscreen().catch(err => {
+                    showError(`Gagal fullscreen: ${err.message}`);
                 });
             } else {
-                // Masuk ke mode PiP
-                videoPlayer.requestPictureInPicture().catch(err => {
-                    console.error("Gagal masuk ke PiP:", err);
-                    showError("Gagal memulai Picture-in-Picture.");
-                });
+                document.exitFullscreen();
+            }
+        }
+
+        // --- FUNGSI DIPERBARUI: Penanganan Spasi ---
+        function handleKeydown(e) {
+            // Jangan jalankan pintasan jika fokus ada di input URL
+            if (document.activeElement === videoUrlInput) {
+                return;
+            }
+            
+            // Cek apakah video sudah dimuat
+            if (!videoPlayer.src) return;
+
+            // Logika pintasan
+            switch (e.key) {
+                case ' ':
+                    // Ini adalah pintasan 'global'.
+                    // Kita cegah aksi default browser (seperti scroll)
+                    e.preventDefault(); 
+                    
+                    // Dan sekarang kita kontrol manual play/pause-nya
+                    if (videoPlayer.paused) {
+                        videoPlayer.play();
+                    } else {
+                        videoPlayer.pause();
+                    }
+                    break;
+                
+                case 'ArrowRight':
+                    e.preventDefault(); 
+                    videoPlayer.currentTime += 5; 
+                    showIndicator("» 5s");
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault(); 
+                    videoPlayer.currentTime -= 5; 
+                    showIndicator("5s «");
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault(); 
+                    let newVolUp = Math.min(Math.round((videoPlayer.volume + 0.1) * 10) / 10, 1.0);
+                    videoPlayer.volume = newVolUp;
+                    videoPlayer.muted = false; 
+                    updateVolumeIndicator(); 
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault(); 
+                    let newVolDown = Math.max(Math.round((videoPlayer.volume - 0.1) * 10) / 10, 0.0);
+                    videoPlayer.volume = newVolDown;
+                    videoPlayer.muted = false; 
+                    updateVolumeIndicator(); 
+                    break;
+                case 'm':
+                case 'M':
+                    e.preventDefault();
+                    videoPlayer.muted = !videoPlayer.muted;
+                    updateVolumeIndicator(); 
+                    break;
+                case 'f':
+                case 'F':
+                    e.preventDefault();
+                    toggleFullscreen();
+                    break;
+            }
+        }
+
+        // --- Inisialisasi & Event Listener Utama ---
+
+        // Panggil loadData saat halaman selesai dimuat
+        document.addEventListener('DOMContentLoaded', loadData);
+
+        // Listener untuk tombol utama
+        playButton.addEventListener('click', loadVideo);
+        videoUrlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') loadVideo();
+        });
+        document.addEventListener('keydown', handleKeydown);
+
+        // --- TAMBAHAN BARU: Blokir 'spasi' bawaan player ---
+        // Ini adalah listener KHUSUS di video player
+        videoPlayer.addEventListener('keydown', (e) => {
+            if (e.key === ' ') {
+                // Saat fokus di video, cegah aksi 'spasi' BAWAAN-nya
+                // agar tidak bentrok dengan aksi 'global' kita.
+                e.preventDefault();
             }
         });
 
-        // --- Event Listeners Video Player ---
-
-        // Error pemutaran
-        videoPlayer.addEventListener('error', (e) => {
-            disableControls(); // Nonaktifkan kontrol jika error
-            let errorMsg = "Gagal memuat video.";
-            switch (videoPlayer.error.code) {
-                case MediaError.MEDIA_ERR_ABORTED:
-                    errorMsg = "Pemutaran video dibatalkan.";
-                    break;
-                case MediaError.MEDIA_ERR_NETWORK:
-                    errorMsg = "Terjadi kesalahan jaringan saat mengunduh video.";
-                    break;
-                case MediaError.MEDIA_ERR_DECODE:
-                    errorMsg = "Video tidak dapat di-decode. Format mungkin rusak atau tidak didukung.";
-                    break;
-                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                    errorMsg = "Format video tidak didukung atau URL tidak valid/tidak bisa diakses (CORS error).";
-                    break;
-                default:
-                    errorMsg = "Terjadi kesalahan yang tidak diketahui.";
-                    break;
-            }
-            showError(errorMsg);
-        });
-
-        // Video berhasil dimuat
-        videoPlayer.addEventListener('canplay', () => {
-            hideError();
-            enableControls(); // Aktifkan kontrol saat video siap
-        });
-
-        // Halaman dimuat (inisialisasi)
-        document.addEventListener('DOMContentLoaded', () => {
-            updateRecentUrlsList(); // Tampilkan riwayat (kosong) saat pertama dimuat
-
-            // Tambahkan listener untuk pintasan keyboard ke seluruh dokumen
-            document.addEventListener('keydown', handleKeyShortcuts);
-        });
+        // Listener untuk fitur baru
+        themeToggle.addEventListener('click', toggleTheme);
+        clearHistoryButton.addEventListener('click', clearHistory);
+        videoPlayer.addEventListener('timeupdate', saveVideoPosition);
 
     </script>
-
 </body>
 </html>
-
 
