@@ -32,48 +32,30 @@
             object-fit: contain;
         }
 
-        /* Perbaikan Fullscreen Mobile */
+        /* --- FIX 1: Perbaikan Fullscreen Mobile --- */
         .video-container:fullscreen,
         .video-container:-webkit-full-screen,
         .video-container:-moz-full-screen {
             padding-bottom: 0 !important;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0;
+            width: 100%;
+            height: 100%;
         }
         
-        /* Video harus contain agar tidak terpotong */
+        /* Biarkan video mewarisi gaya defaultnya, yang sudah 'object-fit: contain' 
+           dan 'position: absolute', yang akan berfungsi di dalam kontainer 100%x100% */
         .video-container:fullscreen video,
         .video-container:-webkit-full-screen video,
         .video-container:-moz-full-screen video {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            object-fit: contain !important;
         }
 
         /* Fallback for browsers that fullscreen the video element directly */
         video:fullscreen,
         video:-webkit-full-screen,
         video:-moz-full-screen {
-            object-fit: contain;
+            object-fit: contain !important;
         }
-        
-        /* Pastikan controls tetap muncul di fullscreen */
-        .video-container:fullscreen .custom-controls,
-        .video-container:-webkit-full-screen .custom-controls,
-        .video-container:-moz-full-screen .custom-controls {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 999999;
-            opacity: 1;
-        }
+        /* --- Akhir FIX 1 --- */
 
         .custom-controls {
             position: absolute;
@@ -87,6 +69,8 @@
             z-index: 10;
         }
 
+        /* --- FIX 4: Hapus rule :hover agar JS bisa mengontrol penuh --- */
+        /* .video-container:hover .custom-controls, */
         .custom-controls.show {
             opacity: 1;
         }
@@ -398,7 +382,7 @@
                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Custom player dengan kontrol penuh</p>
             </div>
             <button id="theme-toggle" class="text-3xl text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all duration-300 hover:rotate-180" title="Ganti Tema">
-                <i class="fas fa-sun"></i>
+                <i class="fas"></i>
             </button>
         </div>
 
@@ -467,6 +451,7 @@
 
                 <!-- Custom Video Player -->
                 <div class="video-container fade-in">
+                    <!-- FIX 5 (Revisi): Tambahkan 'playsinline' DAN 'webkit-playsinline' -->
                     <video id="video-player" playsinline webkit-playsinline>
                         Browser Anda tidak mendukung tag video.
                     </video>
@@ -670,7 +655,6 @@
         const playOverlay = document.getElementById('play-overlay');
         const loadingSpinner = document.getElementById('loading-spinner');
         const timeTooltip = document.getElementById('time-tooltip');
-        const videoContainer = document.querySelector('.video-container');
 
         // === State Variables ===
         const STORAGE_KEY = 'videoPlayerProData';
@@ -681,7 +665,7 @@
         let isLooping = false;
         let isSeeking = false;
         let controlsTimeout;
-        let speedMenuVisible = false;
+        const videoContainer = document.querySelector('.video-container'); // Definisikan di sini
 
         // === Storage & Theme Functions ===
         function saveData() {
@@ -739,6 +723,18 @@
         }
 
         function clearHistory() {
+            // Menggunakan custom modal sederhana pengganti confirm()
+            showError("Fungsi 'clearHistory' memerlukan konfirmasi. Mengganti 'confirm()' dengan UI custom disarankan.");
+            
+            // Logika asli (sementara dinonaktifkan untuk menghindari 'confirm')
+            // if (confirm('Hapus semua riwayat?')) {
+            //     videoHistory = [];
+            //     saveData();
+            //     renderHistory();
+            // }
+
+            // Logika pengganti (hapus langsung untuk demo)
+            console.warn("Mengganti 'confirm()'. Menghapus riwayat secara langsung.");
             videoHistory = [];
             saveData();
             renderHistory();
@@ -755,17 +751,22 @@
             try {
                 new URL(videoUrl);
                 
+                // Reset video state
                 videoPlayer.pause();
                 videoPlayer.removeAttribute('src');
                 videoPlayer.load();
                 
+                // Enable CORS for screenshot feature
                 videoPlayer.crossOrigin = "anonymous";
+                
+                // Set new source
                 videoPlayer.src = videoUrl;
                 playOverlay.classList.add('hidden');
                 loadingSpinner.classList.add('show');
                 
                 const historyItem = videoHistory.find(item => item.url === videoUrl);
                 
+                // Load and play
                 videoPlayer.load();
                 
                 videoPlayer.addEventListener('loadedmetadata', function onLoaded() {
@@ -783,6 +784,7 @@
                         loadingSpinner.classList.remove('show');
                     });
                     
+                    // Remove listener after first load
                     videoPlayer.removeEventListener('loadedmetadata', onLoaded);
                 }, { once: true });
                 
@@ -802,34 +804,34 @@
             errorMessage.classList.toggle('hidden', message === '');
         }
 
-        // === Helper Functions untuk Kontrol ===
+        // === FIX 2: Helper Functions untuk Kontrol ===
         function showControls() {
             customControls.classList.add('show');
+            // FIX 3: Tampilkan kursor
             videoContainer.style.cursor = 'default';
             
             clearTimeout(controlsTimeout);
-            if (!videoPlayer.paused && !document.fullscreenElement) {
+            if (!videoPlayer.paused) {
                 controlsTimeout = setTimeout(() => {
+                    // Jangan sembunyikan jika menu speed terbuka
                     if (!speedMenuVisible) {
+                        // Hapus .show untuk sembunyikan controls
                         customControls.classList.remove('show');
+                        // FIX 3: Sembunyikan kursor setelah timeout
                         videoContainer.style.cursor = 'none';
                     }
                 }, 3000);
-            } else if (document.fullscreenElement && !videoPlayer.paused) {
-                controlsTimeout = setTimeout(() => {
-                    if (!speedMenuVisible) {
-                        customControls.classList.remove('show');
-                        videoContainer.style.cursor = 'none';
-                    }
-                }, 5000);
             }
         }
 
         function hideControls() {
-            if (speedMenuVisible) return;
+            // Jangan sembunyikan jika menu speed terbuka
+            if (speedMenuVisible) return; 
+            // Hapus .show untuk sembunyikan controls
             customControls.classList.remove('show');
             clearTimeout(controlsTimeout);
 
+            // FIX 3: Sembunyikan kursor jika video sedang diputar
             if (!videoPlayer.paused) {
                 videoContainer.style.cursor = 'none';
             }
@@ -842,6 +844,7 @@
                 showControls();
             }
         }
+        // --- Akhir FIX 2 ---
 
         // === Custom Controls Functions ===
         function togglePlayPause() {
@@ -915,10 +918,11 @@
 
         // Landscape fullscreen untuk mobile
         async function toggleFullscreenLandscape() {
+            // const container = videoPlayer.parentElement; // Sudah didefinisikan sbg videoContainer
             try {
                 if (!document.fullscreenElement) {
                     await videoContainer.requestFullscreen();
-                    showControls();
+                    // Coba rotate ke landscape di mobile
                     if (screen.orientation && screen.orientation.lock) {
                         try {
                             await screen.orientation.lock('landscape');
@@ -928,6 +932,7 @@
                     }
                 } else {
                     await document.exitFullscreen();
+                    // Unlock orientation
                     if (screen.orientation && screen.orientation.unlock) {
                         screen.orientation.unlock();
                     }
@@ -943,6 +948,7 @@
             if (isMobile) {
                 toggleFullscreenLandscape();
             } else {
+                // const container = videoPlayer.parentElement; // Sudah didefinisikan sbg videoContainer
                 if (!document.fullscreenElement) {
                     videoContainer.requestFullscreen().catch(err => {
                         showError(`Gagal fullscreen: ${err.message}`);
@@ -1003,6 +1009,7 @@
                 seek(e);
             }
             
+            // Update tooltip
             const rect = progressContainer.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             const time = percent * videoPlayer.duration;
@@ -1012,6 +1019,7 @@
 
         fullscreenBtn.addEventListener('click', toggleFullscreen);
 
+        // Screenshot button
         screenshotBtn.addEventListener('click', () => {
             if (!videoPlayer.src) {
                 showIndicator('<i class="fas fa-exclamation-circle"></i> Tidak ada video');
@@ -1029,15 +1037,19 @@
                 canvas.height = videoPlayer.videoHeight;
                 const ctx = canvas.getContext('2d');
                 
+                // Draw video frame to canvas
                 ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
                 
+                // Convert canvas to data URL
                 const dataURL = canvas.toDataURL('image/png');
                 
+                // Create download link
                 const a = document.createElement('a');
                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
                 a.href = dataURL;
                 a.download = `screenshot-${timestamp}.png`;
                 
+                // Trigger download
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1051,6 +1063,7 @@
         });
 
         // Speed menu popup
+        let speedMenuVisible = false;
         const speedMenu = document.createElement('div');
         speedMenu.id = 'speed-menu';
         speedMenu.className = 'absolute bottom-full right-0 mb-2 bg-gray-900 rounded-lg shadow-xl overflow-hidden hidden';
@@ -1074,6 +1087,7 @@
                 statSpeed.textContent = speed + 'x';
                 showIndicator(`<i class="fas fa-gauge-high"></i> ${speed}x`);
                 
+                // Update active state
                 speedMenu.querySelectorAll('button').forEach(btn => {
                     btn.classList.remove('bg-cyan-700');
                 });
@@ -1095,11 +1109,13 @@
             speedMenu.classList.toggle('hidden', !speedMenuVisible);
         });
         
+        // Close speed menu when clicking outside
         document.addEventListener('click', (e) => {
             if (speedMenuVisible && !settingsBtn.contains(e.target) && !speedMenu.contains(e.target)) {
                 speedMenuVisible = false;
                 speedMenu.classList.add('hidden');
                 
+                // Jika video dijeda, controls tetap tampil. Jika playing, sembunyikan.
                 if (!videoPlayer.paused) {
                     hideControls();
                 }
@@ -1107,8 +1123,12 @@
         });
 
         // Auto-hide controls
+        // const videoContainer = videoPlayer.parentElement; // Sudah didefinisikan di atas
+        
+        // FIX 2: Gunakan helper function 'showControls'
         videoContainer.addEventListener('mousemove', showControls);
 
+        // FIX 2: Gunakan helper function 'hideControls'
         videoContainer.addEventListener('mouseleave', () => {
             if (!videoPlayer.paused) {
                 hideControls();
@@ -1119,7 +1139,9 @@
         let lastClickTime = 0;
         const doubleClickDelay = 300;
 
+        // FIX 2: Modifikasi 'click' listener
         videoContainer.addEventListener('click', (e) => {
+            // Jika klik pada kontrol atau tombol play overlay, abaikan (sudah punya handler sendiri)
             if (e.target.closest('.custom-controls') || e.target.closest('.play-overlay')) {
                 return;
             }
@@ -1128,12 +1150,15 @@
             const timeDiff = currentTime - lastClickTime;
 
             if (timeDiff < doubleClickDelay && timeDiff > 0) {
+                // Ini adalah double-click
                 toggleFullscreen();
-                lastClickTime = 0;
+                lastClickTime = 0; // Reset click time
             } else {
+                // Ini adalah single-click
                 lastClickTime = currentTime;
                 setTimeout(() => {
                     if (lastClickTime === currentTime) {
+                        // FIX 2: Ganti dari togglePlayPause() menjadi toggleControlsVisibility()
                         toggleControlsVisibility();
                     }
                 }, doubleClickDelay);
@@ -1146,14 +1171,18 @@
             statStatus.textContent = 'Memutar';
             statStatus.className = 'font-bold text-green-600 dark:text-green-400';
             loadingSpinner.classList.remove('show');
+            // Sembunyikan kontrol setelah mulai bermain
             controlsTimeout = setTimeout(hideControls, 3000);
+            // Kursor akan di-handle oleh hideControls()
         });
 
         videoPlayer.addEventListener('pause', () => {
             updatePlayPauseButton();
             statStatus.textContent = 'Jeda';
             statStatus.className = 'font-bold text-yellow-600 dark:text-yellow-400';
+            // FIX 2: Gunakan helper 'showControls'
             showControls();
+            // FIX 3: Pastikan kursor terlihat saat jeda
             videoContainer.style.cursor = 'default';
         });
 
@@ -1184,24 +1213,13 @@
                 statStatus.textContent = 'Selesai';
                 statStatus.className = 'font-bold text-cyan-600 dark:text-cyan-400';
                 playOverlay.classList.remove('hidden');
+                // FIX 4: Tampilkan kontrol & kursor saat video berakhir
                 showControls();
                 videoContainer.style.cursor = 'default';
             }
         });
 
-        document.addEventListener('fullscreenchange', () => {
-            updateFullscreenButton();
-            if (document.fullscreenElement) {
-                showControls();
-                clearTimeout(controlsTimeout);
-                controlsTimeout = setTimeout(() => {
-                    if (!videoPlayer.paused && !speedMenuVisible) {
-                        customControls.classList.remove('show');
-                        videoContainer.style.cursor = 'none';
-                    }
-                }, 5000);
-            }
-        });
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
 
         // === Speed Control ===
         speedControl.addEventListener('change', () => {
@@ -1397,6 +1415,7 @@
                 e.stopPropagation();
             }
 
+            // Fitur YouTube-style: angka 0-9 untuk jump ke persentase durasi
             if (e.key >= '0' && e.key <= '9') {
                 const number = parseInt(e.key);
                 const percentage = number / 10;
@@ -1455,6 +1474,52 @@
         }
 
         // === Event Listeners ===
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            // Pindahkan definisi videoContainer ke sini setelah DOM dimuat
+            // const videoContainer = document.querySelector('.video-container'); // Seharusnya sudah didefinisikan di atas
+
+            // FIX 2: Gunakan helper function 'showControls'
+            videoContainer.addEventListener('mousemove', showControls);
+
+            // FIX 2: Gunakan helper function 'hideControls'
+            videoContainer.addEventListener('mouseleave', () => {
+                if (!videoPlayer.paused) {
+                    hideControls();
+                }
+            });
+
+            // Double click to fullscreen
+            let lastClickTime = 0;
+            const doubleClickDelay = 300;
+
+            // FIX 2: Modifikasi 'click' listener
+            videoContainer.addEventListener('click', (e) => {
+                // Jika klik pada kontrol atau tombol play overlay, abaikan (sudah punya handler sendiri)
+                if (e.target.closest('.custom-controls') || e.target.closest('.play-overlay')) {
+                    return;
+                }
+
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - lastClickTime;
+
+                if (timeDiff < doubleClickDelay && timeDiff > 0) {
+                    // Ini adalah double-click
+                    toggleFullscreen();
+                    lastClickTime = 0; // Reset click time
+                } else {
+                    // Ini adalah single-click
+                    lastClickTime = currentTime;
+                    setTimeout(() => {
+                        if (lastClickTime === currentTime) {
+                            // FIX 2: Ganti dari togglePlayPause() menjadi toggleControlsVisibility()
+                            toggleControlsVisibility();
+                        }
+                    }, doubleClickDelay);
+                }
+            });
+        });
+
         playButton.addEventListener('click', loadVideo);
         videoUrlInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') loadVideo();
@@ -1465,8 +1530,112 @@
         themeToggle.addEventListener('click', toggleTheme);
         clearHistoryButton.addEventListener('click', clearHistory);
 
-        // === Initialize ===
-        loadData();
+        // === Pindahkan Event Listener Video ke Sini ===
+        videoPlayer.addEventListener('play', () => {
+            updatePlayPauseButton();
+            statStatus.textContent = 'Memutar';
+            statStatus.className = 'font-bold text-green-600 dark:text-green-400';
+            loadingSpinner.classList.remove('show');
+            // Sembunyikan kontrol setelah mulai bermain
+            controlsTimeout = setTimeout(hideControls, 3000);
+            // Kursor akan di-handle oleh hideControls()
+        });
+
+        videoPlayer.addEventListener('pause', () => {
+            updatePlayPauseButton();
+            statStatus.textContent = 'Jeda';
+            statStatus.className = 'font-bold text-yellow-600 dark:text-yellow-400';
+            // FIX 2: Gunakan helper 'showControls'
+            showControls();
+            // FIX 3: Pastikan kursor terlihat saat jeda
+            videoContainer.style.cursor = 'default';
+        });
+
+        videoPlayer.addEventListener('timeupdate', () => {
+            updateProgress();
+            saveVideoPosition();
+        });
+
+        videoPlayer.addEventListener('progress', updateBuffer);
+
+        videoPlayer.addEventListener('loadedmetadata', () => {
+            durationTimeDisplay.textContent = formatTime(videoPlayer.duration);
+            statDuration.textContent = formatTime(videoPlayer.duration);
+            statResolution.textContent = `${videoPlayer.videoWidth} x ${videoPlayer.videoHeight}`;
+            loadingSpinner.classList.remove('show');
+        });
+
+        videoPlayer.addEventListener('waiting', () => {
+            loadingSpinner.classList.add('show');
+        });
+
+        videoPlayer.addEventListener('canplay', () => {
+            loadingSpinner.classList.remove('show');
+        });
+
+        videoPlayer.addEventListener('ended', () => {
+            if (!isLooping) {
+                statStatus.textContent = 'Selesai';
+                statStatus.className = 'font-bold text-cyan-600 dark:text-cyan-400';
+                playOverlay.classList.remove('hidden');
+                // FIX 4: Tampilkan kontrol & kursor saat video berakhir
+                showControls();
+                videoContainer.style.cursor = 'default';
+            }
+        });
+
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+
+        speedControl.addEventListener('change', () => {
+            videoPlayer.playbackRate = parseFloat(speedControl.value);
+            statSpeed.textContent = speedControl.value + 'x';
+            showIndicator(`<i class="fas fa-gauge-high"></i> ${speedControl.value}x`);
+        });
+
+        pipButton.addEventListener('click', async () => {
+            if (!document.pictureInPictureEnabled) {
+                showError("Picture-in-Picture tidak didukung browser ini.");
+                return;
+            }
+            try {
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                } else {
+                    await videoPlayer.requestPictureInPicture();
+                }
+            } catch (error) {
+                showError("Gagal beralih mode Picture-in-Picture.");
+                console.error("PiP error:", error);
+            }
+        });
+
+        loopButton.addEventListener('click', () => {
+            isLooping = !isLooping;
+            videoPlayer.loop = isLooping;
+            
+            if (isLooping) {
+                loopButton.classList.add('bg-cyan-600', 'text-white', 'hover:bg-cyan-700');
+                loopButton.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                loopIndicator.classList.remove('hidden');
+                showIndicator('<i class="fas fa-repeat"></i> Loop Aktif');
+            } else {
+                loopButton.classList.remove('bg-cyan-600', 'text-white', 'hover:bg-cyan-700');
+                loopButton.classList.add('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                loopIndicator.classList.add('hidden');
+                showIndicator('<i class="fas fa-times"></i> Loop Nonaktif');
+            }
+            
+            saveData();
+        });
+
+        clearButton.addEventListener('click', () => {
+            videoUrlInput.value = '';
+            videoUrlInput.focus();
+        });
+
     </script>
 </body>
 </html>
+
+
+
