@@ -171,6 +171,9 @@
         let currentTheme = 'dark'; // Default
         let indicatorTimeout;
         let lastSaveTime = 0; // Untuk throttle simpan posisi video
+        
+        // --- PERBAIKAN: Variabel state untuk fokus player ---
+        let isPlayerFocused = false;
 
         // --- Fungsi Penyimpanan & Tema (Fitur Baru) ---
 
@@ -272,7 +275,6 @@
         });
 
         pipButton.addEventListener('click', async () => {
-            // ... (Fungsi PiP tetap sama) ...
             if (!document.pictureInPictureEnabled) {
                 showError("Picture-in-Picture tidak didukung browser ini.");
                 return;
@@ -305,7 +307,6 @@
         }
 
         function getFileNameFromUrl(url) {
-            // ... (Fungsi ini tetap sama) ...
             try {
                 const parsedUrl = new URL(url);
                 const pathSegments = parsedUrl.pathname.split('/');
@@ -390,7 +391,6 @@
         // --- Fungsi Pintasan Keyboard ---
         
         function showIndicator(message) {
-            // ... (Fungsi ini tetap sama) ...
             videoIndicator.innerHTML = message; 
             videoIndicator.classList.add('show');
             if (indicatorTimeout) clearTimeout(indicatorTimeout);
@@ -400,7 +400,6 @@
         }
 
         function updateVolumeIndicator() {
-            // ... (Fungsi ini tetap sama) ...
             let iconClass = '';
             let volumePercent = Math.round(videoPlayer.volume * 100);
 
@@ -424,7 +423,6 @@
         }
 
         function toggleFullscreen() {
-            // ... (Fungsi ini tetap sama) ...
             if (!document.fullscreenElement) {
                 videoPlayer.requestFullscreen().catch(err => {
                     showError(`Gagal fullscreen: ${err.message}`);
@@ -434,8 +432,15 @@
             }
         }
 
-        // --- FUNGSI DIPERBARUI: Penanganan Spasi ---
+        // --- FUNGSI DIPERBARUI: Penanganan Spasi & Fokus ---
         function handleKeydown(e) {
+            // --- PERBAIKAN: JIKA PLAYER FOKUS, BIARKAN PLAYER YANG MENGURUS ---
+            // Ini akan membiarkan kontrol bawaan player bekerja, 
+            // dan mematikan pintasan global kita untuk menghindari aksi ganda.
+            if (isPlayerFocused) {
+                return;
+            }
+
             // Jangan jalankan pintasan jika fokus ada di input URL
             if (document.activeElement === videoUrlInput) {
                 return;
@@ -444,14 +449,10 @@
             // Cek apakah video sudah dimuat
             if (!videoPlayer.src) return;
 
-            // Logika pintasan
+            // Logika pintasan (HANYA BERJALAN JIKA PLAYER TIDAK FOKUS)
             switch (e.key) {
                 case ' ':
-                    // Ini adalah pintasan 'global'.
-                    // Kita cegah aksi default browser (seperti scroll)
                     e.preventDefault(); 
-                    
-                    // Dan sekarang kita kontrol manual play/pause-nya
                     if (videoPlayer.paused) {
                         videoPlayer.play();
                     } else {
@@ -509,14 +510,15 @@
         });
         document.addEventListener('keydown', handleKeydown);
 
-        // --- TAMBAHAN BARU: Blokir 'spasi' bawaan player ---
-        // Ini adalah listener KHUSUS di video player
-        videoPlayer.addEventListener('keydown', (e) => {
-            if (e.key === ' ') {
-                // Saat fokus di video, cegah aksi 'spasi' BAWAAN-nya
-                // agar tidak bentrok dengan aksi 'global' kita.
-                e.preventDefault();
-            }
+        // --- TAMBAHAN BARU: Lacak status fokus player ---
+        // Saat player diklik (fokus), set flag
+        videoPlayer.addEventListener('focus', () => {
+            isPlayerFocused = true;
+        });
+        
+        // Saat player tidak lagi fokus (klik di luar), hapus flag
+        videoPlayer.addEventListener('blur', () => {
+            isPlayerFocused = false;
         });
 
         // Listener untuk fitur baru
