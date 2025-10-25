@@ -1,58 +1,57 @@
 <!DOCTYPE html>
-<html lang="id" class="dark"> <!-- Mulai dengan mode gelap secara default -->
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemutar Video Online</title>
-    <!-- Memuat Tailwind CSS -->
+    <title>Pemutar Video Online Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Memuat ikon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Menggunakan font Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
         body {
             font-family: 'Inter', sans-serif;
         }
 
-        /* Styling kustom untuk video player */
         video {
             width: 100%;
             height: auto;
-            max-height: 65vh; /* Batasi tinggi video agar UI lain muat */
-            border-radius: 0.5rem; /* Sudut membulat */
+            border-radius: 0.75rem;
             background-color: #000;
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5);
         }
 
-        /* Indikator kustom (volume, skip, dll) */
         #video-indicator {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(20, 20, 20, 0.85) 100%);
+            backdrop-filter: blur(10px);
             color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 1.25rem;
-            font-weight: bold;
+            padding: 1.25rem 1.75rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
             opacity: 0;
-            transition: opacity 0.3s ease-out;
+            transition: opacity 0.2s ease-out;
             pointer-events: none;
             z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Animasi fade out untuk indikator */
         #video-indicator.show {
             opacity: 1;
         }
 
-        /* Menjaga rasio aspek video */
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            background-color: #000;
-            border-radius: 0.5rem;
+            padding-bottom: 56.25%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 0.75rem;
+            overflow: hidden;
         }
 
         .video-container video {
@@ -61,95 +60,283 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Agar video pas tanpa terpotong */
+            object-fit: contain;
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            padding: 2px;
+            border-radius: 0.75rem;
+        }
+
+        .gradient-border-content {
+            background: white;
+            border-radius: 0.65rem;
+        }
+
+        .dark .gradient-border-content {
+            background: #1f2937;
+        }
+
+        .history-item {
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            transform: translateX(4px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.4);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%);
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loop-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(6, 182, 212, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
     </style>
     <script>
-        // Konfigurasi Tailwind untuk mode gelap berbasis class
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white flex items-center justify-center min-h-screen p-4 sm:p-8 transition-colors duration-300">
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 dark:from-gray-900 dark:to-gray-800 dark:text-white min-h-screen p-4 sm:p-8 transition-colors duration-300">
 
-    <div class="bg-gray-100 dark:bg-gray-800 shadow-2xl rounded-xl p-6 md:p-8 w-full max-w-3xl transition-colors duration-300">
+    <div class="max-w-6xl mx-auto">
         
-        <!-- Judul & Tombol Tema -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl sm:text-3xl font-bold text-cyan-600 dark:text-cyan-400">
-                Pemutar Video Online
-            </h1>
-            <button id="theme-toggle" class="text-2xl text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition" title="Ganti Tema">
-                <!-- Ikon akan diisi oleh JS (fa-sun atau fa-moon) -->
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8 fade-in">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
+                    <i class="fas fa-play-circle mr-2"></i>Pemutar Video Pro
+                </h1>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Pengalaman menonton yang lebih baik</p>
+            </div>
+            <button id="theme-toggle" class="text-3xl text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all duration-300 hover:rotate-180" title="Ganti Tema">
                 <i class="fas"></i>
             </button>
         </div>
-        
-        <!-- Input URL -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-4">
-            <div class="relative flex-grow">
-                <input type="text" id="video-url" placeholder="Tempel URL video di sini..." class="w-full p-3 pr-10 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 dark:text-white">
-                <button id="clear-input" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" title="Bersihkan input">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <button id="play-button" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
-                Putar
-            </button>
-        </div>
 
-        <!-- Kontrol Tambahan -->
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <!-- Kontrol Kecepatan -->
-            <div class="flex items-center gap-2">
-                <label for="playback-speed" class="text-sm font-medium text-gray-700 dark:text-gray-300">Kecepatan:</label>
-                <select id="playback-speed" class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 dark:text-gray-100">
-                    <option value="0.25">0.25x</option>
-                    <option value="0.5">0.5x</option>
-                    <option value="0.75">0.75x</option>
-                    <option value="1" selected>1x (Normal)</option>
-                    <option value="1.25">1.25x</option>
-                    <option value="1.5">1.5x</option>
-                    <option value="1.75">1.75x</option>
-                    <option value="2">2x</option>
-                </select>
-            </div>
+        <div class="grid lg:grid-cols-3 gap-6">
             
-            <!-- Tombol Picture-in-Picture -->
-            <button id="pip-button" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg text-sm transition duration-200">
-                Picture-in-Picture
-            </button>
-        </div>
+            <!-- Main Video Section -->
+            <div class="lg:col-span-2 space-y-4">
+                
+                <!-- Input & Controls Card -->
+                <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 fade-in transition-all duration-300">
+                    
+                    <!-- URL Input -->
+                    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                        <div class="relative flex-grow">
+                            <i class="fas fa-link absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="video-url" placeholder="Masukkan URL video (MP4, WebM, OGG)..." 
+                                class="w-full pl-10 pr-10 py-3 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 dark:text-white transition-all duration-300">
+                            <button id="clear-input" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition" title="Bersihkan">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <button id="play-button" class="btn-primary text-white font-bold py-3 px-8 rounded-lg shadow-lg">
+                            <i class="fas fa-play mr-2"></i>Putar
+                        </button>
+                    </div>
 
-        <!-- Area Pemutar Video -->
-        <div id="video-wrapper" class="video-container mb-4">
-            <video id="video-player" controls>
-                Browser Anda tidak mendukung tag video.
-            </video>
-            <!-- Indikator kustom -->
-            <div id="video-indicator"></div>
-        </div>
+                    <!-- Control Buttons -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-medium text-gray-600 dark:text-gray-400 ml-1">Kecepatan</label>
+                            <select id="playback-speed" class="bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 text-gray-900 dark:text-gray-100 cursor-pointer transition">
+                                <option value="0.25">0.25x</option>
+                                <option value="0.5">0.5x</option>
+                                <option value="0.75">0.75x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.25">1.25x</option>
+                                <option value="1.5">1.5x</option>
+                                <option value="1.75">1.75x</option>
+                                <option value="2">2x</option>
+                            </select>
+                        </div>
+                        
+                        <button id="pip-button" class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg text-sm transition duration-200 mt-auto">
+                            <i class="fas fa-external-link-alt mr-1"></i>PiP
+                        </button>
 
-        <!-- Riwayat Video -->
-        <div id="history-container" class="hidden">
-            <div class="flex justify-between items-center mb-3">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Riwayat Tontonan</h2>
-                <button id="clear-history" class="text-sm text-red-500 hover:text-red-400 dark:text-red-400 dark:hover:text-red-300 transition" title="Bersihkan riwayat">
-                    <i class="fas fa-trash-can"></i> Bersihkan
-                </button>
+                        <button id="loop-button" class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg text-sm transition duration-200 mt-auto">
+                            <i class="fas fa-repeat mr-1"></i>Loop
+                        </button>
+
+                        <button id="screenshot-button" class="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium py-2 px-4 rounded-lg text-sm transition duration-200 mt-auto">
+                            <i class="fas fa-camera mr-1"></i>Foto
+                        </button>
+                    </div>
+
+                    <!-- Keyboard Shortcuts Info -->
+                    <details class="text-xs text-gray-600 dark:text-gray-400 cursor-pointer">
+                        <summary class="font-medium hover:text-cyan-500 transition">
+                            <i class="fas fa-keyboard mr-1"></i>Pintasan Keyboard
+                        </summary>
+                        <div class="mt-2 pl-4 space-y-1 text-gray-500 dark:text-gray-500">
+                            <p><kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">Space/K</kbd> Play/Pause</p>
+                            <p><kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">→/L</kbd> Maju 5 detik | <kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">←/J</kbd> Mundur 5 detik</p>
+                            <p><kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">↑</kbd> Volume + | <kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">↓</kbd> Volume -</p>
+                            <p><kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">M</kbd> Mute | <kbd class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">F</kbd> Fullscreen</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Video Player -->
+                <div id="video-wrapper" class="video-container fade-in relative">
+                    <video id="video-player" controls>
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                    <div id="video-indicator"></div>
+                    <div id="loop-indicator" class="loop-indicator hidden">
+                        <i class="fas fa-repeat mr-1"></i>Loop Aktif
+                    </div>
+                </div>
+
+                <!-- Video Stats -->
+                <div id="video-stats" class="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-4 fade-in hidden">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                        <i class="fas fa-chart-line mr-1"></i>Informasi Video
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                        <div class="stat-card p-3 rounded-lg">
+                            <p class="text-gray-600 dark:text-gray-400 mb-1">Durasi</p>
+                            <p id="stat-duration" class="font-bold text-cyan-600 dark:text-cyan-400">--:--</p>
+                        </div>
+                        <div class="stat-card p-3 rounded-lg">
+                            <p class="text-gray-600 dark:text-gray-400 mb-1">Resolusi</p>
+                            <p id="stat-resolution" class="font-bold text-cyan-600 dark:text-cyan-400">--- x ---</p>
+                        </div>
+                        <div class="stat-card p-3 rounded-lg">
+                            <p class="text-gray-600 dark:text-gray-400 mb-1">Status</p>
+                            <p id="stat-status" class="font-bold text-cyan-600 dark:text-cyan-400">Siap</p>
+                        </div>
+                        <div class="stat-card p-3 rounded-lg">
+                            <p class="text-gray-600 dark:text-gray-400 mb-1">Kecepatan</p>
+                            <p id="stat-speed" class="font-bold text-cyan-600 dark:text-cyan-400">1x</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <p id="error-message" class="text-red-500 dark:text-red-400 text-center text-sm font-medium hidden fade-in"></p>
             </div>
-            <div id="history-list" class="flex flex-col gap-2 max-h-32 overflow-y-auto">
-                <!-- Riwayat akan ditambahkan oleh JS -->
+
+            <!-- Sidebar -->
+            <div class="space-y-4">
+                
+                <!-- History Card -->
+                <div id="history-container" class="bg-white dark:bg-gray-800 shadow-xl rounded-xl p-6 fade-in hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-gray-700 dark:text-gray-200">
+                            <i class="fas fa-history mr-2 text-cyan-500"></i>Riwayat
+                        </h2>
+                        <button id="clear-history" class="text-sm text-red-500 hover:text-red-400 dark:text-red-400 dark:hover:text-red-300 transition font-medium" title="Bersihkan riwayat">
+                            <i class="fas fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div id="history-list" class="flex flex-col gap-2 max-h-96 overflow-y-auto custom-scrollbar">
+                        <!-- History items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Quick Tips Card -->
+                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 shadow-xl rounded-xl p-6 fade-in">
+                    <h3 class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-3">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>Tips Cepat
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-cyan-500 mr-2 mt-0.5"></i>
+                            <span>Gunakan keyboard untuk kontrol lebih cepat</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-cyan-500 mr-2 mt-0.5"></i>
+                            <span>Posisi video tersimpan otomatis</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-cyan-500 mr-2 mt-0.5"></i>
+                            <span>Aktifkan Loop untuk video berulang</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-cyan-500 mr-2 mt-0.5"></i>
+                            <span>Screenshot untuk tangkap momen</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-
-        <!-- Pesan Error -->
-        <p id="error-message" class="text-red-500 dark:text-red-400 text-center mt-4 hidden"></p>
     </div>
 
     <script>
-        // --- Variabel Global & Elemen DOM ---
+        // === DOM Elements ===
         const videoUrlInput = document.getElementById('video-url');
         const playButton = document.getElementById('play-button');
         const clearButton = document.getElementById('clear-input');
@@ -157,30 +344,36 @@
         const errorMessage = document.getElementById('error-message');
         const speedControl = document.getElementById('playback-speed');
         const pipButton = document.getElementById('pip-button');
+        const loopButton = document.getElementById('loop-button');
+        const screenshotButton = document.getElementById('screenshot-button');
         const videoWrapper = document.getElementById('video-wrapper');
         const videoIndicator = document.getElementById('video-indicator');
+        const loopIndicator = document.getElementById('loop-indicator');
         const historyContainer = document.getElementById('history-container');
         const historyList = document.getElementById('history-list');
         const clearHistoryButton = document.getElementById('clear-history');
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle.querySelector('i');
+        const videoStats = document.getElementById('video-stats');
+        const statDuration = document.getElementById('stat-duration');
+        const statResolution = document.getElementById('stat-resolution');
+        const statStatus = document.getElementById('stat-status');
+        const statSpeed = document.getElementById('stat-speed');
 
-        // --- Variabel State ---
-        const STORAGE_KEY = 'videoPlayerData';
+        // === State Variables ===
+        const STORAGE_KEY = 'videoPlayerProData';
         let videoHistory = [];
-        let currentTheme = 'dark'; // Default
+        let currentTheme = 'dark';
         let indicatorTimeout;
-        let lastSaveTime = 0; // Untuk throttle simpan posisi video
-        
-        // --- PERBAIKAN: Variabel state untuk fokus player ---
-        let isPlayerFocused = false;
+        let lastSaveTime = 0;
+        let isLooping = false;
 
-        // --- Fungsi Penyimpanan & Tema (Fitur Baru) ---
-
+        // === Storage & Theme Functions ===
         function saveData() {
             const dataToSave = {
                 history: videoHistory,
-                theme: currentTheme
+                theme: currentTheme,
+                isLooping: isLooping
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
         }
@@ -190,10 +383,15 @@
             if (storedData) {
                 const parsedData = JSON.parse(storedData);
                 videoHistory = parsedData.history || [];
+                isLooping = parsedData.isLooping || false;
+                if (isLooping) {
+                    videoPlayer.loop = true;
+                    loopButton.classList.add('bg-cyan-600', 'text-white');
+                    loopButton.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                }
                 applyTheme(parsedData.theme || 'dark');
                 renderHistory();
             } else {
-                // Jika tidak ada data, atur tema default
                 applyTheme('dark');
             }
         }
@@ -214,17 +412,18 @@
         function toggleTheme() {
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             applyTheme(newTheme);
-            saveData(); // Simpan pilihan tema baru
+            saveData();
         }
 
         function clearHistory() {
-            videoHistory = [];
-            saveData();
-            renderHistory(); // Ini akan mengosongkan dan menyembunyikan list
+            if (confirm('Hapus semua riwayat?')) {
+                videoHistory = [];
+                saveData();
+                renderHistory();
+            }
         }
 
-        // --- Fungsi Pemutar Video ---
-
+        // === Video Player Functions ===
         function loadVideo() {
             const videoUrl = videoUrlInput.value.trim();
             if (videoUrl === '') {
@@ -237,26 +436,25 @@
                 
                 videoPlayer.src = videoUrl;
                 
-                // Cari riwayat untuk video ini
                 const historyItem = videoHistory.find(item => item.url === videoUrl);
                 
                 videoPlayer.load();
                 
-                // Jika ada riwayat, atur posisi video
                 if (historyItem && historyItem.currentTime > 0) {
                     videoPlayer.addEventListener('loadedmetadata', () => {
                         videoPlayer.currentTime = historyItem.currentTime;
-                    }, { once: true }); // 'once: true' agar event ini hanya jalan sekali
+                    }, { once: true });
                 }
                 
                 videoPlayer.play().catch(e => {
-                    showError("Tidak dapat memutar video. Pastikan URL benar dan browser diizinkan memutar otomatis.");
+                    showError("Tidak dapat memutar video. Pastikan URL benar dan format didukung.");
                     console.error("Play error:", e);
                 });
                 
                 videoPlayer.playbackRate = parseFloat(speedControl.value);
                 showError(""); 
-                addToHistory(videoUrl); // Panggil setelah video dimuat
+                addToHistory(videoUrl);
+                videoStats.classList.remove('hidden');
 
             } catch (_) {
                 showError("Format URL tidak valid.");
@@ -268,10 +466,10 @@
             errorMessage.classList.toggle('hidden', message === '');
         }
 
-        // --- Fungsi Kontrol Tambahan ---
-
+        // === Control Functions ===
         speedControl.addEventListener('change', () => {
             videoPlayer.playbackRate = parseFloat(speedControl.value);
+            statSpeed.textContent = speedControl.value + 'x';
         });
 
         pipButton.addEventListener('click', async () => {
@@ -291,18 +489,63 @@
             }
         });
 
+        loopButton.addEventListener('click', () => {
+            isLooping = !isLooping;
+            videoPlayer.loop = isLooping;
+            
+            if (isLooping) {
+                loopButton.classList.add('bg-cyan-600', 'text-white', 'hover:bg-cyan-700');
+                loopButton.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                loopIndicator.classList.remove('hidden');
+                showIndicator('<i class="fas fa-repeat"></i> Loop Aktif');
+            } else {
+                loopButton.classList.remove('bg-cyan-600', 'text-white', 'hover:bg-cyan-700');
+                loopButton.classList.add('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                loopIndicator.classList.add('hidden');
+                showIndicator('<i class="fas fa-times"></i> Loop Nonaktif');
+            }
+            
+            saveData();
+        });
+
+        screenshotButton.addEventListener('click', () => {
+            if (!videoPlayer.src) {
+                showError("Tidak ada video yang sedang diputar.");
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = videoPlayer.videoWidth;
+            canvas.height = videoPlayer.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `screenshot-${Date.now()}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showIndicator('<i class="fas fa-camera"></i> Screenshot Disimpan');
+            });
+        });
+
         clearButton.addEventListener('click', () => {
             videoUrlInput.value = '';
             videoUrlInput.focus();
         });
 
-        // --- Fungsi Riwayat (Diperbarui) ---
-
-        // Helper untuk format waktu (00:00)
+        // === History Functions ===
         function formatTime(seconds) {
             const flooredSeconds = Math.floor(seconds);
-            const min = Math.floor(flooredSeconds / 60);
+            const hrs = Math.floor(flooredSeconds / 3600);
+            const min = Math.floor((flooredSeconds % 3600) / 60);
             const sec = flooredSeconds % 60;
+            
+            if (hrs > 0) {
+                return `${hrs}:${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+            }
             return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
         }
 
@@ -318,24 +561,20 @@
         }
 
         function addToHistory(url) {
-            // Cek apakah sudah ada, jika ada, pindahkan ke atas
             const existingIndex = videoHistory.findIndex(item => item.url === url);
             if (existingIndex > -1) {
-                // Hapus dari posisi lama dan pindahkan ke atas
                 const item = videoHistory.splice(existingIndex, 1)[0];
-                videoHistory.unshift(item); // Pindahkan ke awal
+                videoHistory.unshift(item);
             } else {
-                // Jika item baru, tambahkan ke atas
                 const displayName = getFileNameFromUrl(url);
                 videoHistory.unshift({ url: url, name: displayName, currentTime: 0 });
             }
             
-            // Batasi riwayat hanya 5 item
-            if (videoHistory.length > 5) {
-                videoHistory = videoHistory.slice(0, 5);
+            if (videoHistory.length > 10) {
+                videoHistory = videoHistory.slice(0, 10);
             }
             
-            saveData(); // Simpan riwayat baru
+            saveData();
             renderHistory();
         }
 
@@ -346,19 +585,26 @@
             }
 
             historyContainer.classList.remove('hidden');
-            historyList.innerHTML = ''; // Kosongkan daftar
+            historyList.innerHTML = '';
 
-            videoHistory.forEach(item => {
+            videoHistory.forEach((item, index) => {
                 const historyItem = document.createElement('button');
-                historyItem.className = "w-full text-left p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg text-sm text-gray-800 dark:text-gray-300 transition flex justify-between items-center";
+                historyItem.className = "history-item w-full text-left p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg text-sm text-gray-800 dark:text-gray-200 transition flex justify-between items-center group";
                 historyItem.title = item.url; 
                 
                 const savedTime = item.currentTime ? formatTime(item.currentTime) : '00:00';
                 
-                // Tampilkan nama file dan waktu tersimpan
                 historyItem.innerHTML = `
-                    <span class="truncate">${item.name}</span>
-                    <span class="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0 ml-2">${savedTime}</span>
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="truncate font-medium">${item.name}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Terakhir di ${savedTime}</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-play text-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                 `;
                 
                 historyItem.onclick = () => {
@@ -370,10 +616,8 @@
             });
         }
 
-        // Fungsi untuk simpan posisi video (throttle)
         function saveVideoPosition() {
             const now = Date.now();
-            // Hanya simpan setiap 3 detik (3000ms) untuk mengurangi beban
             if (now - lastSaveTime < 3000) return; 
 
             lastSaveTime = now;
@@ -383,20 +627,45 @@
             const historyItem = videoHistory.find(item => item.url === currentSrc);
             if (historyItem) {
                 historyItem.currentTime = videoPlayer.currentTime;
-                saveData(); // Simpan data terbaru
-                renderHistory(); // Perbarui tampilan waktu di riwayat
+                saveData();
+                renderHistory();
             }
         }
 
-        // --- Fungsi Pintasan Keyboard ---
-        
+        // === Video Stats Update ===
+        videoPlayer.addEventListener('loadedmetadata', () => {
+            statDuration.textContent = formatTime(videoPlayer.duration);
+            statResolution.textContent = `${videoPlayer.videoWidth} x ${videoPlayer.videoHeight}`;
+        });
+
+        videoPlayer.addEventListener('play', () => {
+            statStatus.textContent = 'Memutar';
+            statStatus.classList.remove('text-cyan-600', 'dark:text-cyan-400');
+            statStatus.classList.add('text-green-600', 'dark:text-green-400');
+        });
+
+        videoPlayer.addEventListener('pause', () => {
+            statStatus.textContent = 'Jeda';
+            statStatus.classList.remove('text-green-600', 'dark:text-green-400');
+            statStatus.classList.add('text-yellow-600', 'dark:text-yellow-400');
+        });
+
+        videoPlayer.addEventListener('ended', () => {
+            if (!isLooping) {
+                statStatus.textContent = 'Selesai';
+                statStatus.classList.remove('text-green-600', 'dark:text-green-400');
+                statStatus.classList.add('text-cyan-600', 'dark:text-cyan-400');
+            }
+        });
+
+        // === Indicator Functions ===
         function showIndicator(message) {
             videoIndicator.innerHTML = message; 
             videoIndicator.classList.add('show');
             if (indicatorTimeout) clearTimeout(indicatorTimeout);
             indicatorTimeout = setTimeout(() => {
                 videoIndicator.classList.remove('show');
-            }, 1000);
+            }, 800);
         }
 
         function updateVolumeIndicator() {
@@ -414,9 +683,9 @@
                 iconClass = 'fas fa-volume-high'; 
             }
             const indicatorHTML = `
-                <div class="flex items-center gap-3" style="white-space: nowrap;">
-                    <i class="${iconClass}" style="font-size: 1.75rem;"></i>
-                    <span style="font-size: 1.5rem; font-weight: bold;">${volumePercent}%</span>
+                <div class="flex items-center gap-3">
+                    <i class="${iconClass}" style="font-size: 2rem;"></i>
+                    <span style="font-size: 1.75rem; font-weight: 700;">${volumePercent}%</span>
                 </div>
             `;
             showIndicator(indicatorHTML);
@@ -432,53 +701,52 @@
             }
         }
 
-        // --- FUNGSI DIPERBARUI: Penanganan Spasi & Fokus ---
+        // === Keyboard Controls (FIXED) ===
         function handleKeydown(e) {
-            // --- PERBAIKAN: JIKA PLAYER FOKUS, BIARKAN PLAYER YANG MENGURUS ---
-            // Ini akan membiarkan kontrol bawaan player bekerja, 
-            // dan mematikan pintasan global kita untuk menghindari aksi ganda.
-            if (isPlayerFocused) {
-                return;
-            }
-
-            // Jangan jalankan pintasan jika fokus ada di input URL
             if (document.activeElement === videoUrlInput) {
                 return;
             }
             
-            // Cek apakah video sudah dimuat
             if (!videoPlayer.src) return;
 
-            // Logika pintasan (HANYA BERJALAN JIKA PLAYER TIDAK FOKUS)
+            const controlKeys = [' ', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'm', 'M', 'f', 'F', 'k', 'K', 'j', 'J', 'l', 'L'];
+            if (controlKeys.includes(e.key)) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
             switch (e.key) {
                 case ' ':
-                    e.preventDefault(); 
+                case 'k':
+                case 'K':
                     if (videoPlayer.paused) {
                         videoPlayer.play();
+                        showIndicator('<i class="fas fa-play" style="font-size: 2rem;"></i>');
                     } else {
                         videoPlayer.pause();
+                        showIndicator('<i class="fas fa-pause" style="font-size: 2rem;"></i>');
                     }
                     break;
                 
                 case 'ArrowRight':
-                    e.preventDefault(); 
-                    videoPlayer.currentTime += 5; 
-                    showIndicator("» 5s");
+                case 'l':
+                case 'L':
+                    videoPlayer.currentTime = Math.min(videoPlayer.currentTime + 5, videoPlayer.duration); 
+                    showIndicator('<i class="fas fa-forward"></i> +5s');
                     break;
                 case 'ArrowLeft':
-                    e.preventDefault(); 
-                    videoPlayer.currentTime -= 5; 
-                    showIndicator("5s «");
+                case 'j':
+                case 'J':
+                    videoPlayer.currentTime = Math.max(videoPlayer.currentTime - 5, 0); 
+                    showIndicator('<i class="fas fa-backward"></i> -5s');
                     break;
                 case 'ArrowUp':
-                    e.preventDefault(); 
                     let newVolUp = Math.min(Math.round((videoPlayer.volume + 0.1) * 10) / 10, 1.0);
                     videoPlayer.volume = newVolUp;
                     videoPlayer.muted = false; 
                     updateVolumeIndicator(); 
                     break;
                 case 'ArrowDown':
-                    e.preventDefault(); 
                     let newVolDown = Math.max(Math.round((videoPlayer.volume - 0.1) * 10) / 10, 0.0);
                     videoPlayer.volume = newVolDown;
                     videoPlayer.muted = false; 
@@ -486,42 +754,32 @@
                     break;
                 case 'm':
                 case 'M':
-                    e.preventDefault();
                     videoPlayer.muted = !videoPlayer.muted;
                     updateVolumeIndicator(); 
                     break;
                 case 'f':
                 case 'F':
-                    e.preventDefault();
                     toggleFullscreen();
                     break;
             }
         }
 
-        // --- Inisialisasi & Event Listener Utama ---
-
-        // Panggil loadData saat halaman selesai dimuat
+        // === Event Listeners ===
         document.addEventListener('DOMContentLoaded', loadData);
 
-        // Listener untuk tombol utama
         playButton.addEventListener('click', loadVideo);
         videoUrlInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') loadVideo();
         });
+        
         document.addEventListener('keydown', handleKeydown);
 
-        // --- TAMBAHAN BARU: Lacak status fokus player ---
-        // Saat player diklik (fokus), set flag
-        videoPlayer.addEventListener('focus', () => {
-            isPlayerFocused = true;
-        });
-        
-        // Saat player tidak lagi fokus (klik di luar), hapus flag
-        videoPlayer.addEventListener('blur', () => {
-            isPlayerFocused = false;
+        // CRITICAL FIX: Disable video player's default keyboard controls
+        videoPlayer.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
         });
 
-        // Listener untuk fitur baru
         themeToggle.addEventListener('click', toggleTheme);
         clearHistoryButton.addEventListener('click', clearHistory);
         videoPlayer.addEventListener('timeupdate', saveVideoPosition);
@@ -529,4 +787,3 @@
     </script>
 </body>
 </html>
-
