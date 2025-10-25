@@ -48,6 +48,13 @@
         .video-container:-moz-full-screen video {
             object-fit: contain;
         }
+
+        /* Fallback for browsers that fullscreen the video element directly */
+        video:fullscreen,
+        video:-webkit-full-screen,
+        video:-moz-full-screen {
+            object-fit: contain;
+        }
         /* --- Akhir FIX 1 --- */
 
         .custom-controls {
