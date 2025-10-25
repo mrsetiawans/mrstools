@@ -444,7 +444,8 @@
 
                 <!-- Custom Video Player -->
                 <div class="video-container fade-in">
-                    <video id="video-player">
+                    <!-- FIX 5: Tambahkan 'playsinline' untuk mencegah pembajakan video native di mobile -->
+                    <video id="video-player" playsinline>
                         Browser Anda tidak mendukung tag video.
                     </video>
                     
@@ -1628,4 +1629,5 @@
     </script>
 </body>
 </html>
+
 
