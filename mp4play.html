@@ -58,10 +58,17 @@
             height: 85vh;
         }
         
+        .video-container.fullscreen-mode {
+            aspect-ratio: unset;
+            height: 100vh;
+            width: 100vw;
+        }
+        
         video {
             width: 100%;
             height: 100%;
             display: block;
+            object-fit: contain;
         }
         
         /* Video Overlay */
@@ -484,19 +491,46 @@
         /* Mobile Adjustments */
         @media (max-width: 1024px) {
             .control-btn {
-                min-width: 44px;
-                min-height: 44px;
-                padding: 10px;
+                min-width: 48px;
+                min-height: 48px;
+                padding: 12px;
             }
             
             .progress-container {
                 height: 8px;
+                margin-bottom: 12px;
             }
             
             .progress-handle {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
                 transform: translateY(-50%) scale(1);
+            }
+            
+            .video-controls {
+                padding: 0 16px 16px;
+            }
+            
+            .big-play-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+            
+            #timeDisplay {
+                font-size: 13px;
+            }
+        }
+        
+        /* Fullscreen Adjustments */
+        @media (orientation: landscape) {
+            .video-container.fullscreen-mode {
+                width: 100vw;
+                height: 100vh;
+            }
+            
+            .video-container.fullscreen-mode video {
+                object-fit: contain;
             }
         }
         
@@ -1065,10 +1099,33 @@
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 elements.videoContainer.requestFullscreen().catch(e => {
-                    showNotification('Fullscreen tidak didukung');
+                    // Try alternative methods for mobile browsers
+                    if (elements.videoContainer.webkitRequestFullscreen) {
+                        elements.videoContainer.webkitRequestFullscreen();
+                    } else if (elements.video.webkitEnterFullscreen) {
+                        elements.video.webkitEnterFullscreen();
+                    } else {
+                        showNotification('Fullscreen tidak didukung');
+                    }
                 });
+                
+                // Lock orientation to landscape on mobile
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(e => {
+                        console.log('Orientation lock not supported:', e);
+                    });
+                }
             } else {
-                document.exitFullscreen();
+                document.exitFullscreen().catch(e => {
+                    if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                });
+                
+                // Unlock orientation
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
             }
         }
         
@@ -1352,6 +1409,7 @@
         let controlsTimeout;
         let lastMouseMove = Date.now();
         const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+        let isFullscreen = false;
         
         function showControls() {
             elements.videoControls.classList.remove('hide');
@@ -1359,7 +1417,14 @@
         }
         
         function hideControls() {
-            if (!elements.video.paused && !isMobile) {
+            // Always hide controls in fullscreen after timeout
+            if (isFullscreen) {
+                if (!elements.video.paused) {
+                    elements.videoControls.classList.add('hide');
+                    elements.videoContainer.classList.add('hide-cursor');
+                }
+            } else if (!isMobile && !elements.video.paused) {
+                // Desktop non-fullscreen behavior
                 elements.videoControls.classList.add('hide');
                 elements.videoContainer.classList.add('hide-cursor');
             }
@@ -1369,7 +1434,11 @@
             showControls();
             clearTimeout(controlsTimeout);
             
-            if (!isMobile && !elements.video.paused) {
+            // In fullscreen, always use timeout (mobile and desktop)
+            if (isFullscreen && !elements.video.paused) {
+                controlsTimeout = setTimeout(hideControls, 5000);
+            } else if (!isMobile && !elements.video.paused) {
+                // Desktop non-fullscreen
                 controlsTimeout = setTimeout(hideControls, 3000);
             }
         }
@@ -1695,6 +1764,21 @@
         
         // Mouse movement for control visibility
         elements.videoContainer.addEventListener('mousemove', () => {
+            resetControlsTimeout();
+        });
+        
+        elements.videoContainer.addEventListener('touchmove', () => {
+            if (isFullscreen) {
+                resetControlsTimeout();
+            }
+        });
+        
+        elements.videoContainer.addEventListener('mouseleave', () => {
+            if (!isMobile && !isFullscreen) {
+                hideControls();
+            }
+        }); for control visibility
+        elements.videoContainer.addEventListener('mousemove', () => {
             if (!isMobile) {
                 resetControlsTimeout();
             }
@@ -1720,10 +1804,19 @@
                     tapTimeout = setTimeout(() => {
                         // Single tap - toggle controls
                         if (elements.videoControls.classList.contains('hide')) {
-                            showControls();
+                            resetControlsTimeout();
                         } else {
-                            if (!elements.video.paused) {
+                            if (isFullscreen && !elements.video.paused) {
                                 hideControls();
+                            } else if (!isFullscreen) {
+                                // Non-fullscreen mobile: toggle
+                                if (!elements.video.paused) {
+                                    if (elements.videoControls.classList.contains('hide')) {
+                                        showControls();
+                                    } else {
+                                        hideControls();
+                                    }
+                                }
                             }
                         }
                         tapCount = 0;
@@ -1891,8 +1984,39 @@
             const icon = elements.fullscreenBtn.querySelector('i');
             if (document.fullscreenElement) {
                 icon.className = 'fas fa-compress text-xl';
+                isFullscreen = true;
+                elements.videoContainer.classList.add('fullscreen-mode');
+                
+                // Start auto-hide timer in fullscreen
+                if (!elements.video.paused) {
+                    resetControlsTimeout();
+                }
             } else {
                 icon.className = 'fas fa-expand text-xl';
+                isFullscreen = false;
+                elements.videoContainer.classList.remove('fullscreen-mode');
+                
+                // Show controls when exiting fullscreen
+                showControls();
+            }
+        });
+        
+        // Webkit fullscreen change (for Safari/iOS)
+        document.addEventListener('webkitfullscreenchange', () => {
+            const icon = elements.fullscreenBtn.querySelector('i');
+            if (document.webkitFullscreenElement) {
+                icon.className = 'fas fa-compress text-xl';
+                isFullscreen = true;
+                elements.videoContainer.classList.add('fullscreen-mode');
+                
+                if (!elements.video.paused) {
+                    resetControlsTimeout();
+                }
+            } else {
+                icon.className = 'fas fa-expand text-xl';
+                isFullscreen = false;
+                elements.videoContainer.classList.remove('fullscreen-mode');
+                showControls();
             }
         });
         
