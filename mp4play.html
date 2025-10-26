@@ -1408,7 +1408,6 @@
         // ==================== CONTROL HIDE/SHOW ====================
         let controlsTimeout;
         let lastMouseMove = Date.now();
-        const isMobile = window.matchMedia('(max-width: 1024px)').matches;
         let isFullscreen = false;
         
         function showControls() {
@@ -1417,13 +1416,15 @@
         }
         
         function hideControls() {
+            const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
+            
             // Always hide controls in fullscreen after timeout
             if (isFullscreen) {
                 if (!elements.video.paused) {
                     elements.videoControls.classList.add('hide');
                     elements.videoContainer.classList.add('hide-cursor');
                 }
-            } else if (!isMobile && !elements.video.paused) {
+            } else if (!isMobileDevice && !elements.video.paused) {
                 // Desktop non-fullscreen behavior
                 elements.videoControls.classList.add('hide');
                 elements.videoContainer.classList.add('hide-cursor');
@@ -1431,13 +1432,15 @@
         }
         
         function resetControlsTimeout() {
+            const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
+            
             showControls();
             clearTimeout(controlsTimeout);
             
             // In fullscreen, always use timeout (mobile and desktop)
             if (isFullscreen && !elements.video.paused) {
                 controlsTimeout = setTimeout(hideControls, 5000);
-            } else if (!isMobile && !elements.video.paused) {
+            } else if (!isMobileDevice && !elements.video.paused) {
                 // Desktop non-fullscreen
                 controlsTimeout = setTimeout(hideControls, 3000);
             }
@@ -1774,67 +1777,57 @@
         });
         
         elements.videoContainer.addEventListener('mouseleave', () => {
-            if (!isMobile && !isFullscreen) {
-                hideControls();
-            }
-        }); for control visibility
-        elements.videoContainer.addEventListener('mousemove', () => {
-            if (!isMobile) {
-                resetControlsTimeout();
-            }
-        });
-        
-        elements.videoContainer.addEventListener('mouseleave', () => {
-            if (!isMobile) {
+            const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
+            if (!isMobileDevice && !isFullscreen) {
                 hideControls();
             }
         });
         
         // Mobile tap to show/hide controls
-        if (isMobile) {
-            let tapCount = 0;
-            let tapTimeout;
+        const checkMobile = () => window.matchMedia('(max-width: 1024px)').matches;
+        
+        let tapCount = 0;
+        let tapTimeout;
+        
+        elements.videoContainer.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.video-controls')) return;
             
-            elements.videoContainer.addEventListener('touchstart', (e) => {
-                if (e.target.closest('.video-controls')) return;
-                
-                tapCount++;
-                
-                if (tapCount === 1) {
-                    tapTimeout = setTimeout(() => {
-                        // Single tap - toggle controls
-                        if (elements.videoControls.classList.contains('hide')) {
-                            resetControlsTimeout();
-                        } else {
-                            if (isFullscreen && !elements.video.paused) {
-                                hideControls();
-                            } else if (!isFullscreen) {
-                                // Non-fullscreen mobile: toggle
-                                if (!elements.video.paused) {
-                                    if (elements.videoControls.classList.contains('hide')) {
-                                        showControls();
-                                    } else {
-                                        hideControls();
-                                    }
+            tapCount++;
+            
+            if (tapCount === 1) {
+                tapTimeout = setTimeout(() => {
+                    // Single tap - toggle controls
+                    if (elements.videoControls.classList.contains('hide')) {
+                        resetControlsTimeout();
+                    } else {
+                        if (isFullscreen && !elements.video.paused) {
+                            hideControls();
+                        } else if (!isFullscreen && checkMobile()) {
+                            // Non-fullscreen mobile: toggle
+                            if (!elements.video.paused) {
+                                if (elements.videoControls.classList.contains('hide')) {
+                                    showControls();
+                                } else {
+                                    hideControls();
                                 }
                             }
                         }
-                        tapCount = 0;
-                    }, 300);
-                } else if (tapCount === 2) {
-                    clearTimeout(tapTimeout);
-                    handleDoubleClick(e);
+                    }
                     tapCount = 0;
-                }
-            });
-        } else {
-            // Double click for desktop
-            elements.videoContainer.addEventListener('dblclick', (e) => {
-                if (!e.target.closest('.video-controls')) {
-                    handleDoubleClick(e);
-                }
-            });
-        }
+                }, 300);
+            } else if (tapCount === 2) {
+                clearTimeout(tapTimeout);
+                handleDoubleClick(e);
+                tapCount = 0;
+            }
+        });
+        
+        // Double click for desktop
+        elements.videoContainer.addEventListener('dblclick', (e) => {
+            if (!e.target.closest('.video-controls') && !checkMobile()) {
+                handleDoubleClick(e);
+            }
+        });
         
         // Click anywhere to close settings menu and volume slider
         document.addEventListener('click', (e) => {
