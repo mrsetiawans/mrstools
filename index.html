@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark"> <!-- Tetap dark secara default -->
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -40,7 +40,7 @@
         video {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: contain; /* Default */
             display: block;
         }
         /* Fullscreen Fixes - Perbaikan untuk Mobile */
@@ -81,7 +81,7 @@
             height: 100% !important;
             max-width: 100% !important; /* Batasi maksimal lebar video ke container */
             max-height: 100% !important; /* Batasi maksimal tinggi video ke container */
-            object-fit: contain !important; /* Pastikan video masuk sepenuhnya tanpa terpotong */
+            object-fit: var(--current-fit-mode, contain) !important; /* Gunakan CSS Variable */
             position: relative !important; /* Atau absolute jika diperlukan */
         }
         .controls-overlay {
@@ -512,6 +512,10 @@
                                             <input type="range" id="volume-slider" min="0" max="100" value="100">
                                         </div>
                                     </div>
+                                    <!-- Fit Toggle Button -->
+                                    <button id="fit-toggle-btn" class="control-btn" title="Ganti mode tampilan video">
+                                        <i class="fas fa-expand"></i> <!-- Icon default -->
+                                    </button>
                                     <!-- Time Display -->
                                     <div class="text-white text-xs sm:text-sm font-medium ml-1 sm:ml-2 hidden sm:block">
                                         <span id="current-time">00:00</span> / <span id="duration-time">00:00</span>
@@ -648,28 +652,65 @@
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const screenshotBtn = document.getElementById('screenshot-btn');
         const settingsBtn = document.getElementById('settings-btn');
+        const fitToggleBtn = document.getElementById('fit-toggle-btn'); // Tombol baru
         const playOverlay = document.getElementById('play-overlay');
         const loadingSpinner = document.getElementById('loading-spinner');
         const timePreview = document.getElementById('time-preview');
         // === State Variables ===
         const STORAGE_KEY = 'videoPlayerProData';
         let videoHistory = [];
-        let currentTheme = 'dark'; // Default state
+        let currentTheme = 'dark';
         let notificationTimeout;
         let lastSaveTime = 0;
         let isLooping = false;
         let isSeeking = false;
         let controlsTimeout;
         let lastTapTime = 0;
+        // Object Fit State
+        const OBJECT_FIT_MODES = ['contain', 'cover', 'fill']; // Tambahkan mode sesuai kebutuhan
+        let currentFitModeIndex = 0; // Default ke 'contain'
+
         // === Storage & Theme Functions ===
         function saveData() {
             const dataToSave = {
                 history: videoHistory,
                 theme: currentTheme,
                 isLooping: isLooping,
-                volume: videoPlayer.volume
+                volume: videoPlayer.volume,
+                fitMode: currentFitModeIndex // Simpan index mode fit
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+        }
+        function loadData() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                videoHistory = parsedData.history || [];
+                isLooping = parsedData.isLooping || false;
+                if (parsedData.volume !== undefined) {
+                    videoPlayer.volume = parsedData.volume;
+                    volumeSlider.value = parsedData.volume * 100;
+                    updateVolumeIcon();
+                }
+                if (isLooping) {
+                    videoPlayer.loop = true;
+                    loopButton.classList.add('bg-cyan-600', 'text-white');
+                    loopButton.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                }
+                // Apply saved theme or default to dark
+                currentTheme = parsedData.theme || 'dark';
+                applyTheme(currentTheme);
+                // Apply saved fit mode
+                currentFitModeIndex = parsedData.fitMode || 0;
+                updateFitMode(); // Terapkan mode fit yang disimpan
+                renderHistory();
+            } else {
+                // Default to dark theme and default fit mode
+                currentTheme = 'dark';
+                currentFitModeIndex = 0; // Default ke 'contain'
+                applyTheme('dark');
+                updateFitMode(); // Terapkan default mode
+            }
         }
         function applyTheme(theme) {
             currentTheme = theme;
@@ -690,31 +731,33 @@
             applyTheme(newTheme);
             saveData();
         }
-        function loadData() {
-            const storedData = localStorage.getItem(STORAGE_KEY);
-            if (storedData) {
-                const parsedData = JSON.parse(storedData);
-                videoHistory = parsedData.history || [];
-                isLooping = parsedData.isLooping || false;
-                if (parsedData.volume !== undefined) {
-                    videoPlayer.volume = parsedData.volume;
-                    volumeSlider.value = parsedData.volume * 100;
-                    updateVolumeIcon();
-                }
-                if (isLooping) {
-                    videoPlayer.loop = true;
-                    loopButton.classList.add('bg-cyan-600', 'text-white');
-                    loopButton.classList.remove('bg-gray-100', 'dark:bg-gray-700');
-                }
-                // Apply saved theme or default to dark
-                currentTheme = parsedData.theme || 'dark';
-                applyTheme(currentTheme); // Apply the loaded theme
-                renderHistory();
-            } else {
-                // Default to dark theme if no storage
-                currentTheme = 'dark';
-                applyTheme('dark');
-            }
+        // === Object Fit Functions ===
+        function updateFitMode() {
+            const mode = OBJECT_FIT_MODES[currentFitModeIndex];
+            videoPlayer.style.objectFit = mode;
+            // Update CSS Variable untuk fullscreen
+            document.documentElement.style.setProperty('--current-fit-mode', mode);
+            updateFitButton();
+            saveData(); // Simpan mode saat ini
+        }
+        function cycleFitMode() {
+            currentFitModeIndex = (currentFitModeIndex + 1) % OBJECT_FIT_MODES.length;
+            updateFitMode();
+            showNotification(`<i class="fas fa-${getFitModeIcon(currentFitModeIndex)}"></i> ${OBJECT_FIT_MODES[currentFitModeIndex]}`);
+        }
+        function updateFitButton() {
+            const icon = fitToggleBtn.querySelector('i');
+            const mode = OBJECT_FIT_MODES[currentFitModeIndex];
+            icon.className = 'fas fa-' + getFitModeIcon(currentFitModeIndex);
+            fitToggleBtn.title = `Mode Tampilan: ${mode}`;
+        }
+        function getFitModeIcon(index) {
+            const mode = OBJECT_FIT_MODES[index];
+            // Peta mode ke ikon Font Awesome
+            if (mode === 'contain') return 'expand';
+            if (mode === 'cover') return 'crop';
+            if (mode === 'fill') return 'arrows-alt';
+            return 'expand'; // Default
         }
         function clearHistory() {
             if (videoHistory.length === 0) return;
@@ -1117,6 +1160,8 @@
             }
             saveData();
         });
+        // Fit Toggle Button Event
+        fitToggleBtn.addEventListener('click', cycleFitMode);
         clearButton.addEventListener('click', () => {
             videoUrlInput.value = '';
             videoUrlInput.focus();
@@ -1297,26 +1342,23 @@
                     break;
             }
         }
-        // === Initialize on Load ===
-        console.log('Initializing...');
-        // 1. Pasang event listener untuk toggle tema DULU
-        themeToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleTheme(); // Panggil toggleTheme
-        });
-
-        // 2. Load data dan terapkan tema awal
-        loadData(); // loadData sekarang memanggil applyTheme sesuai data yang dimuat
-
-        // 3. Event listener lainnya
+        // === Event Listeners ===
         playButton.addEventListener('click', loadVideo);
         videoUrlInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') loadVideo();
         });
         document.addEventListener('keydown', handleKeydown);
+        // Theme toggle
+        themeToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleTheme();
+        });
         clearHistoryButton.addEventListener('click', clearHistory);
-        
+        // === Initialize on Load ===
+        console.log('Initializing...');
+        loadData(); // loadData sekarang juga memuat dan menerapkan mode fit
+        console.log('Current theme after load:', currentTheme);
         // Prevent context menu on video
         videoPlayer.addEventListener('contextmenu', (e) => {
             e.preventDefault();
