@@ -79,6 +79,45 @@
             height: 80vh;
         }
 
+        /* Fullscreen landscape optimization for mobile */
+        @media (max-width: 1024px) {
+            .video-container:fullscreen {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .video-container:fullscreen video {
+                width: 100vw;
+                height: 100vh;
+                object-fit: contain;
+            }
+
+            /* Force landscape layout in fullscreen */
+            @media (orientation: portrait) {
+                .video-container:fullscreen {
+                    transform: rotate(90deg);
+                    transform-origin: center center;
+                    width: 100vh;
+                    height: 100vw;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                }
+
+                .video-container:fullscreen video {
+                    width: 100vh;
+                    height: 100vw;
+                }
+
+                .video-container:fullscreen .controls {
+                    width: 100vh;
+                }
+            }
+        }
+
         /* Glassmorphism */
         .glass {
             backdrop-filter: blur(12px);
@@ -1187,11 +1226,43 @@
         }
 
         // ===== FULLSCREEN =====
-        function toggleFullscreen() {
+        async function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                els.videoContainer.requestFullscreen();
+                try {
+                    // Request fullscreen on video element instead for better mobile support
+                    if (state.isMobile && els.video.webkitEnterFullscreen) {
+                        // iOS Safari - uses native video fullscreen (always landscape)
+                        els.video.webkitEnterFullscreen();
+                    } else {
+                        // Standard fullscreen API
+                        await els.videoContainer.requestFullscreen();
+                        
+                        // Try to lock orientation to landscape
+                        if (state.isMobile && screen.orientation && screen.orientation.lock) {
+                            try {
+                                await screen.orientation.lock('landscape').catch(() => {
+                                    // Silently fail if lock is not supported
+                                    console.log('Orientation lock not available');
+                                });
+                            } catch (err) {
+                                console.log('Screen orientation lock failed:', err);
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error('Fullscreen error:', err);
+                }
             } else {
-                document.exitFullscreen();
+                try {
+                    await document.exitFullscreen();
+                    
+                    // Unlock orientation when exiting fullscreen
+                    if (state.isMobile && screen.orientation && screen.orientation.unlock) {
+                        screen.orientation.unlock();
+                    }
+                } catch (err) {
+                    console.error('Exit fullscreen error:', err);
+                }
             }
         }
 
@@ -1201,6 +1272,11 @@
                 icon.className = 'fas fa-compress text-lg';
             } else {
                 icon.className = 'fas fa-expand text-lg';
+                
+                // Unlock orientation when exiting fullscreen
+                if (state.isMobile && screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
             }
         }
 
