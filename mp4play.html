@@ -2032,13 +2032,17 @@
                 clearTimeout(controlsTimeout);
             } else {
                 // Desktop
-                if (!elements.video.paused) {
+                if (!elements.video.paused && !isFullscreen) {
                     resetControlsTimeout();
                 }
             }
         }
         
-        mediaQuery.addListener(handleResponsiveChange);
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleResponsiveChange);
+        } else {
+            mediaQuery.addListener(handleResponsiveChange);
+        }
         
         // Prevent context menu on video
         elements.video.addEventListener('contextmenu', (e) => {
