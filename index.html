@@ -62,28 +62,36 @@
             padding: 0 !important;
             border-radius: 0 !important;
             margin: 0 !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 9999 !important;
         }
 
         .video-wrapper:fullscreen .video-content,
         .video-wrapper:-webkit-full-screen .video-content,
         .video-wrapper:-moz-full-screen .video-content,
         .video-wrapper:-ms-fullscreen .video-content {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-wrapper:fullscreen video,
         .video-wrapper:-webkit-full-screen video,
         .video-wrapper:-moz-full-screen video,
         .video-wrapper:-ms-fullscreen video {
-            width: 100vw;
-            height: 100vh;
-            max-width: 100vw;
-            max-height: 100vh;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain !important;
+            position: relative;
         }
 
         .controls-overlay {
@@ -108,7 +116,10 @@
         .video-wrapper:-webkit-full-screen .controls-overlay {
             position: fixed;
             bottom: 0;
-            width: 100vw;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 10000;
         }
 
         .progress-track {
@@ -781,20 +792,29 @@
         }
 
         function applyTheme(theme) {
+            console.log('Apply theme:', theme);
             currentTheme = theme;
+            
+            const htmlElement = document.documentElement;
+            const icon = themeToggle.querySelector('i');
+            
             if (theme === 'light') {
-                document.documentElement.classList.remove('dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
+                htmlElement.classList.remove('dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                console.log('Applied light theme');
             } else {
-                document.documentElement.classList.add('dark');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+                htmlElement.classList.add('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                console.log('Applied dark theme');
             }
         }
 
         function toggleTheme() {
+            console.log('Toggle theme called, current:', currentTheme);
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            console.log('New theme:', newTheme);
             applyTheme(newTheme);
             saveData();
         }
@@ -1499,11 +1519,20 @@
         
         document.addEventListener('keydown', handleKeydown);
 
-        themeToggle.addEventListener('click', toggleTheme);
+        // Theme toggle with debugging
+        themeToggle.addEventListener('click', function(e) {
+            console.log('Theme button clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            toggleTheme();
+        });
+        
         clearHistoryButton.addEventListener('click', clearHistory);
 
         // === Initialize on Load ===
+        console.log('Initializing...');
         loadData();
+        console.log('Current theme after load:', currentTheme);
 
         // Prevent context menu on video
         videoPlayer.addEventListener('contextmenu', (e) => {
