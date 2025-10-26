@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pro-Player HTML vMaster</title>
     
     <!-- Tailwind CSS CDN -->
@@ -69,6 +69,12 @@
             height: 100%;
             display: block;
             object-fit: contain;
+            touch-action: none;
+        }
+        
+        /* Prevent zoom on double tap */
+        .video-container {
+            touch-action: manipulation;
         }
         
         /* Video Overlay */
@@ -222,6 +228,7 @@
             bottom: 100%;
             right: 0;
             min-width: 280px;
+            max-height: 400px;
             background: rgba(28, 28, 28, 0.98);
             backdrop-filter: blur(10px);
             border-radius: 8px;
@@ -230,6 +237,7 @@
             pointer-events: none;
             transition: opacity 0.2s ease;
             overflow: hidden;
+            z-index: 10;
         }
         
         .settings-menu.show {
@@ -244,6 +252,7 @@
             width: 100%;
             background: rgba(28, 28, 28, 0.98);
             transition: transform 0.3s ease;
+            min-height: 200px;
         }
         
         .settings-panel.slide-left {
@@ -252,6 +261,10 @@
         
         .settings-panel.slide-right {
             transform: translateX(100%);
+        }
+        
+        .settings-panel.active {
+            transform: translateX(0);
         }
         
         .settings-item {
@@ -519,6 +532,16 @@
             
             #timeDisplay {
                 font-size: 13px;
+            }
+            
+            .settings-menu {
+                position: fixed;
+                bottom: 80px;
+                right: 16px;
+                left: 16px;
+                min-width: auto;
+                max-width: 400px;
+                margin: 0 auto;
             }
         }
         
@@ -1478,34 +1501,40 @@
         }
         
         // ==================== SETTINGS MENU ====================
+        let currentPanel = 'main';
+        
         function openSettingsMenu() {
             elements.settingsMenu.classList.add('show');
+            currentPanel = 'main';
+            showMainPanel();
             resetControlsTimeout();
         }
         
         function closeSettingsMenu() {
             elements.settingsMenu.classList.remove('show');
-            // Reset panels
-            elements.settingsPanelMain.classList.remove('slide-left');
-            elements.settingsPanelSpeed.classList.remove('slide-left');
-            elements.settingsPanelSpeed.classList.add('slide-right');
-            elements.settingsPanelSubtitles.classList.remove('slide-left');
-            elements.settingsPanelSubtitles.classList.add('slide-right');
+            currentPanel = 'main';
         }
         
         function showSpeedPanel() {
+            currentPanel = 'speed';
             elements.settingsPanelMain.classList.add('slide-left');
             elements.settingsPanelSpeed.classList.remove('slide-right');
+            elements.settingsPanelSpeed.classList.add('active');
         }
         
         function showSubtitlesPanel() {
+            currentPanel = 'subtitles';
             elements.settingsPanelMain.classList.add('slide-left');
             elements.settingsPanelSubtitles.classList.remove('slide-right');
+            elements.settingsPanelSubtitles.classList.add('active');
         }
         
         function showMainPanel() {
+            currentPanel = 'main';
             elements.settingsPanelMain.classList.remove('slide-left');
+            elements.settingsPanelSpeed.classList.remove('active');
             elements.settingsPanelSpeed.classList.add('slide-right');
+            elements.settingsPanelSubtitles.classList.remove('active');
             elements.settingsPanelSubtitles.classList.add('slide-right');
         }
         
@@ -1651,8 +1680,10 @@
         
         // Settings Menu
         elements.settingsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             const isOpen = elements.settingsMenu.classList.contains('show');
+            
             if (isOpen) {
                 closeSettingsMenu();
             } else {
@@ -1661,6 +1692,7 @@
         });
         
         elements.settingsPanelMain.addEventListener('click', (e) => {
+            e.stopPropagation();
             const item = e.target.closest('.settings-item');
             if (!item) return;
             
@@ -1673,6 +1705,7 @@
         });
         
         elements.settingsPanelSpeed.addEventListener('click', (e) => {
+            e.stopPropagation();
             const item = e.target.closest('.settings-item');
             if (!item) return;
             
@@ -1681,11 +1714,12 @@
             } else if (item.dataset.speed) {
                 const speed = parseFloat(item.dataset.speed);
                 setPlaybackRate(speed);
-                closeSettingsMenu();
+                setTimeout(() => closeSettingsMenu(), 200);
             }
         });
         
         elements.settingsPanelSubtitles.addEventListener('click', (e) => {
+            e.stopPropagation();
             const item = e.target.closest('.settings-item');
             if (!item) return;
             
@@ -1721,7 +1755,7 @@
                     }
                 });
                 
-                closeSettingsMenu();
+                setTimeout(() => closeSettingsMenu(), 200);
             }
         });
         
@@ -1832,11 +1866,22 @@
         // Click anywhere to close settings menu and volume slider
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#settingsMenu') && !e.target.closest('#settingsBtn')) {
-                closeSettingsMenu();
+                if (elements.settingsMenu.classList.contains('show')) {
+                    closeSettingsMenu();
+                }
             }
             
             if (!e.target.closest('#volumeSliderContainer') && !e.target.closest('#muteBtn')) {
                 elements.volumeSliderContainer.classList.remove('show');
+            }
+        });
+        
+        // Touch event to close settings menu
+        document.addEventListener('touchend', (e) => {
+            if (!e.target.closest('#settingsMenu') && !e.target.closest('#settingsBtn')) {
+                if (elements.settingsMenu.classList.contains('show')) {
+                    closeSettingsMenu();
+                }
             }
         });
         
