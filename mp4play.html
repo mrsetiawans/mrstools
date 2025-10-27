@@ -107,8 +107,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 70%, transparent 100%);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(to top, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.05) 70%, transparent 100%);
+            backdrop-filter: blur(2px);
             padding: 0 12px 12px;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
@@ -683,78 +683,8 @@
                                 
                                 <!-- Right Controls -->
                                 <div class="flex items-center gap-1 relative">
-                                    <button id="settingsBtn" class="control-btn" aria-label="Settings">
-                                        <i class="fas fa-cog text-xl"></i>
-                                    </button>
-                                    
-                                    <!-- Settings Menu -->
-                                    <div id="settingsMenu" class="settings-menu">
-                                        <!-- Main Panel -->
-                                        <div id="settingsPanelMain" class="settings-panel">
-                                            <div class="settings-item" data-action="speed">
-                                                <span>Kecepatan Putar</span>
-                                                <div class="flex items-center gap-2">
-                                                    <span id="currentSpeed">Normal</span>
-                                                    <i class="fas fa-chevron-right text-sm"></i>
-                                                </div>
-                                            </div>
-                                            <div class="settings-item" data-action="subtitles">
-                                                <span>Subtitle/CC</span>
-                                                <div class="flex items-center gap-2">
-                                                    <span id="currentSubtitle">Off</span>
-                                                    <i class="fas fa-chevron-right text-sm"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Speed Panel -->
-                                        <div id="settingsPanelSpeed" class="settings-panel slide-right">
-                                            <div class="settings-item" data-action="back">
-                                                <i class="fas fa-chevron-left text-sm"></i>
-                                                <span class="ml-2">Kecepatan Putar</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="0.25">
-                                                <span>0.25x</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="0.5">
-                                                <span>0.5x</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="0.75">
-                                                <span>0.75x</span>
-                                            </div>
-                                            <div class="settings-item active" data-speed="1">
-                                                <span>Normal</span>
-                                                <i class="fas fa-check text-sm"></i>
-                                            </div>
-                                            <div class="settings-item" data-speed="1.25">
-                                                <span>1.25x</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="1.5">
-                                                <span>1.5x</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="1.75">
-                                                <span>1.75x</span>
-                                            </div>
-                                            <div class="settings-item" data-speed="2">
-                                                <span>2x</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Subtitles Panel -->
-                                        <div id="settingsPanelSubtitles" class="settings-panel slide-right">
-                                            <div class="settings-item" data-action="back">
-                                                <i class="fas fa-chevron-left text-sm"></i>
-                                                <span class="ml-2">Subtitle/CC</span>
-                                            </div>
-                                            <div class="settings-item active" data-subtitle="off">
-                                                <span>Off</span>
-                                                <i class="fas fa-check text-sm"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <button id="theaterBtn" class="control-btn" aria-label="Theater mode">
-                                        <i class="fas fa-expand-alt text-xl"></i>
+                                    <button id="speedBtn" class="control-btn text-sm font-bold" aria-label="Playback Speed">
+                                        1x
                                     </button>
                                     <button id="pipBtn" class="control-btn" aria-label="Picture in Picture">
                                         <i class="fas fa-external-link-alt text-xl"></i>
@@ -900,8 +830,7 @@
             backwardBtn: document.getElementById('backwardBtn'),
             forwardBtn: document.getElementById('forwardBtn'),
             muteBtn: document.getElementById('muteBtn'),
-            settingsBtn: document.getElementById('settingsBtn'),
-            theaterBtn: document.getElementById('theaterBtn'),
+            speedBtn: document.getElementById('speedBtn'),
             pipBtn: document.getElementById('pipBtn'),
             fullscreenBtn: document.getElementById('fullscreenBtn'),
             
@@ -917,14 +846,6 @@
             volumeSlider: document.getElementById('volumeSlider'),
             volumeSliderFill: document.getElementById('volumeSliderFill'),
             volumeSliderHandle: document.getElementById('volumeSliderHandle'),
-            
-            // Settings Menu
-            settingsMenu: document.getElementById('settingsMenu'),
-            settingsPanelMain: document.getElementById('settingsPanelMain'),
-            settingsPanelSpeed: document.getElementById('settingsPanelSpeed'),
-            settingsPanelSubtitles: document.getElementById('settingsPanelSubtitles'),
-            currentSpeed: document.getElementById('currentSpeed'),
-            currentSubtitle: document.getElementById('currentSubtitle'),
             
             // Overlays
             loadingSpinner: document.getElementById('loadingSpinner'),
@@ -1035,8 +956,18 @@
             
             // Apply playback rate
             elements.video.playbackRate = state.preferences.playbackRate;
-            updateSpeedUI();
         }
+        
+        const playbackSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+        let currentSpeedIndex = 3; // Corresponds to 1x speed
+        
+        elements.speedBtn.addEventListener('click', () => {
+            currentSpeedIndex = (currentSpeedIndex + 1) % playbackSpeeds.length;
+            const newSpeed = playbackSpeeds[currentSpeedIndex];
+            elements.video.playbackRate = newSpeed;
+            elements.speedBtn.textContent = `${newSpeed}x`;
+            showNotification(`Kecepatan ${newSpeed}x`);
+        });
         
         // ==================== VIDEO PLAYER FUNCTIONS ====================
         function loadVideo(index) {
@@ -1068,14 +999,10 @@
                 
                 track.addEventListener('error', () => {
                     showNotification('Gagal memuat subtitle');
-                    updateSubtitleMenu(false);
                 });
                 
                 track.addEventListener('load', () => {
-                    updateSubtitleMenu(true);
                 });
-            } else {
-                updateSubtitleMenu(false);
             }
             
             // Update UI
@@ -1126,20 +1053,6 @@
             state.preferences.volume = elements.video.volume;
             saveToStorage();
             updateVolumeUI();
-        }
-        
-        function setPlaybackRate(rate) {
-            elements.video.playbackRate = rate;
-            state.preferences.playbackRate = rate;
-            saveToStorage();
-            updateSpeedUI();
-            showNotification(`Kecepatan ${rate}x`);
-        }
-        
-        function toggleTheaterMode() {
-            elements.videoContainer.classList.toggle('theater-mode');
-            const isTheater = elements.videoContainer.classList.contains('theater-mode');
-            elements.theaterBtn.querySelector('i').className = isTheater ? 'fas fa-compress-alt text-xl' : 'fas fa-expand-alt text-xl';
         }
         
         function togglePiP() {
@@ -1225,50 +1138,6 @@
             elements.volumeSliderFill.style.height = `${height}%`;
             elements.volumeSliderHandle.style.bottom = `${height}%`;
             updateMuteButton();
-        }
-        
-        function updateSpeedUI() {
-            const rate = elements.video.playbackRate;
-            const speedText = rate === 1 ? 'Normal' : `${rate}x`;
-            elements.currentSpeed.textContent = speedText;
-            
-            // Update active state in speed menu
-            elements.settingsPanelSpeed.querySelectorAll('.settings-item[data-speed]').forEach(item => {
-                const speed = parseFloat(item.dataset.speed);
-                if (speed === rate) {
-                    item.classList.add('active');
-                    item.querySelector('i')?.classList.remove('hidden');
-                } else {
-                    item.classList.remove('active');
-                    const check = item.querySelector('i');
-                    if (check) check.classList.add('hidden');
-                }
-            });
-        }
-        
-        function updateSubtitleMenu(hasSubtitle) {
-            const subtitleItem = elements.settingsPanelMain.querySelector('[data-action="subtitles"]');
-            
-            if (!hasSubtitle) {
-                subtitleItem.style.opacity = '0.5';
-                subtitleItem.style.pointerEvents = 'none';
-                elements.currentSubtitle.textContent = 'Tidak tersedia';
-            } else {
-                subtitleItem.style.opacity = '1';
-                subtitleItem.style.pointerEvents = 'auto';
-                
-                // Populate subtitle panel
-                const panel = elements.settingsPanelSubtitles;
-                const existingItems = panel.querySelectorAll('.settings-item[data-subtitle]');
-                
-                if (existingItems.length === 1) {
-                    const trackItem = document.createElement('div');
-                    trackItem.className = 'settings-item';
-                    trackItem.dataset.subtitle = '0';
-                    trackItem.innerHTML = '<span>Indonesia</span>';
-                    panel.appendChild(trackItem);
-                }
-            }
         }
         
         function updateNextButton() {
@@ -1533,43 +1402,6 @@
             setVolume(percent);
         }
         
-        // ==================== SETTINGS MENU ====================
-        let currentPanel = 'main';
-        
-        function openSettingsMenu() {
-            elements.settingsMenu.classList.add('show');
-            currentPanel = 'main';
-            showMainPanel();
-            resetControlsTimeout();
-        }
-        
-        function closeSettingsMenu() {
-            elements.settingsMenu.classList.remove('show');
-            currentPanel = 'main';
-        }
-        
-        function showSpeedPanel() {
-            currentPanel = 'speed';
-            elements.settingsPanelMain.classList.add('slide-left');
-            elements.settingsPanelSpeed.classList.remove('slide-right');
-            elements.settingsPanelSpeed.classList.add('active');
-        }
-        
-        function showSubtitlesPanel() {
-            currentPanel = 'subtitles';
-            elements.settingsPanelMain.classList.add('slide-left');
-            elements.settingsPanelSubtitles.classList.remove('slide-right');
-            elements.settingsPanelSubtitles.classList.add('active');
-        }
-        
-        function showMainPanel() {
-            currentPanel = 'main';
-            elements.settingsPanelMain.classList.remove('slide-left');
-            elements.settingsPanelSpeed.classList.remove('active');
-            elements.settingsPanelSpeed.classList.add('slide-right');
-            elements.settingsPanelSubtitles.classList.remove('active');
-            elements.settingsPanelSubtitles.classList.add('slide-right');
-        }
         
         // ==================== DOUBLE CLICK/TAP ====================
         function handleDoubleClick(e) {
@@ -1711,89 +1543,7 @@
             isDraggingVolume = false;
         });
         
-        // Settings Menu
-        elements.settingsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const isOpen = elements.settingsMenu.classList.contains('show');
-            
-            if (isOpen) {
-                closeSettingsMenu();
-            } else {
-                openSettingsMenu();
-            }
-        });
-        
-        elements.settingsPanelMain.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const item = e.target.closest('.settings-item');
-            if (!item) return;
-            
-            const action = item.dataset.action;
-            if (action === 'speed') {
-                showSpeedPanel();
-            } else if (action === 'subtitles') {
-                showSubtitlesPanel();
-            }
-        });
-        
-        elements.settingsPanelSpeed.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const item = e.target.closest('.settings-item');
-            if (!item) return;
-            
-            if (item.dataset.action === 'back') {
-                showMainPanel();
-            } else if (item.dataset.speed) {
-                const speed = parseFloat(item.dataset.speed);
-                setPlaybackRate(speed);
-                setTimeout(() => closeSettingsMenu(), 200);
-            }
-        });
-        
-        elements.settingsPanelSubtitles.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const item = e.target.closest('.settings-item');
-            if (!item) return;
-            
-            if (item.dataset.action === 'back') {
-                showMainPanel();
-            } else if (item.dataset.subtitle !== undefined) {
-                const tracks = elements.video.textTracks;
-                
-                if (item.dataset.subtitle === 'off') {
-                    for (let i = 0; i < tracks.length; i++) {
-                        tracks[i].mode = 'hidden';
-                    }
-                    elements.currentSubtitle.textContent = 'Off';
-                } else {
-                    const trackIndex = parseInt(item.dataset.subtitle);
-                    for (let i = 0; i < tracks.length; i++) {
-                        tracks[i].mode = i === trackIndex ? 'showing' : 'hidden';
-                    }
-                    elements.currentSubtitle.textContent = 'Indonesia';
-                }
-                
-                // Update active state
-                elements.settingsPanelSubtitles.querySelectorAll('.settings-item[data-subtitle]').forEach(el => {
-                    if (el === item) {
-                        el.classList.add('active');
-                        if (!el.querySelector('i')) {
-                            el.innerHTML += '<i class="fas fa-check text-sm"></i>';
-                        }
-                    } else {
-                        el.classList.remove('active');
-                        const check = el.querySelector('i');
-                        if (check) check.remove();
-                    }
-                });
-                
-                setTimeout(() => closeSettingsMenu(), 200);
-            }
-        });
-        
-        // Theater, PiP, Fullscreen
-        elements.theaterBtn.addEventListener('click', toggleTheaterMode);
+        // PiP, Fullscreen
         elements.pipBtn.addEventListener('click', togglePiP);
         elements.fullscreenBtn.addEventListener('click', toggleFullscreen);
         
@@ -1909,25 +1659,10 @@
             }
         });
         
-        // Click anywhere to close settings menu and volume slider
+        // Click anywhere to close volume slider
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('#settingsMenu') && !e.target.closest('#settingsBtn')) {
-                if (elements.settingsMenu.classList.contains('show')) {
-                    closeSettingsMenu();
-                }
-            }
-            
             if (!e.target.closest('#volumeSliderContainer') && !e.target.closest('#muteBtn')) {
                 elements.volumeSliderContainer.classList.remove('show');
-            }
-        });
-        
-        // Touch event to close settings menu
-        document.addEventListener('touchend', (e) => {
-            if (!e.target.closest('#settingsMenu') && !e.target.closest('#settingsBtn')) {
-                if (elements.settingsMenu.classList.contains('show')) {
-                    closeSettingsMenu();
-                }
             }
         });
         
@@ -2020,10 +1755,6 @@
                 case 'f':
                     e.preventDefault();
                     toggleFullscreen();
-                    break;
-                case 't':
-                    e.preventDefault();
-                    toggleTheaterMode();
                     break;
                 case 'j':
                     e.preventDefault();
@@ -2163,14 +1894,6 @@
             }
         });
         
-        // Settings menu focus trap
-        elements.settingsMenu.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSettingsMenu();
-                elements.settingsBtn.focus();
-            }
-        });
-        
         // Accessibility: Skip to content
         elements.video.setAttribute('tabindex', '0');
         
@@ -2194,9 +1917,6 @@
             
             // Initialize volume UI
             updateVolumeUI();
-            
-            // Initialize speed UI
-            updateSpeedUI();
             
             console.log('Pro-Player HTML vMaster v3.1 initialized');
         }
