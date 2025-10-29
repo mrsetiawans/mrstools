@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<!-- 
+  Desain Ulang Presentasi Proposal Skripsi
+  Dibuat oleh: Gemini
+  Fokus: Tampilan modern, fluid, estetik, dan pengisian ruang yang lebih baik.
+  Materi disesuaikan dengan proposal PDF.
+-->
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentasi Proposal Skripsi - M. Rizal Setiawan</title>
+    
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Memuat Library Ikon (Lucide) -->
+    <!-- Penting: Lucide.js harus dimuat -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Menggunakan font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* PENYESUAIAN CSS KUSTOM UNTUK ESTETIKA & FLUIDITAS 
+          Tema: Biru Korporat (#1e3a8a), Emas Aksen (#fbbf24), Abu-abu Netral
+        */
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            /* Anti-aliasing untuk teks lebih halus */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Latar belakang gradien lembut, bukan abu-abu polos */
+            background: linear-gradient(135deg, #f0f4f8, #eef2f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        
+        /* Kontainer utama yang menampung slide */
+        .slide-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px; /* Lebar standar presentasi */
+            aspect-ratio: 16 / 9; /* Rasio 16:9 yang umum */
+            background-color: #ffffff; /* Latar belakang putih solid untuk kontainer */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); /* Bayangan lebih dalam */
+            border-radius: 0.75rem; /* rounded-xl */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d1d5db; /* Garis batas tipis */
+        }
+
+        /* Logo di pojok kanan atas */
+        .slide-logo {
+            position: absolute;
+            top: 1.5rem; /* 24px */
+            right: 2rem; /* 32px */
+            height: 48px; 
+            width: auto;
+            z-index: 50; /* Di atas slide, di bawah footer */
+            opacity: 0.7;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .slide-container:hover .slide-logo {
+            opacity: 1;
+        }
+
+        /* Area konten utama slide (tempat slide bertukar) */
+        .slide-content {
+            flex-grow: 1; /* Mengisi ruang yang tersedia */
+            position: relative; /* Kunci untuk slide absolut */
+            overflow: hidden; /* Mencegah slide-bg keluar */
+        }
+        
+        /* Footer presentasi */
+        .slide-footer {
+            flex-shrink: 0;
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb; /* border-gray-200 */
+            z-index: 60; /* Pastikan footer di atas segalanya */
+            position: relative; 
+        }
+
+        /* Logika Transisi Slide (PENTING)
+          - Semua slide diposisikan absolut.
+          - Non-aktif: opacity 0, tidak terlihat.
+          - Aktif: opacity 1, terlihat.
+        */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            /* Menggunakan flex untuk mengatur konten di dalam slide */
+            display: flex;  
+            flex-direction: column;
+            
+            /* Padding standar untuk semua slide */
+            padding: 2.5rem 4rem; /* Padding lebih besar */
+            box-sizing: border-box; /* Pastikan padding tidak merusak ukuran */
+            overflow-y: auto; /* Izinkan scroll jika konten meluap */
+            
+            background-color: #ffffff; /* Latar belakang putih default */
+            
+            /* Transisi fade yang halus (bukan 'display: none') */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), visibility 0.4s;
+            z-index: 10;
+        }
+        
+        /* Menampilkan slide yang aktif */
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 15; /* Di atas slide lain, di bawah logo & footer */
+        }
+
+        /* Styling untuk judul slide (Gaya baru) */
+        .slide-title {
+            font-size: 2rem; /* text-3xl */
+            font-weight: 800; /* font-extrabold */
+            color: #1e3a8a; /* text-blue-900 */
+            margin-bottom: 2rem; /* mb-8 */
+            padding-bottom: 0.75rem; /* pb-3 */
+            border-bottom: 3px solid #fbbf24; /* border-amber-400 */
+            display: flex;
+            align-items: center;
+            flex-shrink: 0; /* Judul tidak boleh menyusut */
+        }
+        .slide-title i {
+            margin-right: 0.75rem;
+            color: #1e3a8a;
+        }
+
+        /* Area konten di bawah judul (mengisi sisa ruang) */
+        .slide-body {
+            flex-grow: 1; /* Kunci agar konten mengisi ruang */
+            display: flex;
+            flex-direction: column;
+            /* 'justify-content: center' ditambahkan per-slide jika perlu */
+        }
+
+        /* Styling untuk highlight stats (Gaya baru) */
+        .stat-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: 1.5rem; /* p-6 */
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex; /* Menggunakan flex */
+            flex-direction: column; /* Konten ditumpuk vertikal */
+            justify-content: center; /* Pusatkan konten di kartu */
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
+        }
+        
+        .stat-number {
+            font-size: 2.75rem; /* text-4xl/5xl */
+            font-weight: 800; /* font-extrabold */
+            color: #1d4ed8; /* text-blue-700 */
+        }
+        
+        .stat-label {
+            font-size: 1rem; /* text-base */
+            font-weight: 500; /* font-medium */
+            color: #374151; /* text-gray-700 */
+            margin-top: 0.5rem; /* mt-2 */
+        }
+        
+        .stat-source {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500;
+            color: #6b7280; /* text-gray-500 */
+            margin-top: 0.25rem;
+        }
+
+        /* Styling untuk kotak info kustom (Gaya baru) */
+        .info-box {
+            background: #f9fafb; /* bg-gray-50 */
+            border-left: 4px solid #1d4ed8; /* border-blue-700 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Memastikan kotak mengisi tinggi grid */
+        }
+        
+        .info-box.alert {
+            background: #fefce8; /* bg-yellow-50 */
+            border-left-color: #f59e0b; /* border-yellow-500 */
+            border-color: #fef08a;
+        }
+        .info-box.alert .font-bold {
+            color: #b45309; /* text-yellow-800 */
+        }
+        .info-box.success {
+            background: #f0fdf4; /* bg-green-50 */
+            border-left-color: #16a34a; /* border-green-600 */
+            border-color: #dcfce7;
+        }
+
+        /* CSS untuk Tabel Definisi Operasional (Desain Ditingkatkan) */
+        .def-op-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem; /* text-sm */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .def-op-table th, .def-op-table td {
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            padding: 0.75rem 1rem; /* p-3 p-4 */
+            text-align: left;
+            vertical-align: top;
+        }
+        .def-op-table th {
+            background-color: #1e3a8a; /* bg-blue-900 */
+            color: #ffffff; /* text-white */
+            font-weight: 600; /* font-semibold */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .def-op-table td:first-child {
+            font-weight: 600; /* font-semibold */
+            color: #1e3a8a; /* text-blue-900 */
+        }
+        .def-op-table tr:nth-child(even) {
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .def-op-table ul {
+            list-style-type: none;
+            list-style-position: outside;
+            padding-left: 0.25rem; 
+            margin: 0;
+        }
+        /* Penomoran kustom jika diperlukan */
+        .def-op-table ul li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        .def-op-table ul li::before {
+            content: "•"; /* Ganti jadi bullets */
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        /* Kustomisasi untuk kategori ordinal */
+        .def-op-table tr:nth-child(1) ul, /* Pengetahuan */
+        .def-op-table tr:nth-child(2) ul, /* Usia */
+        .def-op-table tr:nth-child(4) ul, /* Pendidikan */
+        .def-op-table tr:nth-child(5) ul /* Lama Menderita */
+        {
+            counter-reset: list-item;
+        }
+        .def-op-table tr:nth-child(1) ul li::before,
+        .def-op-table tr:nth-child(2) ul li::before,
+        .def-op-table tr:nth-child(4) ul li::before,
+        .def-op-table tr:nth-child(5) ul li::before {
+            content: counter(list-item) ".";
+            counter-increment: list-item;
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+
+        
+        /* Fullscreen di body */
+        body:fullscreen {
+            background: #111827; /* Latar gelap saat fullscreen */
+            padding: 0; /* Hapus padding saat fullscreen */
+        }
+        body:fullscreen .slide-container {
+            border-radius: 0;
+            border: 0;
+            max-width: 100%;
+            height: 100%;
+            width: 100%;
+            aspect-ratio: auto; /* Izinkan rasio aspek berubah */
+        }
+        
+        /* Slide Judul Didesain Ulang */
+        .title-slide-bg {
+            background-color: #1e3a8a; /* Latar belakang biru tua */
+            background-image: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+            color: #ffffff;
+            text-align: left;
+            justify-content: center; /* Memusatkan konten di slide judul */
+        }
+        .title-slide-bg h1 {
+            font-size: 2.75rem; /* 44px */
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            max-width: 90%; /* Judul tidak terlalu lebar */
+        }
+        
+        .title-slide-bg .author-info {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #3b82f6; /* border-blue-500 */
+            display: inline-block;
+        }
+        .title-slide-bg .pembimbing-info {
+             margin-top: 2rem;
+             display: grid;
+             grid-template-columns: 1fr 1fr;
+             gap: 1.5rem;
+             max-width: 80%;
+        }
+        .title-slide-bg .pembimbing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        /* Desain Ulang Kerangka Konsep */
+        .konsep-box {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            height: 100%; /* Kunci agar semua kotak sama tinggi */
+            display: flex;
+            flex-direction: column;
+        }
+        .konsep-box.independen {
+            border-top: 4px solid #3b82f6; /* border-blue-500 */
+        }
+        .konsep-box.dependen {
+            border-top: 4px solid #f59e0b; /* border-yellow-500 */
+        }
+        .konsep-box h3 {
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+        .konsep-box ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: auto; /* Mendorong list ke bawah jika ada ruang */
+        }
+        .konsep-box ul li {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #374151;
+            padding: 0.5rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+        .konsep-box ul li:nth-child(odd) {
+            background-color: #f9fafb; /* Sedikit shading */
+        }
+        .konsep-box ul li i {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        .konsep-box.dependen ul li i {
+            color: #f59e0b;
+        }
+        
+        /* Slide Penutup Didesain Ulang */
+        .closing-slide-bg {
+            background-color: #1e3a8a;
+            background-image: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Kontainer Utama Presentasi -->
+    <div class="slide-container">
+        
+        <!-- Logo Universitas Mulia (placeholder) -->
+        <img src="https://upload.wikimedia.org/wikipedia/id/8/81/Mulia_logo.png" 
+             alt="Logo Universitas Mulia" 
+             class="slide-logo"
+             onerror="this.style.display='none'"> <!-- Sembunyikan jika gagal dimuat -->
+
+        <!-- Area Konten Slide -->
+        <main class="slide-content">
+            
+            <!-- Slide 1: Judul (DESAIN ULANG TOTAL & JUDUL DIPERBAIKI) -->
+            <section class="slide active title-slide-bg">
+                <!-- Konten di dalam .slide-body agar padding diterapkan -->
+                <div class="slide-body justify-center">
+                    <span class="text-base font-semibold text-amber-400 uppercase tracking-widest">Proposal Skripsi</span>
+                    <!-- JUDUL YANG BENAR DARI PROPOSAL -->
+                    <h1 class="mt-4">
+                        HUBUNGAN TINGKAT PENGETAHUAN PENGOBATAN DIABETES MELITUS TIPE 2 DI PUSKESMAS DAMAI KOTA BALIKPAPAN MENGGUNAKAN <i>DIABETES KNOWLEDGE QUESTIONNAIRE-24 (DKQ-24)</i>
+                    </h1>
+                                    
+                    <div class="author-info">
+                        <p class="text-2xl font-bold text-white">
+                            Muhammad Rizal Setiawan
+                        </p>
+                        <p class="text-xl text-blue-200 mt-1">NIM: 1933010</p>
+                    </div>
+
+                    <div class="pembimbing-info">
+                        <div class="pembimbing-card">
+                            <p class="font-semibold text-blue-100">Pembimbing Utama</p>
+                            <p class="text-sm text-white">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
+                        </div>
+                        <div class="pembimbing-card">
+                            <p class="font-semibold text-blue-100">Pembimbing Pendamping</p>
+                            <p class="text-sm text-white">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: Latar Belakang - Skala Global & Nasional -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="globe-2"></i>Latar Belakang: Skala Global & Nasional</h2>
+                <div class="slide-body justify-center">
+                    <div class="grid grid-cols-2 gap-8 items-center">
+                        <div class="stat-card">
+                            <div class="stat-number text-red-600">589 Juta</div>
+                            <div class="stat-label">Penderita Diabetes Global (2024)</div>
+                            <p class="stat-label text-gray-600 mt-2">Proyeksi 2050: <span class="font-bold text-red-600">853 Juta</span></p>
+                            <p class="stat-source">(International Diabetes Federation, 2024)</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">20,4 Juta</div>
+                            <div class="stat-label">Penderita di Indonesia (2024)</div>
+                            <p class="text-lg font-bold text-red-600 mt-2">Peringkat 5 Dunia</p>
+                            <p class="stat-source mt-1">(International Diabetes Federation, 2024)</p>
+                        </div>
+                    </div>
+                    <p class="text-center text-xl font-medium text-gray-700 mt-12">
+                        Diabetes telah menjadi <span class="font-bold text-blue-800">tantangan kesehatan global</span> terbesar di abad ke-21. (International Diabetes Federation, 2024)
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Slide 3: Latar Belakang - Skala Regional & Isu Utama -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="map-pin"></i>Latar Belakang: Skala Regional & Isu Utama</h2>
+                <div class="slide-body justify-center">
+                    <div class="grid grid-cols-2 gap-8 items-center">
+                        <div class="stat-card">
+                            <div class="stat-number">86.811</div>
+                            <div class="stat-label">Penderita di Kalimantan Timur (2023)</div>
+                            <p class="stat-label text-gray-600 mt-2">Menunjukkan <span class="font-bold text-red-600">tren peningkatan signifikan</span></p>
+                            <p class="stat-source">(Dinas Kesehatan Provinsi Kalimantan Timur, 2024)</p>
+                        </div>
+                        <div class="info-box alert">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="alert-triangle" class="w-8 h-8 text-yellow-600 mr-3"></i>
+                                Masalah Utama
+                            </h3>
+                            <p class="text-lg text-gray-700">
+                                Prevalensi yang tinggi diperparah dengan
+                                <span class="font-bold">rendahnya tingkat pengetahuan</span>
+                                masyarakat terkait penyakit ini. (Aisyah, 2023)
+                            </p>
+                            <!-- MENAMBAHKAN STATISTIK PENDUKUNG -->
+                            <p class="text-lg text-gray-700 mt-4 border-t border-yellow-300 pt-4">
+                                Studi di Malang: <span class="font-bold">51% responden</span> pasien DM Tipe 2 memiliki <span class="font-bold">pengetahuan kurang</span>.
+                            </p>
+                            <p class="text-sm text-gray-500 mt-2 text-right font-medium">
+                                (Damayanti et al., 2023)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Latar Belakang - Kesenjangan Penelitian (TATA BAHASA DIPERBAIKI) -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="search"></i>Latar Belakang: Kesenjangan Penelitian</h2>
+                <div class="slide-body justify-center">
+                    <div class="grid grid-cols-2 gap-8 items-center">
+                        <div class="info-box success"> <!-- Diubah jadi 'success' -->
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="check-circle" class="w-8 h-8 text-green-600 mr-3"></i>
+                                Instrumen yang Telah Ada
+                            </h3>
+                            <p class="text-lg text-gray-700">
+                                Instrumen <span class="font-bold text-green-800">DKQ-24</span> (<i>Diabetes Knowledge Questionnaire-24</i>). (Starr County Diabetes Education Study)
+                            </p>
+                            <p class="text-lg text-gray-700 mt-2">
+                                Telah <span class="font-bold">tervalidasi</span> untuk digunakan pada populasi Indonesia. (Zakiudin et al., 2022)
+                            </p>
+                        </div>
+                        
+                        <div class="info-box alert">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="target" class="w-8 h-8 text-yellow-600 mr-3"></i>
+                                Kesenjangan (<i>Research Gap</i>)
+                            </h3>
+                            <!-- TATA BAHASA DIPERBAIKI -->
+                            <p class="text-lg text-gray-700">
+                                <span class="font-bold">Belum tersedianya data empiris spesifik</span>
+                                mengenai tingkat pengetahuan pasien di wilayah kerja 
+                                <span class="font-bold">Puskesmas Damai, Balikpapan.</span> (Proposal, 2025)
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10 text-center info-box">
+                        <h3 class="text-xl font-semibold text-blue-900">Urgensi Penelitian</h3>
+                        <p class="text-lg text-gray-600 mt-2">Menyediakan <span class="font-bold">data dasar (<i>baseline</i>)</span> bagi Puskesmas Damai untuk merancang intervensi edukasi yang lebih terarah dan efektif demi <span class="font-bold">perbaikan manajemen DM</span>. (Proposal, 2025)</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 5: Rumusan Masalah & Tujuan -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="compass"></i>Fokus Penelitian</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid md:grid-cols-2 gap-8 items-stretch">
+                        <div class="stat-card p-8">
+                            <i data-lucide="file-question" class="w-16 h-16 text-blue-600 mx-auto"></i>
+                            <h3 class="text-2xl font-bold text-blue-900 mt-4">Rumusan Masalah</h3>
+                            <!-- MENAMBAHKAN DETAIL -->
+                            <ul class="text-lg text-gray-700 mt-4 list-decimal list-inside text-left space-y-4">
+                                <li>Bagaimana tingkat pengetahuan pasien Diabetes melitus Tipe 2 di Puskesmas Damai?</li>
+                                <li>Apakah terdapat hubungan antara karakteristik demografis (usia, jenis kelamin, pendidikan, lama menderita) dengan tingkat pengetahuan pengobatan pasien?</li>
+                            </ul>
+                        </div>
+                        <div class="stat-card p-8" style="border-color: #15803d; background: #f0fdf4;"> <!-- Aksen Hijau -->
+                            <i data-lucide="goal" class="w-16 h-16 text-green-600 mx-auto"></i>
+                            <h3 class="text-2xl font-bold text-green-800 mt-4">Tujuan Penelitian</h3>
+                            <!-- MENAMBAHKAN DETAIL -->
+                            <ul class="text-lg text-gray-700 mt-4 list-decimal list-inside text-left space-y-4">
+                                <li>Mengetahui tingkat pengetahuan pasien Diabetes melitus Tipe 2 di Puskesmas Damai.</li>
+                                <li>Menganalisis hubungan antara karakteristik demografis (usia, jenis kelamin, pendidikan, lama menderita) dengan tingkat pengetahuan pasien.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Manfaat & Keaslian -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="award"></i>Manfaat & Keaslian (<i>Novelty</i>)</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid md:grid-cols-2 gap-8 items-stretch">
+                        <!-- Manfaat -->
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Manfaat Penelitian</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start p-4 bg-gray-50 rounded-lg border">
+                                    <i data-lucide="hospital" class="w-10 h-10 text-blue-600 mr-4 flex-shrink-0"></i>
+                                    <div>
+                                        <h4 class="font-semibold text-lg text-blue-900">Bagi Puskesmas Damai</h4>
+                                        <p class="text-gray-600">Landasan ilmiah untuk program edukasi yang lebih efektif. (Proposal, 2025)</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start p-4 bg-gray-50 rounded-lg border">
+                                    <i data-lucide="user" class="w-10 h-10 text-blue-600 mr-4 flex-shrink-0"></i>
+                                    <div>
+                                        <h4 class="font-semibold text-lg text-blue-900">Bagi Pasien</h4>
+                                        <p class="text-gray-600">Meningkatkan kesadaran & kualitas manajemen penyakit. (Proposal, 2025)</p>
+                                    </div>
+                                </li>
+                                <!-- MENAMBAHKAN DETAIL -->
+                                <li class="flex items-start p-4 bg-gray-50 rounded-lg border">
+                                    <i data-lucide="layers" class="w-10 h-10 text-blue-600 mr-4 flex-shrink-0"></i>
+                                    <div>
+                                        <h4 class="font-semibold text-lg text-blue-900">Bagi Penelitian Selanjutnya</h4>
+                                        <p class="text-gray-600">Menyediakan data dasar untuk studi intervensi edukasi. (Proposal, 2025)</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Keaslian (TATA BAHASA DIPERBAIKI) -->
+                        <div class="info-box alert">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Keaslian (<i>Novelty</i>)</h3>
+                             <ul class="space-y-4">
+                                 <li class="flex items-start p-4 bg-white border border-yellow-200 rounded-lg">
+                                     <i data-lucide="map" class="w-12 h-12 text-yellow-600 mr-4 flex-shrink-0"></i>
+                                     <div>
+                                         <h4 class="font-semibold text-lg text-yellow-800">Lokasi Spesifik</h4>
+                                         <!-- TATA BAHASA DIPERBAIKI -->
+                                         <p class="text-yellow-700">Penelitian pertama yang mengukur pengetahuan (DKQ-24) pada populasi spesifik Puskesmas Damai. (Proposal, 2025)</p>
+                                     </div>
+                                 </li>
+                                 <li class="flex items-start p-4 bg-white border border-yellow-200 rounded-lg">
+                                     <i data-lucide="file-check" class="w-12 h-12 text-yellow-600 mr-4 flex-shrink-0"></i>
+                                     <div>
+                                         <h4 class="font-semibold text-lg text-yellow-800">Kontribusi Praktis</h4>
+                                         <p class="text-yellow-700">Hasil dapat langsung dimanfaatkan Puskesmas untuk evaluasi program edukasi kesehatan. (Proposal, 2025)</p>
+                                     </div>
+                                 </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================= -->
+            <!-- SLIDE BARU (TINJAUAN PUSTAKA) DIMASUKKAN DI SINI -->
+            <!-- Ini adalah slide dari screenshot, tapi didesain ulang agar tidak kosong -->
+            <!-- ============================================= -->
+
+            <!-- Slide 7 (Baru): Tinjauan Pustaka - Definisi DM -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="book-open"></i>Tinjauan Pustaka (1): Diabetes Melitus</h2>
+                <!-- 
+                  Menggunakan grid 3-kolom dan items-stretch 
+                  untuk mengatasi "ruang kosong" dari screenshot 
+                -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-3 gap-6 items-stretch">
+                        <div class="stat-card p-6">
+                            <i data-lucide="file-text" class="w-12 h-12 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">Definisi</h3>
+                            <p class="text-base text-gray-600 mt-2">Gangguan metabolik kronis ditandai <span class="font-semibold">hiperglikemia</span> akibat gangguan sekresi atau aksi insulin.</p>
+                            <p class="stat-source mt-auto pt-2">(DiPiro et al., 2023)</p>
+                        </div>
+                        <div class="stat-card p-6">
+                            <i data-lucide="pie-chart" class="w-12 h-12 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">Fokus: Tipe 2</h3>
+                            <p class="text-base text-gray-600 mt-2"><span class="font-semibold">90-95% dari total kasus.</span> Disebabkan oleh resistensi insulin dan defisiensi insulin relatif.</p>
+                            <p class="stat-source mt-auto pt-2">(Perkeni, 2021)</p>
+                        </div>
+                        <div class="stat-card p-6">
+                            <i data-lucide="clipboard-check" class="w-12 h-12 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">4 Pilar Tata Laksana</h3>
+                            <ul class="text-base text-gray-600 mt-2 list-disc list-inside text-left">
+                                <li>Edukasi</li>
+                                <li>Terapi Gizi Medis (Pola Makan)</li>
+                                <li>Aktivitas Fisik</li>
+                                <li>Terapi Farmakologi (Obat)</li>
+                            </ul>
+                            <p class="stat-source mt-auto pt-2">(Perkeni, 2021; DiPiro et al., 2023)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 8 (Baru): Tinjauan Pustaka - Pentingnya Pengetahuan -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="brain-circuit"></i>Tinjauan Pustaka (2): Tingkat Pengetahuan</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-2 gap-8 items-stretch">
+                        <div class="info-box alert">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="alert-triangle" class="w-8 h-8 text-yellow-600 mr-3"></i>
+                                Dampak Pengetahuan Rendah
+                            </h3>
+                            <p class="text-lg text-gray-700">Pengetahuan adalah elemen fundamental dalam manajemen diri (<i>self-care</i>) diabetes. (Yoo, 2025). Pengetahuan rendah berdampak pada:</p>
+                            <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 ml-6 mt-4">
+                                <li>Manajemen diri (<i>self-care</i>) yang buruk. (Kurnia et al., 2025)</li>
+                                <li>Kontrol glikemik tidak tercapai.</li>
+                                <li>Meningkatkan risiko komplikasi serius (jantung, ginjal, neuropati). (Gani Baeda et al., 2023)</li>
+                                <li>Menurunkan kualitas hidup pasien. (Artini & Wicahyo, 2024)</li>
+                            </ul>
+                            <p class="stat-source text-right mt-auto pt-3">(Yoo, 2025; Gani Baeda et al., 2023)</p>
+                        </div>
+                        <div class="info-box">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="users" class="w-8 h-8 text-blue-600 mr-3"></i>
+                                Faktor Terkait Pengetahuan
+                            </h3>
+                            <p class="text-lg text-gray-700">Pengetahuan pasien dipengaruhi oleh banyak faktor, diantaranya:</p>
+                            <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 ml-6 mt-3">
+                                <li><span class="font-semibold">Usia</span> (Irawan, 2018; Azis et al., 2020)</li>
+                                <li><span class="font-semibold">Jenis Kelamin</span> (Santos et al., 2014; Sękowski et al., 2022)</li>
+                                <li><span class="font-semibold">Tingkat Pendidikan</span> (Ulfa et al., 2024; Sonhaji et al., 2024)</li>
+                                <li><span class="font-semibold">Lama Menderita</span> (Bias et al., 2023; Nurasyifa et al., 2022)</li>
+                            </ul>
+                            <p class="text-lg text-gray-700 mt-4 border-t border-gray-300 pt-4">
+                                Penelitian ini akan menguji hubungan 4 faktor ini di Puskesmas Damai.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 9 (Baru): Tinjauan Pustaka - Instrumen DKQ-24 -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="clipboard-check"></i>Tinjauan Pustaka (3): Instrumen DKQ-24</h2>
+                 <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-2 gap-8 items-center">
+                        <div class="info-box">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="help-circle" class="w-8 h-8 text-blue-600 mr-3"></i>
+                                Apa itu DKQ-24?
+                            </h3>
+                            <p class="text-lg text-gray-700">
+                                <span class="font-semibold text-blue-800"><i>Diabetes Knowledge Questionnaire-24</i></span>
+                            </p>
+                            <ul class="list-disc list-outside space-y-3 text-lg text-gray-700 ml-6 mt-4">
+                                <li>Instrumen terstandardisasi untuk menilai pemahaman pasien tentang diabetes. (Sheleme et al., 2022)</li>
+                                <li>Terdiri dari <span class="font-semibold">24 pertanyaan</span> fundamental. (Hsieh et al., 2022)</li>
+                                <li>Format jawaban "Ya", "Tidak", atau "Tidak Tahu". (Zakiudin et al., 2022)</li>
+                                <li>Mencakup etiologi, gejala, komplikasi, diet, dan olahraga. (Mehrabbeik et al., 2022)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-box success">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="shield-check" class="w-8 h-8 text-green-600 mr-3"></i>
+                                Validasi di Indonesia
+                            </h3>
+                            <p class="text-lg text-gray-700">
+                                Kuesioner DKQ-24 telah <span class="font-bold text-green-700">diterjemahkan dan divalidasi</span> untuk populasi Indonesia oleh:
+                            </p>
+                            <p class="text-xl font-bold text-center text-green-800 my-4 p-3 bg-white rounded border border-green-200">
+                                Zakiudin <i>et al.</i> (2022)
+                            </p>
+                            <p class="text-lg text-gray-700">
+                                Hasil: Terbukti <span class="font-semibold">valid dan reliabel</span> (Cronbach's &alpha; = 0,757) sebagai alat ukur pengetahuan. (Zakiudin et al., 2022; Yasin et al., 2024)
+                            </p>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- ============================================= -->
+            <!-- SLIDE LAMA DIMULAI KEMBALI (NOMOR BERUBAH) -->
+            <!-- ============================================= -->
+
+            <!-- Slide 10 (Sebelumnya 7): Kerangka Konsep (VISUALISASI DITINGKATKAN) -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="network"></i>Kerangka Konsep</h2>
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-5 gap-6 items-center">
+                        <!-- Variabel Independen -->
+                        <div class="col-span-2 konsep-box independen">
+                            <h3 class="text-blue-800">Variabel Independen (Bebas)</h3>
+                            <p class="text-lg text-center font-semibold text-gray-600 mb-4">Karakteristik Demografi Pasien</p>
+                            <ul class="space-y-2">
+                                <li><i data-lucide="calendar"></i>Usia</li>
+                                <li><i data-lucide="users"></i>Jenis Kelamin</li>
+                                <li><i data-lucide="graduation-cap"></i>Tingkat Pendidikan</li>
+                                <li><i data-lucide="clock-3"></i>Lama Menderita Diabetes</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Panah Hubungan -->
+                        <div class="col-span-1 flex flex-col items-center justify-center text-center">
+                             <i data-lucide="arrow-big-right-dash" class="w-24 h-24 text-gray-400"></i>
+                             <p class="text-sm font-semibold text-gray-500 mt-2">Diteliti Hubungannya</p>
+                        </div>
+
+                        <!-- Variabel Dependen -->
+                        <div class="col-span-2 konsep-box dependen">
+                             <h3 class="text-yellow-800">Variabel Dependen (Terikat)</h3>
+                             <p class="text-lg text-center font-semibold text-gray-600 mb-4">Tingkat Pengetahuan (DKQ-24)</p>
+                             <ul class="space-y-2">
+                                <li><i data-lucide="check-circle" class="text-green-600"></i>Baik (Skor 76-100)</li>
+                                <li><i data-lucide="minus-circle" class="text-yellow-600"></i>Cukup (Skor 56-75)</li>
+                                <li><i data-lucide="x-circle" class="text-red-600"></i>Kurang (Skor &le; 55)</li>
+                             </ul>
+                        </div>
+                    </div>
+                    <!-- Keterangan "Tidak Diteliti" -->
+                    <p class="text-center text-gray-500 mt-4 text-sm font-medium">
+                        *Penelitian difokuskan pada pasien DM Tipe 2 (tidak meneliti DM Tipe 1 atau Gestasional).
+                    </p>
+                </div>
+            </section>
+            
+            <!-- Slide 11 (Sebelumnya 8): Hipotesis (VISUALISASI DITINGKATKAN) -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="lightbulb"></i>Hipotesis (Ha)</h2>
+                <div class="slide-body justify-center items-center">
+                    <div class="info-box alert p-10 rounded-xl max-w-4xl mx-auto text-center">
+                        <p class="text-2xl font-medium text-gray-700">
+                            Terdapat <span class="font-bold text-red-700 text-3xl">hubungan signifikan</span> antara:
+                        </p>
+                        
+                        <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-8 my-8">
+                            <!-- Box 1: Demografis -->
+                            <div class="text-center bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-80">
+                                <i data-lucide="users" class="w-16 h-16 text-blue-600 mx-auto"></i>
+                                <p class="text-xl font-bold mt-3 text-blue-900">Karakteristik Demografis</p>
+                                <p class="text-sm text-gray-500 mt-1">(Usia, Jenis Kelamin, Pendidikan, Lama DM)</p>
+                            </div>
+                            
+                            <i data-lucide="link-2" class="w-16 h-16 text-gray-500 flex-shrink-0 transform md:rotate-0 rotate-90"></i>
+                            
+                            <!-- Box 2: Pengetahuan -->
+                            <div class="text-center bg-white p-6 rounded-lg shadow-lg border border-gray-200 w-80">
+                                <i data-lucide="brain-circuit" class="w-16 h-16 text-green-600 mx-auto"></i>
+                                <p class="text-xl font-bold mt-3 text-green-800">Tingkat Pengetahuan</p>
+                                <p class="text-sm text-gray-500 mt-1">(Skor DKQ-24)</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 12 (Sebelumnya 9): Metodologi - Desain, Lokasi, Waktu -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="clipboard-list"></i>Metodologi (1): Desain, Lokasi, Waktu</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-3 gap-8 items-stretch">
+                        <div class="stat-card p-6">
+                            <i data-lucide="microscope" class="w-16 h-16 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">Desain Penelitian</h3>
+                            <p class="text-lg text-gray-600 mt-2">Observasional Analitik</p>
+                            <p class="text-lg font-semibold text-gray-800">(<i>Cross-sectional</i>)</p>
+                            <!-- MENAMBAHKAN DETAIL -->
+                            <p class="text-base text-gray-500 mt-2">Menganalisis hubungan variabel independen & dependen pada satu waktu.</p>
+                        </div>
+                        <div class="stat-card p-6">
+                            <i data-lucide="map-pin" class="w-16 h-16 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">Lokasi Penelitian</h3>
+                            <p class="text-lg text-gray-600 mt-2">Puskesmas Damai</p>
+                            <p class="text-lg font-semibold text-gray-800">Kota Balikpapan</p>
+                        </div>
+                        <div class="stat-card p-6">
+                            <i data-lucide="calendar-days" class="w-16 h-16 text-blue-600 mx-auto"></i>
+                            <h3 class="text-xl font-bold text-blue-900 mt-4">Waktu Penelitian</h3>
+                            <p class="text-lg text-gray-600 mt-2">Direncanakan pada</p>
+                            <p class="text-lg font-semibold text-gray-800">Juli 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13 (Sebelumnya 10): Metodologi - Populasi & Sampel -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="users-2"></i>Metodologi (2): Populasi & Sampel</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="flex-grow grid grid-cols-2 gap-8 items-stretch">
+                        <div class="info-box">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="user-cog" class="w-8 h-8 text-blue-600 mr-3"></i>
+                                Populasi
+                            </h3>
+                            <p class="text-lg text-gray-700"><span class="font-semibold">Populasi Target:</span></p>
+                            <p class="text-lg text-gray-600 ml-4">1.103 pasien DM Tipe 2 (Data Ags 2024).</p>
+                            <p class="text-lg text-gray-700 mt-4"><span class="font-semibold">Populasi Terjangkau:</span></p>
+                            <p class="text-lg text-gray-600 ml-4">&approx; 132 pasien/bulan (Rata-rata kunjungan).</p>
+                        </div>
+                        <div class="info-box success"> <!-- Diubah jadi 'success' -->
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                                <i data-lucide="user-check" class="w-8 h-8 text-green-600 mr-3"></i>
+                                Sampel
+                            </h3>
+                            <p class="text-lg text-gray-700"><span class="font-semibold">Jumlah Sampel:</span></p>
+                            <p class="text-center"><span class="text-4xl font-bold text-green-700">99 Responden</span></p>
+                            <p class="text-sm text-gray-500 text-center">(Perhitungan Rumus Slovin, &alpha;=5%)</p>
+                            <p class="text-lg text-gray-700 mt-4"><span class="font-semibold">Teknik Sampling:</span></p>
+                            <p class="text-lg font-bold text-green-700 ml-4"><i>Purposive Sampling</i></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 14 (Sebelumnya 11): Metodologi - Kriteria Inklusi & Eksklusi -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="filter"></i>Metodologi (3): Kriteria Sampel</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                        <!-- Inklusi -->
+                        <div class="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+                            <h3 class="text-2xl font-bold text-green-800 mb-4 flex items-center">
+                                <i data-lucide="check-circle-2" class="w-8 h-8 mr-3"></i> Kriteria Inklusi
+                            </h3>
+                            <ul class="list-disc list-outside space-y-2 text-lg text-green-900 ml-6">
+                                <li>Telah didiagnosis DM Tipe 2 oleh dokter</li>
+                                <li>Usia &ge; 18 tahun</li>
+                                <li>Terdaftar sebagai pasien di Puskesmas Damai</li>
+                                <li>Bersedia berpartisipasi (<i>Informed Consent</i>)</li>
+                                <li>Mampu berkomunikasi & memahami Bahasa Indonesia</li>
+                            </ul>
+                        </div>
+                        <!-- Eksklusi -->
+                        <div class="bg-red-50 p-6 rounded-xl border-2 border-red-200">
+                            <h3 class="text-2xl font-bold text-red-800 mb-4 flex items-center">
+                                <i data-lucide="x-circle" class="w-8 h-8 mr-3"></i> Kriteria Eksklusi
+                            </h3>
+                            <ul class="list-disc list-outside space-y-2 text-lg text-red-900 ml-6">
+                                <li>Pasien yang mengundurkan diri</li>
+                                <li>Pasien dengan riwayat penyakit yang mempengaruhi persepsi (misal: Alzheimer, demensia)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 15 (Sebelumnya 12): Metodologi - Variabel & Definisi Operasional -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="table-2"></i>Metodologi (4): Definisi Operasional</h2>
+                <div class="slide-body">
+                    <!-- Menambahkan scroll jika tabel terlalu tinggi -->
+                    <div class="overflow-y-auto" style="max-height: calc(100vh - 200px);"> 
+                        <table class="def-op-table">
+                            <thead>
+                                <tr>
+                                    <th>Variabel</th>
+                                    <th>Definisi Operasional</th>
+                                    <th>Hasil Ukur / Kategori</th>
+                                    <th>Skala Ukur</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pengetahuan (Dependen)</td>
+                                    <td>Tingkat pemahaman pasien tentang DM Tipe 2 yang diukur dari 24 pertanyaan kuesioner <i>DKQ-24</i>.</td>
+                                    <td>
+                                        <ul>
+                                            <li>Baik (Skor 76-100)</li>
+                                            <li>Cukup (Skor 56-75)</li>
+                                            <li>Kurang (Skor &le; 55)</li>
+                                        </ul>
+                                        <span class="text-xs text-gray-500">(Zakiudin et al., 2022)</span>
+                                    </td>
+                                    <td>Ordinal</td>
+                                </tr>
+                                <tr>
+                                    <td>Usia (Independen)</td>
+                                    <td>Lama hidup penderita sejak lahir hingga saat penelitian.</td>
+                                    <td>
+                                        <ul>
+                                            <li>Dewasa (18-44 Thn)</li>
+                                            <li>Pra-Lansia (45-59 Thn)</li>
+                                            <li>Lansia (&ge; 60 Thn)</li>
+                                        </ul>
+                                         <span class="text-xs text-gray-500">(WHO, 2015)</span>
+                                    </td>
+                                    <td>Ordinal</td>
+                                </tr>
+                                <tr>
+                                    <td>Jenis Kelamin (Independen)</td>
+                                    <td>Karakteristik biologis penderita.</td>
+                                    <td>
+                                        <ul>
+                                            <li>Laki-laki</li>
+                                            <li>Perempuan</li>
+                                        </ul>
+                                    </td>
+                                    <td>Nominal</td>
+                                </tr>
+                                <tr>
+                                    <td>Tingkat Pendidikan (Independen)</td>
+                                    <td>Jenjang pendidikan formal terakhir yang ditempuh pasien.</td>
+                                    <td>
+                                        <ul>
+                                            <li>SD</li>
+                                            <li>SMP</li>
+                                            <li>SMA</li>
+                                            <li>Perguruan Tinggi</li>
+                                        </ul>
+                                    </td>
+                                    <td>Ordinal</td>
+                                </tr>
+                                <tr>
+                                    <td>Lama Menderita DM (Independen)</td>
+                                    <td>Durasi sejak pasien pertama kali didiagnosis menderita DM Tipe 2.</td>
+                                    <td>
+                                        <ul>
+                                            <li>&lt; 1 Tahun</li>
+                                            <li>1 - 4 Tahun</li>
+                                            <li>&ge; 5 Tahun</li>
+                                        </ul>
+                                    </td>
+                                    <td>Ordinal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 16 (Sebelumnya 13): Metodologi - Prosedur & Analisis Data (DIROMBAK TOTAL) -->
+            <section class="slide">
+                <h2 class="slide-title"><i data-lucide="bar-chart-3"></i>Metodologi (5): Prosedur & Analisis Data</h2>
+                <!-- MEMPERBAIKI TATA LETAK DENGAN items-stretch -->
+                <div class="slide-body justify-center">
+                    <div class="grid md:grid-cols-2 gap-8 flex-grow items-stretch">
+                        <!-- Prosedur (LEBIH DETAIL) -->
+                        <div class="info-box">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Prosedur Penelitian</h3>
+                            <ol class="list-decimal list-outside space-y-3 text-lg text-gray-700 ml-6">
+                                <li>
+                                    <span class="font-semibold">Tahap Persiapan</span>
+                                    <ul class="list-disc list-inside text-base text-gray-600">
+                                        <li>Pengurusan Izin Etik (Komite Etik)</li>
+                                        <li>Pengurusan Izin Penelitian (Puskesmas)</li>
+                                        <li>Menyiapkan Kuesioner DKQ-24</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="font-semibold">Tahap Pengumpulan Data</span>
+                                    <ul class="list-disc list-inside text-base text-gray-600">
+                                        <li>Pendekatan pasien & <i>Informed Consent</i></li>
+                                        <li>Wawancara terstruktur (membacakan DKQ-24)</li>
+                                        <li>Mencatat dan memeriksa kelengkapan</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="font-semibold">Tahap Pengolahan Data</span>
+                                    <ul class="list-disc list-inside text-base text-gray-600">
+                                        <li><i>Editing</i>, <i>Coding</i>, <i>Entry</i>, <i>Cleaning</i></li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                        <!-- Analisis (LEBIH DETAIL) -->
+                        <div class="info-box alert">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Analisis Data</h3>
+                            <ul class="list-disc list-outside space-y-4 text-lg text-gray-700 ml-6">
+                                <li>
+                                    <span class="font-semibold">Analisis Univariat:</span>
+                                    <p class="text-base text-gray-600">Menyajikan data dalam tabel distribusi frekuensi dan persentase.</p>
+                                </li>
+                                <li>
+                                    <span class="font-semibold text-yellow-800">Analisis Bivariat:</span>
+                                    <p class="text-base text-gray-600">Menggunakan <span class="font-bold">Uji <i>Chi-Square</i></span> untuk semua variabel kategorik.</p>
+                                </li>
+                                 <li>
+                                     <span class="font-semibold">Kriteria Signifikansi:</span>
+                                     <p class="text-base text-gray-600">Hubungan dianggap signifikan jika nilai <span class="font-bold">p &lt; 0.05</span> (CI 95%).</p>
+                                 </li>
+                                <li>
+                                    <span class="font-semibold">Software:</span>
+                                    <p class="text-base text-gray-600">Data diolah menggunakan <span class="font-bold"><i>SPSS</i> Versi 27.0</span>.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17 (Sebelumnya 14): Penutup -->
+            <section class="slide closing-slide-bg">
+                <!-- Konten dipusatkan oleh style CSS -->
+                 <h1 class="text-6xl font-extrabold text-white">Terima Kasih</h1>
+                 <p class="mt-6 text-3xl text-blue-200">
+                     Mohon masukan dan saran.
+                 </p>
+                 <div class="mt-12 pt-8 border-t border-blue-700 inline-block">
+                     <p class="text-2xl font-bold text-white">
+                         Muhammad Rizal Setiawan
+                     </p>
+                     <p class="text-xl text-blue-200 mt-1">NIM: 1933010</p>
+                 </div>
+            </section>
+
+        </main>
+
+        <!-- Navigasi dan Footer (Gaya Baru) -->
+        <footer class="slide-footer p-4 flex justify-between items-center">
+            <!-- Info Peneliti -->
+            <div class="text-sm font-medium text-gray-600">
+                M. Rizal Setiawan | Proposal Skripsi 2025
+            </div>
+            
+            <!-- Kontrol -->
+            <div class="flex items-center space-x-4">
+                <!-- Tombol Navigasi (Baru) -->
+                <button id="prevBtn" class="text-gray-400 hover:text-blue-600 transition duration-200 disabled:opacity-50 disabled:hover:text-gray-400" title="Slide Sebelumnya (Panah Kiri)">
+                    <i data-lucide="arrow-left-circle" class="w-5 h-5"></i>
+                </button>
+                <button id="nextBtn" class="text-gray-600 hover:text-blue-600 transition duration-200 disabled:opacity-50" title="Slide Selanjutnya (Panah Kanan)">
+                    <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Garis Pemisah -->
+                <div class="border-l h-5 bg-gray-300 mx-2"></div>
+
+                <!-- Nomor Slide -->
+                <div class="text-sm font-medium text-gray-500">
+                    Slide <span id="currentSlideNum">1</span> / <span id="totalSlideNum">17</span>
+                </div>
+                
+                <!-- Tombol Fullscreen -->
+                <button id="fullscreenBtn" class="text-gray-600 hover:text-blue-600 transition duration-200" title="Toggle Fullscreen (F)">
+                    <i data-lucide="maximize" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Logika JavaScript untuk Navigasi -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const currentSlideNumEl = document.getElementById('currentSlideNum');
+            const totalSlideNumEl = document.getElementById('totalSlideNum');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length; // Sekarang 17
+            
+            // Inisialisasi
+            totalSlideNumEl.textContent = totalSlides;
+            updateSlideView(); // Panggil sekali untuk inisialisasi ikon & tombol
+            
+            function updateSlideView() {
+                // Sembunyikan semua slide
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                
+                // Update nomor slide
+                currentSlideNumEl.textContent = currentSlide + 1;
+
+                // Update status tombol
+                prevBtn.disabled = (currentSlide === 0);
+                nextBtn.disabled = (currentSlide === totalSlides - 1);
+                
+                // Render ikon di slide aktif (penting setelah slide 'active')
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+
+            function showNextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlideView();
+                }
+            }
+
+            function showPrevSlide() {
+                 if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlideView();
+                }
+            }
+            
+            // --- Navigasi dengan tombol panah ---
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                    e.preventDefault(); // Mencegah spasi scroll
+                    showNextSlide();
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    showPrevSlide();
+                } else if (e.key === 'f' || e.key === 'F') {
+                     // Tambah hotkey 'F' untuk fullscreen
+                    toggleFullScreen();
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 0;
+                    updateSlideView();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides - 1;
+                    updateSlideView();
+                }
+            });
+
+            // --- Navigasi dengan tombol klik ---
+            nextBtn.addEventListener('click', showNextSlide);
+            prevBtn.addEventListener('click', showPrevSlide);
+
+            // --- Logika Fullscreen ---
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    // Diubah ke body.requestFullscreen() untuk kompatibilitas yang lebih baik
+                    document.body.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+            
+            fullscreenBtn.addEventListener('click', toggleFullScreen);
+            
+            // Update ikon fullscreen saat status berubah
+            document.addEventListener('fullscreenchange', () => {
+                const icon = document.fullscreenElement ? 'minimize' : 'maximize';
+                fullscreenBtn.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5"></i>`;
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons(); // Render ulang ikon
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
