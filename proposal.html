@@ -384,13 +384,14 @@
         }
 
         .title-slide-bg h1 {
-            font-size: 3rem;
+            font-size: 2.25rem;
             font-weight: 900;
-            line-height: 1.2;
+            line-height: 1.15;
             color: #ffffff;
             text-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             animation: slideInDown 0.8s ease-out;
+            padding: 0 2rem;
         }
 
         .title-badge {
@@ -420,7 +421,7 @@
             margin-top: 2.5rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
             max-width: 900px;
             margin-left: auto;
             margin-right: auto;
@@ -431,7 +432,7 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1.5rem;
+            padding: 1rem;
             border-radius: 1rem;
             transition: all 0.3s ease;
         }
@@ -558,17 +559,17 @@
         .slide-footer {
             flex-shrink: 0;
             background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-            border-top: 2px solid var(--border-light);
-            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border-light);
+            padding: 0.5rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.05);
         }
 
         .footer-info {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-gray);
             display: flex;
@@ -579,7 +580,7 @@
         .footer-controls {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
         .nav-button {
@@ -587,7 +588,7 @@
             border: none;
             color: var(--text-gray);
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.35rem;
             border-radius: 0.5rem;
             transition: all 0.2s ease;
             display: flex;
@@ -607,10 +608,10 @@
         }
 
         .slide-counter {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-dark);
-            padding: 0.5rem 1rem;
+            padding: 0.35rem 0.75rem;
             background: var(--bg-light);
             border-radius: 0.5rem;
             border: 1px solid var(--border-light);
@@ -875,31 +876,31 @@
             
             <!-- SLIDE 1: TITLE SLIDE -->
             <section class="slide active title-slide-bg">
-                <div class="slide-body">
+                <div class="slide-body" style="padding: 1rem 2rem;">
                     <span class="title-badge">Proposal Skripsi</span>
                     <h1>
                         Hubungan Tingkat Pengetahuan Pengobatan Diabetes Melitus Tipe 2 di Puskesmas Damai Kota Balikpapan Menggunakan <i>Diabetes Knowledge Questionnaire-24 (DKQ-24)</i>
                     </h1>
                     
-                    <div class="author-info">
-                        <p class="text-3xl font-bold text-white">
+                    <div class="author-info" style="margin-top: 2rem; padding-top: 1.5rem;">
+                        <p class="text-2xl font-bold text-white">
                             Muhammad Rizal Setiawan
                         </p>
-                        <p class="text-xl text-blue-200 mt-2">NIM: 1933010</p>
+                        <p class="text-lg text-blue-200 mt-1">NIM: 1933010</p>
                     </div>
 
-                    <div class="pembimbing-info">
+                    <div class="pembimbing-info" style="margin-top: 2rem;">
                         <div class="pembimbing-card">
                             <p class="font-bold text-blue-100 text-sm mb-2">Pembimbing Utama</p>
-                            <p class="text-base text-white font-semibold">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
+                            <p class="text-sm text-white font-semibold">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
                         </div>
                         <div class="pembimbing-card">
                             <p class="font-bold text-blue-100 text-sm mb-2">Pembimbing Pendamping</p>
-                            <p class="text-base text-white font-semibold">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
+                            <p class="text-sm text-white font-semibold">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
                         </div>
                     </div>
                     
-                    <p class="text-blue-200 mt-8 text-sm">
+                    <p class="text-blue-200 mt-6 text-xs">
                         Program Studi Farmasi-S1 | Fakultas Humaniora dan Kesehatan<br>
                         Universitas Mulia Balikpapan | 2025
                     </p>
@@ -2543,36 +2544,117 @@
                 </div>
             </section>
 
-            <!-- SLIDE 17: CLOSING SLIDE -->
-            <section class="slide closing-slide-bg">
-                <div class="slide-body" style="position: relative; z-index: 1;">
-                    <h1>Terima Kasih</h1>
-                    <p class="text-3xl text-blue-200 mt-6 font-semibold">
-                        Mohon masukan dan saran untuk perbaikan penelitian ini
-                    </p>
-                    
-                    <div class="mt-12 pt-8 border-t-2 border-blue-700 inline-block">
-                        <p class="text-3xl font-bold text-white">
-                            Muhammad Rizal Setiawan
-                        </p>
-                        <p class="text-xl text-blue-200 mt-2">NIM: 1933010</p>
-                        <p class="text-base text-blue-300 mt-4">
-                            Program Studi Farmasi-S1<br>
-                            Fakultas Humaniora dan Kesehatan<br>
-                            Universitas Mulia Balikpapan
-                        </p>
+            <!-- SLIDE 17: DAFTAR PUSTAKA -->
+            <section class="slide">
+                <h2 class="slide-title">
+                    <i data-lucide="book-open" class="w-10 h-10"></i>
+                    Daftar Pustaka
+                </h2>
+                <div class="slide-body">
+                    <div class="overflow-y-auto" style="max-height: calc(100vh - 280px);">
+                        <div class="space-y-3 text-sm">
+                            <p class="text-justify leading-relaxed">
+                                Aisyah, R., & Bestari, R. S. (2023). Peningkatan pengetahuan masyarakat tentang prevalensi dan faktor risiko diabetes melitus serta upaya pencegahannya melalui edukasi. <i>Jurnal Pengabdian Masyarakat Medika, 1</i>, 35-40. https://doi.org/10.23917/jpmmedika.v3i1.1587
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Artini, K. S., & Wicahyo, S. M. (2024). Peningkatan pengetahuan lansia tentang manajemen diabetes mellitus melalui penyuluhan di Desa Polan, Klaten, Jawa Tengah. <i>Inovasi Jurnal Pengabdian Masyarakat, 2</i>(3), 443-448. https://doi.org/10.54082/ijpm.647
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Azis, W. A., Muriman, L. Y., & Burhan, S. R. (2020). Hubungan antara tingkat pengetahuan dengan gaya hidup pada penderita diabetes melitus. <i>Volume 2 Nomor 1</i>. http://jurnal.globalhealthsciencegroup.com/index.php/JPPP
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Bias, A., Enarga, P., Octaviany, P., Megasari, D., Novitasari, D., Rendra Pranadipta, A., Kesehatan, F., Harapan Bangsa, U., Ajibarang, R., & Banyumas, K. (2023). Pengaruh pemberian edukasi terhadap tingkat pengetahuan, self management, dan kadar glukosa darah pasien DMT2.
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Damayanti, F. K., Priasmoro, D. P., & Laksono, B. B. (2023). Gambaran pengetahuan pasien tentang penyakit diabetes melitus tipe II. <i>Nursing Information Journal, 2</i>(2), 90-97. https://doi.org/10.54832/nij.v2i2.3877
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Dinas Kesehatan Provinsi Kalimantan Timur. (2024). Data penyakit tidak menular atau degeneratif di Provinsi Kalimantan Timur tahun 2021-2023. https://data.kaltimprov.go.id/th/dataset/data-penyakit-tidak-menular-atau-degeneratif-provinsi-kaltim-tahun-2019-2021
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                DiPiro J.T, Yee G.C, Haines S.T., Nolin T.D., Ellingrod V.L., & Posey L. (Eds.). (2023). <i>DiPiro's pharmacotherapy: A pathophysiologic approach</i> (12th ed.). McGraw Hill.
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Gani Baeda, A., Wahyu Susanti Kedua, R., Yulianti, S., & Nurmansyah, M. (2023). Efektivitas self instructional module (Sim) dalam peningkatan pengetahuan pasien diabetes mellitus tipe II [The effectiveness of self instructional module (Sim) in increasing knowledge of type II diabetes mellitus patients]. <i>JPP) Jurnal Kesehatan Poltekkes Palembang, 18</i>(1). https://doi.org/10.36086/jpp.v18i1
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Hsieh, M. H., Chen, Y. C., Ho, C. H., & Lin, C. Y. (2022). Validation of diabetes knowledge questionnaire (DKQ) in the Taiwanese population concurrent validity with diabetes-specific quality of life questionnaire module. <i>Diabetes, Metabolic Syndrome and Obesity, 15</i>, 2391-2403. https://doi.org/10.2147/DMSO.S369552
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                International Diabetes Federation. (2024). <i>IDF diabetes atlas, 11th edition 2025</i>.
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Irawan, E. (2018). Faktor-faktor yang berhubungan dengan pengetahuan masyarakat tentang diabetes mellitus tipe II. <i>Jurnal Keperawatan BSI, VI</i>(2). http://ejournal.bsi.ac.id/ejurnal/index.php/jk
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Kurnia, A., Said, F. M., & Panduragan, S. L. (2025). Experience of burden in self-care of type 2 diabetes mellitus: A qualitative study in Indonesian context. <i>Malaysian Journal of Nursing, 16</i>(4), 33-44. https://doi.org/10.31674/mjn.2025.v16i04.004
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Lemes Dos Santos, P. F., Dos Santos, P. R., Ferrari, G. S. L., Fonseca, G. A. A., & Ferrari, C. K. B. (2014). Knowledge of diabetes mellitus: Does gender make a difference? <i>Osong Public Health and Research Perspectives, 5</i>(4), 199-203. https://doi.org/10.1016/j.phrp.2014.06.004
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Mehrabbeik, A., Azizi, R., Rahmanian, M., Namiranian, N., Shukohifar, M., & Asi, M. (2022). Design and psychometrics of diabetes knowledge questionnaire. <i>Journal of Medical Education, 21</i>(1). https://doi.org/10.5812/jme-130597
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Nurasyifa, S. R., RU, V. V. F., & Pratiwi, H. (2022). Hubungan tingkat pengetahuan terhadap manajemen diri pasien prolanis diabetes mellitus tipe 2 di Puskesmas 1 Purwokerto Timur. <i>Acta Pharmaciae Indonesia: Acta Pharm Indo, 9</i>(2), 78. https://doi.org/10.20884/1.api.2021.9.2.4250
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Perkeni. (2021). <i>Pedoman pengelolaan dan pencegahan diabetes melitus tipe 2 dewasa di Indonesia-2021</i>. PB. PERKENI.
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Sękowski, K., Grudziąż-Sękowska, J., Pinkas, J., & Jankowski, M. (2022). Public knowledge and awareness of diabetes mellitus, its risk factors, complications, and prevention methods among adults in Poland-A 2022 nationwide cross-sectional survey. <i>Frontiers in Public Health, 10</i>. https://doi.org/10.3389/fpubh.2022.1029358
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Sheleme, T., Bekele, F., & Olika, W. (2022). Diabetes knowledge and associated factors among adult diabetic patients in Southwest Ethiopia. <i>HSOA Journal of Diabetes & Metabolic Disorders, 9</i>, 044.
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Sonhaji, S., Hani, U., & Rahmani, R. (2024). Pengaruh pendidikan kesehatan tentang manajemen diri terhadap tingkat kepatuhan pasien diabetes mellitus di Kabupaten Semarang. <i>Jurnal Manajemen Asuhan Keperawatan, 8</i>(1), 25-31. https://doi.org/10.33655/mak.v8i1.180
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Ulfa, N. M., Suharjono, & Hermansyah, A. (2024). Correlation between knowledge and characteristics of patients with type 2 diabetes mellitus in controlling blood glucose. <i>Pharmacy Education, 24</i>(3), 298-303. https://doi.org/10.46542/pe.2024.243.298303
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                World Health Organization. (2015). <i>World report on ageing and health</i>. World Health Organization. https://doi.org/10.13140/RG.2.1.5058.8245
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Yasin, N. M., Ekasari, M. P., Prabasworo, W., Arom, S., & Ridhayani, F. (2024). Knowledge level and information needs of patients with diabetes in Yogyakarta City, Indonesia. <i>Health Education and Health Promotion, 12</i>(3), 431-438. https://doi.org/10.58209/hehp.12.3.431
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Yoo, B. (2025). The role of diabetes educators in improving diabetes health literacy. <i>The Journal of Korean Diabetes, 26</i>(2), 108-111. https://doi.org/10.4093/jkd.2025.26.2.108
+                            </p>
+                            
+                            <p class="text-justify leading-relaxed">
+                                Zakiudin, A., Irianto, G., Badrujamaludin, A., Rumahorbo, H., & Susilawati, S. (2022). Validation of the diabetes knowledge questionnaire (DKQ) with an Indonesian population. <i>KnE Medicine</i>. https://doi.org/10.18502/kme.v2i2.11072
+                            </p>
+                        </div>
                     </div>
-
-                    <div class="mt-12 flex items-center justify-center gap-8">
-                        <div class="text-center">
-                            <p class="text-sm text-blue-200 mb-1">Pembimbing Utama</p>
-                            <p class="text-base font-semibold text-white">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
-                        </div>
-                        <div class="w-px h-12 bg-blue-500"></div>
-                        <div class="text-center">
-                            <p class="text-sm text-blue-200 mb-1">Pembimbing Pendamping</p>
-                            <p class="text-base font-semibold text-white">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
-                        </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <p class="text-xs text-gray-600 text-center">
+                            <strong>Total: 24 Referensi</strong> | Format: APA 7th Edition
+                        </p>
                     </div>
                 </div>
             </section>
@@ -2582,27 +2664,27 @@
         <!-- Navigation Footer -->
         <footer class="slide-footer">
             <div class="footer-info">
-                <i data-lucide="user" class="w-4 h-4"></i>
+                <i data-lucide="user" class="w-3 h-3"></i>
                 <span>M. Rizal Setiawan | Proposal Skripsi 2025</span>
             </div>
             
             <div class="footer-controls">
                 <button id="prevBtn" class="nav-button" title="Slide Sebelumnya (←)">
-                    <i data-lucide="arrow-left-circle" class="w-6 h-6"></i>
+                    <i data-lucide="arrow-left-circle" class="w-5 h-5"></i>
                 </button>
                 
                 <button id="nextBtn" class="nav-button" title="Slide Selanjutnya (→)">
-                    <i data-lucide="arrow-right-circle" class="w-6 h-6"></i>
+                    <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
                 </button>
                 
-                <div class="h-6 w-px bg-gray-300 mx-2"></div>
+                <div class="h-5 w-px bg-gray-300 mx-1"></div>
                 
                 <div class="slide-counter">
                     Slide <span id="currentSlideNum">1</span> / <span id="totalSlideNum">17</span>
                 </div>
                 
                 <button id="fullscreenBtn" class="nav-button" title="Toggle Fullscreen (F)">
-                    <i data-lucide="maximize" class="w-6 h-6"></i>
+                    <i data-lucide="maximize" class="w-5 h-5"></i>
                 </button>
             </div>
         </footer>
@@ -2710,7 +2792,7 @@
             // Update fullscreen icon
             document.addEventListener('fullscreenchange', () => {
                 const icon = document.fullscreenElement ? 'minimize' : 'maximize';
-                fullscreenBtn.innerHTML = `<i data-lucide="${icon}" class="w-6 h-6"></i>`;
+                fullscreenBtn.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5"></i>`;
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
