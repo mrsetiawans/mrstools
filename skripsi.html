@@ -199,6 +199,79 @@
             font-weight: 400;
         }
 
+        /* Timer Display */
+        .timer-display {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px;
+            height: 32px;
+            background: rgba(240, 240, 240, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            animation: slideInTimer 0.4s ease-out;
+        }
+
+        .timer-display.active {
+            display: flex;
+        }
+
+        @keyframes slideInTimer {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timer-icon {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #1a1a1a;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-icon::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 5px;
+            background: #1a1a1a;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: bottom center;
+        }
+
+        .timer-icon::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 3px;
+            background: #1a1a1a;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+            transform-origin: bottom center;
+        }
+
+        .timer-text {
+            font-variant-numeric: tabular-nums;
+            min-width: 42px;
+            color: #ef4444;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
         .control-center {
             display: flex;
             align-items: center;
@@ -243,6 +316,32 @@
         .control-button.disabled:hover {
             transform: translateY(0);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Play/Stop Button */
+        .play-button {
+            background: rgba(240, 240, 240, 0.8);
+            color: #1a1a1a;
+        }
+
+        .play-button:hover {
+            background: rgba(230, 230, 230, 0.9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .play-button:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-button.active {
+            background: rgba(240, 240, 240, 0.8);
+            color: #ef4444;
+        }
+
+        .play-button.active:hover {
+            background: rgba(230, 230, 230, 0.9);
         }
 
         .slide-info-group {
@@ -310,6 +409,32 @@
                 font-size: 0.8rem;
             }
 
+            .timer-display {
+                font-size: 0.75rem;
+                padding: 0 12px;
+                height: 28px;
+                border-radius: 8px;
+            }
+
+            .timer-icon {
+                width: 14px;
+                height: 14px;
+                border-width: 1.5px;
+            }
+
+            .timer-icon::before {
+                height: 4px;
+            }
+
+            .timer-icon::after {
+                height: 2.5px;
+            }
+
+            .timer-text {
+                min-width: 38px;
+                font-size: 0.8rem;
+            }
+
             .control-center {
                 gap: 8px;
             }
@@ -345,6 +470,31 @@
             .control-bar {
                 height: 50px;
                 padding: 0 20px;
+            }
+
+            .timer-display {
+                font-size: 0.7rem;
+                padding: 0 10px;
+                height: 26px;
+                border-radius: 8px;
+            }
+
+            .timer-icon {
+                width: 12px;
+                height: 12px;
+                border-width: 1.5px;
+            }
+
+            .timer-icon::before {
+                height: 3.5px;
+            }
+
+            .timer-icon::after {
+                height: 2px;
+            }
+
+            .timer-text {
+                font-size: 0.75rem;
             }
 
             .control-button {
@@ -418,10 +568,20 @@
                 <div class="presenter-name">M. Rizal Setiawan</div>
                 <div class="separator"></div>
                 <div class="presentation-title">Proposal Skripsi 2025</div>
+                <div class="separator"></div>
+                <div class="timer-display" id="timerDisplay">
+                    <div class="timer-icon"></div>
+                    <span class="timer-text" id="timerText">00:00</span>
+                </div>
             </div>
 
             <!-- Control Center -->
             <div class="control-center">
+                <!-- Play/Stop Button -->
+                <button class="control-button play-button" id="playBtn" onclick="togglePresentation()" title="Mulai Presentasi (P)">
+                    ▶
+                </button>
+
                 <!-- Previous Button -->
                 <button class="control-button" id="prevBtn" onclick="previousSlide()" title="Slide Sebelumnya (←)">
                     ←
@@ -455,6 +615,81 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const progressBar = document.getElementById('progressBar');
+        const playBtn = document.getElementById('playBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerText = document.getElementById('timerText');
+
+        // Timer variables
+        let isPresenting = false;
+        let isPaused = false;
+        let timerInterval = null;
+        let startTime = null;
+        let elapsedSeconds = 0;
+
+        // Toggle presentation mode
+        function togglePresentation() {
+            if (!isPresenting) {
+                startPresentation();
+            } else {
+                togglePause();
+            }
+        }
+
+        function startPresentation() {
+            isPresenting = true;
+            isPaused = false;
+            playBtn.classList.add('active');
+            playBtn.innerHTML = '❚❚';
+            playBtn.title = 'Jeda Presentasi (P)';
+            
+            // Go to first slide only if starting fresh
+            if (elapsedSeconds === 0) {
+                currentSlide = 0;
+                updateSlide();
+            }
+            
+            // Show timer
+            timerDisplay.classList.add('active');
+            
+            // Start timer
+            startTime = Date.now() - (elapsedSeconds * 1000);
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        function togglePause() {
+            if (isPaused) {
+                // Resume
+                isPaused = false;
+                playBtn.innerHTML = '❚❚';
+                playBtn.title = 'Jeda Presentasi (P)';
+                
+                // Resume timer
+                startTime = Date.now() - (elapsedSeconds * 1000);
+                timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                // Pause
+                isPaused = true;
+                playBtn.innerHTML = '▶';
+                playBtn.title = 'Lanjutkan Presentasi (P)';
+                
+                // Pause timer
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+            }
+        }
+
+        function updateTimer() {
+            const now = Date.now();
+            elapsedSeconds = Math.floor((now - startTime) / 1000);
+            
+            const minutes = Math.floor(elapsedSeconds / 60);
+            const seconds = elapsedSeconds % 60;
+            
+            timerText.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
 
         // Fullscreen functionality with landscape lock
         async function toggleFullscreen() {
@@ -556,6 +791,9 @@
             } else if (e.key === 'f' || e.key === 'F') {
                 e.preventDefault();
                 toggleFullscreen();
+            } else if (e.key === 'p' || e.key === 'P') {
+                e.preventDefault();
+                togglePresentation();
             }
         });
 
