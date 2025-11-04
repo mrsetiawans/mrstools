@@ -455,6 +455,32 @@
             .slide-counter {
                 font-size: 0.85rem;
             }
+
+            /* Hide play button and timer on mobile when NOT in fullscreen */
+            .play-button {
+                display: none;
+            }
+
+            .timer-display {
+                display: none !important;
+            }
+        }
+
+        /* Show play button and timer on mobile ONLY when in fullscreen */
+        @media (max-width: 768px) {
+            :fullscreen .play-button,
+            :-webkit-full-screen .play-button,
+            :-moz-full-screen .play-button,
+            :-ms-fullscreen .play-button {
+                display: flex;
+            }
+
+            :fullscreen .timer-display.active,
+            :-webkit-full-screen .timer-display.active,
+            :-moz-full-screen .timer-display.active,
+            :-ms-fullscreen .timer-display.active {
+                display: flex !important;
+            }
         }
 
         /* Landscape mobile optimization */
@@ -470,6 +496,15 @@
             .control-bar {
                 height: 50px;
                 padding: 0 20px;
+            }
+
+            /* Hide play button and timer on landscape mobile when NOT in fullscreen */
+            .play-button {
+                display: none;
+            }
+
+            .timer-display {
+                display: none !important;
             }
 
             .timer-display {
@@ -512,6 +547,23 @@
 
             .slide-counter {
                 font-size: 0.8rem;
+            }
+        }
+
+        /* Show play button and timer on landscape mobile ONLY when in fullscreen */
+        @media (max-width: 926px) and (orientation: landscape) {
+            :fullscreen .play-button,
+            :-webkit-full-screen .play-button,
+            :-moz-full-screen .play-button,
+            :-ms-fullscreen .play-button {
+                display: flex;
+            }
+
+            :fullscreen .timer-display.active,
+            :-webkit-full-screen .timer-display.active,
+            :-moz-full-screen .timer-display.active,
+            :-ms-fullscreen .timer-display.active {
+                display: flex !important;
             }
         }
     </style>
