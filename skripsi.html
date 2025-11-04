@@ -206,94 +206,81 @@
         }
 
         .control-button {
-            background: #f5f5f5;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: #333;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1rem;
+            background: rgba(240, 240, 240, 0.8);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: #1a1a1a;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .control-button:hover {
-            background: #e8e8e8;
-            border-color: rgba(0, 0, 0, 0.15);
-            transform: scale(1.05);
+            background: rgba(230, 230, 230, 0.9);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
 
         .control-button:active {
-            transform: scale(0.98);
+            transform: translateY(0px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .control-button.disabled {
-            opacity: 0.3;
+            opacity: 0.4;
             cursor: not-allowed;
-            background: #f5f5f5;
+            background: rgba(240, 240, 240, 0.8);
         }
 
         .control-button.disabled:hover {
-            transform: scale(1);
-            background: #f5f5f5;
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .slide-info-group {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 0 12px;
-        }
-
-        .slide-indicator {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .indicator-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .indicator-dot.active {
-            background: #333;
-            width: 20px;
-            border-radius: 3px;
-        }
-
-        .indicator-dot:hover {
-            background: rgba(0, 0, 0, 0.4);
+            padding: 0;
+            background: rgba(240, 240, 240, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            height: 48px;
+            padding: 0 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .slide-counter {
-            color: #333;
-            font-size: 0.9rem;
-            font-weight: 500;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 600;
             white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
         .slide-total {
             color: #999;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         .fullscreen-button {
-            background: #f5f5f5;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            margin-left: 8px;
+            background: rgba(240, 240, 240, 0.8);
+            backdrop-filter: blur(10px);
+            border: none;
+            margin-left: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .fullscreen-button:hover {
-            background: #e8e8e8;
+            background: rgba(230, 230, 230, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
 
         /* Responsive */
@@ -331,28 +318,17 @@
                 width: 44px;
                 height: 44px;
                 font-size: 1.1rem;
-            }
-
-            .fullscreen-button {
-                margin-left: 6px;
+                border-radius: 10px;
             }
 
             .slide-info-group {
-                padding: 0 8px;
-                gap: 8px;
+                height: 44px;
+                padding: 0 16px;
+                border-radius: 10px;
             }
 
             .slide-counter {
-                font-size: 0.8rem;
-            }
-            
-            .indicator-dot {
-                width: 8px;
-                height: 8px;
-            }
-            
-            .indicator-dot.active {
-                width: 24px;
+                font-size: 0.85rem;
             }
         }
 
@@ -368,11 +344,24 @@
 
             .control-bar {
                 height: 50px;
+                padding: 0 20px;
             }
 
             .control-button {
-                width: 38px;
-                height: 38px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+                border-radius: 10px;
+            }
+
+            .slide-info-group {
+                height: 40px;
+                padding: 0 14px;
+                border-radius: 10px;
+            }
+
+            .slide-counter {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -440,15 +429,6 @@
 
                 <!-- Slide Info Group -->
                 <div class="slide-info-group">
-                    <!-- Slide Indicator -->
-                    <div class="slide-indicator">
-                        <div class="indicator-dot active" onclick="goToSlide(0)"></div>
-                        <div class="indicator-dot" onclick="goToSlide(1)"></div>
-                        <div class="indicator-dot" onclick="goToSlide(2)"></div>
-                        <div class="indicator-dot" onclick="goToSlide(3)"></div>
-                        <div class="indicator-dot" onclick="goToSlide(4)"></div>
-                    </div>
-                    
                     <!-- Slide Counter -->
                     <div class="slide-counter">
                         Slide <span id="currentSlide">1</span> / <span id="totalSlides" class="slide-total">5</span>
@@ -474,7 +454,6 @@
         const slidesContainer = document.getElementById('slides');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const indicators = document.querySelectorAll('.indicator-dot');
         const progressBar = document.getElementById('progressBar');
 
         // Fullscreen functionality with landscape lock
@@ -544,11 +523,6 @@
             // Update navigation buttons
             prevBtn.classList.toggle('disabled', currentSlide === 0);
             nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
-            
-            // Update indicators
-            indicators.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
 
             // Update slide counter
             document.getElementById('currentSlide').textContent = currentSlide + 1;
