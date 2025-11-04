@@ -20,12 +20,10 @@
             background: #000;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
-            -webkit-user-select: none;
             user-select: none;
             touch-action: pan-y;
         }
 
-        /* Landscape orientation hint for mobile */
         @media (max-width: 768px) and (orientation: portrait) {
             body::before {
                 content: '↻';
@@ -54,12 +52,8 @@
         }
 
         @keyframes rotate {
-            0%, 100% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            50% {
-                transform: translate(-50%, -50%) rotate(90deg);
-            }
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(90deg); }
         }
 
         .presentation-container {
@@ -69,7 +63,6 @@
             overflow: hidden;
         }
 
-        /* Progress Bar */
         .progress-bar-container {
             position: fixed;
             top: 0;
@@ -116,14 +109,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -134,7 +121,6 @@
             letter-spacing: -1px;
         }
 
-        /* Control Bar */
         .control-bar {
             position: fixed;
             bottom: 0;
@@ -154,12 +140,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .presentation-info {
@@ -168,6 +150,10 @@
             gap: 12px;
             color: #1a1a1a;
             flex: 1;
+        }
+
+        .user-icon, .presenter-name, .presentation-title {
+            font-size: 0.95rem;
         }
 
         .user-icon {
@@ -181,7 +167,6 @@
         }
 
         .presenter-name {
-            font-size: 0.95rem;
             font-weight: 600;
             color: #1a1a1a;
             letter-spacing: -0.2px;
@@ -194,12 +179,10 @@
         }
 
         .presentation-title {
-            font-size: 0.95rem;
             color: #1a1a1a;
             font-weight: 400;
         }
 
-        /* Timer Display */
         .timer-display {
             display: none;
             align-items: center;
@@ -213,19 +196,11 @@
             animation: slideInTimer 0.4s ease-out;
         }
 
-        .timer-display.active {
-            display: flex;
-        }
+        .timer-display.active { display: flex; }
 
         @keyframes slideInTimer {
-            from {
-                opacity: 0;
-                transform: translateX(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .timer-icon {
@@ -239,26 +214,25 @@
             justify-content: center;
         }
 
-        .timer-icon::before {
+        .timer-icon::before, .timer-icon::after {
             content: '';
             position: absolute;
-            width: 1px;
-            height: 5px;
             background: #1a1a1a;
-            top: 2px;
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        .timer-icon::before {
+            width: 1px;
+            height: 5px;
+            top: 2px;
             transform-origin: bottom center;
         }
 
         .timer-icon::after {
-            content: '';
-            position: absolute;
             width: 1px;
             height: 3px;
-            background: #1a1a1a;
             top: 4px;
-            left: 50%;
             transform: translateX(-50%) rotate(90deg);
             transform-origin: bottom center;
         }
@@ -292,7 +266,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
@@ -303,14 +276,13 @@
         }
 
         .control-button:active {
-            transform: translateY(0px);
+            transform: translateY(0);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .control-button.disabled {
             opacity: 0.4;
             cursor: not-allowed;
-            background: rgba(240, 240, 240, 0.8);
         }
 
         .control-button.disabled:hover {
@@ -318,36 +290,29 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        /* Play/Stop Button */
-        .play-button {
-            background: rgba(240, 240, 240, 0.8);
-            color: #1a1a1a;
+        .play-button.active { color: #ef4444; }
+
+        /* Laser Pointer Cursor */
+        body.presenting { cursor: none; }
+
+        .laser-pointer {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
         }
 
-        .play-button:hover {
-            background: rgba(230, 230, 230, 0.9);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .play-button:active {
-            transform: translateY(0px);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .play-button.active {
-            background: rgba(240, 240, 240, 0.8);
-            color: #ef4444;
-        }
-
-        .play-button.active:hover {
-            background: rgba(230, 230, 230, 0.9);
-        }
+        body.presenting .laser-pointer { display: block; }
 
         .slide-info-group {
             display: flex;
             align-items: center;
-            padding: 0;
             background: rgba(240, 240, 240, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 12px;
@@ -369,244 +334,55 @@
             font-weight: 600;
         }
 
-        .fullscreen-button {
-            background: rgba(240, 240, 240, 0.8);
-            backdrop-filter: blur(10px);
-            border: none;
-            margin-left: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .fullscreen-button:hover {
-            background: rgba(230, 230, 230, 0.9);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .slide {
-                padding: 40px 20px 80px 20px;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .control-bar {
-                padding: 0 15px;
-                height: 55px;
-            }
-
-            .presentation-info {
-                gap: 8px;
-            }
-
-            .presenter-name {
-                font-size: 0.8rem;
-            }
-
-            .presentation-title {
-                font-size: 0.8rem;
-            }
-
-            .timer-display {
-                font-size: 0.75rem;
-                padding: 0 12px;
-                height: 28px;
-                border-radius: 8px;
-            }
-
-            .timer-icon {
-                width: 14px;
-                height: 14px;
-                border-width: 1.5px;
-            }
-
-            .timer-icon::before {
-                height: 4px;
-            }
-
-            .timer-icon::after {
-                height: 2.5px;
-            }
-
-            .timer-text {
-                min-width: 38px;
-                font-size: 0.8rem;
-            }
-
-            .control-center {
-                gap: 8px;
-            }
-
-            .control-button {
-                width: 44px;
-                height: 44px;
-                font-size: 1.1rem;
-                border-radius: 10px;
-            }
-
-            .slide-info-group {
-                height: 44px;
-                padding: 0 16px;
-                border-radius: 10px;
-            }
-
-            .slide-counter {
-                font-size: 0.85rem;
-            }
-
-            /* Hide play button and timer on mobile */
-            .play-button {
-                display: none;
-            }
-
-            .timer-display {
-                display: none !important;
-            }
+            .slide { padding: 40px 20px 80px 20px; }
+            h1 { font-size: 2.5rem; }
+            .control-bar { padding: 0 15px; height: 55px; }
+            .presentation-info { gap: 8px; }
+            .presenter-name, .presentation-title { font-size: 0.8rem; }
+            .play-button, .timer-display { display: none !important; }
+            .timer-icon { width: 14px; height: 14px; border-width: 1.5px; }
+            .timer-icon::before { height: 4px; }
+            .timer-icon::after { height: 2.5px; }
+            .timer-text { min-width: 38px; font-size: 0.8rem; }
+            .control-center { gap: 8px; }
+            .control-button { width: 44px; height: 44px; font-size: 1.1rem; border-radius: 10px; }
+            .slide-info-group { height: 44px; padding: 0 16px; border-radius: 10px; }
+            .slide-counter { font-size: 0.85rem; }
         }
 
-        /* Landscape mobile optimization */
         @media (max-width: 926px) and (orientation: landscape) {
-            .slide {
-                padding: 30px 40px 70px 40px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .control-bar {
-                height: 50px;
-                padding: 0 20px;
-            }
-
-            /* Hide play button and timer on landscape mobile when NOT in fullscreen */
-            .play-button {
-                display: none;
-            }
-
-            .timer-display {
-                display: none !important;
-            }
-
-            .timer-display {
-                font-size: 0.7rem;
-                padding: 0 10px;
-                height: 26px;
-                border-radius: 8px;
-            }
-
-            .timer-icon {
-                width: 12px;
-                height: 12px;
-                border-width: 1.5px;
-            }
-
-            .timer-icon::before {
-                height: 3.5px;
-            }
-
-            .timer-icon::after {
-                height: 2px;
-            }
-
-            .timer-text {
-                font-size: 0.75rem;
-            }
-
-            .control-button {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-                border-radius: 10px;
-            }
-
-            .slide-info-group {
-                height: 40px;
-                padding: 0 14px;
-                border-radius: 10px;
-            }
-
-            .slide-counter {
-                font-size: 0.8rem;
-            }
-
-            /* Hide play button and timer on mobile landscape */
-            .play-button {
-                display: none;
-            }
-
-            .timer-display {
-                display: none !important;
-            }
-        }
-
-        /* Show play button and timer on landscape mobile ONLY when in fullscreen */
-        @media (max-width: 926px) and (orientation: landscape) {
-            :fullscreen .play-button,
-            :-webkit-full-screen .play-button,
-            :-moz-full-screen .play-button,
-            :-ms-fullscreen .play-button {
-                display: flex;
-            }
-
-            :fullscreen .timer-display.active,
-            :-webkit-full-screen .timer-display.active,
-            :-moz-full-screen .timer-display.active,
-            :-ms-fullscreen .timer-display.active {
-                display: flex !important;
-            }
+            .slide { padding: 30px 40px 70px 40px; }
+            h1 { font-size: 2rem; }
+            .control-bar { height: 50px; padding: 0 20px; }
+            .play-button, .timer-display { display: none !important; }
+            .timer-icon { width: 12px; height: 12px; border-width: 1.5px; }
+            .timer-icon::before { height: 3.5px; }
+            .timer-icon::after { height: 2px; }
+            .timer-text { font-size: 0.75rem; }
+            .control-button { width: 40px; height: 40px; font-size: 1rem; border-radius: 10px; }
+            .slide-info-group { height: 40px; padding: 0 14px; border-radius: 10px; }
+            .slide-counter { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Progress Bar -->
     <div class="progress-bar-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
+    <div class="laser-pointer" id="laserPointer"></div>
+
     <div class="presentation-container">
         <div class="slides" id="slides">
-            <!-- Slide 1 -->
-            <div class="slide">
-                <div class="slide-content">
-                    <h1>Slide 1</h1>
-                </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="slide">
-                <div class="slide-content">
-                    <h1>Slide 2</h1>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="slide">
-                <div class="slide-content">
-                    <h1>Slide 3</h1>
-                </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="slide">
-                <div class="slide-content">
-                    <h1>Slide 4</h1>
-                </div>
-            </div>
-
-            <!-- Slide 5 -->
-            <div class="slide">
-                <div class="slide-content">
-                    <h1>Slide 5</h1>
-                </div>
-            </div>
+            <div class="slide"><div class="slide-content"><h1>Slide 1</h1></div></div>
+            <div class="slide"><div class="slide-content"><h1>Slide 2</h1></div></div>
+            <div class="slide"><div class="slide-content"><h1>Slide 3</h1></div></div>
+            <div class="slide"><div class="slide-content"><h1>Slide 4</h1></div></div>
+            <div class="slide"><div class="slide-content"><h1>Slide 5</h1></div></div>
         </div>
 
-        <!-- Control Bar -->
         <div class="control-bar">
-            <!-- Presentation Info -->
             <div class="presentation-info">
                 <div class="user-icon">👤</div>
                 <div class="presenter-name">M. Rizal Setiawan</div>
@@ -619,83 +395,50 @@
                 </div>
             </div>
 
-            <!-- Control Center -->
             <div class="control-center">
-                <!-- Play/Stop Button -->
-                <button class="control-button play-button" id="playBtn" onclick="togglePresentation()" title="Mulai Presentasi (P)">
-                    ▶
-                </button>
-
-                <!-- Previous Button -->
-                <button class="control-button" id="prevBtn" onclick="previousSlide()" title="Slide Sebelumnya (←)">
-                    ←
-                </button>
-
-                <!-- Slide Info Group -->
+                <button class="control-button play-button" id="playBtn" onclick="togglePresentation()" title="Mulai Presentasi (P)">▶</button>
+                <button class="control-button" id="prevBtn" onclick="previousSlide()" title="Slide Sebelumnya (←)">←</button>
                 <div class="slide-info-group">
-                    <!-- Slide Counter -->
-                    <div class="slide-counter">
-                        Slide <span id="currentSlide">1</span> / <span id="totalSlides" class="slide-total">5</span>
-                    </div>
+                    <div class="slide-counter">Slide <span id="currentSlide">1</span> / <span id="totalSlides" class="slide-total">5</span></div>
                 </div>
-
-                <!-- Next Button -->
-                <button class="control-button" id="nextBtn" onclick="nextSlide()" title="Slide Berikutnya (→)">
-                    →
-                </button>
-
-                <!-- Fullscreen Button -->
-                <button class="control-button fullscreen-button" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">
-                    ⛶
-                </button>
+                <button class="control-button" id="nextBtn" onclick="nextSlide()" title="Slide Berikutnya (→)">→</button>
+                <button class="control-button" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">⛶</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentSlide = 0;
+        let currentSlide = 0, isPresenting = false, isPaused = false, timerInterval = null, startTime = null, elapsedSeconds = 0;
         const totalSlides = 5;
-        const slidesContainer = document.getElementById('slides');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressBar = document.getElementById('progressBar');
-        const playBtn = document.getElementById('playBtn');
-        const timerDisplay = document.getElementById('timerDisplay');
-        const timerText = document.getElementById('timerText');
+        const $ = id => document.getElementById(id);
+        const slides = $('slides'), prevBtn = $('prevBtn'), nextBtn = $('nextBtn'), progressBar = $('progressBar');
+        const playBtn = $('playBtn'), timerDisplay = $('timerDisplay'), timerText = $('timerText');
+        const laserPointer = $('laserPointer');
 
-        // Timer variables
-        let isPresenting = false;
-        let isPaused = false;
-        let timerInterval = null;
-        let startTime = null;
-        let elapsedSeconds = 0;
-
-        // Toggle presentation mode
-        function togglePresentation() {
-            if (!isPresenting) {
-                startPresentation();
-            } else {
-                togglePause();
+        // Laser pointer movement
+        document.addEventListener('mousemove', e => {
+            if (isPresenting && !isPaused) {
+                laserPointer.style.left = e.clientX + 'px';
+                laserPointer.style.top = e.clientY + 'px';
             }
+        });
+
+        function togglePresentation() {
+            isPresenting ? togglePause() : startPresentation();
         }
 
         function startPresentation() {
             isPresenting = true;
             isPaused = false;
+            document.body.classList.add('presenting');
             playBtn.classList.add('active');
             playBtn.innerHTML = '❚❚';
             playBtn.title = 'Jeda Presentasi (P)';
-            
-            // Go to first slide only if starting fresh
             if (elapsedSeconds === 0) {
                 currentSlide = 0;
                 updateSlide();
             }
-            
-            // Show timer
             timerDisplay.classList.add('active');
-            
-            // Start timer
             startTime = Date.now() - (elapsedSeconds * 1000);
             timerInterval = setInterval(updateTimer, 1000);
             updateTimer();
@@ -703,200 +446,82 @@
 
         function togglePause() {
             if (isPaused) {
-                // Resume
                 isPaused = false;
+                document.body.classList.add('presenting');
                 playBtn.innerHTML = '❚❚';
                 playBtn.title = 'Jeda Presentasi (P)';
-                
-                // Resume timer
                 startTime = Date.now() - (elapsedSeconds * 1000);
                 timerInterval = setInterval(updateTimer, 1000);
             } else {
-                // Pause
                 isPaused = true;
+                document.body.classList.remove('presenting');
                 playBtn.innerHTML = '▶';
                 playBtn.title = 'Lanjutkan Presentasi (P)';
-                
-                // Pause timer
-                if (timerInterval) {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                }
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = null;
             }
         }
 
         function updateTimer() {
-            const now = Date.now();
-            elapsedSeconds = Math.floor((now - startTime) / 1000);
-            
-            const minutes = Math.floor(elapsedSeconds / 60);
-            const seconds = elapsedSeconds % 60;
-            
-            timerText.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const m = Math.floor(elapsedSeconds / 60), s = elapsedSeconds % 60;
+            timerText.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         }
 
-        // Fullscreen functionality with landscape lock
         async function toggleFullscreen() {
+            const elem = document.documentElement;
             if (!document.fullscreenElement) {
                 try {
-                    // Request fullscreen
-                    const elem = document.documentElement;
-                    if (elem.requestFullscreen) {
-                        await elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                        await elem.webkitRequestFullscreen();
-                    } else if (elem.mozRequestFullScreen) {
-                        await elem.mozRequestFullScreen();
-                    } else if (elem.msRequestFullscreen) {
-                        await elem.msRequestFullscreen();
-                    }
-                    
-                    // Lock to landscape orientation on mobile
-                    if (screen.orientation && screen.orientation.lock) {
-                        try {
-                            await screen.orientation.lock('landscape');
-                        } catch (err) {
-                            console.log('Orientation lock not supported:', err);
-                        }
-                    }
+                    await (elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.msRequestFullscreen?.());
+                    if (screen.orientation?.lock) await screen.orientation.lock('landscape').catch(() => {});
                 } catch (err) {
                     alert(`Error mencoba fullscreen: ${err.message}`);
                 }
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                
-                // Unlock orientation when exiting fullscreen
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
+                (document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.mozCancelFullScreen?.() || document.msExitFullscreen?.())();
+                screen.orientation?.unlock();
             }
         }
 
-        // Update fullscreen button icon
-        document.addEventListener('fullscreenchange', () => {
-            const btn = document.getElementById('fullscreenBtn');
-            if (document.fullscreenElement) {
-                btn.textContent = '⛶';
-                btn.title = 'Keluar Fullscreen (F/Esc)';
-            } else {
-                btn.textContent = '⛶';
-                btn.title = 'Toggle Fullscreen (F)';
-            }
-        });
-
-        // Webkit fullscreen change (Safari)
-        document.addEventListener('webkitfullscreenchange', () => {
-            const btn = document.getElementById('fullscreenBtn');
-            if (document.webkitFullscreenElement) {
-                btn.textContent = '⛶';
-                btn.title = 'Keluar Fullscreen (F/Esc)';
-            } else {
-                btn.textContent = '⛶';
-                btn.title = 'Toggle Fullscreen (F)';
-            }
-        });
+        const updateFSBtn = () => {
+            const btn = $('fullscreenBtn'), isFS = document.fullscreenElement || document.webkitFullscreenElement;
+            btn.title = isFS ? 'Keluar Fullscreen (F/Esc)' : 'Toggle Fullscreen (F)';
+        };
+        document.addEventListener('fullscreenchange', updateFSBtn);
+        document.addEventListener('webkitfullscreenchange', updateFSBtn);
 
         function updateSlide() {
-            slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
-            
-            // Update progress bar
-            const progress = ((currentSlide + 1) / totalSlides) * 100;
-            progressBar.style.width = `${progress}%`;
-            
-            // Update navigation buttons
+            slides.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
             prevBtn.classList.toggle('disabled', currentSlide === 0);
             nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
-
-            // Update slide counter
-            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            $('currentSlide').textContent = currentSlide + 1;
         }
 
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlide();
-            }
-        }
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
+        function previousSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
 
-        function previousSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlide();
-            }
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            updateSlide();
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                previousSlide();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-            } else if (e.key === 'f' || e.key === 'F') {
-                e.preventDefault();
-                toggleFullscreen();
-            } else if (e.key === 'p' || e.key === 'P') {
-                e.preventDefault();
-                togglePresentation();
-            }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') previousSlide();
+            else if (e.key === 'ArrowRight') nextSlide();
+            else if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+            else if (e.key === 'p' || e.key === 'P') { e.preventDefault(); togglePresentation(); }
         });
 
-        // Touch swipe support for mobile with improved sensitivity
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
-
-        document.addEventListener('touchmove', (e) => {
-            // Prevent default scrolling during horizontal swipes
-            const touchMoveX = e.changedTouches[0].screenX;
-            const touchMoveY = e.changedTouches[0].screenY;
-            const deltaX = Math.abs(touchMoveX - touchStartX);
-            const deltaY = Math.abs(touchMoveY - touchStartY);
-            
-            if (deltaX > deltaY) {
-                e.preventDefault();
-            }
+        let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
+        document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; touchStartY = e.changedTouches[0].screenY; }, { passive: true });
+        document.addEventListener('touchmove', e => {
+            const deltaX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+            const deltaY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+            if (deltaX > deltaY) e.preventDefault();
         }, { passive: false });
-
-        document.addEventListener('touchend', (e) => {
+        document.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
+            const deltaX = touchStartX - touchEndX, deltaY = Math.abs(touchStartY - touchEndY);
+            if (Math.abs(deltaX) > 30 && deltaY < 50) deltaX > 0 ? nextSlide() : previousSlide();
         }, { passive: true });
 
-        function handleSwipe() {
-            const deltaX = touchStartX - touchEndX;
-            const deltaY = Math.abs(touchStartY - touchEndY);
-            
-            // Only handle horizontal swipes (ignore vertical scrolls)
-            if (Math.abs(deltaX) > 30 && deltaY < 50) {
-                if (deltaX > 0) {
-                    nextSlide();
-                } else {
-                    previousSlide();
-                }
-            }
-        }
-
-        // Initialize
         updateSlide();
     </script>
 </body>
