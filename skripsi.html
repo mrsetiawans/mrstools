@@ -456,12 +456,12 @@
                 font-size: 0.85rem;
             }
 
-            /* Hide play button and timer on mobile when NOT in fullscreen */
-            body:not(.is-fullscreen) .play-button {
+            /* Hide play button and timer on mobile */
+            .play-button {
                 display: none;
             }
 
-            body:not(.is-fullscreen) .timer-display {
+            .timer-display {
                 display: none !important;
             }
         }
@@ -530,6 +530,15 @@
 
             .slide-counter {
                 font-size: 0.8rem;
+            }
+
+            /* Hide play button and timer on mobile landscape */
+            .play-button {
+                display: none;
+            }
+
+            .timer-display {
+                display: none !important;
             }
         }
 
@@ -777,11 +786,9 @@
             if (document.fullscreenElement) {
                 btn.textContent = '⛶';
                 btn.title = 'Keluar Fullscreen (F/Esc)';
-                document.body.classList.add('is-fullscreen');
             } else {
                 btn.textContent = '⛶';
                 btn.title = 'Toggle Fullscreen (F)';
-                document.body.classList.remove('is-fullscreen');
             }
         });
 
@@ -791,11 +798,9 @@
             if (document.webkitFullscreenElement) {
                 btn.textContent = '⛶';
                 btn.title = 'Keluar Fullscreen (F/Esc)';
-                document.body.classList.add('is-fullscreen');
             } else {
                 btn.textContent = '⛶';
                 btn.title = 'Toggle Fullscreen (F)';
-                document.body.classList.remove('is-fullscreen');
             }
         });
 
