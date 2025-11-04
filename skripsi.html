@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Presentasi Fullscreen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 101;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 20%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slides {
+            display: flex;
+            width: 500vw;
+            height: 100vh;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 60px;
+            background: #ffffff;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        /* Control Bar */
+        .control-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            animation: slideUp 0.5s ease-out;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .presentation-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .user-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .presenter-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: -0.2px;
+        }
+
+        .separator {
+            width: 1px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .presentation-title {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .control-center {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-button {
+            background: #f5f5f5;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .control-button:hover {
+            background: #e8e8e8;
+            border-color: rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+        }
+
+        .control-button:active {
+            transform: scale(0.98);
+        }
+
+        .control-button.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            background: #f5f5f5;
+        }
+
+        .control-button.disabled:hover {
+            transform: scale(1);
+            background: #f5f5f5;
+        }
+
+        .slide-info-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+        }
+
+        .slide-indicator {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .indicator-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #333;
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        .indicator-dot:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .slide-counter {
+            color: #333;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .slide-total {
+            color: #999;
+            font-weight: 400;
+        }
+
+        .fullscreen-button {
+            background: #f5f5f5;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-left: 8px;
+        }
+
+        .fullscreen-button:hover {
+            background: #e8e8e8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .control-bar {
+                padding: 0 15px;
+                height: 55px;
+            }
+
+            .presentation-info {
+                gap: 8px;
+            }
+
+            .presenter-name {
+                font-size: 0.8rem;
+            }
+
+            .presentation-title {
+                font-size: 0.8rem;
+            }
+
+            .control-center {
+                gap: 8px;
+            }
+
+            .control-button {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+
+            .fullscreen-button {
+                margin-left: 6px;
+            }
+
+            .slide-info-group {
+                padding: 0 8px;
+                gap: 8px;
+            }
+
+            .slide-counter {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="presentation-container">
+        <div class="slides" id="slides">
+            <!-- Slide 1 -->
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Slide 1</h1>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Slide 2</h1>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Slide 3</h1>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Slide 4</h1>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Slide 5</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Bar -->
+        <div class="control-bar">
+            <!-- Presentation Info -->
+            <div class="presentation-info">
+                <div class="user-icon">👤</div>
+                <div class="presenter-name">M. Rizal Setiawan</div>
+                <div class="separator"></div>
+                <div class="presentation-title">Proposal Skripsi 2025</div>
+            </div>
+
+            <!-- Control Center -->
+            <div class="control-center">
+                <!-- Previous Button -->
+                <button class="control-button" id="prevBtn" onclick="previousSlide()" title="Slide Sebelumnya (←)">
+                    ←
+                </button>
+
+                <!-- Slide Info Group -->
+                <div class="slide-info-group">
+                    <!-- Slide Indicator -->
+                    <div class="slide-indicator">
+                        <div class="indicator-dot active" onclick="goToSlide(0)"></div>
+                        <div class="indicator-dot" onclick="goToSlide(1)"></div>
+                        <div class="indicator-dot" onclick="goToSlide(2)"></div>
+                        <div class="indicator-dot" onclick="goToSlide(3)"></div>
+                        <div class="indicator-dot" onclick="goToSlide(4)"></div>
+                    </div>
+                    
+                    <!-- Slide Counter -->
+                    <div class="slide-counter">
+                        Slide <span id="currentSlide">1</span> / <span id="totalSlides" class="slide-total">5</span>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button class="control-button" id="nextBtn" onclick="nextSlide()" title="Slide Berikutnya (→)">
+                    →
+                </button>
+
+                <!-- Fullscreen Button -->
+                <button class="control-button fullscreen-button" id="fullscreenBtn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">
+                    ⛶
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 5;
+        const slidesContainer = document.getElementById('slides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator-dot');
+        const progressBar = document.getElementById('progressBar');
+
+        // Fullscreen functionality
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Error mencoba fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Update fullscreen button icon
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('fullscreenBtn');
+            if (document.fullscreenElement) {
+                btn.textContent = '⛶';
+                btn.title = 'Keluar Fullscreen (F/Esc)';
+            } else {
+                btn.textContent = '⛶';
+                btn.title = 'Toggle Fullscreen (F)';
+            }
+        });
+
+        function updateSlide() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            prevBtn.classList.toggle('disabled', currentSlide === 0);
+            nextBtn.classList.toggle('disabled', currentSlide === totalSlides - 1);
+            
+            // Update indicators
+            indicators.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+
+            // Update slide counter
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+        });
+
+        // Touch swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            }
+            if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
+        }
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
