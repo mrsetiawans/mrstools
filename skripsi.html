@@ -457,29 +457,12 @@
             }
 
             /* Hide play button and timer on mobile when NOT in fullscreen */
-            .play-button {
+            body:not(.is-fullscreen) .play-button {
                 display: none;
             }
 
-            .timer-display {
+            body:not(.is-fullscreen) .timer-display {
                 display: none !important;
-            }
-        }
-
-        /* Show play button and timer on mobile ONLY when in fullscreen */
-        @media (max-width: 768px) {
-            :fullscreen .play-button,
-            :-webkit-full-screen .play-button,
-            :-moz-full-screen .play-button,
-            :-ms-fullscreen .play-button {
-                display: flex;
-            }
-
-            :fullscreen .timer-display.active,
-            :-webkit-full-screen .timer-display.active,
-            :-moz-full-screen .timer-display.active,
-            :-ms-fullscreen .timer-display.active {
-                display: flex !important;
             }
         }
 
@@ -794,9 +777,25 @@
             if (document.fullscreenElement) {
                 btn.textContent = '⛶';
                 btn.title = 'Keluar Fullscreen (F/Esc)';
+                document.body.classList.add('is-fullscreen');
             } else {
                 btn.textContent = '⛶';
                 btn.title = 'Toggle Fullscreen (F)';
+                document.body.classList.remove('is-fullscreen');
+            }
+        });
+
+        // Webkit fullscreen change (Safari)
+        document.addEventListener('webkitfullscreenchange', () => {
+            const btn = document.getElementById('fullscreenBtn');
+            if (document.webkitFullscreenElement) {
+                btn.textContent = '⛶';
+                btn.title = 'Keluar Fullscreen (F/Esc)';
+                document.body.classList.add('is-fullscreen');
+            } else {
+                btn.textContent = '⛶';
+                btn.title = 'Toggle Fullscreen (F)';
+                document.body.classList.remove('is-fullscreen');
             }
         });
 
