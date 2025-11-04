@@ -2,7 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Template Presentasi Fullscreen</title>
     <style>
         * {
@@ -15,6 +18,48 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             background: #000;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: pan-y;
+        }
+
+        /* Landscape orientation hint for mobile */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body::before {
+                content: '↻';
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 4rem;
+                color: rgba(255, 255, 255, 0.3);
+                z-index: 1;
+                animation: rotate 2s ease-in-out infinite;
+            }
+            
+            body::after {
+                content: 'Putar perangkat untuk tampilan optimal';
+                position: fixed;
+                top: calc(50% + 60px);
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.9rem;
+                text-align: center;
+                z-index: 1;
+                white-space: nowrap;
+            }
+        }
+
+        @keyframes rotate {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(90deg);
+            }
         }
 
         .presentation-container {
@@ -253,6 +298,10 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .slide {
+                padding: 40px 20px 80px 20px;
+            }
+
             h1 {
                 font-size: 2.5rem;
             }
@@ -279,9 +328,9 @@
             }
 
             .control-button {
-                width: 36px;
-                height: 36px;
-                font-size: 0.9rem;
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
             }
 
             .fullscreen-button {
@@ -295,6 +344,35 @@
 
             .slide-counter {
                 font-size: 0.8rem;
+            }
+            
+            .indicator-dot {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .indicator-dot.active {
+                width: 24px;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 926px) and (orientation: landscape) {
+            .slide {
+                padding: 30px 40px 70px 40px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .control-bar {
+                height: 50px;
+            }
+
+            .control-button {
+                width: 38px;
+                height: 38px;
             }
         }
     </style>
@@ -399,15 +477,47 @@
         const indicators = document.querySelectorAll('.indicator-dot');
         const progressBar = document.getElementById('progressBar');
 
-        // Fullscreen functionality
-        function toggleFullscreen() {
+        // Fullscreen functionality with landscape lock
+        async function toggleFullscreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
+                try {
+                    // Request fullscreen
+                    const elem = document.documentElement;
+                    if (elem.requestFullscreen) {
+                        await elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        await elem.webkitRequestFullscreen();
+                    } else if (elem.mozRequestFullScreen) {
+                        await elem.mozRequestFullScreen();
+                    } else if (elem.msRequestFullscreen) {
+                        await elem.msRequestFullscreen();
+                    }
+                    
+                    // Lock to landscape orientation on mobile
+                    if (screen.orientation && screen.orientation.lock) {
+                        try {
+                            await screen.orientation.lock('landscape');
+                        } catch (err) {
+                            console.log('Orientation lock not supported:', err);
+                        }
+                    }
+                } catch (err) {
                     alert(`Error mencoba fullscreen: ${err.message}`);
-                });
+                }
             } else {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                
+                // Unlock orientation when exiting fullscreen
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
                 }
             }
         }
@@ -475,25 +585,46 @@
             }
         });
 
-        // Touch swipe support for mobile
+        // Touch swipe support for mobile with improved sensitivity
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
         document.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
-        });
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            // Prevent default scrolling during horizontal swipes
+            const touchMoveX = e.changedTouches[0].screenX;
+            const touchMoveY = e.changedTouches[0].screenY;
+            const deltaX = Math.abs(touchMoveX - touchStartX);
+            const deltaY = Math.abs(touchMoveY - touchStartY);
+            
+            if (deltaX > deltaY) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         document.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
             handleSwipe();
-        });
+        }, { passive: true });
 
         function handleSwipe() {
-            if (touchStartX - touchEndX > 50) {
-                nextSlide();
-            }
-            if (touchEndX - touchStartX > 50) {
-                previousSlide();
+            const deltaX = touchStartX - touchEndX;
+            const deltaY = Math.abs(touchStartY - touchEndY);
+            
+            // Only handle horizontal swipes (ignore vertical scrolls)
+            if (Math.abs(deltaX) > 30 && deltaY < 50) {
+                if (deltaX > 0) {
+                    nextSlide();
+                } else {
+                    previousSlide();
+                }
             }
         }
 
