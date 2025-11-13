@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Brutalist Playground</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS for Neo-Brutalist Elements & Animations -->
+    <style>
+        /* Apply the Inter font as the default */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefce8; /* Tailwind bg-yellow-50 */
+            color: #111827; /* Tailwind gray-900 */
+            /* Enables smooth scrolling */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Use Space Mono for specific elements */
+        .font-mono {
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* * THE NEO-BRUTALIST SHADOW
+         * This is the signature effect. A hard, offset border.
+        */
+        .neo-shadow {
+            border: 2px solid #111827;
+            box-shadow: 8px 8px 0px #111827;
+            transition: all 0.2s ease-out;
+        }
+        .neo-shadow-sm {
+            border: 2px solid #111827;
+            box-shadow: 4px 4px 0px #111827;
+            transition: all 0.2s ease-out;
+        }
+
+        /* * THE NEO-BRUTALIST BUTTON
+         * It "pushes in" on hover and "clicks" on active.
+        */
+        .neo-button {
+            border: 2px solid #111827;
+            box-shadow: 6px 6px 0px #111827;
+            transition: all 0.15s ease-out;
+        }
+        .neo-button:hover {
+            /* Lifts the button up and to the left */
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px #111827;
+        }
+        .neo-button:active {
+            /* Flattens the button on click */
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+        
+        /* * MARQUEE SCROLL ANIMATION 
+        */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Stop at 50% for seamless loop */
+        }
+
+        .marquee-content {
+            /* Run the animation */
+            animation: marquee 40s linear infinite;
+            display: inline-block; /* Fixes whitespace bug */
+            white-space: nowrap;
+        }
+
+        /* * SCROLL-BASED FADE-IN/SLIDE-IN ANIMATION
+        */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(3rem); /* Start 3rem down */
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            will-change: opacity, transform; /* Performance hint */
+        }
+        
+        /* The state when the element is visible */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation delays */
+        .delay-1 { transition-delay: 150ms; }
+        .delay-2 { transition-delay: 300ms; }
+        .delay-3 { transition-delay: 450ms; }
+
+    </style>
+</head>
+
+<!-- overflow-x-hidden is crucial to hide the marquee content */ -->
+<body class="overflow-x-hidden">
+
+    <!-- 
+      HEADER / NAVIGATION
+      Blocky, honest, and functional.
+    -->
+    <header class="sticky top-0 z-50 w-full bg-yellow-50/80 backdrop-blur-md border-b-2 border-gray-900">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-3xl font-extrabold text-gray-900">
+                RAW<span class="text-pink-500">.</span>
+            </a>
+            
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-2 font-mono">
+                <a href="#about" class="px-4 py-2 rounded-lg hover:bg-lime-300 transition-colors">/about</a>
+                <a href="#work" class="px-4 py-2 rounded-lg hover:bg-lime-300 transition-colors">/work</a>
+                <a href="#contact" class="px-4 py-2 rounded-lg hover:bg-lime-300 transition-colors">/contact</a>
+                <button class="neo-button bg-pink-500 text-white font-bold px-5 py-2 rounded-lg ml-4">
+                    Get Started
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Button (Hamburger) -->
+            <div class="md:hidden">
+                <button class="neo-shadow-sm bg-lime-300 p-2 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+
+        <!-- 
+          HERO SECTION
+          Big, bold, and in-your-face typography.
+        -->
+        <section class="container mx-auto px-6 py-24 md:py-32 flex flex-col justify-center items-start min-h-[90vh]">
+            <div classs="w-full">
+                <!-- Badge -->
+                <div class="animate-on-scroll is-visible inline-block neo-shadow-sm bg-yellow-300 rounded-lg px-4 py-1 text-gray-900 font-bold mb-6">
+                    This is Neo-Brutalism
+                </div>
+                
+                <!-- Headline -->
+                <h1 class="animate-on-scroll is-visible delay-1 text-6xl md:text-9xl font-extrabold tracking-tighter text-gray-900 leading-none">
+                    HONEST.
+                </h1>
+                <h1 class="animate-on-scroll is-visible delay-2 text-6xl md:text-9xl font-extrabold tracking-tighter text-lime-500 leading-none mb-6">
+                    FEARLESS.
+                </h1>
+                <h1 class="animate-on-scroll is-visible delay-3 text-6xl md:text-9xl font-extrabold tracking-tighter text-gray-900 leading-none">
+                    DESIGN.
+                </h1>
+
+                <!-- Sub-headline -->
+                <p class="animate-on-scroll is-visible delay-3 max-w-2xl text-xl md:text-2xl text-gray-700 mt-8 mb-12">
+                    We build raw, unapolagetic digital experiences that just <span class="bg-pink-500 text-white px-2 rounded-md">work</span>.
+                    No fluff, no excuses.
+                </p>
+
+                <!-- CTA Button -->
+                <a href="#work" class="animate-on-scroll is-visible delay-3 neo-button bg-lime-300 text-gray-900 font-extrabold text-xl md:text-2xl px-10 py-5 rounded-lg">
+                    See The Work
+                </a>
+            </div>
+        </section>
+
+        <!-- 
+          MARQUEE SECTION
+          A classic "anti-design" element, modernized.
+        -->
+        <section class="w-full py-6 bg-yellow-300 border-y-4 border-gray-900 overflow-hidden whitespace-nowrap">
+            <div class="marquee-content">
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    BOLD TYPOGRAPHY
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    HARD SHADOWS
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    RAW FUNCTION
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    HIGH CONTRAST
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                
+                <!-- Repeat for seamless loop -->
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    BOLD TYPOGRAPHY
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    HARD SHADOWS
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    RAW FUNCTION
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+                <span class="text-4xl font-extrabold text-gray-900 mx-8">
+                    HIGH CONTRAST
+                </span>
+                <span class="text-4xl font-extrabold text-pink-500 mx-8">
+                    •
+                </span>
+            </div>
+        </section>
+
+        <!-- 
+          ASYMMETRICAL GRID SECTION
+          Shows off the blocky, structural nature.
+        -->
+        <section id="about" class="container mx-auto px-6 py-24 md:py-32">
+            <h2 class="animate-on-scroll text-5xl md:text-7xl font-extrabold tracking-tighter mb-12">
+                What We Believe
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Large Block -->
+                <div class="animate-on-scroll md:col-span-2 lg:col-span-3 neo-shadow bg-blue-600 text-white p-8 rounded-xl">
+                    <h3 class="text-3xl font-extrabold mb-4">Structure is Beautiful</h3>
+                    <p class="text-lg text-blue-100">
+                        Why hide the grid? We expose the bones of our design, creating a clear, honest, and functional hierarchy. Every pixel has a purpose. Every line is intentional. This isn't just a style; it's a philosophy of clarity.
+                    </p>
+                </div>
+                
+                <!-- Small Block -->
+                <div class="animate-on-scroll delay-1 neo-shadow bg-pink-500 text-white p-8 rounded-xl">
+                    <h3 class="text-3xl font-extrabold mb-4">Vibrant</h3>
+                    <p class="text-lg">
+                        Forget beige. We use color to make a statement, to guide the eye, and to evoke emotion.
+                    </p>
+                </div>
+
+                <!-- Small Block -->
+                <div class="animate-on-scroll delay-2 neo-shadow bg-lime-300 text-gray-900 p-8 rounded-xl">
+                    <h3 class="text-3xl font-extrabold mb-4">Functional</h3>
+                    <p class="text-lg">
+                        If it doesn't work perfectly, it doesn't ship. Our designs are as robust as they are striking.
+                    </p>
+                </div>
+
+                <!-- Full-width-ish Block -->
+                <div class="animate-on-scroll delay-3 md:col-span-3 lg:col-span-4 neo-shadow bg-white p-8 rounded-xl">
+                    <h3 class="text-3xl font-extrabold mb-4">Built for Humans</h3>
+                    <p class="text-lg text-gray-700">
+                        Accessibility and usability aren't afterthoughts. They're the foundation. A design that excludes is a-design that fails. We build for everyone, ensuring our raw aesthetic is also a welcoming one.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+          CARD SECTION
+          More traditional content, but with the neo-brutalist style.
+        -->
+        <section id="work" class="container mx-auto px-6 py-24 md:py-32">
+            <h2 class="animate-on-scroll text-5xl md:text-7xl font-extrabold tracking-tighter mb-12">
+                Our Work
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="animate-on-scroll neo-shadow bg-white rounded-xl overflow-hidden hover:-translate-y-2 hover:shadow-[12px_12px_0px_#111827]">
+                    <div class="p-6 bg-pink-500 border-b-2 border-gray-900">
+                        <h3 class="text-3xl font-extrabold text-white">Project Alpha</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-lg text-gray-700 mb-6">
+                            A complete brand overhaul and web platform for a disruptive tech startup. We delivered a high-contrast, memorable identity.
+                        </p>
+                        <a href="#" class="neo-button bg-yellow-300 font-bold px-6 py-3 rounded-lg text-sm">
+                            View Case Study
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="animate-on-scroll delay-1 neo-shadow bg-white rounded-xl overflow-hidden hover:-translate-y-2 hover:shadow-[12px_12px_0px_#111827]">
+                    <div classs="p-6 bg-lime-300 border-b-2 border-gray-900">
+                        <h3 class="text-3xl font-extrabold text-gray-900 p-6">E-Comm Brut</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-lg text-gray-700 mb-6">
+                            An e-commerce experience that throws out the rulebook. Built for fast conversions and zero friction.
+                        </p>
+                        <a href="#" class="neo-button bg-yellow-300 font-bold px-6 py-3 rounded-lg text-sm">
+                            View Case Study
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="animate-on-scroll delay-2 neo-shadow bg-white rounded-xl overflow-hidden hover:-translate-y-2 hover:shadow-[12px_12px_0px_#111827]">
+                    <div class="p-6 bg-blue-600 border-b-2 border-gray-900">
+                        <h3 class="text-3xl font-extrabold text-white">Mono Portfolio</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-lg text-gray-700 mb-6">
+                            A minimal, type-first portfolio for a world-renowned photographer. The design gets out of the way and lets the work speak.
+                        </p>
+                        <a href="#" class="neo-button bg-yellow-300 font-bold px-6 py-3 rounded-lg text-sm">
+                            View Case Study
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 
+          FOOTER
+          Simple, blocky, and to the point.
+        -->
+        <footer id="contact" class="bg-white border-t-2 border-gray-900 mt-24">
+            <div class="container mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <p class="text-2xl font-extrabold">
+                        RAW<span class="text-pink-500">.</span>
+                    </p>
+                    <p class="text-gray-600 font-mono text-sm">
+                        Honest Design. Fearless Function.
+                    </p>
+                </div>
+                <div class="flex space-x-6 font-mono font-bold">
+                    <a href="#" class="text-gray-900 hover:text-pink-500">Twitter</a>
+                    <a href="#" class="text-gray-900 hover:text-pink-500">LinkedIn</a>
+                    <a href="#" class="text-gray-900 hover:text-pink-500">Github</a>
+                </div>
+            </div>
+            <div class="border-t-2 border-gray-900">
+                <p class="text-center text-gray-600 font-mono text-xs py-4">
+                    © 2025 RAW Digital. All rights reserved.
+                </p>
+            </div>
+        </footer>
+
+    </main>
+
+
+    <!-- 
+      JavaScript for Scroll Animations
+      This script finds all elements with the 'animate-on-scroll' class
+      and adds the 'is-visible' class when they enter the viewport.
+    -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Select all elements to animate
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+            // Set up the Intersection Observer
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // If the element is intersecting (in view)
+                    if (entry.isIntersecting) {
+                        // Add the 'is-visible' class to trigger the animation
+                        entry.target.classList.add('is-visible');
+                        
+                        // Stop observing this element (animation only happens once)
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            // Observe each animated element
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
