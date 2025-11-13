@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEO.BRUTE / Experimental Web</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              brutal: ["Space Grotesk", "system-ui", "sans-serif"],
+            },
+            colors: {
+              ink: "#050816",
+              acid: "#E5FF00",
+              candy: "#FF4D9A",
+              skywire: "#00F0FF",
+              cement: "#F3F4F6",
+              coal: "#111827",
+            },
+            boxShadow: {
+              brutal: "8px 8px 0 0 #000000",
+              brutalLg: "14px 14px 0 0 #000000",
+            },
+            rotate: {
+              1: "1deg",
+              2: "2deg",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Custom helpers on top of Tailwind */
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px) scale(0.98);
+        transition: opacity 0.7s cubic-bezier(0.19, 1, 0.22, 1),
+          transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .reveal-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .noise-bg {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .noise-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        opacity: 0.35;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .section-pin {
+        scroll-margin-top: 6rem;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-cement text-ink font-brutal">
+    <!-- Frame -->
+    <div
+      class="min-h-screen border-[3px] border-black bg-cement max-w-6xl mx-auto my-4 md:my-8 shadow-brutalLg flex flex-col"
+    >
+      <!-- Top bar -->
+      <header
+        class="flex items-center justify-between gap-4 border-b-[3px] border-black bg-acid px-3 sm:px-5 py-2 sm:py-3"
+      >
+        <div class="flex items-center gap-2 sm:gap-3">
+          <span
+            class="h-7 w-7 sm:h-9 sm:w-9 rounded-md border-[3px] border-black bg-candy flex items-center justify-center shadow-brutal rotate-2"
+          >
+            <span class="h-2 w-2 bg-black"></span>
+          </span>
+          <div class="leading-tight">
+            <h1 class="text-xs sm:text-sm font-semibold tracking-[0.18em]">
+              NEO.BRUTE
+            </h1>
+            <p class="text-[0.6rem] sm:text-[0.7rem] uppercase">
+              Experimental web interface v0.1
+            </p>
+          </div>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-2 text-xs font-semibold">
+          <a
+            href="#about"
+            class="px-3 py-1 border-[3px] border-black bg-cement hover:bg-skywire/70 transition-colors shadow-brutal"
+          >
+            About
+          </a>
+          <a
+            href="#modules"
+            class="px-3 py-1 border-[3px] border-black bg-candy hover:bg-candy/80 transition-colors shadow-brutal"
+          >
+            Modules
+          </a>
+          <a
+            href="#gallery"
+            class="px-3 py-1 border-[3px] border-black bg-skywire hover:bg-skywire/80 transition-colors shadow-brutal"
+          >
+            Gallery
+          </a>
+          <a
+            href="#contact"
+            class="px-3 py-1 border-[3px] border-black bg-black text-acid hover:bg-ink transition-colors shadow-brutal"
+          >
+            Contact
+          </a>
+        </nav>
+
+        <button
+          id="menuBtn"
+          class="md:hidden px-2 py-1 border-[3px] border-black bg-black text-acid text-xs font-semibold shadow-brutal"
+        >
+          MENU
+        </button>
+      </header>
+
+      <!-- Mobile nav -->
+      <nav
+        id="mobileNav"
+        class="md:hidden border-b-[3px] border-black bg-cement px-3 py-2 space-y-1 hidden"
+      >
+        <a
+          href="#about"
+          class="block text-xs font-semibold px-2 py-1 border-[2px] border-black bg-acid"
+        >
+          01 / ABOUT
+        </a>
+        <a
+          href="#modules"
+          class="block text-xs font-semibold px-2 py-1 border-[2px] border-black bg-skywire"
+        >
+          02 / MODULES
+        </a>
+        <a
+          href="#gallery"
+          class="block text-xs font-semibold px-2 py-1 border-[2px] border-black bg-candy"
+        >
+          03 / GALLERY
+        </a>
+        <a
+          href="#contact"
+          class="block text-xs font-semibold px-2 py-1 border-[2px] border-black bg-black text-acid"
+        >
+          04 / CONTACT
+        </a>
+      </nav>
+
+      <!-- Content -->
+      <main class="flex-1 grid lg:grid-cols-[1.3fr_minmax(0,1fr)]">
+        <!-- Left: Hero + sections -->
+        <section
+          class="border-r-[3px] border-black flex flex-col overflow-y-auto noise-bg"
+        >
+          <!-- Hero -->
+          <div
+            id="top"
+            class="section-pin min-h-[60vh] md:min-h-[70vh] lg:min-h-[65vh] border-b-[3px] border-black bg-gradient-to-br from-acid via-cement to-skywire px-4 sm:px-6 py-8 sm:py-10 flex flex-col justify-between gap-6"
+          >
+            <div class="flex flex-col gap-6 md:gap-8 lg:flex-row lg:items-start">
+              <div class="max-w-xl space-y-4 md:space-y-5 reveal">
+                <p class="text-[0.65rem] sm:text-xs font-semibold tracking-[0.2em] uppercase">
+                  / 001 — Neo-brutalist interface experiment
+                </p>
+                <h2
+                  class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.02] tracking-tight drop-shadow-[4px_4px_0_#000]"
+                >
+                  Web design that<br />
+                  <span class="bg-black text-acid px-2 pb-1">
+                    hits like a glitchy billboard.
+                  </span>
+                </h2>
+                <p
+                  class="text-[0.8rem] sm:text-sm md:text-[0.9rem] max-w-md bg-cement/80 border-[3px] border-black shadow-brutal px-3 py-2"
+                >
+                  Loud colors. Hard edges. Zero subtlety. This layout was built to
+                  scroll, snap, jolt and glide — all at once. Resize the window,
+                  scroll slowly and let the interface misbehave in style.
+                </p>
+
+                <div class="flex flex-wrap gap-2 text-[0.65rem] sm:text-xs">
+                  <span
+                    class="px-2 py-1 border-[2px] border-black bg-skywire shadow-brutal"
+                  >
+                    tailwind-powered
+                  </span>
+                  <span
+                    class="px-2 py-1 border-[2px] border-black bg-candy shadow-brutal rotate-1"
+                  >
+                    neo-brutalism
+                  </span>
+                  <span
+                    class="px-2 py-1 border-[2px] border-black bg-acid shadow-brutal -rotate-1"
+                  >
+                    scroll animations
+                  </span>
+                </div>
+              </div>
+
+              <!-- Hero side widget -->
+              <div
+                class="lg:w-64 xl:w-72 shrink-0 space-y-3 md:space-y-4 reveal"
+              >
+                <div
+                  class="border-[3px] border-black bg-cement shadow-brutal p-3 flex flex-col gap-3"
+                >
+                  <div class="flex items-center justify-between text-[0.7rem]">
+                    <span class="font-semibold">LIVE LAYOUT FEED</span>
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 border-[2px] border-black bg-black text-acid"
+                    >
+                      <span class="h-2 w-2 rounded-full bg-acid animate-ping"></span>
+                      v0.1
+                    </span>
+                  </div>
+
+                  <div class="space-y-1 text-[0.7rem]">
+                    <div class="flex justify-between">
+                      <span>Viewport</span>
+                      <span id="vpSize">-- x --</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Scroll depth</span>
+                      <span id="scrollDepth">0%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Color mood</span>
+                      <span id="colorMood">ACIDIC</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onclick="document.querySelector('#modules').scrollIntoView({ behavior: 'smooth' })"
+                  class="w-full text-left text-xs md:text-[0.8rem] font-semibold border-[3px] border-black bg-black text-acid px-3 py-2 shadow-brutal hover:-translate-y-[2px] hover:-translate-x-[2px] active:translate-y-0 active:translate-x-0 transition-transform"
+                >
+                  ↓ Scroll to modules & interactions
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- About -->
+          <section
+            id="about"
+            class="section-pin border-b-[3px] border-black bg-cement px-4 sm:px-6 py-8 sm:py-10 space-y-6 md:space-y-8"
+          >
+            <div class="flex flex-col md:flex-row gap-6 md:gap-10 reveal">
+              <div class="space-y-3 md:space-y-4 max-w-xl">
+                <h3
+                  class="inline-flex items-center gap-2 px-3 py-1 border-[3px] border-black bg-acid shadow-brutal text-xs font-semibold tracking-[0.16em] uppercase"
+                >
+                  <span class="h-2 w-2 bg-black"></span>
+                  02 / WHAT IS THIS?
+                </h3>
+                <p class="text-sm md:text-[0.95rem] leading-relaxed">
+                  This single-page layout is a playground for bold UI decisions:
+                  thick borders, layered shadows, flat colors that collide instead
+                  of blending. It’s designed to make every scroll feel like
+                  flicking through oversized zines in a digital arcade.
+                </p>
+                <p class="text-xs md:text-[0.8rem] leading-relaxed">
+                  You can repurpose this as a personal site, portfolio, landing
+                  page or even a design manifesto. All components are pure HTML,
+                  Tailwind and a tiny sprinkle of JavaScript for interaction.
+                </p>
+              </div>
+
+              <div class="flex-1 space-y-3 text-xs md:text-[0.8rem]">
+                <div
+                  class="border-[3px] border-black bg-skywire/70 shadow-brutal px-3 py-3"
+                >
+                  <p class="font-semibold mb-1">Design Rules</p>
+                  <ul class="list-disc list-inside space-y-0.5">
+                    <li>Always visible structure (borders everywhere).</li>
+                    <li>Typography is loud and slightly misaligned.</li>
+                    <li>Shadows look more like stickers than realism.</li>
+                    <li>Colors clash on purpose, not by accident.</li>
+                  </ul>
+                </div>
+
+                <div
+                  class="border-[3px] border-black bg-candy/80 shadow-brutal px-3 py-3"
+                >
+                  <p class="font-semibold mb-1">Tech Stack</p>
+                  <p>
+                    Tailwind CSS via CDN, vanilla JavaScript for scroll
+                    monitoring + intersection observers, and semantic HTML.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Modules / Features -->
+          <section
+            id="modules"
+            class="section-pin border-b-[3px] border-black bg-ink text-cement px-4 sm:px-6 py-8 sm:py-10 space-y-6 md:space-y-8"
+          >
+            <div class="flex flex-col md:flex-row md:items-center gap-4 reveal">
+              <h3
+                class="inline-flex items-center gap-2 px-3 py-1 border-[3px] border-cement bg-acid text-ink shadow-brutal text-xs font-semibold tracking-[0.16em] uppercase"
+              >
+                <span class="h-2 w-2 bg-black"></span>
+                03 / INTERACTION MODULES
+              </h3>
+              <p class="text-xs md:text-[0.85rem] max-w-md">
+                Each module below is an independent UI block that reacts to
+                scroll, hover or layout changes. Mix, match, rip apart.
+              </p>
+            </div>
+
+            <div
+              class="grid md:grid-cols-2 gap-4 md:gap-5 lg:gap-6 auto-rows-fr"
+            >
+              <!-- Card 1 -->
+              <article
+                class="reveal border-[3px] border-cement bg-acid text-ink shadow-brutal flex flex-col justify-between p-4 space-y-3"
+              >
+                <header class="flex items-start justify-between gap-2">
+                  <h4 class="text-sm font-semibold uppercase tracking-[0.12em]">
+                    Scroll-reactive HUD
+                  </h4>
+                  <span class="text-[0.6rem] px-2 py-1 border-[2px] border-black">
+                    module: 01
+                  </span>
+                </header>
+                <p class="text-xs">
+                  A floating “status panel” at the top of the page monitors your
+                  viewport width, scroll depth and mood color. The values update
+                  as you move, turning the layout into a living dashboard.
+                </p>
+              </article>
+
+              <!-- Card 2 -->
+              <article
+                class="reveal border-[3px] border-cement bg-candy text-ink shadow-brutal flex flex-col justify-between p-4 space-y-3 rotate-1 md:rotate-0"
+              >
+                <header class="flex items-start justify-between gap-2">
+                  <h4 class="text-sm font-semibold uppercase tracking-[0.12em]">
+                    Brutal scroll reveals
+                  </h4>
+                  <span class="text-[0.6rem] px-2 py-1 border-[2px] border-black">
+                    module: 02
+                  </span>
+                </header>
+                <p class="text-xs">
+                  Sections and cards slide up into place using intersection
+                  observers. No heavy animation libraries — just timing and
+                  tension.
+                </p>
+              </article>
+
+              <!-- Card 3 -->
+              <article
+                class="reveal border-[3px] border-cement bg-skywire text-ink shadow-brutal flex flex-col justify-between p-4 space-y-3 -rotate-1 md:rotate-0"
+              >
+                <header class="flex items-start justify-between gap-2">
+                  <h4 class="text-sm font-semibold uppercase tracking-[0.12em]">
+                    Layout that misbehaves
+                  </h4>
+                  <span class="text-[0.6rem] px-2 py-1 border-[2px] border-black">
+                    module: 03
+                  </span>
+                </header>
+                <p class="text-xs">
+                  On small screens, everything stacks like chunky blocks. On
+                  larger displays, the page turns into a split-screen dashboard
+                  with a live side panel.
+                </p>
+              </article>
+
+              <!-- Card 4 -->
+              <article
+                class="reveal border-[3px] border-cement bg-cement text-ink shadow-brutal flex flex-col justify-between p-4 space-y-3"
+              >
+                <header class="flex items-start justify-between gap-2">
+                  <h4 class="text-sm font-semibold uppercase tracking-[0.12em]">
+                    Responsive without being shy
+                  </h4>
+                  <span class="text-[0.6rem] px-2 py-1 border-[2px] border-black">
+                    module: 04
+                  </span>
+                </header>
+                <p class="text-xs">
+                  Instead of hiding elements on mobile, we just compress and
+                  re-stack them, preserving the anarchic energy of the desktop
+                  layout.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <!-- Gallery / Scroll lab -->
+          <section
+            id="gallery"
+            class="section-pin border-b-[3px] border-black bg-cement px-4 sm:px-6 py-8 sm:py-10 space-y-6 md:space-y-8"
+          >
+            <div class="flex flex-col md:flex-row md:items-end gap-4 reveal">
+              <div class="space-y-3 max-w-lg">
+                <h3
+                  class="inline-flex items-center gap-2 px-3 py-1 border-[3px] border-black bg-skywire shadow-brutal text-xs font-semibold tracking-[0.16em] uppercase"
+                >
+                  <span class="h-2 w-2 bg-black"></span>
+                  04 / SCROLL LAB
+                </h3>
+                <p class="text-sm md:text-[0.95rem]">
+                  This strip of panels is built as a mini storyboard. Scroll
+                  slowly — the cards will pop into view and form a loose
+                  narrative about motion.
+                </p>
+              </div>
+              <p class="text-xs md:text-[0.8rem] max-w-xs">
+                Hint: Try flicking the scroll wheel vs. using trackpad gestures.
+                The experience feels different because the animations are tuned
+                for both micro and macro movements.
+              </p>
+            </div>
+
+            <div
+              class="grid md:grid-cols-3 gap-3 md:gap-4 lg:gap-5 auto-rows-fr"
+            >
+              <div
+                class="reveal border-[3px] border-black bg-black text-acid shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 01</span>
+                  <span>[enter]</span>
+                </div>
+                <p class="text-xs">
+                  Scroll enters. The first block snaps in. You realise the layout
+                  is aware of you.
+                </p>
+              </div>
+
+              <div
+                class="reveal border-[3px] border-black bg-acid text-ink shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 02</span>
+                  <span>[drift]</span>
+                </div>
+                <p class="text-xs">
+                  As you drift downward, cards align in a grid that barely holds
+                  itself together.
+                </p>
+              </div>
+
+              <div
+                class="reveal border-[3px] border-black bg-candy text-ink shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 03</span>
+                  <span>[impact]</span>
+                </div>
+                <p class="text-xs">
+                  Bright elements collide with dark ones. The composition becomes
+                  more intentional.
+                </p>
+              </div>
+
+              <div
+                class="reveal border-[3px] border-black bg-skywire text-ink shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 04</span>
+                  <span>[loop]</span>
+                </div>
+                <p class="text-xs">
+                  Repeating patterns emerge. Your eye loops across the layout in
+                  wide diagonals.
+                </p>
+              </div>
+
+              <div
+                class="reveal border-[3px] border-black bg-cement text-ink shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 05</span>
+                  <span>[pause]</span>
+                </div>
+                <p class="text-xs">
+                  Negative space returns. You’re invited to breathe before the
+                  final flick.
+                </p>
+              </div>
+
+              <div
+                class="reveal border-[3px] border-black bg-black text-acid shadow-brutal flex flex-col justify-between p-3 space-y-2"
+              >
+                <div class="flex justify-between text-[0.65rem]">
+                  <span>Panel 06</span>
+                  <span>[exit]</span>
+                </div>
+                <p class="text-xs">
+                  You hit the bottom and snap back to the top. Neo-brutalism
+                  loves loops.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Contact -->
+          <section
+            id="contact"
+            class="section-pin bg-ink text-cement px-4 sm:px-6 py-8 sm:py-10 space-y-6 md:space-y-8"
+          >
+            <div class="flex flex-col lg:flex-row gap-6 md:gap-10 reveal">
+              <div class="space-y-3 md:space-y-4 max-w-lg">
+                <h3
+                  class="inline-flex items-center gap-2 px-3 py-1 border-[3px] border-cement bg-acid text-ink shadow-brutal text-xs font-semibold tracking-[0.16em] uppercase"
+                >
+                  <span class="h-2 w-2 bg-black"></span>
+                  05 / CONTACT PANEL
+                </h3>
+                <p class="text-sm md:text-[0.95rem]">
+                  Turn this section into a real form, or keep it as a conceptual
+                  prompt. The layout is wired for both.
+                </p>
+
+                <form class="space-y-3 text-xs md:text-[0.8rem]">
+                  <div class="space-y-1">
+                    <label class="font-semibold" for="email">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="you@domain.tld"
+                      class="w-full px-3 py-2 border-[3px] border-cement bg-ink focus:bg-cement focus:text-ink focus:outline-none focus:ring-0 shadow-brutal placeholder:text-cement/50"
+                    />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="font-semibold" for="message">Message</label>
+                    <textarea
+                      id="message"
+                      rows="3"
+                      placeholder="Tell me how you’d bend this layout to your will."
+                      class="w-full px-3 py-2 border-[3px] border-cement bg-ink focus:bg-cement focus:text-ink focus:outline-none focus:ring-0 shadow-brutal placeholder:text-cement/50"
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="inline-flex items-center gap-2 px-4 py-2 border-[3px] border-cement bg-acid text-ink font-semibold shadow-brutal hover:-translate-y-[2px] hover:-translate-x-[2px] active:translate-y-0 active:translate-x-0 transition-transform"
+                  >
+                    <span>Transmit Signal</span>
+                    <span class="text-[0.7rem]">⇢</span>
+                  </button>
+                </form>
+              </div>
+
+              <div
+                class="flex-1 border-[3px] border-cement bg-cement text-ink shadow-brutal p-4 space-y-3 text-xs md:text-[0.8rem] reveal"
+              >
+                <div class="flex justify-between">
+                  <span class="font-semibold">Layout Status</span>
+                  <span id="statusTag">EXPERIMENTAL</span>
+                </div>
+                <p>
+                  Copy the HTML into your own project, swap the palette, change
+                  the type scale, and wire it up to your framework of choice.
+                  Everything here is framework-agnostic.
+                </p>
+                <p>
+                  The only rule: keep it a little bit too loud. Minimalism can
+                  sit this one out.
+                </p>
+              </div>
+            </div>
+
+            <footer
+              class="mt-6 border-t-[3px] border-cement pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[0.65rem] md:text-[0.7rem]"
+            >
+              <div class="flex items-center gap-2">
+                <span
+                  class="h-4 w-4 rounded-[4px] border-[2px] border-cement bg-black flex items-center justify-center"
+                >
+                  <span class="h-1 w-1 bg-acid"></span>
+                </span>
+                <span>
+                  NEO.BRUTE &copy; <span id="year"></span>. Crafted as a design
+                  experiment.
+                </span>
+              </div>
+
+              <button
+                onclick="document.querySelector('#top').scrollIntoView({ behavior: 'smooth' })"
+                class="px-3 py-1 border-[3px] border-cement bg-acid text-ink font-semibold shadow-brutal"
+              >
+                ↑ Back to top
+              </button>
+            </footer>
+          </section>
+        </section>
+
+        <!-- Right: Info rail -->
+        <aside
+          class="hidden lg:flex flex-col border-l-[3px] border-black bg-cement divide-y-[3px] divide-black overflow-hidden"
+        >
+          <div class="p-4 space-y-3 bg-acid/80">
+            <p class="text-[0.7rem] font-semibold tracking-[0.18em] uppercase">
+              Layout telemetry
+            </p>
+            <p class="text-[0.75rem]">
+              This side rail stays fixed on large screens, acting as a
+              commentary track for the main canvas.
+            </p>
+          </div>
+
+          <div class="p-4 space-y-3 text-[0.75rem] bg-cement reveal">
+            <h4 class="font-semibold">How to use this file</h4>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Drop into any project as a starting point.</li>
+              <li>Replace copy with your own content.</li>
+              <li>Swap the color tokens in the Tailwind config.</li>
+              <li>Port sections into components if you use React/Vue/etc.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 space-y-3 text-[0.75rem] bg-skywire/60 reveal">
+            <h4 class="font-semibold">Customization prompts</h4>
+            <p>
+              Ask yourself: what happens if every section gets its own harsh
+              color combo? What if error states are celebrated instead of hidden?
+            </p>
+          </div>
+
+          <div class="p-4 space-y-2 text-[0.75rem] bg-black text-acid reveal">
+            <h4 class="font-semibold">Little details</h4>
+            <p>
+              Scroll margin is tuned so anchor links don’t hide behind the
+              header. Shadows land in 90-degree angles like printed stickers.
+            </p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script>
+      // Mobile nav toggle
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileNav = document.getElementById("mobileNav");
+      if (menuBtn && mobileNav) {
+        menuBtn.addEventListener("click", () => {
+          mobileNav.classList.toggle("hidden");
+        });
+      }
+
+      // Viewport + scroll HUD
+      const vpSize = document.getElementById("vpSize");
+      const scrollDepth = document.getElementById("scrollDepth");
+      const colorMood = document.getElementById("colorMood");
+      const statusTag = document.getElementById("statusTag");
+
+      function updateViewport() {
+        if (!vpSize) return;
+        vpSize.textContent = `${window.innerWidth} x ${window.innerHeight}`;
+      }
+
+      function updateScroll() {
+        if (!scrollDepth || !colorMood) return;
+        const doc = document.documentElement;
+        const total = doc.scrollHeight - doc.clientHeight;
+        const current = doc.scrollTop;
+        const ratio = total > 0 ? current / total : 0;
+        const percent = Math.round(ratio * 100);
+        scrollDepth.textContent = percent + "%";
+
+        // Mood based on scroll
+        let mood = "ACIDIC";
+        if (percent > 70) mood = "NOCTURNAL";
+        else if (percent > 40) mood = "ELECTRIC";
+        colorMood.textContent = mood;
+
+        if (statusTag) {
+          statusTag.textContent = percent > 60 ? "DIALED IN" : "EXPERIMENTAL";
+        }
+      }
+
+      window.addEventListener("resize", updateViewport);
+      window.addEventListener("scroll", updateScroll, { passive: true });
+      updateViewport();
+      updateScroll();
+
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.08,
+        }
+      );
+
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+      // Year in footer
+      const yearEl = document.getElementById("year");
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
