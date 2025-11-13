@@ -1,0 +1,81 @@
+/* Apply the Inter font as the default */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fefce8; /* Tailwind bg-yellow-50 */
+    color: #111827; /* Tailwind gray-900 */
+    /* Enables smooth scrolling */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Use Space Mono for specific elements */
+.font-mono {
+    font-family: 'Space Mono', monospace;
+}
+
+/* * THE NEO-BRUTALIST SHADOW
+ * This is the signature effect. A hard, offset border.
+*/
+.neo-shadow {
+    border: 2px solid #111827;
+    box-shadow: 8px 8px 0px #111827;
+    transition: all 0.2s ease-out;
+}
+.neo-shadow-sm {
+    border: 2px solid #111827;
+    box-shadow: 4px 4px 0px #111827;
+    transition: all 0.2s ease-out;
+}
+
+/* * THE NEO-BRUTALIST BUTTON
+ * It "pushes in" on hover and "clicks" on active.
+*/
+.neo-button {
+    border: 2px solid #111827;
+    box-shadow: 6px 6px 0px #111827;
+    transition: all 0.15s ease-out;
+}
+.neo-button:hover {
+    /* Lifts the button up and to the left */
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px #111827;
+}
+.neo-button:active {
+    /* Flattens the button on click */
+    transform: translate(0, 0);
+    box-shadow: none;
+}
+
+/* * MARQUEE SCROLL ANIMATION
+*/
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Stop at 50% for seamless loop */
+}
+
+.marquee-content {
+    /* Run the animation */
+    animation: marquee 40s linear infinite;
+    display: inline-block; /* Fixes whitespace bug */
+    white-space: nowrap;
+}
+
+/* * SCROLL-BASED FADE-IN/SLIDE-IN ANIMATION
+*/
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(3rem); /* Start 3rem down */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform; /* Performance hint */
+}
+
+/* The state when the element is visible */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation delays */
+.delay-1 { transition-delay: 150ms; }
+.delay-2 { transition-delay: 300ms; }
+.delay-3 { transition-delay: 450ms; }
