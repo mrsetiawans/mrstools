@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNHINGED // NEOBRUTALISM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Archivo Black"', 'sans-serif'],
+                        'mono': ['"Space Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'neo-yellow': '#EDF228',
+                        'neo-pink': '#FF6BDB',
+                        'neo-blue': '#4D96FF',
+                        'neo-green': '#6BCB77',
+                        'neo-black': '#1a1a1a',
+                        'neo-white': '#fcfcfc',
+                    },
+                    boxShadow: {
+                        'neo': '5px 5px 0px 0px rgba(0,0,0,1)',
+                        'neo-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+                        'neo-xl': '12px 12px 0px 0px rgba(0,0,0,1)',
+                        'neo-hover': '2px 2px 0px 0px rgba(0,0,0,1)',
+                    },
+                    animation: {
+                        'marquee': 'marquee 15s linear infinite',
+                        'marquee-reverse': 'marqueeReverse 15s linear infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        marqueeReverse: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Cursor Styles */
+        body {
+            cursor: none; /* Hide default cursor */
+        }
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: black;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid black;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Interactive Hover States for Cursor */
+        body:has(a:hover) .cursor-outline,
+        body:has(button:hover) .cursor-outline,
+        body:has(.interactive:hover) .cursor-outline {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(237, 242, 40, 0.5); /* neo-yellow with opacity */
+            border-color: black;
+            mix-blend-mode: difference;
+        }
+
+        /* Grid Background */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+        }
+
+        /* Scroll Reveal Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px) rotate(2deg);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-left: 2px solid black;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+            border: 2px solid #fff;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF6BDB;
+        }
+
+        /* Text Selection */
+        ::selection {
+            background: #000;
+            color: #EDF228;
+        }
+    </style>
+</head>
+<body class="bg-neo-white text-neo-black font-mono overflow-x-hidden bg-grid-pattern">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 p-4 mix-blend-hard-light">
+        <div class="flex justify-between items-center max-w-7xl mx-auto bg-white border-4 border-black p-4 shadow-neo-lg transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+            <a href="#" class="text-2xl md:text-4xl font-display font-bold uppercase tracking-tighter interactive hover:text-neo-pink transition-colors">
+                UNHINGED<span class="text-neo-blue">.</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-lg font-bold">
+                <a href="#work" class="hover:underline decoration-4 decoration-neo-pink interactive">WORK</a>
+                <a href="#services" class="hover:underline decoration-4 decoration-neo-green interactive">SERVICES</a>
+                <a href="#contact" class="hover:underline decoration-4 decoration-neo-yellow interactive">CONTACT</a>
+            </div>
+            <button class="md:hidden interactive" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-24 left-4 right-4 bg-neo-yellow border-4 border-black shadow-neo p-6 flex flex-col gap-4 text-center font-display text-2xl z-50">
+            <a href="#work" onclick="this.parentElement.classList.add('hidden')">WORK</a>
+            <a href="#services" onclick="this.parentElement.classList.add('hidden')">SERVICES</a>
+            <a href="#contact" onclick="this.parentElement.classList.add('hidden')">CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex items-center justify-center pt-32 pb-20 px-4 relative overflow-hidden">
+        <!-- Floating decorative elements -->
+        <div class="absolute top-1/4 left-10 w-24 h-24 bg-neo-pink border-4 border-black shadow-neo animate-spin-slow hidden lg:block"></div>
+        <div class="absolute bottom-1/4 right-10 w-32 h-32 bg-neo-blue border-4 border-black rounded-full shadow-neo hidden lg:block animate-bounce"></div>
+
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-block bg-neo-yellow border-4 border-black px-4 py-2 mb-8 shadow-neo transform rotate-2 reveal">
+                <span class="font-bold tracking-widest">EST. 2024 // WORLD WIDE WEB</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-display font-black leading-none mb-8 reveal" style="transition-delay: 100ms;">
+                WE MAKE <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neo-pink via-neo-blue to-neo-green" style="-webkit-text-stroke: 4px black;">DIGITAL</span>
+                <br> CHAOS.
+            </h1>
+
+            <p class="text-xl md:text-2xl max-w-2xl mx-auto bg-white border-4 border-black p-6 shadow-neo-lg mb-12 reveal" style="transition-delay: 200ms;">
+                A design collective allergic to minimalism. We build loud, proud, and aggressively functional websites for brands with guts.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center reveal" style="transition-delay: 300ms;">
+                <a href="#contact" class="interactive bg-black text-white border-4 border-black px-8 py-4 text-xl font-bold hover:bg-white hover:text-black hover:shadow-neo transition-all duration-200 hover:-translate-y-1">
+                    START PROJECT
+                </a>
+                <a href="#work" class="interactive bg-neo-pink border-4 border-black px-8 py-4 text-xl font-bold shadow-neo hover:shadow-neo-hover hover:translate-x-[3px] hover:translate-y-[3px] transition-all duration-200">
+                    VIEW GARBAGE
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Section -->
+    <div class="bg-black text-neo-yellow border-y-4 border-black py-4 overflow-hidden whitespace-nowrap mb-20 rotate-1 scale-105">
+        <div class="inline-block animate-marquee text-4xl font-display font-bold">
+            NO BORING WEBSITES • KILL THE TEMPLATE • MAKE IT POP • PIXEL PERFECT IS DEAD • CHAOS IS KING • NO BORING WEBSITES • KILL THE TEMPLATE • MAKE IT POP • PIXEL PERFECT IS DEAD • CHAOS IS KING •
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <section id="services" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="flex items-end gap-4 mb-16 reveal">
+            <h2 class="text-5xl md:text-7xl font-display font-black uppercase">What We Do</h2>
+            <div class="h-4 bg-black flex-grow mb-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="reveal group bg-white border-4 border-black p-8 shadow-neo-lg hover:shadow-neo-xl transition-all duration-300 hover:-translate-y-2 interactive">
+                <div class="w-16 h-16 bg-neo-blue border-4 border-black mb-6 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                    <i data-lucide="layout" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-3xl font-display font-bold mb-4">WEB DESIGN</h3>
+                <p class="text-lg leading-relaxed border-l-4 border-neo-pink pl-4">
+                    We don't do cookie-cutter. We build custom digital experiences that grab users by the eyeballs and don't let go.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="reveal group bg-neo-yellow border-4 border-black p-8 shadow-neo-lg hover:shadow-neo-xl transition-all duration-300 hover:-translate-y-2 interactive" style="transition-delay: 100ms;">
+                <div class="w-16 h-16 bg-neo-pink border-4 border-black mb-6 flex items-center justify-center group-hover:-rotate-12 transition-transform">
+                    <i data-lucide="zap" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-3xl font-display font-bold mb-4">BRANDING</h3>
+                <p class="text-lg leading-relaxed border-l-4 border-white pl-4">
+                    Logos, colors, vibes. We turn your boring company into a visual cult. Warning: May cause extreme recognition.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="reveal group bg-white border-4 border-black p-8 shadow-neo-lg hover:shadow-neo-xl transition-all duration-300 hover:-translate-y-2 interactive" style="transition-delay: 200ms;">
+                <div class="w-16 h-16 bg-neo-green border-4 border-black mb-6 flex items-center justify-center group-hover:rotate-180 transition-transform duration-500">
+                    <i data-lucide="code" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-3xl font-display font-bold mb-4">DEVELOPMENT</h3>
+                <p class="text-lg leading-relaxed border-l-4 border-neo-blue pl-4">
+                    Clean code, dirty aesthetics. Performance optimized so your site loads faster than your attention span.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reverse Marquee -->
+    <div class="bg-neo-pink text-black border-y-4 border-black py-4 overflow-hidden whitespace-nowrap mb-20 -rotate-1 scale-105">
+        <div class="inline-block animate-marquee-reverse text-4xl font-display font-bold">
+            RAW & UNCOOKED • BRUTAL HONESTY • NO FLUFF • JUST IMPACT • RAW & UNCOOKED • BRUTAL HONESTY • NO FLUFF • JUST IMPACT •
+        </div>
+    </div>
+
+    <!-- Work Section -->
+    <section id="work" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 reveal">
+            <h2 class="text-5xl md:text-7xl font-display font-black uppercase bg-neo-green inline-block px-4 border-4 border-black transform -rotate-2">Selected Works</h2>
+            <p class="mt-4 md:mt-0 font-bold text-xl">/// 2023 - 2025</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Project 1 -->
+            <div class="reveal group interactive">
+                <div class="relative border-4 border-black shadow-neo-lg bg-gray-200 aspect-video mb-6 overflow-hidden">
+                    <div class="absolute inset-0 bg-neo-blue opacity-0 group-hover:opacity-20 transition-opacity z-10"></div>
+                    <!-- Abstract Art CSS -->
+                    <div class="w-full h-full bg-white relative">
+                        <div class="absolute top-10 left-10 w-20 h-20 bg-black rounded-full"></div>
+                        <div class="absolute bottom-20 right-20 w-32 h-32 bg-neo-yellow border-4 border-black"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl font-black">PROJECT 01</div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-3xl font-display font-bold">CYBER_PUNK</h3>
+                        <p class="text-gray-600 font-bold">E-COMMERCE // UI</p>
+                    </div>
+                    <button class="bg-black text-white p-2 rounded-full hover:bg-neo-pink hover:text-black border-2 border-black transition-colors">
+                        <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="reveal group interactive md:mt-24">
+                <div class="relative border-4 border-black shadow-neo-lg bg-gray-200 aspect-video mb-6 overflow-hidden">
+                     <div class="absolute inset-0 bg-neo-pink opacity-0 group-hover:opacity-20 transition-opacity z-10"></div>
+                     <div class="w-full h-full bg-neo-black relative overflow-hidden">
+                         <div class="absolute top-0 left-0 w-full h-full" style="background: repeating-linear-gradient(45deg, #6BCB77 0px, #6BCB77 10px, #1a1a1a 10px, #1a1a1a 20px);"></div>
+                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-4 border-black p-4 font-black text-2xl">ACID.WAV</div>
+                     </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-3xl font-display font-bold">ACID HOUSE</h3>
+                        <p class="text-gray-600 font-bold">EVENT // BRANDING</p>
+                    </div>
+                    <button class="bg-black text-white p-2 rounded-full hover:bg-neo-green hover:text-black border-2 border-black transition-colors">
+                        <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-20 reveal">
+            <a href="#" class="inline-block text-2xl font-bold border-b-8 border-black hover:border-neo-blue hover:text-neo-blue transition-all interactive">VIEW ALL PROJECTS -></a>
+        </div>
+    </section>
+
+    <!-- Testimonial / Breaking Section -->
+    <section class="bg-neo-yellow border-y-4 border-black py-20 relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-64 h-64 bg-white border-4 border-black rounded-full flex items-center justify-center transform rotate-12 shadow-neo-lg hidden md:flex">
+            <span class="font-display font-black text-xl text-center p-8">CLIENTS<br>LOVE<br>THE<br>PAIN</span>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-4 text-center reveal">
+            <i data-lucide="quote" class="w-16 h-16 mx-auto mb-8 text-black fill-black"></i>
+            <p class="text-3xl md:text-5xl font-display font-black leading-tight mb-8">
+                "I ASKED FOR A WEBSITE. THEY GAVE ME A DIGITAL PANIC ATTACK. SALES ARE UP 400%. I AM TERRIFIED BUT RICH."
+            </p>
+            <div class="text-xl font-bold border-4 border-black bg-white inline-block px-6 py-2 shadow-neo">
+                — CEO of MEGACORP
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="max-w-7xl mx-auto px-4 py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div class="reveal">
+                <h2 class="text-6xl md:text-8xl font-display font-black mb-8 text-shadow-custom">
+                    LET'S<br>GET<br>WEIRD.
+                </h2>
+                <p class="text-xl mb-8 font-bold">
+                    Got a project? A vague idea? A complaint? Send it over. We reply to everything except spam and boring emails.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="interactive w-12 h-12 bg-black text-white flex items-center justify-center border-2 border-black hover:bg-neo-pink hover:text-black transition-colors">
+                        <i data-lucide="instagram"></i>
+                    </a>
+                    <a href="#" class="interactive w-12 h-12 bg-black text-white flex items-center justify-center border-2 border-black hover:bg-neo-blue hover:text-black transition-colors">
+                        <i data-lucide="twitter"></i>
+                    </a>
+                    <a href="#" class="interactive w-12 h-12 bg-black text-white flex items-center justify-center border-2 border-black hover:bg-neo-green hover:text-black transition-colors">
+                        <i data-lucide="linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white border-4 border-black p-8 shadow-neo-xl reveal relative">
+                <!-- Decorative Corner -->
+                <div class="absolute -top-4 -right-4 w-12 h-12 bg-neo-pink border-4 border-black z-10"></div>
+
+                <form class="flex flex-col gap-6" onsubmit="event.preventDefault(); alert('Message Sent to the Void (Just kidding, this is a demo).');">
+                    <div>
+                        <label class="block font-black text-xl mb-2 uppercase">Name</label>
+                        <input type="text" class="w-full bg-gray-100 border-4 border-black p-4 font-bold focus:outline-none focus:shadow-neo focus:bg-neo-yellow transition-all interactive placeholder-gray-500" placeholder="WHO ARE YOU?">
+                    </div>
+                    <div>
+                        <label class="block font-black text-xl mb-2 uppercase">Email</label>
+                        <input type="email" class="w-full bg-gray-100 border-4 border-black p-4 font-bold focus:outline-none focus:shadow-neo focus:bg-neo-green transition-all interactive placeholder-gray-500" placeholder="WHERE DO WE SPAM?">
+                    </div>
+                    <div>
+                        <label class="block font-black text-xl mb-2 uppercase">Message</label>
+                        <textarea rows="4" class="w-full bg-gray-100 border-4 border-black p-4 font-bold focus:outline-none focus:shadow-neo focus:bg-neo-pink transition-all interactive placeholder-gray-500" placeholder="TELL US EVERYTHING."></textarea>
+                    </div>
+                    <button type="submit" class="bg-black text-white font-display font-black text-2xl py-4 border-4 border-black hover:bg-white hover:text-black hover:shadow-neo transition-all interactive uppercase">
+                        Send It
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12 border-t-4 border-white">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <h3 class="font-display text-4xl font-bold mb-2">UNHINGED.</h3>
+                <p class="text-gray-400">© 2025 Neo-Brutalism Collective.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 font-bold text-neo-yellow">
+                <a href="#" class="hover:bg-white hover:text-black px-2 transition-colors interactive">PRIVACY</a>
+                <a href="#" class="hover:bg-white hover:text-black px-2 transition-colors interactive">TERMS</a>
+                <a href="#" class="hover:bg-white hover:text-black px-2 transition-colors interactive">SITEMAP</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        // Only run cursor logic on non-touch devices
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                // Dot follows immediately
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // Outline follows with slight delay using animate() for better performance
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+        }
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: Stop observing once revealed
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Add random tilt to certain elements on click
+        document.querySelectorAll('.interactive').forEach(el => {
+            el.addEventListener('click', function() {
+                const rotation = Math.random() * 10 - 5; // Random between -5 and 5
+                this.style.transform = `rotate(${rotation}deg) scale(0.95)`;
+                setTimeout(() => {
+                    this.style.transform = 'none';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
