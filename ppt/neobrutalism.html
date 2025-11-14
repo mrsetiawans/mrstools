@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>PROPOSAL SKRIPSI // M. RIZAL SETIAWAN</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Archivo Black"', 'sans-serif'],
+                        'mono': ['"Space Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'neo-yellow': '#EDF228',
+                        'neo-pink': '#FF6BDB',
+                        'neo-blue': '#4D96FF',
+                        'neo-green': '#6BCB77',
+                        'neo-red': '#FF5757',
+                        'neo-black': '#1a1a1a',
+                        'neo-white': '#fcfcfc',
+                    },
+                    boxShadow: {
+                        'neo': '5px 5px 0px 0px rgba(0,0,0,1)',
+                        'neo-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+                        'neo-xl': '12px 12px 0px 0px rgba(0,0,0,1)',
+                        'neo-hover': '2px 2px 0px 0px rgba(0,0,0,1)',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+            background: #fcfcfc;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: black;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid black;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        body:has(button:hover) .cursor-outline,
+        body:has(.interactive:hover) .cursor-outline {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(237, 242, 40, 0.5);
+            border-color: black;
+        }
+
+        /* Presentation Mode Laser */
+        body.presenting {
+            cursor: none;
+        }
+
+        body.presenting .cursor-outline {
+            width: 20px;
+            height: 20px;
+            background-color: #FF5757;
+            border: 3px solid black;
+            box-shadow: 0 0 20px rgba(255, 87, 87, 0.8);
+        }
+
+        body.presenting .cursor-dot {
+            display: none;
+        }
+
+        /* Grid Background */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: #1a1a1a;
+            z-index: 101;
+            border-bottom: 3px solid black;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6BDB 0%, #4D96FF 50%, #EDF228 100%);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 3px solid black;
+        }
+
+        .slide-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(100px) rotate(2deg);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) rotate(0);
+            z-index: 10;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar {
+            width: 14px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-left: 3px solid black;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: #000;
+            border: 3px solid #fff;
+        }
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: #FF6BDB;
+        }
+
+        /* Control Bar */
+        .control-bar {
+            height: 70px;
+            background: white;
+            border-top: 4px solid black;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            flex-shrink: 0;
+        }
+
+        .control-button {
+            background: black;
+            border: 3px solid black;
+            color: white;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+            font-weight: bold;
+        }
+
+        .control-button:hover:not(:disabled) {
+            background: #EDF228;
+            color: black;
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px rgba(0,0,0,1);
+        }
+
+        .control-button:active {
+            transform: translate(0, 0);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+
+        .control-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .control-button.play-active {
+            background: #FF5757;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 5px 5px 0px 0px rgba(0,0,0,1); }
+            50% { box-shadow: 8px 8px 0px 0px rgba(255, 87, 87, 0.5); }
+        }
+
+        .slide-counter {
+            background: white;
+            border: 3px solid black;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+        }
+
+        .timer-display {
+            display: none;
+            background: white;
+            border: 3px solid black;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            gap: 0.75rem;
+            align-items: center;
+            box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+        }
+
+        .timer-display.active {
+            display: flex;
+        }
+
+        .timer-text {
+            color: #FF5757;
+            font-size: 1.1rem;
+            font-weight: 900;
+            min-width: 55px;
+            letter-spacing: 1px;
+        }
+
+        /* Slide Styles */
+        .slide-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: black;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 6px solid black;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .stat-card {
+            background: white;
+            border: 4px solid black;
+            padding: 2.5rem;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px rgba(0,0,0,1);
+        }
+
+        .stat-number {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .info-box {
+            background: white;
+            border: 4px solid black;
+            padding: 2rem;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+            transition: all 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: translate(-3px, -3px) rotate(-1deg);
+            box-shadow: 11px 11px 0px 0px rgba(0,0,0,1);
+        }
+
+        .highlight-box {
+            background: #EDF228;
+            border: 4px solid black;
+            padding: 2rem;
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+            font-weight: 700;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: black;
+            color: white;
+            text-align: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(237, 242, 40, 0.03) 10px,
+                rgba(237, 242, 40, 0.03) 20px
+            );
+            animation: slide-bg 20s linear infinite;
+        }
+
+        @keyframes slide-bg {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .title-badge {
+            display: inline-block;
+            background: #FF6BDB;
+            color: black;
+            padding: 1rem 2.5rem;
+            border: 4px solid white;
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 8px 8px 0px 0px rgba(255, 255, 255, 1);
+            transform: rotate(-2deg);
+        }
+
+        .title-main {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.25rem;
+            line-height: 1.2;
+            margin: 2rem 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .pembimbing-card {
+            background: #1f2937;
+            border: 4px solid #FF6BDB;
+            padding: 1.5rem;
+            box-shadow: 6px 6px 0px 0px rgba(255, 107, 219, 1);
+            transition: all 0.3s ease;
+        }
+
+        .pembimbing-card:hover {
+            transform: translate(-3px, -3px) rotate(1deg);
+            box-shadow: 9px 9px 0px 0px rgba(255, 107, 219, 1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+            .slide-title {
+                font-size: 1.75rem;
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+            .title-main {
+                font-size: 1.5rem;
+            }
+            .control-bar {
+                padding: 0 1rem;
+                height: 60px;
+            }
+            .control-button {
+                width: 45px;
+                height: 45px;
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+<body class="bg-grid-pattern">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="presentation-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- University Logo -->
+        <img src="https://upload.wikimedia.org/wikipedia/id/8/81/Mulia_logo.png" 
+             alt="Logo Universitas Mulia" 
+             style="position: absolute; top: 1.5rem; right: 2rem; height: 60px; width: auto; z-index: 102; opacity: 0.95; border-radius: 8px; padding: 8px; background: white; border: 3px solid black; box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);"
+             onerror="this.style.display='none'">
+
+        <!-- Slide Content -->
+        <main class="slide-content">
+            
+            <!-- SLIDE 1: TITLE -->
+            <section class="slide active title-slide">
+                <div style="position: relative; z-index: 1; max-width: 1200px; margin: 0 auto;">
+                    <span class="title-badge">PROPOSAL SKRIPSI</span>
+                    
+                    <h1 class="title-main" style="margin-top: 2rem;">
+                        Hubungan Tingkat Pengetahuan Pengobatan<br>
+                        <span style="color: #EDF228;">Diabetes Melitus Tipe 2</span><br>
+                        di Puskesmas Damai Kota Balikpapan<br>
+                        Menggunakan <span style="color: #4D96FF;">DKQ-24</span>
+                    </h1>
+                    
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 4px solid #FF6BDB;">
+                        <p style="font-size: 1.75rem; font-weight: 900; font-family: 'Archivo Black', sans-serif;">
+                            Muhammad Rizal Setiawan
+                        </p>
+                        <p style="font-size: 1.1rem; color: #6BCB77; margin-top: 0.5rem; font-weight: 700;">
+                            NIM: 1933010
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; margin: 2rem auto 0;">
+                        <div class="pembimbing-card">
+                            <p style="color: #9ca3af; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; font-size: 0.75rem;">Pembimbing Utama</p>
+                            <p style="color: white; font-weight: 700; font-size: 0.85rem;">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
+                        </div>
+                        <div class="pembimbing-card">
+                            <p style="color: #9ca3af; font-weight: 700; margin-bottom: 0.75rem; text-transform: uppercase; font-size: 0.75rem;">Pembimbing Pendamping</p>
+                            <p style="color: white; font-weight: 700; font-size: 0.85rem;">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
+                        </div>
+                    </div>
+                    
+                    <p style="color: #9ca3af; margin-top: 2rem; font-size: 0.85rem; font-weight: 700;">
+                        Program Studi Farmasi-S1 | Fakultas Humaniora dan Kesehatan<br>
+                        Universitas Mulia Balikpapan | 2025
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: LATAR BELAKANG -->
+            <section class="slide">
+                <h2 class="slide-title">
+                    <span style="color: #FF6BDB;">///</span> Latar Belakang
+                </h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div class="stat-card" style="border-top: 8px solid #FF5757;">
+                        <div class="stat-number" style="color: #FF5757;">589 JT</div>
+                        <div style="font-size: 1.25rem; font-weight: 900; margin-bottom: 0.75rem;">Penderita Diabetes Global</div>
+                        <p style="font-size: 1rem; font-weight: 700; color: #4b5563; line-height: 1.6;">
+                            Proyeksi 2050: <span style="color: #FF5757; font-size: 1.5rem;">853 JUTA</span>
+                        </p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 3px solid black;">
+                            <p style="font-weight: 700; font-size: 0.9rem;">
+                                <span style="color: #FF5757; font-size: 1.25rem;">43%</span> kasus tidak terdiagnosis
+                            </p>
+                            <p style="color: #6b7280; font-size: 0.8rem; margin-top: 0.5rem; font-weight: 700;">
+                                (252 juta orang tidak menyadari kondisinya)
+                            </p>
+                        </div>
+                        <p style="font-size: 0.7rem; color: #6b7280; margin-top: 1rem; font-style: italic; font-weight: 600;">
+                            — International Diabetes Federation, 2024
+                        </p>
+                    </div>
+                    
+                    <div class="stat-card" style="border-top: 8px solid #4D96FF;">
+                        <div class="stat-number" style="color: #4D96FF;">20.4 JT</div>
+                        <div style="font-size: 1.25rem; font-weight: 900; margin-bottom: 0.75rem;">Penderita di Indonesia</div>
+                        <p style="font-size: 1.5rem; font-weight: 900; color: #FF5757; font-family: 'Archivo Black', sans-serif;">
+                            PERINGKAT #5 DUNIA
+                        </p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 3px solid black;">
+                            <p style="font-weight: 700; font-size: 0.9rem;">
+                                <span style="color: #FF5757; font-size: 1.25rem;">73.2%</span> tidak terdiagnosis
+                            </p>
+                            <p style="color: #6b7280; font-size: 0.8rem; margin-top: 0.5rem; font-weight: 700;">
+                                (15 juta kasus tersembunyi)
+                            </p>
+                            <p style="color: #FF5757; font-weight: 900; margin-top: 0.5rem; font-size: 0.85rem;">
+                                Peringkat #3 dunia untuk kasus tidak terdiagnosis
+                            </p>
+                        </div>
+                        <p style="font-size: 0.7rem; color: #6b7280; margin-top: 1rem; font-style: italic; font-weight: 600;">
+                            — International Diabetes Federation, 2024
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+                        <div style="width: 40px; height: 40px; background: black; border: 3px solid black; display: flex; align-items: center; justify-content: center; color: #EDF228; font-size: 1.25rem;">
+                            ⚠
+                        </div>
+                        <h4 style="font-family: 'Archivo Black', sans-serif; font-size: 1.25rem; text-transform: uppercase;">
+                            KESIMPULAN KRITIS
+                        </h4>
+                    </div>
+                    <p style="font-size: 1rem; line-height: 1.6; color: #78350f;">
+                        Diabetes telah menjadi <strong>TANTANGAN KESEHATAN GLOBAL TERBESAR</strong> di abad ke-21. 
+                        Tingginya angka kasus yang tidak terdiagnosis menyebabkan keterlambatan penanganan dan 
+                        meningkatkan risiko komplikasi serius serta kematian dini.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: TERIMA KASIH -->
+            <section class="slide" style="justify-content: center; align-items: center; text-align: center;">
+                <div style="max-width: 1000px;">
+                    <div style="display: inline-block; background: #FF6BDB; border: 5px solid black; padding: 0.75rem 2.5rem; margin-bottom: 1.5rem; box-shadow: 8px 8px 0px 0px rgba(0,0,0,1); transform: rotate(-2deg);">
+                        <span style="font-family: 'Archivo Black', sans-serif; font-size: 1.25rem; letter-spacing: 3px;">PRESENTASI SELESAI</span>
+                    </div>
+                    
+                    <h2 style="font-family: 'Archivo Black', sans-serif; font-size: 4.5rem; line-height: 0.9; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -3px;">
+                        TERIMA<br>KASIH!
+                    </h2>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="info-box" style="background: #EDF228; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <div style="width: 40px; height: 40px; background: black; display: flex; align-items: center; justify-content: center; color: #EDF228; font-size: 1.25rem;">
+                                    💬
+                                </div>
+                                <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 1.15rem;">MASUKAN & SARAN</h3>
+                            </div>
+                            <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 600; color: #374151;">
+                                Saya sangat mengharapkan <strong>masukan konstruktif</strong> 
+                                untuk penyempurnaan penelitian ini, terutama terkait metodologi, 
+                                instrumen penelitian, dan analisis data.
+                            </p>
+                        </div>
+                        
+                        <div class="info-box" style="background: #6BCB77; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <div style="width: 40px; height: 40px; background: black; display: flex; align-items: center; justify-content: center; color: #6BCB77; font-size: 1.25rem;">
+                                    💡
+                                </div>
+                                <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 1.15rem;">DISKUSI & TANYA JAWAB</h3>
+                            </div>
+                            <p style="font-size: 0.95rem; line-height: 1.6; font-weight: 600; color: #374151;">
+                                Setiap pertanyaan, kritik, dan <strong>diskusi akademis</strong> akan sangat membantu 
+                                dalam memperkuat landasan teoritis dan praktis penelitian ini.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border: 5px solid black; padding: 2.5rem; box-shadow: 12px 12px 0px 0px rgba(0,0,0,1);">
+                        <div style="width: 70px; height: 70px; background: black; border: 4px solid black; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; transform: rotate(5deg);">
+                            ✓
+                        </div>
+                        <p style="font-family: 'Archivo Black', sans-serif; font-size: 1.35rem; margin-bottom: 0.75rem;">
+                            PRESENTASI SELESAI
+                        </p>
+                        <p style="font-size: 0.95rem; color: #6b7280; max-width: 600px; margin: 0 auto; font-weight: 600; line-height: 1.6;">
+                            Terima kasih atas perhatian dan waktu yang telah diberikan untuk 
+                            presentasi proposal skripsi ini. Semoga penelitian ini dapat memberikan 
+                            kontribusi yang bermanfaat bagi dunia kesehatan.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Control Bar -->
+        <footer class="control-bar">
+            <div style="display: flex; align-items: center; gap: 1rem; font-weight: 700; font-size: 0.9rem;">
+                <span>M. RIZAL SETIAWAN</span>
+                <span style="color: #9ca3af;">|</span>
+                <span style="color: #6b7280;">PROPOSAL SKRIPSI 2025</span>
+                <div class="timer-display" id="timerDisplay">
+                    <div style="width: 20px; height: 20px; border: 3px solid black; border-radius: 50%; position: relative;">
+                        <div style="position: absolute; width: 2px; height: 7px; background: black; top: 3px; left: 50%; transform: translateX(-50%);"></div>
+                        <div style="position: absolute; width: 2px; height: 5px; background: black; top: 5px; left: 50%; transform: translateX(-50%) rotate(90deg);"></div>
+                    </div>
+                    <span class="timer-text" id="timerText">00:00</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button id="playBtn" class="control-button interactive" title="Mulai Presentasi (P)">
+                    <i data-lucide="play" style="width: 20px; height: 20px;"></i>
+                </button>
+                
+                <button id="prevBtn" class="control-button interactive" title="Slide Sebelumnya (←)">
+                    <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+                </button>
+                
+                <div class="slide-counter">
+                    <span style="color: #FF6BDB; font-weight: 900;" id="currentSlide">1</span> / <span id="totalSlides">3</span>
+                </div>
+                
+                <button id="nextBtn" class="control-button interactive" title="Slide Selanjutnya (→)">
+                    <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+                </button>
+                
+                <button id="fullscreenBtn" class="control-button interactive" title="Toggle Fullscreen (F)">
+                    <i data-lucide="maximize" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        const slides = document.querySelectorAll('.slide');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const progressBar = document.getElementById('progressBar');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerText = document.getElementById('timerText');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let isPresenting = false;
+        let isPaused = false;
+        let timerInterval = null;
+        let startTime = null;
+        let elapsedSeconds = 0;
+        
+        totalSlidesEl.textContent = totalSlides;
+
+        // Custom Cursor Logic (Desktop Only)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+        }
+
+        // Touch Gestures
+        let touchStartX = 0, touchEndX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const deltaX = touchStartX - touchEndX;
+            if (Math.abs(deltaX) > 50) {
+                deltaX > 0 ? nextSlide() : prevSlide();
+            }
+        }, { passive: true });
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            currentSlideEl.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            lucide.createIcons();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function togglePresentation() {
+            if (isPresenting) {
+                togglePause();
+            } else {
+                startPresentation();
+            }
+        }
+
+        function startPresentation() {
+            isPresenting = true;
+            isPaused = false;
+            document.body.classList.add('presenting');
+            playBtn.classList.add('play-active');
+            playBtn.innerHTML = '<i data-lucide="pause" style="width: 20px; height: 20px;"></i>';
+            playBtn.title = 'Jeda Presentasi (P)';
+            
+            if (elapsedSeconds === 0) {
+                currentSlide = 0;
+                updateSlide();
+            }
+            
+            timerDisplay.classList.add('active');
+            startTime = Date.now() - (elapsedSeconds * 1000);
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+            lucide.createIcons();
+        }
+
+        function togglePause() {
+            if (isPaused) {
+                isPaused = false;
+                document.body.classList.add('presenting');
+                playBtn.innerHTML = '<i data-lucide="pause" style="width: 20px; height: 20px;"></i>';
+                playBtn.title = 'Jeda Presentasi (P)';
+                startTime = Date.now() - (elapsedSeconds * 1000);
+                timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                isPaused = true;
+                document.body.classList.remove('presenting');
+                playBtn.innerHTML = '<i data-lucide="play" style="width: 20px; height: 20px;"></i>';
+                playBtn.title = 'Lanjutkan Presentasi (P)';
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            lucide.createIcons();
+        }
+
+        function updateTimer() {
+            elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const m = Math.floor(elapsedSeconds / 60);
+            const s = elapsedSeconds % 60;
+            timerText.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        async function toggleFullscreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                try {
+                    await (elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.());
+                    if (screen.orientation?.lock) await screen.orientation.lock('landscape').catch(() => {});
+                } catch (err) {
+                    console.error('Fullscreen error:', err);
+                }
+            } else {
+                (document.exitFullscreen?.() || document.webkitExitFullscreen?.())();
+                screen.orientation?.unlock();
+            }
+        }
+
+        const updateFullscreenIcon = () => {
+            const isFS = document.fullscreenElement;
+            fullscreenBtn.innerHTML = isFS 
+                ? '<i data-lucide="minimize" style="width: 20px; height: 20px;"></i>'
+                : '<i data-lucide="maximize" style="width: 20px; height: 20px;"></i>';
+            fullscreenBtn.title = isFS ? 'Keluar Fullscreen (F/Esc)' : 'Toggle Fullscreen (F)';
+            lucide.createIcons();
+        };
+
+        // Event Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+            else if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+            else if (e.key === 'p' || e.key === 'P') { e.preventDefault(); togglePresentation(); }
+            else if (e.key === 'Home') { e.preventDefault(); currentSlide = 0; updateSlide(); }
+            else if (e.key === 'End') { e.preventDefault(); currentSlide = totalSlides - 1; updateSlide(); }
+        });
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        playBtn.addEventListener('click', togglePresentation);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+
+        // Interactive click effect
+        document.querySelectorAll('.interactive').forEach(el => {
+            el.addEventListener('click', function() {
+                const rotation = Math.random() * 6 - 3;
+                this.style.transform = `rotate(${rotation}deg) scale(0.95)`;
+                setTimeout(() => {
+                    this.style.transform = 'none';
+                }, 150);
+            });
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
