@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background: #fff;
+            min-height: 100vh;
+            transition: background 0.2s ease;
+        }
+
+        body.dark-mode {
+            background: #202124;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #fff;
+            overflow: hidden;
+            transition: background 0.2s ease;
+        }
+
+        body.dark-mode .container {
+            background: #202124;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e8eaed;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode header {
+            background: #202124;
+            border-bottom-color: #3c4043;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0;
+        }
+
+        body.dark-mode h1 {
+            color: #e8eaed;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            color: #3c4043;
+            font-family: 'Roboto', 'Arial', sans-serif;
+        }
+
+        body.dark-mode button {
+            background: #202124;
+            border-color: #5f6368;
+            color: #e8eaed;
+        }
+
+        button:hover {
+            background: #f8f9fa;
+            border-color: #dadce0;
+            box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        }
+
+        body.dark-mode button:hover {
+            background: #3c4043;
+            border-color: #5f6368;
+        }
+
+        button:active {
+            background: #f1f3f4;
+        }
+
+        body.dark-mode button:active {
+            background: #3c4043;
+        }
+
+        .btn-primary {
+            background: #1a73e8;
+            color: #fff;
+            border-color: #1a73e8;
+        }
+
+        .btn-primary:hover {
+            background: #1765cc;
+            box-shadow: 0 1px 2px rgba(26,115,232,.4);
+        }
+
+        .btn-primary:active {
+            background: #1557b0;
+        }
+
+        body.dark-mode .btn-primary {
+            background: #8ab4f8;
+            color: #202124;
+            border-color: #8ab4f8;
+        }
+
+        body.dark-mode .btn-primary:hover {
+            background: #aecbfa;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            height: calc(100vh - 120px);
+            min-height: 500px;
+        }
+
+        .editor-section, .preview-section {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-section {
+            border-right: 1px solid #e8eaed;
+        }
+
+        body.dark-mode .editor-section {
+            border-right-color: #3c4043;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 12px 20px;
+            font-weight: 500;
+            color: #5f6368;
+            border-bottom: 1px solid #e8eaed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        body.dark-mode .section-header {
+            background: #292a2d;
+            color: #9aa0a6;
+            border-bottom-color: #3c4043;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: none;
+            background: #fff;
+            color: #202124;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        body.dark-mode textarea {
+            background: #202124;
+            color: #e8eaed;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        .preview-frame {
+            flex: 1;
+            border: none;
+            background: white;
+            width: 100%;
+        }
+
+        .stats-bar {
+            background: #f8f9fa;
+            padding: 8px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e8eaed;
+            font-size: 12px;
+            color: #5f6368;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        body.dark-mode .stats-bar {
+            background: #292a2d;
+            border-top-color: #3c4043;
+            color: #9aa0a6;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-upload {
+            display: none;
+        }
+
+        .upload-label {
+            padding: 8px 16px;
+            background: #fff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Roboto', 'Arial', sans-serif;
+        }
+
+        body.dark-mode .upload-label {
+            background: #202124;
+            border-color: #5f6368;
+            color: #e8eaed;
+        }
+
+        .upload-label:hover {
+            background: #f8f9fa;
+            border-color: #dadce0;
+            box-shadow: 0 1px 1px rgba(0,0,0,.1);
+        }
+
+        body.dark-mode .upload-label:hover {
+            background: #3c4043;
+            border-color: #5f6368;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #323232;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.2);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            max-width: 300px;
+            font-size: 14px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #0d652d;
+        }
+
+        .toast.error {
+            background: #d93025;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .editor-section {
+                border-right: none;
+                border-bottom: 1px solid #e8eaed;
+            }
+
+            body.dark-mode .editor-section {
+                border-bottom-color: #3c4043;
+            }
+
+            .editor-section, .preview-section {
+                min-height: 400px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .header-controls {
+                width: 100%;
+            }
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .word-count {
+            font-weight: 500;
+            color: #1a73e8;
+        }
+
+        body.dark-mode .word-count {
+            color: #8ab4f8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14.6 16.6l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4m-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/>
+                </svg>
+                HTML Viewer
+            </h1>
+            <div class="header-controls">
+                <label class="upload-label" for="fileUpload">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
+                    </svg>
+                    Upload
+                </label>
+                <input type="file" id="fileUpload" class="file-upload" accept=".html,.htm,.txt">
+                
+                <button onclick="updatePreview()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                    Refresh
+                </button>
+                
+                <button onclick="formatCode()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+                    </svg>
+                    Format
+                </button>
+
+                <button onclick="openInNewTab()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                    </svg>
+                    Open in New Tab
+                </button>
+                
+                <button onclick="clearEditor()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                    Clear
+                </button>
+                
+                <button class="btn-primary" onclick="downloadHTML()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                    </svg>
+                    Download
+                </button>
+                
+                <button onclick="toggleDarkMode()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                    </svg>
+                    Dark
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="editor-section">
+                <div class="section-header">
+                    <span>Editor</span>
+                </div>
+                <textarea id="htmlEditor" placeholder="Masukkan kode HTML Anda di sini..."><!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8f9fa;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+        }
+        h1 {
+            color: #202124;
+            margin: 0 0 16px 0;
+        }
+        p {
+            color: #5f6368;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World</h1>
+        <p>Edit kode di sebelah kiri untuk melihat perubahannya.</p>
+    </div>
+</body>
+</html></textarea>
+            </div>
+
+            <div class="preview-section">
+                <div class="section-header">
+                    <span>Preview</span>
+                </div>
+                <iframe id="previewFrame" class="preview-frame"></iframe>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <span>Lines: <span class="word-count" id="lineCount">0</span></span>
+            </div>
+            <div class="stat-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z"/>
+                </svg>
+                <span>Characters: <span class="word-count" id="charCount">0</span></span>
+            </div>
+            <div class="stat-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <span>Last Updated: <span class="word-count" id="lastUpdate">-</span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const editor = document.getElementById('htmlEditor');
+        const previewFrame = document.getElementById('previewFrame');
+        const fileUpload = document.getElementById('fileUpload');
+        
+        // Auto-update preview saat mengetik
+        editor.addEventListener('input', function() {
+            updateStats();
+            // Debounce untuk performa lebih baik
+            clearTimeout(editor.timeout);
+            editor.timeout = setTimeout(updatePreview, 500);
+        });
+
+        // Update preview
+        function updatePreview() {
+            const htmlContent = editor.value;
+            const preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            preview.open();
+            preview.write(htmlContent);
+            preview.close();
+            updateStats();
+            showToast('Preview diperbarui!', 'success');
+        }
+
+        // Update statistik
+        function updateStats() {
+            const content = editor.value;
+            const lines = content.split('\n').length;
+            const chars = content.length;
+            const now = new Date().toLocaleTimeString('id-ID');
+            
+            document.getElementById('lineCount').textContent = lines;
+            document.getElementById('charCount').textContent = chars;
+            document.getElementById('lastUpdate').textContent = now;
+        }
+
+        // Format kode HTML
+        function formatCode() {
+            let code = editor.value;
+            let formatted = '';
+            let indent = 0;
+            const tab = '    ';
+            
+            code.split(/>\s*</).forEach(function(node) {
+                if (node.match(/^\/\w/)) indent--;
+                formatted += tab.repeat(indent < 0 ? 0 : indent) + '<' + node + '>\n';
+                if (node.match(/^<?\w[^>]*[^\/]$/) && !node.startsWith("input") && !node.startsWith("br") && !node.startsWith("img") && !node.startsWith("meta") && !node.startsWith("link")) {
+                    indent++;
+                }
+            });
+            
+            editor.value = formatted.substring(1, formatted.length - 2);
+            updatePreview();
+            showToast('Kode berhasil diformat!', 'success');
+        }
+
+        // Clear editor
+        function clearEditor() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua kode?')) {
+                editor.value = '';
+                updatePreview();
+                showToast('Editor dikosongkan', 'success');
+            }
+        }
+
+        // Download HTML
+        function downloadHTML() {
+            const content = editor.value;
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'document.html';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showToast('File berhasil didownload!', 'success');
+        }
+
+        // Open in new tab
+        function openInNewTab() {
+            const content = editor.value;
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const newWindow = window.open(url, '_blank');
+            
+            if (newWindow) {
+                showToast('Preview dibuka di tab baru!', 'success');
+                // Clean up the URL after a delay to ensure the page has loaded
+                setTimeout(function() {
+                    window.URL.revokeObjectURL(url);
+                }, 1000);
+            } else {
+                showToast('Popup diblokir! Izinkan popup untuk fitur ini.', 'error');
+            }
+        }
+
+        // Upload file
+        fileUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editor.value = e.target.result;
+                    updatePreview();
+                    showToast('File berhasil diupload!', 'success');
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            showToast(isDark ? 'Dark mode aktif' : 'Light mode aktif', 'success');
+        }
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initial preview
+        updatePreview();
+        updateStats();
+    </script>
+</body>
+</html>
