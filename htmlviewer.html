@@ -3,623 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Viewer</title>
+    <title>HTML Viewer Pro - Editor & Pratinjau Langsung</title>
+    
+    <!-- Tailwind CSS untuk styling antarmuka -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons untuk ikon antarmuka -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts: Inter untuk UI, Fira Code untuk Editor -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Roboto', 'Arial', sans-serif;
-            background: #fff;
-            min-height: 100vh;
-            transition: background 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
-
-        body.dark-mode {
-            background: #202124;
+        .font-mono {
+            font-family: 'Fira Code', monospace;
         }
-
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background: #fff;
-            overflow: hidden;
-            transition: background 0.2s ease;
+        /* Scrollbar kustom Global */
+        ::-webkit-scrollbar {
+            width: 10px; /* Lebar scrollbar dipertegas */
+            height: 10px;
         }
-
-        body.dark-mode .container {
-            background: #202124;
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e; 
         }
-
-        header {
-            background: #fff;
-            border-bottom: 1px solid #e8eaed;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            transition: all 0.2s ease;
-        }
-
-        body.dark-mode header {
-            background: #202124;
-            border-bottom-color: #3c4043;
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 400;
-            color: #202124;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 0;
-        }
-
-        body.dark-mode h1 {
-            color: #e8eaed;
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        button {
-            padding: 8px 16px;
-            border: 1px solid #dadce0;
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563; 
             border-radius: 4px;
-            cursor: pointer;
+            border: 2px solid #1e1e1e; /* Memberi jarak agar terlihat rapi */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; 
+        }
+
+        /* Styling khusus untuk area editor agar mirip IDE */
+        .editor-wrapper {
+            position: relative;
+            background-color: #1e1e1e;
+            counter-reset: line;
+        }
+        
+        #line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background-color: #2d2d2d;
+            color: #858585;
+            text-align: right;
+            padding-right: 8px;
+            padding-top: 10px;
+            font-family: 'Fira Code', monospace;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.1s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #fff;
-            color: #3c4043;
-            font-family: 'Roboto', 'Arial', sans-serif;
-        }
-
-        body.dark-mode button {
-            background: #202124;
-            border-color: #5f6368;
-            color: #e8eaed;
-        }
-
-        button:hover {
-            background: #f8f9fa;
-            border-color: #dadce0;
-            box-shadow: 0 1px 1px rgba(0,0,0,.1);
-        }
-
-        body.dark-mode button:hover {
-            background: #3c4043;
-            border-color: #5f6368;
-        }
-
-        button:active {
-            background: #f1f3f4;
-        }
-
-        body.dark-mode button:active {
-            background: #3c4043;
-        }
-
-        .btn-primary {
-            background: #1a73e8;
-            color: #fff;
-            border-color: #1a73e8;
-        }
-
-        .btn-primary:hover {
-            background: #1765cc;
-            box-shadow: 0 1px 2px rgba(26,115,232,.4);
-        }
-
-        .btn-primary:active {
-            background: #1557b0;
-        }
-
-        body.dark-mode .btn-primary {
-            background: #8ab4f8;
-            color: #202124;
-            border-color: #8ab4f8;
-        }
-
-        body.dark-mode .btn-primary:hover {
-            background: #aecbfa;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            height: calc(100vh - 120px);
-            min-height: 500px;
-        }
-
-        .editor-section, .preview-section {
-            display: flex;
-            flex-direction: column;
+            line-height: 1.5;
+            user-select: none;
             overflow: hidden;
+            border-right: 1px solid #404040;
+            z-index: 20;
         }
 
-        .editor-section {
-            border-right: 1px solid #e8eaed;
+        /* KONFIGURASI WRAPPING YANG SANGAT PENTING */
+        .code-style {
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;       /* Wajib sama */
+            word-wrap: break-word;       /* Wajib sama */
+            overflow-wrap: break-word;   /* Wajib sama */
+            padding-left: 50px;          /* Wajib sama */
+            padding-top: 10px;           /* Wajib sama */
+            padding-right: 10px;         /* Wajib sama */
+            box-sizing: border-box;      /* Wajib sama */
         }
 
-        body.dark-mode .editor-section {
-            border-right-color: #3c4043;
-        }
-
-        .section-header {
-            background: #f8f9fa;
-            padding: 12px 20px;
-            font-weight: 500;
-            color: #5f6368;
-            border-bottom: 1px solid #e8eaed;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-        }
-
-        body.dark-mode .section-header {
-            background: #292a2d;
-            color: #9aa0a6;
-            border-bottom-color: #3c4043;
-        }
-
-        textarea {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            font-family: 'Roboto Mono', 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            resize: none;
-            background: #fff;
-            color: #202124;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-        body.dark-mode textarea {
-            background: #202124;
-            color: #e8eaed;
-        }
-
-        textarea:focus {
-            outline: none;
-        }
-
-        .preview-frame {
-            flex: 1;
-            border: none;
-            background: white;
+        /* INPUT TEXTAREA (DEPAN) */
+        #code-input {
+            position: relative;
             width: 100%;
+            height: 100%;
+            background-color: transparent; 
+            border: none;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+            z-index: 10;
+            overflow-y: scroll; /* PERBAIKAN: Selalu tampilkan scrollbar agar lebar konsisten */
         }
 
-        .stats-bar {
-            background: #f8f9fa;
-            padding: 8px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #e8eaed;
-            font-size: 12px;
-            color: #5f6368;
-            flex-wrap: wrap;
-            gap: 16px;
+        /* HIGHLIGHT LAYER (BELAKANG) */
+        #highlight-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: transparent; 
+            pointer-events: none; 
+            z-index: 5;
+            overflow-y: scroll; /* PERBAIKAN: Ikut punya scrollbar agar wrapping text sama persis */
         }
 
-        body.dark-mode .stats-bar {
-            background: #292a2d;
-            border-top-color: #3c4043;
-            color: #9aa0a6;
+        /* Sembunyikan scrollbar pada highlight layer agar tidak dobel visualnya, 
+           tapi fungsinya tetap mengambil ruang (space) */
+        #highlight-layer::-webkit-scrollbar {
+            background: transparent;
+            width: 10px; /* Harus sama persis dengan scrollbar utama */
+        }
+        #highlight-layer::-webkit-scrollbar-thumb {
+            background: transparent;
+            border: none;
         }
 
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        /* WARNA HIGHLIGHT */
+        mark {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: transparent;
+            border-radius: 2px;
+        }
+        mark.current-match {
+            background-color: rgba(255, 193, 7, 0.5); 
+            border: 1px solid rgba(255, 193, 7, 0.8);
+            box-shadow: none;
+            z-index: 10;
         }
 
-        .file-upload {
+        /* Animasi loader */
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
             display: none;
         }
-
-        .upload-label {
-            padding: 8px 16px;
-            background: #fff;
-            color: #3c4043;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.1s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Roboto', 'Arial', sans-serif;
-        }
-
-        body.dark-mode .upload-label {
-            background: #202124;
-            border-color: #5f6368;
-            color: #e8eaed;
-        }
-
-        .upload-label:hover {
-            background: #f8f9fa;
-            border-color: #dadce0;
-            box-shadow: 0 1px 1px rgba(0,0,0,.1);
-        }
-
-        body.dark-mode .upload-label:hover {
-            background: #3c4043;
-            border-color: #5f6368;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 24px;
-            background: #323232;
-            color: white;
-            padding: 14px 20px;
-            border-radius: 4px;
-            box-shadow: 0 4px 16px rgba(0,0,0,.2);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.2s ease;
-            z-index: 1000;
-            max-width: 300px;
-            font-size: 14px;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .toast.success {
-            background: #0d652d;
-        }
-
-        .toast.error {
-            background: #d93025;
-        }
-
-        @media (max-width: 968px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                height: auto;
-            }
-
-            .editor-section {
-                border-right: none;
-                border-bottom: 1px solid #e8eaed;
-            }
-
-            body.dark-mode .editor-section {
-                border-bottom-color: #3c4043;
-            }
-
-            .editor-section, .preview-section {
-                min-height: 400px;
-            }
-
-            h1 {
-                font-size: 18px;
-            }
-
-            .header-controls {
-                width: 100%;
-            }
-        }
-
-        .icon {
-            width: 18px;
-            height: 18px;
-        }
-
-        .word-count {
-            font-weight: 500;
-            color: #1a73e8;
-        }
-
-        body.dark-mode .word-count {
-            color: #8ab4f8;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14.6 16.6l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4m-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/>
-                </svg>
-                HTML Viewer
-            </h1>
-            <div class="header-controls">
-                <label class="upload-label" for="fileUpload">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/>
-                    </svg>
-                    Upload
-                </label>
-                <input type="file" id="fileUpload" class="file-upload" accept=".html,.htm,.txt">
-                
-                <button onclick="updatePreview()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-                    </svg>
-                    Refresh
-                </button>
-                
-                <button onclick="formatCode()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
-                    </svg>
-                    Format
-                </button>
+<body class="bg-gray-900 text-white h-screen flex flex-col overflow-hidden">
 
-                <button onclick="openInNewTab()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
-                    </svg>
-                    Open in New Tab
-                </button>
-                
-                <button onclick="clearEditor()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                    </svg>
-                    Clear
-                </button>
-                
-                <button class="btn-primary" onclick="downloadHTML()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
-                    </svg>
-                    Download
-                </button>
-                
-                <button onclick="toggleDarkMode()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
-                    </svg>
-                    Dark
-                </button>
-            </div>
-        </header>
+    <!-- HEADER / TOOLBAR -->
+    <header class="bg-gray-800 border-b border-gray-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center gap-2">
+            <i data-lucide="code-2" class="text-blue-400"></i>
+            <h1 class="font-semibold text-lg tracking-tight">HTML Viewer <span class="text-xs bg-blue-600 px-1.5 py-0.5 rounded text-white ml-1">Pro</span></h1>
+        </div>
 
-        <div class="main-content">
-            <div class="editor-section">
-                <div class="section-header">
-                    <span>Editor</span>
+        <div class="flex items-center gap-3">
+            <button onclick="runCode()" class="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-sm font-medium transition" title="Jalankan Manual (Ctrl+Enter)">
+                <i data-lucide="play" class="w-4 h-4"></i> <span class="hidden sm:inline">Run</span>
+            </button>
+
+            <button onclick="openInNewTab()" class="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm font-medium transition" title="Buka di Tab Baru">
+                <i data-lucide="external-link" class="w-4 h-4"></i> <span class="hidden sm:inline">Full Page</span>
+            </button>
+
+            <button onclick="downloadCode()" class="flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded text-sm font-medium transition" title="Unduh file .html">
+                <i data-lucide="download" class="w-4 h-4"></i> <span class="hidden sm:inline">Unduh</span>
+            </button>
+
+            <button onclick="copyCode()" class="flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded text-sm font-medium transition" title="Salin ke Clipboard">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        <!-- EDITOR PANEL (LEFT) -->
+        <div class="w-full md:w-1/2 flex flex-col border-r border-gray-700 relative group">
+            <!-- EDITOR HEADER -->
+            <div class="bg-gray-800 px-4 py-2 text-xs text-gray-400 flex justify-between items-center select-none border-b border-gray-700 shrink-0">
+                <span class="uppercase font-bold tracking-wider">Source Code</span>
+                <div class="flex items-center gap-3">
+                    <!-- Fitur Baru: Total Lines -->
+                    <span id="line-count" class="hidden sm:inline">0 Baris</span>
+                    <span class="hidden sm:inline w-px h-3 bg-gray-600"></span>
+                    
+                    <span id="char-count">0 Karakter</span>
+                    
+                    <button onclick="toggleSearch()" class="hover:text-blue-400 transition flex items-center gap-1 ml-2" title="Cari (Ctrl+F)">
+                        <i data-lucide="search" class="w-3 h-3"></i> Cari
+                    </button>
+                    <button onclick="clearEditor()" class="text-red-400 hover:text-red-300 transition flex items-center gap-1">
+                        <i data-lucide="trash-2" class="w-3 h-3"></i> Bersihkan
+                    </button>
                 </div>
-                <textarea id="htmlEditor" placeholder="Masukkan kode HTML Anda di sini..."><!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: #f8f9fa;
-        }
-        .container {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
-        }
-        h1 {
-            color: #202124;
-            margin: 0 0 16px 0;
-        }
-        p {
-            color: #5f6368;
-            line-height: 1.6;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Hello World</h1>
-        <p>Edit kode di sebelah kiri untuk melihat perubahannya.</p>
-    </div>
-</body>
-</html></textarea>
             </div>
 
-            <div class="preview-section">
-                <div class="section-header">
-                    <span>Preview</span>
+            <!-- SEARCH BAR -->
+            <div id="search-bar" class="hidden bg-gray-700 p-2 border-b border-gray-600 flex items-center gap-2 shrink-0 transition-all z-30 relative">
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="search-input" placeholder="Cari..." class="w-full bg-gray-800 text-white text-sm rounded border border-gray-600 focus:outline-none focus:border-blue-500 pl-8 pr-2 py-1" autocomplete="off">
                 </div>
-                <iframe id="previewFrame" class="preview-frame"></iframe>
+                <span id="search-stats" class="text-xs text-gray-400 whitespace-nowrap w-16 text-center">0 of 0</span>
+                <button onclick="findNext(false)" class="p-1 hover:bg-gray-600 rounded text-gray-300" title="Sebelumnya (Shift+Enter)">
+                    <i data-lucide="chevron-up" class="w-4 h-4"></i>
+                </button>
+                <button onclick="findNext(true)" class="p-1 hover:bg-gray-600 rounded text-gray-300" title="Selanjutnya (Enter)">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </button>
+                <button onclick="toggleSearch()" class="p-1 hover:bg-gray-600 rounded text-red-400 ml-1">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            
+            <div class="editor-wrapper flex-1 overflow-hidden relative">
+                <div id="line-numbers">1</div>
+                <!-- Highlight Layer (Background) -->
+                <!-- Menambahkan class code-style agar properti CSS identik -->
+                <div id="highlight-layer" class="code-style"></div>
+                <!-- Input Layer (Foreground) -->
+                <textarea id="code-input" class="code-style" spellcheck="false" placeholder="Tulis kode HTML Anda di sini..."></textarea>
             </div>
         </div>
 
-        <div class="stats-bar">
-            <div class="stat-item">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
-                </svg>
-                <span>Lines: <span class="word-count" id="lineCount">0</span></span>
+        <!-- PREVIEW PANEL (RIGHT) -->
+        <div class="w-full md:w-1/2 flex flex-col bg-gray-100">
+            <div class="bg-gray-200 border-b border-gray-300 px-4 py-2 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Hasil Pratinjau</span>
+                    <div class="loader" id="preview-loader"></div>
+                </div>
+                
+                <!-- Device Toggles -->
+                <div class="flex bg-gray-300 rounded p-0.5">
+                    <button onclick="setPreviewSize('100%')" class="p-1 rounded hover:bg-white text-gray-600 hover:text-gray-900 transition active-size" title="Desktop">
+                        <i data-lucide="monitor" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="setPreviewSize('768px')" class="p-1 rounded hover:bg-white text-gray-600 hover:text-gray-900 transition" title="Tablet">
+                        <i data-lucide="tablet" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="setPreviewSize('375px')" class="p-1 rounded hover:bg-white text-gray-600 hover:text-gray-900 transition" title="Mobile">
+                        <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </div>
-            <div class="stat-item">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M5 4v2h14V4H5zm0 10h4v6h6v-6h4l-7-7-7 7z"/>
-                </svg>
-                <span>Characters: <span class="word-count" id="charCount">0</span></span>
-            </div>
-            <div class="stat-item">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                </svg>
-                <span>Last Updated: <span class="word-count" id="lastUpdate">-</span></span>
+
+            <div class="flex-1 bg-gray-300 flex justify-center overflow-hidden relative">
+                <div id="iframe-container" class="w-full h-full bg-white transition-all duration-300 shadow-lg overflow-hidden">
+                    <iframe id="preview-frame" class="w-full h-full border-none" sandbox="allow-scripts allow-same-origin allow-modals allow-forms"></iframe>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <div class="toast" id="toast"></div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-2 rounded shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4"></i>
+        <span id="toast-msg">Berhasil</span>
+    </div>
 
     <script>
-        const editor = document.getElementById('htmlEditor');
-        const previewFrame = document.getElementById('previewFrame');
-        const fileUpload = document.getElementById('fileUpload');
+        lucide.createIcons();
+
+        const codeInput = document.getElementById('code-input');
+        const highlightLayer = document.getElementById('highlight-layer');
+        const previewFrame = document.getElementById('preview-frame');
+        const lineNumbers = document.getElementById('line-numbers');
+        const charCount = document.getElementById('char-count');
+        // Referensi Elemen Baru
+        const lineCount = document.getElementById('line-count');
         
-        // Auto-update preview saat mengetik
-        editor.addEventListener('input', function() {
-            updateStats();
-            // Debounce untuk performa lebih baik
-            clearTimeout(editor.timeout);
-            editor.timeout = setTimeout(updatePreview, 500);
+        const iframeContainer = document.getElementById('iframe-container');
+        const loader = document.getElementById('preview-loader');
+
+        const searchBar = document.getElementById('search-bar');
+        const searchInput = document.getElementById('search-input');
+        const searchStats = document.getElementById('search-stats');
+
+        let searchMatches = [];
+        let currentMatchIndex = -1;
+
+        const defaultCode = `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 300px;
+        }
+        h1 { color: #2d3748; margin-bottom: 0.5rem; }
+        p { color: #718096; line-height: 1.6; }
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+        button:hover { background: #3182ce; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Halo Dunia!</h1>
+        <p>Ini adalah contoh live preview. Coba ubah teks atau CSS di panel sebelah kiri.</p>
+        <button onclick="alert('Berfungsi dengan baik!')">Klik Saya</button>
+    </div>
+
+    <script>
+        console.log('Halaman dimuat!');
+    <\/script>
+</body>
+</html>`;
+
+        codeInput.value = defaultCode;
+
+        const updateLineNumbers = () => {
+            const lines = codeInput.value.split('\n').length;
+            lineNumbers.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+            
+            // Update Text Total Baris
+            lineCount.innerText = `${lines} Baris`;
+        };
+
+        let currentUrl = null;
+
+        const updatePreview = () => {
+            loader.style.display = 'block';
+            const code = codeInput.value;
+            charCount.innerText = `${code.length} Karakter`;
+            
+            if (currentUrl) {
+                URL.revokeObjectURL(currentUrl);
+            }
+
+            const blob = new Blob([code], { type: 'text/html' });
+            currentUrl = URL.createObjectURL(blob);
+            previewFrame.src = currentUrl;
+        };
+
+        previewFrame.onload = () => {
+            loader.style.display = 'none';
+        };
+
+        updateLineNumbers();
+        setTimeout(updatePreview, 100);
+
+        // Event Listeners
+        codeInput.addEventListener('input', () => {
+            updateLineNumbers();
+            if (!searchBar.classList.contains('hidden')) {
+                performSearch();
+            }
+            clearTimeout(window.updateTimeout);
+            window.updateTimeout = setTimeout(updatePreview, 1000);
         });
 
-        // Update preview
-        function updatePreview() {
-            const htmlContent = editor.value;
-            const preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            preview.open();
-            preview.write(htmlContent);
-            preview.close();
-            updateStats();
-            showToast('Preview diperbarui!', 'success');
+        // SINKRONISASI SCROLL
+        codeInput.addEventListener('scroll', () => {
+            lineNumbers.scrollTop = codeInput.scrollTop;
+            highlightLayer.scrollTop = codeInput.scrollTop; // Sync Vertikal
+            highlightLayer.scrollLeft = codeInput.scrollLeft; // Sync Horizontal (jika ada)
+        });
+
+        codeInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = codeInput.selectionStart;
+                const end = codeInput.selectionEnd;
+                codeInput.value = codeInput.value.substring(0, start) + "  " + codeInput.value.substring(end);
+                codeInput.selectionStart = codeInput.selectionEnd = start + 2;
+                if (!searchBar.classList.contains('hidden')) performSearch();
+            }
+            if (e.ctrlKey && e.key === 'Enter') {
+                runCode();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault();
+                toggleSearch();
+            }
+        });
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
 
-        // Update statistik
-        function updateStats() {
-            const content = editor.value;
-            const lines = content.split('\n').length;
-            const chars = content.length;
-            const now = new Date().toLocaleTimeString('id-ID');
-            
-            document.getElementById('lineCount').textContent = lines;
-            document.getElementById('charCount').textContent = chars;
-            document.getElementById('lastUpdate').textContent = now;
+        function toggleSearch() {
+            const isHidden = searchBar.classList.contains('hidden');
+            if (isHidden) {
+                searchBar.classList.remove('hidden');
+                searchInput.focus();
+                if (searchInput.value) performSearch(); 
+            } else {
+                searchBar.classList.add('hidden');
+                highlightLayer.innerHTML = ''; 
+                searchMatches = [];
+                currentMatchIndex = -1;
+                searchStats.innerText = "0 of 0";
+                codeInput.focus();
+            }
         }
 
-        // Format kode HTML
-        function formatCode() {
-            let code = editor.value;
-            let formatted = '';
-            let indent = 0;
-            const tab = '    ';
+        searchInput.addEventListener('input', () => {
+            performSearch();
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                findNext(!e.shiftKey);
+            }
+            if (e.key === 'Escape') {
+                toggleSearch();
+            }
+        });
+
+        function performSearch() {
+            const term = searchInput.value.toLowerCase();
+            const code = codeInput.value;
+            const lowerCode = code.toLowerCase();
             
-            code.split(/>\s*</).forEach(function(node) {
-                if (node.match(/^\/\w/)) indent--;
-                formatted += tab.repeat(indent < 0 ? 0 : indent) + '<' + node + '>\n';
-                if (node.match(/^<?\w[^>]*[^\/]$/) && !node.startsWith("input") && !node.startsWith("br") && !node.startsWith("img") && !node.startsWith("meta") && !node.startsWith("link")) {
-                    indent++;
+            searchMatches = [];
+            currentMatchIndex = -1;
+
+            if (term) {
+                let pos = lowerCode.indexOf(term);
+                while (pos !== -1) {
+                    searchMatches.push(pos);
+                    pos = lowerCode.indexOf(term, pos + 1);
+                }
+            }
+
+            searchStats.innerText = `${searchMatches.length > 0 ? 1 : 0} of ${searchMatches.length}`;
+
+            if (!term || searchMatches.length === 0) {
+                highlightLayer.innerHTML = escapeHtml(code);
+                return;
+            }
+
+            let highlightedHTML = "";
+            let lastIndex = 0;
+            const termLength = term.length;
+
+            searchMatches.forEach((matchIndex, i) => {
+                highlightedHTML += escapeHtml(code.substring(lastIndex, matchIndex));
+                const markClass = (i === 0) ? "current-match" : "";
+                highlightedHTML += `<mark class="${markClass}">` + 
+                                   escapeHtml(code.substr(matchIndex, termLength)) + 
+                                   `</mark>`;
+                lastIndex = matchIndex + termLength;
+            });
+
+            highlightedHTML += escapeHtml(code.substring(lastIndex));
+            
+            // Menangani spasi/enter di akhir file agar tampilan konsisten
+            if (highlightedHTML.endsWith('\n')) {
+                highlightedHTML += '&nbsp;'; 
+            }
+
+            highlightLayer.innerHTML = highlightedHTML;
+
+            if (searchMatches.length > 0) {
+                currentMatchIndex = 0;
+                scrollToMatch(0);
+            }
+        }
+
+        function findNext(forward) {
+            if (searchMatches.length === 0) return;
+
+            if (forward) {
+                currentMatchIndex = (currentMatchIndex + 1) % searchMatches.length;
+            } else {
+                currentMatchIndex = (currentMatchIndex - 1 + searchMatches.length) % searchMatches.length;
+            }
+
+            searchStats.innerText = `${currentMatchIndex + 1} of ${searchMatches.length}`;
+            
+            updateHighlightClasses();
+            scrollToMatch(currentMatchIndex);
+        }
+
+        function updateHighlightClasses() {
+            const marks = highlightLayer.querySelectorAll('mark');
+            marks.forEach((mark, index) => {
+                if (index === currentMatchIndex) {
+                    mark.classList.add('current-match');
+                } else {
+                    mark.classList.remove('current-match');
                 }
             });
-            
-            editor.value = formatted.substring(1, formatted.length - 2);
-            updatePreview();
-            showToast('Kode berhasil diformat!', 'success');
         }
 
-        // Clear editor
-        function clearEditor() {
-            if (confirm('Apakah Anda yakin ingin menghapus semua kode?')) {
-                editor.value = '';
-                updatePreview();
-                showToast('Editor dikosongkan', 'success');
+        function scrollToMatch(index) {
+            const marks = highlightLayer.querySelectorAll('mark');
+            const activeMark = marks[index];
+            
+            if (activeMark) {
+                const topPos = activeMark.offsetTop;
+                const markHeight = activeMark.offsetHeight;
+                const editorHeight = codeInput.clientHeight;
+                
+                const centerPos = topPos - (editorHeight / 2) + (markHeight / 2);
+                
+                codeInput.scrollTop = centerPos;
+                highlightLayer.scrollTop = centerPos;
             }
         }
 
-        // Download HTML
-        function downloadHTML() {
-            const content = editor.value;
-            const blob = new Blob([content], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
+        function runCode() {
+            clearTimeout(window.updateTimeout);
+            updatePreview();
+            showToast('Pratinjau diperbarui');
+        }
+
+        function clearEditor() {
+            if(confirm('Hapus semua kode?')) {
+                codeInput.value = '';
+                updateLineNumbers();
+                updatePreview();
+                highlightLayer.innerHTML = '';
+            }
+        }
+
+        function copyCode() {
+            codeInput.select();
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            showToast('Kode disalin ke clipboard');
+        }
+
+        function downloadCode() {
+            const blob = new Blob([codeInput.value], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'document.html';
+            a.download = 'index.html';
+            document.body.appendChild(a);
             a.click();
-            window.URL.revokeObjectURL(url);
-            showToast('File berhasil didownload!', 'success');
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('File diunduh');
         }
 
-        // Open in new tab
         function openInNewTab() {
-            const content = editor.value;
-            const blob = new Blob([content], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const newWindow = window.open(url, '_blank');
-            
-            if (newWindow) {
-                showToast('Preview dibuka di tab baru!', 'success');
-                // Clean up the URL after a delay to ensure the page has loaded
-                setTimeout(function() {
-                    window.URL.revokeObjectURL(url);
-                }, 1000);
-            } else {
-                showToast('Popup diblokir! Izinkan popup untuk fitur ini.', 'error');
-            }
+            const code = codeInput.value;
+            const blob = new Blob([code], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            showToast('Dibuka di tab baru');
         }
 
-        // Upload file
-        fileUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    editor.value = e.target.result;
-                    updatePreview();
-                    showToast('File berhasil diupload!', 'success');
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        // Toggle dark mode
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            showToast(isDark ? 'Dark mode aktif' : 'Light mode aktif', 'success');
+        function setPreviewSize(width) {
+            iframeContainer.style.width = width;
+            document.querySelectorAll('.active-size').forEach(b => b.classList.remove('bg-white', 'shadow-sm'));
         }
 
-        // Load dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-
-        // Toast notification
-        function showToast(message, type = 'success') {
+        function showToast(message) {
             const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show ' + type;
-            
-            setTimeout(function() {
-                toast.classList.remove('show');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
         }
-
-        // Initial preview
-        updatePreview();
-        updateStats();
     </script>
 </body>
 </html>
