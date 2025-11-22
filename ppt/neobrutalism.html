@@ -266,6 +266,19 @@
             display: flex;
         }
 
+        .timer-icon-wrapper {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #FF5757;
+            animation: blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+
         .timer-text {
             color: #FF5757;
             font-size: 1.1rem;
@@ -620,10 +633,7 @@
                 <span style="color: #9ca3af;">|</span>
                 <span style="color: #6b7280;">PROPOSAL SKRIPSI 2025</span>
                 <div class="timer-display" id="timerDisplay">
-                    <div style="width: 20px; height: 20px; border: 3px solid black; border-radius: 50%; position: relative;">
-                        <div style="position: absolute; width: 2px; height: 7px; background: black; top: 3px; left: 50%; transform: translateX(-50%);"></div>
-                        <div style="position: absolute; width: 2px; height: 5px; background: black; top: 5px; left: 50%; transform: translateX(-50%) rotate(90deg);"></div>
-                    </div>
+                    <div class="timer-icon-wrapper"></div>
                     <span class="timer-text" id="timerText">00:00</span>
                 </div>
             </div>
