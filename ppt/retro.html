@@ -76,6 +76,7 @@
             border: 1px solid #2c241b;
             border-radius: 0;
             transition: width 0.2s, height 0.2s, background-color 0.2s;
+            /* Removed transform transition for immediate response */
         }
         
         body:has(button:hover) .cursor-outline,
@@ -656,11 +657,9 @@
                 cursorOutline.style.left = `${posX}px`;
                 cursorOutline.style.top = `${posY}px`;
                 
-                // Trail effect for cursor outline
-                cursorOutline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
+                // Instant cursor outline
+                cursorOutline.style.left = `${posX}px`;
+                cursorOutline.style.top = `${posY}px`;
             });
         }
 
