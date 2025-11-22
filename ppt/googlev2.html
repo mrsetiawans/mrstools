@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <title>Presentasi Proposal Skripsi - M. Rizal Setiawan (Google Style)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Google Fonts: Outfit (Mirip Google Sans) & Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========== GOOGLE MATERIAL VARIABLES ========== */
+        :root {
+            --g-blue: #4285F4;
+            --g-red: #EA4335;
+            --g-yellow: #FBBC05;
+            --g-green: #34A853;
+            --g-dark: #202124;
+            --g-gray: #5f6368;
+            --g-light-bg: #f8f9fa;
+            --g-white: #ffffff;
+            --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --shadow-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
+
+        /* ========== BASE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: var(--g-white);
+            color: var(--g-dark);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .google-font {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ========== LANDSCAPE WARNING ========== */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: var(--g-white);
+                z-index: 9999;
+            }
+            body::after {
+                content: 'Harap putar perangkat Anda ke mode Landscape';
+                position: fixed;
+                top: 50%; left: 50%;
+                transform: translate(-50%, -50%);
+                font-family: 'Outfit', sans-serif;
+                font-weight: 500;
+                color: var(--g-gray);
+                text-align: center;
+                z-index: 10000;
+                width: 80%;
+            }
+        }
+
+        /* ========== LAYOUT CONTAINER ========== */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .slide-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--g-light-bg);
+        }
+
+        /* ========== GOOGLE PROGRESS BAR (RAINBOW) ========== */
+        .google-header {
+            position: relative;
+            z-index: 1000;
+            background: #e0e0e0; /* Background track color (light gray) */
+            height: 6px;
+            width: 100%;
+        }
+
+        .google-bar {
+            height: 100%;
+            display: flex;
+            width: 0%; /* Starts at 0, controlled by JS */
+            transition: width 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .gb-section { 
+            height: 100%; 
+            flex: 1; /* Ensures all 4 colors share the available width equally */
+        }
+        
+        .bg-blue { background: var(--g-blue); }
+        .bg-red { background: var(--g-red); }
+        .bg-yellow { background: var(--g-yellow); }
+        .bg-green { background: var(--g-green); }
+
+        /* ========== SLIDE TRANSITIONS ========== */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 3rem 5rem; /* Adjusted padding for footer */
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            background: var(--g-white);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            z-index: 10;
+        }
+
+        /* ========== COMPONENT STYLES ========== */
+        
+        /* Cards */
+        .g-card {
+            background: var(--g-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border: 1px solid #dadce0;
+        }
+
+        .g-card:hover {
+            box-shadow: var(--shadow-2);
+            transform: translateY(-2px);
+        }
+
+        /* Tags/Badges */
+        .g-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #dadce0;
+            background: var(--g-white);
+            color: var(--g-gray);
+        }
+
+        /* Slide Title */
+        .slide-title {
+            font-size: 2.25rem;
+            color: var(--g-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        /* University Logo */
+        .slide-logo {
+            position: absolute;
+            top: 2rem;
+            right: 3rem;
+            height: 45px;
+            width: auto;
+            z-index: 50;
+            filter: saturate(0.8);
+        }
+
+        /* ========== FOOTER BAR ========== */
+        .slide-footer {
+            height: 60px;
+            background: var(--g-white);
+            border-top: 1px solid #dadce0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.02);
+            flex-shrink: 0;
+        }
+
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .footer-center {
+            flex: 0 0 auto;
+        }
+
+        .footer-right {
+            justify-content: flex-end;
+        }
+
+        .footer-info {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--g-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f1f3f4;
+            padding: 4px;
+            border-radius: 24px;
+        }
+
+        .footer-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--g-gray);
+            transition: all 0.2s;
+        }
+
+        .footer-btn:hover:not(:disabled) {
+            background: rgba(0,0,0,0.08);
+            color: var(--g-dark);
+        }
+        
+        .footer-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .footer-btn.active {
+            background: var(--g-red);
+            color: white;
+        }
+        
+        .footer-btn.active:hover {
+            background: #d93025;
+        }
+
+        .page-indicator {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--g-gray);
+            padding: 0.25rem 0.75rem;
+            background: #f1f3f4;
+            border-radius: 12px;
+        }
+
+        /* ========== TIMER DISPLAY ========== */
+        .timer-display {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: #e8f0fe;
+            border-radius: 16px;
+            color: var(--g-blue);
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .timer-display.visible { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ========== TITLE SLIDE SPECIFIC ========== */
+        .title-slide-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .google-dots-anim {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .g-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .g-dot:nth-child(1) { background: var(--g-blue); animation-delay: -0.32s; }
+        .g-dot:nth-child(2) { background: var(--g-red); animation-delay: -0.16s; }
+        .g-dot:nth-child(3) { background: var(--g-yellow); }
+        .g-dot:nth-child(4) { background: var(--g-green); }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .main-title {
+            font-size: 3rem;
+            line-height: 1.1;
+            color: var(--g-dark);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* ========== STATS SLIDE ========== */
+        .stat-big {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .text-g-blue { color: var(--g-blue); }
+        .text-g-red { color: var(--g-red); }
+
+        /* ========== LASER POINTER ========== */
+        .laser-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--g-red);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 8px var(--g-red), 0 0 16px var(--g-red);
+            display: none;
+            transition: opacity 0.1s;
+        }
+        body.presenting .laser-dot { display: block; }
+        body.presenting { cursor: none; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .slide { padding: 2rem; }
+            .main-title { font-size: 2.25rem; }
+            .slide-title { font-size: 2rem; }
+            .slide-footer { padding: 0 1rem; }
+            .footer-info span { display: none; } /* Hide name on small screens */
+        }
+
+        @media (max-width: 640px) {
+            .slide { padding: 1.5rem; }
+            .main-title { font-size: 1.75rem; }
+            .g-card { padding: 1.5rem; }
+            .footer-controls { gap: 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Laser Pointer -->
+    <div class="laser-dot" id="laserPointer"></div>
+
+    <div class="app-container">
+        
+        <!-- HEADER: Google Rainbow Progress Bar -->
+        <header class="google-header">
+            <!-- This bar itself is the progress bar -->
+            <div class="google-bar" id="rainbowProgressBar">
+                <div class="gb-section bg-blue"></div>
+                <div class="gb-section bg-red"></div>
+                <div class="gb-section bg-yellow"></div>
+                <div class="gb-section bg-green"></div>
+            </div>
+        </header>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="slide-viewport">
+            
+            <!-- Logo -->
+            <img src="https://upload.wikimedia.org/wikipedia/id/8/81/Mulia_logo.png" 
+                 alt="Universitas Mulia" 
+                 class="slide-logo"
+                 onerror="this.style.display='none'">
+
+            <!-- SLIDE 1: TITLE -->
+            <section class="slide active">
+                <div class="title-slide-wrapper">
+                    <div class="google-dots-anim">
+                        <div class="g-dot"></div>
+                        <div class="g-dot"></div>
+                        <div class="g-dot"></div>
+                        <div class="g-dot"></div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <span class="g-chip" style="color: var(--g-blue); border-color: var(--g-blue); background: #e8f0fe;">PROPOSAL SKRIPSI</span>
+                    </div>
+
+                    <h1 class="main-title">
+                        Hubungan Tingkat Pengetahuan Pengobatan Diabetes Melitus Tipe 2 Menggunakan <span style="color: var(--g-blue)">DKQ-24</span>
+                    </h1>
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm inline-block mx-auto mt-4 max-w-2xl w-full">
+                        <p class="text-xl font-medium text-gray-800 mb-1 google-font">Muhammad Rizal Setiawan</p>
+                        <p class="text-sm text-gray-500 mb-6">NIM: 1933010</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                            <div class="p-3 bg-gray-50 rounded-xl">
+                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Pembimbing Utama</p>
+                                <p class="text-sm font-medium text-gray-800">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-xl">
+                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Pembimbing Pendamping</p>
+                                <p class="text-sm font-medium text-gray-800">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-gray-400 text-sm font-medium">
+                        Program Studi Farmasi-S1 • Universitas Mulia Balikpapan • 2025
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: LATAR BELAKANG -->
+            <section class="slide">
+                <h2 class="slide-title">
+                    <span class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shadow-sm">
+                        <i data-lucide="globe-2" class="w-6 h-6"></i>
+                    </span>
+                    Latar Belakang Masalah
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full content-center pb-8">
+                    <!-- Card 1: Global -->
+                    <div class="g-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Data Global</span>
+                            </div>
+                            <div class="stat-big text-g-red">589 JT</div>
+                            <p class="text-lg font-medium text-gray-700">Penderita Diabetes (2024)</p>
+                            <p class="text-sm text-gray-500 mt-2">Sumber: International Diabetes Federation</p>
+                        </div>
+                        <div class="mt-6 p-4 bg-red-50 rounded-xl border border-red-100">
+                            <p class="text-sm text-red-800 font-medium">
+                                <i data-lucide="trending-up" class="w-4 h-4 inline mr-1"></i>
+                                Proyeksi 2050: <strong>853 Juta</strong> Jiwa
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Indonesia -->
+                    <div class="g-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Data Indonesia</span>
+                            </div>
+                            <div class="stat-big text-g-blue">20,4 JT</div>
+                            <p class="text-lg font-medium text-gray-700">Penderita (Peringkat 5 Dunia)</p>
+                            <p class="text-sm text-gray-500 mt-2">Sumber: International Diabetes Federation</p>
+                        </div>
+                        <div class="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                            <div class="flex items-start gap-3">
+                                <div class="text-3xl font-bold text-blue-600">73%</div>
+                                <p class="text-sm text-blue-800 leading-tight mt-1">
+                                    Kasus <strong>tidak terdiagnosis</strong>.<br>
+                                    (Sekitar 15 juta orang tidak sadar).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Insight -->
+                <div class="mt-auto g-card bg-yellow-50 border-yellow-100 shadow-none flex items-start gap-4">
+                    <div class="p-2 bg-white rounded-full shadow-sm text-yellow-600">
+                        <i data-lucide="alert-circle" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-1 google-font">Urgensi Masalah</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Diabetes menjadi tantangan kesehatan global. Angka <i>undiagnosed</i> yang tinggi di Indonesia meningkatkan risiko komplikasi fatal. Pengetahuan pasien menjadi kunci utama pengendalian penyakit.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: TERIMA KASIH -->
+            <section class="slide">
+                <div class="flex flex-col items-center justify-center h-full text-center max-w-4xl mx-auto">
+                    
+                    <!-- Google Style "Success" Graphic -->
+                    <div class="relative mb-8">
+                        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600 animate-bounce">
+                            <i data-lucide="check" class="w-12 h-12"></i>
+                        </div>
+                        <div class="absolute top-0 right-0 w-6 h-6 bg-blue-500 rounded-full border-4 border-white"></div>
+                        <div class="absolute bottom-0 left-0 w-8 h-8 bg-yellow-400 rounded-full border-4 border-white"></div>
+                    </div>
+
+                    <h2 class="text-5xl font-bold text-gray-800 mb-4 google-font">Terima Kasih!</h2>
+                    <p class="text-xl text-gray-500 mb-12 font-light">Presentasi Proposal Skripsi Telah Selesai</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        <div class="g-card hover:border-blue-300 cursor-pointer group">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <i data-lucide="message-circle" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2">Saran & Masukan</h3>
+                                <p class="text-sm text-gray-500">Mohon masukan konstruktif untuk penyempurnaan metode penelitian.</p>
+                            </div>
+                        </div>
+
+                        <div class="g-card hover:border-green-300 cursor-pointer group">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center mb-3 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                    <i data-lucide="help-circle" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2">Sesi Diskusi</h3>
+                                <p class="text-sm text-gray-500">Silakan ajukan pertanyaan terkait latar belakang atau data.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 flex items-center gap-2 text-gray-400 text-sm font-medium">
+                        <i data-lucide="user" class="w-4 h-4"></i> M. Rizal Setiawan
+                        <span class="mx-2">•</span>
+                        <span id="finalTimer" class="font-mono">00:00</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER BAR (Google Style) -->
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <div class="footer-info">
+                    <i data-lucide="user-circle" class="w-5 h-5"></i>
+                    <span class="font-bold text-gray-700">M. Rizal Setiawan</span>
+                    <span class="text-gray-300 mx-2">|</span>
+                    <span class="text-gray-500">Proposal Skripsi</span>
+                </div>
+                <div class="timer-display" id="timerDisplay">
+                    <i data-lucide="clock" class="w-3 h-3"></i>
+                    <span id="timerText">00:00</span>
+                </div>
+            </div>
+
+            <div class="footer-center">
+                <div class="footer-controls">
+                    <button id="prevBtn" class="footer-btn" title="Sebelumnya">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <button id="playBtn" class="footer-btn" title="Mulai (P)">
+                        <i data-lucide="play" class="w-4 h-4"></i>
+                    </button>
+
+                    <button id="nextBtn" class="footer-btn" title="Selanjutnya">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-right">
+                <div class="page-indicator">
+                    <span id="currentSlideNum">1</span> / <span id="totalSlideNum">3</span>
+                </div>
+                <button id="fullscreenBtn" class="footer-btn" title="Layar Penuh">
+                    <i data-lucide="maximize" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elements
+            const slides = document.querySelectorAll('.slide');
+            const currentSlideNumEl = document.getElementById('currentSlideNum');
+            const totalSlideNumEl = document.getElementById('totalSlideNum');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const playBtn = document.getElementById('playBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const laserPointer = document.getElementById('laserPointer');
+            const finalTimer = document.getElementById('finalTimer');
+            const rainbowProgressBar = document.getElementById('rainbowProgressBar');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const timerText = document.getElementById('timerText');
+
+            // State
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let isPresenting = false;
+            let timerInterval = null;
+            let startTime = null;
+            let elapsedSeconds = 0;
+
+            // Initialize
+            totalSlideNumEl.textContent = totalSlides;
+            updateSlideView();
+            lucide.createIcons();
+
+            // --- Navigation Logic ---
+            function updateSlideView() {
+                slides.forEach((slide, index) => {
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+                currentSlideNumEl.textContent = currentSlide + 1;
+                
+                // Update Rainbow Progress Bar Width
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                rainbowProgressBar.style.width = `${progress}%`;
+                
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            function nextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlideView();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlideView();
+                }
+            }
+
+            // --- Presentation Mode (Timer & Laser) ---
+            function togglePresentation() {
+                isPresenting = !isPresenting;
+                
+                if (isPresenting) {
+                    document.body.classList.add('presenting');
+                    playBtn.classList.add('active');
+                    playBtn.innerHTML = '<i data-lucide="pause" class="w-4 h-4"></i>';
+                    timerDisplay.classList.add('visible');
+                    
+                    // Start Timer if not running
+                    if (!timerInterval) {
+                        startTime = Date.now() - (elapsedSeconds * 1000);
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
+                } else {
+                    document.body.classList.remove('presenting');
+                    playBtn.classList.remove('active');
+                    playBtn.innerHTML = '<i data-lucide="play" class="w-4 h-4"></i>';
+                    
+                    // Pause Timer
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+                lucide.createIcons();
+            }
+
+            function updateTimer() {
+                elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                const m = Math.floor(elapsedSeconds / 60);
+                const s = elapsedSeconds % 60;
+                const timeString = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                finalTimer.textContent = timeString;
+                timerText.textContent = timeString;
+            }
+
+            // --- Laser Pointer Logic ---
+            document.addEventListener('mousemove', (e) => {
+                if (isPresenting) {
+                    laserPointer.style.left = (e.clientX - 6) + 'px';
+                    laserPointer.style.top = (e.clientY - 6) + 'px';
+                }
+            });
+
+            // --- Event Listeners ---
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            playBtn.addEventListener('click', togglePresentation);
+            
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Keyboard Shortcuts
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case ' ':
+                        nextSlide();
+                        break;
+                    case 'ArrowLeft':
+                        prevSlide();
+                        break;
+                    case 'p':
+                    case 'P':
+                        togglePresentation();
+                        break;
+                    case 'f':
+                    case 'F':
+                        fullscreenBtn.click();
+                        break;
+                }
+            });
+
+            // Mobile Touch Swipes
+            let touchStartX = 0;
+            document.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+            document.addEventListener('touchend', e => {
+                let touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) nextSlide();
+                if (touchEndX - touchStartX > 50) prevSlide();
+            });
+        });
+    </script>
+</body>
+</html>
