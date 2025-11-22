@@ -274,6 +274,19 @@
             display: flex;
         }
 
+        .timer-icon-wrapper {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #a63737;
+            animation: blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+
         .timer-text {
             font-family: 'Courier Prime', monospace;
             font-size: 1rem;
@@ -575,7 +588,7 @@
                 <span class="text-retro-sepia">|</span>
                 <span>Proposal 2025</span>
                 <div class="timer-display" id="timerDisplay">
-                    <div class="w-2 h-2 rounded-full bg-retro-red animate-pulse"></div>
+                    <div class="timer-icon-wrapper"></div>
                     <span class="timer-text" id="timerText">00:00</span>
                 </div>
             </div>

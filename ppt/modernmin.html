@@ -410,6 +410,19 @@
             display: flex;
         }
 
+        .timer-icon-recording {
+            width: 10px;
+            height: 10px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+        }
+
         .timer-text {
             color: var(--black);
             font-weight: 600;
@@ -673,10 +686,7 @@
                 <span style="color: var(--gray-300);">—</span>
                 <span>Proposal Skripsi 2025</span>
                 <div class="timer" id="timer">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
+                    <div class="timer-icon-recording"></div>
                     <span class="timer-text" id="timerText">00:00</span>
                 </div>
             </div>
