@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>PROPOSAL SKRIPSI // M. RIZAL SETIAWAN</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['"Special Elite"', 'cursive'],
+                        'body': ['"Courier Prime"', 'monospace'],
+                    },
+                    colors: {
+                        'retro-bg': '#f0e6d2',
+                        'retro-paper': '#fdfbf7',
+                        'retro-ink': '#2c241b',
+                        'retro-sepia': '#8a7b6c',
+                        'retro-red': '#a63737'
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            overflow: hidden;
+            background: #f0e6d2;
+            color: #2c241b;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2c241b;
+            border-radius: 0;
+        }
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #2c241b;
+            border-radius: 0;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        body:has(button:hover) .cursor-outline,
+        body:has(.interactive:hover) .cursor-outline {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(44, 36, 27, 0.1);
+            border-color: #a63737;
+            border-radius: 50%;
+        }
+
+        /* Presentation Mode Laser */
+        body.presenting {
+            cursor: none;
+        }
+
+        body.presenting .cursor-outline {
+            width: 20px;
+            height: 20px;
+            background-color: #a63737;
+            border: 2px solid #f0e6d2;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(166, 55, 55, 0.5);
+        }
+
+        body.presenting .cursor-dot {
+            display: none;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            background-color: #f0e6d2;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238a7b6c' fill-opacity='0.1'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' /%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: #d3c7b4;
+            z-index: 101;
+            border-bottom: 1px solid #8a7b6c;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #2c241b;
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        .slide-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 4rem;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: rotate(-1deg) translateY(20px);
+            transition: all 0.7s ease;
+            background: #fdfbf7;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #d3c7b4;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: rotate(0) translateY(0);
+            z-index: 10;
+        }
+
+        /* Paper Texture Overlay on Slide */
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar {
+            width: 12px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #f0e6d2;
+            border-left: 1px solid #d3c7b4;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: #8a7b6c;
+            border: 2px solid #f0e6d2;
+        }
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: #2c241b;
+        }
+
+        /* Control Bar */
+        .control-bar {
+            height: 70px;
+            background: #e3d5c0;
+            border-top: 1px solid #8a7b6c;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+            flex-shrink: 0;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .control-button {
+            background: #f0e6d2;
+            border: 1px solid #8a7b6c;
+            color: #2c241b;
+            width: 45px;
+            height: 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 0 rgba(138, 123, 108, 0.5);
+        }
+
+        .control-button:hover:not(:disabled) {
+            background: #fff;
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 rgba(138, 123, 108, 0.7);
+        }
+        
+        .control-button:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0 rgba(138, 123, 108, 0.5);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .control-button.play-active {
+            color: #a63737;
+            background: #f9e8e8;
+            border-color: #a63737;
+        }
+
+        .slide-counter {
+            font-family: 'Special Elite', cursive;
+            color: #2c241b;
+            font-size: 1.2rem;
+            margin: 0 1rem;
+        }
+        
+        #currentSlide {
+            font-weight: 700;
+            border-bottom: 2px solid #2c241b;
+        }
+
+        .timer-display {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #2c241b;
+            color: #f0e6d2;
+            border: 1px solid #2c241b;
+        }
+
+        .timer-display.active {
+            display: flex;
+        }
+
+        .timer-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* Slide Styles */
+        .slide-title {
+            font-family: 'Special Elite', cursive;
+            font-size: 2.8rem;
+            font-weight: 400;
+            color: #2c241b;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #2c241b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-card {
+            background: #f8f4ea;
+            border: 2px solid #2c241b;
+            padding: 2rem;
+            box-shadow: 4px 4px 0 rgba(44, 36, 27, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(44, 36, 27, 0.3);
+        }
+
+        .stat-number {
+            font-family: 'Special Elite', cursive;
+            font-size: 3.5rem;
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 1rem;
+            color: #a63737;
+        }
+
+        .info-box {
+            background: #fff;
+            border: 1px dashed #2c241b;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            width: 10px;
+            height: 10px;
+            background: #a63737;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .highlight-box {
+            background: #2c241b;
+            color: #f0e6d2;
+            padding: 2rem;
+            border: 1px solid #2c241b;
+            font-style: italic;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 4px double #2c241b;
+        }
+        
+        /* Old Stamp Effect */
+        .stamp {
+            border: 3px solid #a63737;
+            color: #a63737;
+            padding: 0.5rem 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-family: 'Special Elite', cursive;
+            display: inline-block;
+            transform: rotate(-10deg);
+            opacity: 0.8;
+            mask-image: url("https://www.transparenttextures.com/patterns/grunge-wall.png");
+            -webkit-mask-image: url("https://www.transparenttextures.com/patterns/grunge-wall.png");
+            margin-bottom: 2rem;
+        }
+
+        .title-main {
+            font-family: 'Special Elite', cursive;
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            color: #2c241b;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .pembimbing-card {
+            background: transparent;
+            padding: 1rem;
+            border-bottom: 1px solid #8a7b6c;
+            text-align: left;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem;
+                top: 10px; left: 10px; right: 10px; bottom: 10px;
+            }
+            .slide-title {
+                font-size: 2rem;
+            }
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            .title-main {
+                font-size: 2rem;
+            }
+            .control-bar {
+                padding: 0 1rem;
+                height: 60px;
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="presentation-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- University Logo -->
+        <img src="https://upload.wikimedia.org/wikipedia/id/8/81/Mulia_logo.png" 
+             alt="Logo Universitas Mulia" 
+             style="position: absolute; top: 2rem; right: 3rem; height: 60px; width: auto; z-index: 102; opacity: 0.7; filter: sepia(100%) contrast(120%); mix-blend-mode: multiply;"
+             onerror="this.style.display='none'">
+
+        <!-- Slide Content -->
+        <main class="slide-content">
+            
+            <!-- SLIDE 1: TITLE -->
+            <section class="slide active title-slide">
+                <div style="max-width: 1000px; margin: 0 auto;">
+                    <div class="stamp">Proposal Skripsi</div>
+                    
+                    <h1 class="title-main">
+                        Hubungan Tingkat Pengetahuan Pengobatan<br>
+                        <span style="text-decoration: underline; text-decoration-color: #a63737;">Diabetes Melitus Tipe 2</span><br>
+                        di Puskesmas Damai Kota Balikpapan<br>
+                        Menggunakan DKQ-24
+                    </h1>
+                    
+                    <div class="mt-8 border-t-2 border-b-2 border-dotted border-retro-sepia py-6">
+                        <p class="text-2xl font-bold">
+                            Muhammad Rizal Setiawan
+                        </p>
+                        <p class="text-retro-sepia mt-2 font-bold tracking-widest text-sm">
+                            NIM: 1933010
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mt-8">
+                        <div class="pembimbing-card">
+                            <p class="text-retro-sepia text-xs font-bold tracking-widest uppercase mb-2">Pembimbing Utama</p>
+                            <p class="font-bold">Apt. Warrantia Citta Citti Putri, S.Farm., M.Sc</p>
+                        </div>
+                        <div class="pembimbing-card">
+                            <p class="text-retro-sepia text-xs font-bold tracking-widest uppercase mb-2">Pembimbing Pendamping</p>
+                            <p class="font-bold">Apt. Wiwi Erwina, S.Farm., M.P.H</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-retro-sepia mt-8 text-xs font-bold tracking-wide font-mono">
+                        TYPEWRITTEN @ 2025 // UNIVERSITAS MULIA BALIKPAPAN
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: LATAR BELAKANG -->
+            <section class="slide">
+                <h2 class="slide-title">
+                    // Latar Belakang
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="stat-card">
+                        <div class="stat-number">589 JT</div>
+                        <div class="text-xl font-bold mb-2">Penderita Diabetes Global</div>
+                        <p class="text-retro-sepia leading-relaxed font-serif italic">
+                            "Proyeksi tahun 2050 mencapai angka <span class="font-bold text-retro-ink not-italic">853 JUTA</span> jiwa."
+                        </p>
+                        <div class="mt-6 pt-6 border-t border-retro-sepia">
+                            <p class="font-bold">
+                                <span class="text-2xl font-bold text-retro-red">43%</span> KASUS TIDAK TERDIAGNOSIS
+                            </p>
+                            <p class="text-retro-sepia text-sm mt-2">
+                                (252 juta orang tidak menyadari kondisinya)
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">20.4 JT</div>
+                        <div class="text-xl font-bold mb-2">Penderita di Indonesia</div>
+                        <p class="text-lg font-bold text-retro-red tracking-wider border-b-2 border-retro-red inline-block">
+                            PERINGKAT #5 DUNIA
+                        </p>
+                        <div class="mt-6 pt-6 border-t border-retro-sepia">
+                            <p class="font-bold">
+                                <span class="text-2xl font-bold text-retro-red">73.2%</span> KASUS TERSEMBUNYI
+                            </p>
+                            <p class="text-retro-sepia text-sm mt-2">
+                                (15 juta orang belum terdata)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="highlight-box">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="text-2xl text-retro-bg font-bold">
+                            ⚠
+                        </div>
+                        <h4 class="font-bold text-xl font-display">
+                            KESIMPULAN KRITIS
+                        </h4>
+                    </div>
+                    <p class="text-lg leading-relaxed font-light">
+                        Diabetes telah menjadi <strong class="font-bold underline">tantangan kesehatan global terbesar</strong> di abad ke-21. 
+                        Tingginya angka kasus yang tidak terdiagnosis menyebabkan keterlambatan penanganan.
+                    </p>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: TERIMA KASIH -->
+            <section class="slide flex flex-col justify-center items-center text-center">
+                <div class="max-w-4xl w-full">
+                    <div class="inline-block border-2 border-retro-ink px-6 py-2 mb-6 text-sm tracking-widest uppercase font-bold transform rotate-2">
+                        Sesi Berakhir
+                    </div>
+                    
+                    <h2 class="font-display text-6xl md:text-7xl font-bold mb-8 leading-tight text-retro-ink">
+                        Terima Kasih
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="info-box text-left">
+                            <div class="flex items-center gap-3 mb-3">
+                                <h3 class="font-bold text-lg uppercase border-b border-dotted border-black">Masukan & Saran</h3>
+                            </div>
+                            <p class="text-sm leading-relaxed">
+                                Saya sangat mengharapkan <strong>masukan konstruktif</strong> 
+                                untuk penyempurnaan penelitian ini.
+                            </p>
+                        </div>
+                        
+                        <div class="info-box text-left">
+                            <div class="flex items-center gap-3 mb-3">
+                                <h3 class="font-bold text-lg uppercase border-b border-dotted border-black">Diskusi</h3>
+                            </div>
+                            <p class="text-sm leading-relaxed">
+                                Setiap pertanyaan dan <strong>diskusi akademis</strong> akan sangat membantu memperkuat landasan teoritis.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="border-t-2 border-retro-ink pt-8 mt-8 border-dashed">
+                        <p class="text-retro-sepia text-sm max-w-xl mx-auto leading-relaxed font-mono">
+                            *** END OF DOCUMENT ***
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Control Bar -->
+        <footer class="control-bar">
+            <div class="flex items-center gap-4 text-sm font-bold text-retro-ink">
+                <span>M. Rizal Setiawan</span>
+                <span class="text-retro-sepia">|</span>
+                <span>Proposal 2025</span>
+                <div class="timer-display" id="timerDisplay">
+                    <div class="w-2 h-2 rounded-full bg-retro-red animate-pulse"></div>
+                    <span class="timer-text" id="timerText">00:00</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button id="playBtn" class="control-button interactive" title="Mulai Presentasi (P)">
+                    <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                </button>
+                
+                <button id="prevBtn" class="control-button interactive" title="Slide Sebelumnya (←)">
+                    <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+                </button>
+                
+                <div class="slide-counter">
+                    <span id="currentSlide">1</span> <span class="mx-1 text-retro-sepia">/</span> <span id="totalSlides">3</span>
+                </div>
+                
+                <button id="nextBtn" class="control-button interactive" title="Slide Selanjutnya (→)">
+                    <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+                </button>
+                
+                <button id="fullscreenBtn" class="control-button interactive" title="Toggle Fullscreen (F)">
+                    <i data-lucide="maximize" style="width: 18px; height: 18px;"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        const slides = document.querySelectorAll('.slide');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const progressBar = document.getElementById('progressBar');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerText = document.getElementById('timerText');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let isPresenting = false;
+        let isPaused = false;
+        let timerInterval = null;
+        let startTime = null;
+        let elapsedSeconds = 0;
+        
+        totalSlidesEl.textContent = totalSlides;
+
+        // Custom Cursor Logic (Desktop Only)
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                cursorOutline.style.left = `${posX}px`;
+                cursorOutline.style.top = `${posY}px`;
+                
+                // Trail effect for cursor outline
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+        }
+
+        // Touch Gestures
+        let touchStartX = 0, touchEndX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const deltaX = touchStartX - touchEndX;
+            if (Math.abs(deltaX) > 50) {
+                deltaX > 0 ? nextSlide() : prevSlide();
+            }
+        }, { passive: true });
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            currentSlideEl.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            lucide.createIcons();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function togglePresentation() {
+            if (isPresenting) {
+                togglePause();
+            } else {
+                startPresentation();
+            }
+        }
+
+        function startPresentation() {
+            isPresenting = true;
+            isPaused = false;
+            document.body.classList.add('presenting');
+            playBtn.classList.add('play-active');
+            playBtn.innerHTML = '<i data-lucide="pause" style="width: 20px; height: 20px;"></i>';
+            playBtn.title = 'Jeda Presentasi (P)';
+            
+            if (elapsedSeconds === 0) {
+                currentSlide = 0;
+                updateSlide();
+            }
+            
+            timerDisplay.classList.add('active');
+            startTime = Date.now() - (elapsedSeconds * 1000);
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+            lucide.createIcons();
+        }
+
+        function togglePause() {
+            if (isPaused) {
+                isPaused = false;
+                document.body.classList.add('presenting');
+                playBtn.innerHTML = '<i data-lucide="pause" style="width: 20px; height: 20px;"></i>';
+                playBtn.title = 'Jeda Presentasi (P)';
+                startTime = Date.now() - (elapsedSeconds * 1000);
+                timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                isPaused = true;
+                document.body.classList.remove('presenting');
+                playBtn.innerHTML = '<i data-lucide="play" style="width: 20px; height: 20px;"></i>';
+                playBtn.title = 'Lanjutkan Presentasi (P)';
+                if (timerInterval) clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            lucide.createIcons();
+        }
+
+        function updateTimer() {
+            elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const m = Math.floor(elapsedSeconds / 60);
+            const s = elapsedSeconds % 60;
+            timerText.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        async function toggleFullscreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                try {
+                    await (elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.());
+                    if (screen.orientation?.lock) await screen.orientation.lock('landscape').catch(() => {});
+                } catch (err) {
+                    console.error('Fullscreen error:', err);
+                }
+            } else {
+                (document.exitFullscreen?.() || document.webkitExitFullscreen?.())();
+                screen.orientation?.unlock();
+            }
+        }
+
+        const updateFullscreenIcon = () => {
+            const isFS = document.fullscreenElement;
+            fullscreenBtn.innerHTML = isFS 
+                ? '<i data-lucide="minimize" style="width: 20px; height: 20px;"></i>'
+                : '<i data-lucide="maximize" style="width: 20px; height: 20px;"></i>';
+            fullscreenBtn.title = isFS ? 'Keluar Fullscreen (F/Esc)' : 'Toggle Fullscreen (F)';
+            lucide.createIcons();
+        };
+
+        // Event Listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+            else if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+            else if (e.key === 'p' || e.key === 'P') { e.preventDefault(); togglePresentation(); }
+            else if (e.key === 'Home') { e.preventDefault(); currentSlide = 0; updateSlide(); }
+            else if (e.key === 'End') { e.preventDefault(); currentSlide = totalSlides - 1; updateSlide(); }
+        });
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        playBtn.addEventListener('click', togglePresentation);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        document.addEventListener('fullscreenchange', updateFullscreenIcon);
+
+        // Interactive click effect
+        document.querySelectorAll('.interactive').forEach(el => {
+            el.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'none';
+                }, 150);
+            });
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
