@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>f-stop.ai | Professional AI Scene & Prompt Director</title>
+  <title>phopro.ai | Professional AI Scene & Prompt Director</title>
 
   <meta name="description" content="Master your AI art. Convert camera settings (Aperture, ISO, Film Stock) and directorial vision into flawless prompts for Midjourney, Flux, and DALL-E 3." />
   <meta name="keywords" content="AI, Midjourney, Flux, DALL-E, prompt engineering, photography, cinematography, generative AI" />
-  <meta property="og:title" content="f-stop.ai | Professional AI Scene & Prompt Director" />
+  <meta property="og:title" content="phopro.ai | Professional AI Scene & Prompt Director" />
   <meta property="og:description" content="Generate cinematic, photorealistic prompts with true camera physics." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -140,6 +140,29 @@
     
     .focus-ring:focus-within { border-color: var(--accent-color); ring: 1px solid var(--accent-color); }
     input:focus, select:focus, textarea:focus { border-color: var(--accent-color) !important; outline: none; }
+
+    details > summary {
+      list-style: none;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    details > summary:hover {
+      color: var(--accent-color);
+    }
+    details > summary::-webkit-details-marker {
+      display: none;
+    }
+    details > summary::before {
+      content: '►';
+      margin-right: 0.5rem;
+      font-size: 0.7em;
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    details[open] > summary::before {
+      transform: rotate(90deg);
+    }
     
     #grain-overlay {
       position: fixed;
@@ -169,7 +192,7 @@
   </div>
 
   <div id="grain-overlay"></div>
-  <div id="ambientGlow" class="fixed inset-0 z-[-1] pointer-events-none opacity-20" style="background: radial-gradient(circle at 50% -20%, var(--glow-color), transparent 70%);"></div>
+  <div id="ambientGlow" class="fixed inset-0 z-[-1] pointer-events-none opacity-40" style="background: radial-gradient(circle at 50% -20%, var(--glow-color), transparent 70%);"></div>
   <div id="topBar" class="h-0.5 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 sticky top-0 z-50 transition-colors duration-1000 opacity-50"></div>
 
   <div class="max-w-7xl mx-auto w-full p-4 md:p-8 flex-grow">
@@ -181,7 +204,7 @@
         </div>
         <h1 class="text-3xl md:text-4xl font-bold tracking-tighter text-white flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 transition-colors duration-500" style="color: var(--accent-color)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/><line x1="9.69" y1="8" x2="21.17" y2="8"/><line x1="7.38" y1="12" x2="13.12" y2="2.06"/><line x1="9.69" y1="16" x2="3.95" y2="6.06"/><line x1="14.31" y1="16" x2="2.83" y2="16"/><line x1="16.62" y1="12" x2="10.88" y2="21.94"/></svg>
-          <span class="font-mono">f-stop<span style="color: var(--accent-color)" class="transition-colors duration-500">.ai</span></span>
+          <span class="font-mono">phopro<span style="color: var(--accent-color)" class="transition-colors duration-500">.ai</span></span>
         </h1>
       </div>
 
@@ -219,14 +242,19 @@
       </div>
     </header>
 
-    <div class="grid lg:grid-cols-12 gap-8">
-      <section class="lg:col-span-7 space-y-6">
+    <div class="space-y-6">
+      <input id="targetYear" type="hidden" value="2025" />
+      <input id="photographerStyle" type="hidden" value="None" />
+      <textarea id="dynamicTrigger" style="display:none"></textarea>
+
+      <!-- Scene & Style Panel -->
+      <details class="hardware-panel rounded-md p-5" open>
+        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Scene &amp; Style</summary>
         <div class="space-y-4">
           <div class="relative hardware-screen rounded-sm p-1 focus-within:border-indigo-500 transition group">
             <textarea id="scene" rows="3" class="w-full bg-transparent border-0 text-white placeholder-studio-600 p-4 focus:ring-0 text-sm font-mono resize-none" placeholder="INPUT SCENE DATA..."></textarea>
             <button id="clearSceneBtn" type="button" class="absolute top-2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">Clear</button>
           </div>
-
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label for="location" class="hardware-label block mb-2">Location / Coordinates</label>
@@ -236,195 +264,175 @@
               <label for="datetime" class="hardware-label block mb-2">Date & Time</label>
               <div class="relative group w-full">
                 <input type="datetime-local" id="datetime" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500 outline-none placeholder-studio-700" />
-                
-                <!-- 
-                     Clear Button Centering:
-                     top-1/2: Moves top edge to 50%
-                     -translate-y-1/2: Shifts button up by half its own height to center perfectly
-                -->
-                <button id="clearDateBtn" type="button" class="absolute top-1/2 -translate-y-1/2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">
-                  Clear
-                </button>
+                <button id="clearDateBtn" type="button" class="absolute top-1/2 -translate-y-1/2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">Clear</button>
               </div>
             </div>
-        </div>
-        
-        <input id="targetYear" type="hidden" value="2025" />
-        <input id="photographerStyle" type="hidden" value="None" />
-        <textarea id="dynamicTrigger" style="display:none"></textarea>
-        <div class="hardware-panel rounded-md p-5 relative z-30">
-          <div class="flex items-center justify-between mb-3">
-            <label class="hardware-label">Style Engine</label>
-            <button id="randomPresetBtn" type="button" class="text-[10px] uppercase tracking-wider hover:text-white transition flex items-center gap-1 font-bold" style="color: var(--accent-color)">Randomize</button>
           </div>
-          
-          <div id="presetComboWrap" class="relative">
-            <div class="flex gap-2">
-              <div class="relative flex-1 group min-w-0">
-                <input id="presetSearch" type="text" class="w-full hardware-screen rounded-sm pl-4 pr-4 py-2.5 text-xs text-white transition truncate placeholder-studio-700 focus:border-indigo-500" placeholder="SEARCH PRESETS..." autocomplete="off" />
-              </div>
-              <button id="browsePresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Browse</button>
-              <button id="clearPresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Clear</button>
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="hardware-label">Style Engine</label>
+              <button id="randomPresetBtn" type="button" class="text-[10px] uppercase tracking-wider hover:text-white transition flex items-center gap-1 font-bold" style="color: var(--accent-color)">Randomize</button>
             </div>
-            <div id="presetDropdown" class="hidden absolute z-[60] mt-2 w-full max-h-80 overflow-auto rounded-sm border border-studio-700 bg-studio-900 shadow-2xl"></div>
-          </div>
-          
-          <div id="presetInfo" class="mt-3 p-3 rounded-sm bg-black/20 border border-white/5 text-xs font-mono text-studio-300 hidden leading-relaxed"></div>
-          
-          <div class="mt-4 pt-4 border-t border-studio-800">
-            <details class="group">
-              <summary class="cursor-pointer hardware-label hover:text-studio-300 list-none flex items-center gap-2 select-none">
-                SAVE CONFIG <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-              </summary>
-              <div class="mt-3 pl-2 space-y-2">
-                <div class="flex gap-2">
-                  <input id="customPresetName" type="text" class="flex-1 hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="PRESET NAME" />
-                  <button id="savePresetBtn" type="button" class="rounded-sm text-white px-4 py-2 text-[10px] uppercase font-bold opacity-90 hover:opacity-100" style="background-color: var(--accent-color); color: var(--accent-text);">Save</button>
+            <div id="presetComboWrap" class="relative">
+              <div class="flex gap-2">
+                <div class="relative flex-1 group min-w-0">
+                  <input id="presetSearch" type="text" class="w-full hardware-screen rounded-sm pl-4 pr-4 py-2.5 text-xs text-white transition truncate placeholder-studio-700 focus:border-indigo-500" placeholder="SEARCH PRESETS..." autocomplete="off" />
                 </div>
-                <textarea id="customVibe" rows="1" class="w-full hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="OPTIONAL NOTES..."></textarea>
-                <div id="saveStatus" class="text-[10px] text-green-500 h-4 font-mono"></div>
+                <button id="browsePresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Browse</button>
+                <button id="clearPresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Clear</button>
               </div>
-            </details>
+              <div id="presetDropdown" class="hidden absolute z-[60] mt-2 w-full max-h-80 overflow-auto rounded-sm border border-studio-700 bg-studio-900 shadow-2xl"></div>
+            </div>
+            <div id="presetInfo" class="mt-3 p-3 rounded-sm bg-black/20 border border-white/5 text-xs font-mono text-studio-300 hidden leading-relaxed"></div>
+            <div class="mt-4 pt-4 border-t border-studio-800">
+              <details class="group">
+                <summary class="cursor-pointer hardware-label hover:text-studio-300 list-none flex items-center gap-2 select-none">
+                  SAVE CONFIG <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </summary>
+                <div class="mt-3 pl-2 space-y-2">
+                  <div class="flex gap-2">
+                    <input id="customPresetName" type="text" class="flex-1 hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="PRESET NAME" />
+                    <button id="savePresetBtn" type="button" class="rounded-sm text-white px-4 py-2 text-[10px] uppercase font-bold opacity-90 hover:opacity-100" style="background-color: var(--accent-color); color: var(--accent-text);">Save</button>
+                  </div>
+                  <textarea id="customVibe" rows="1" class="w-full hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="OPTIONAL NOTES..."></textarea>
+                  <div id="saveStatus" class="text-[10px] text-green-500 h-4 font-mono"></div>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
+      </details>
 
+      <!-- Camera & Optics Panel -->
+      <details class="hardware-panel rounded-md p-5" open>
+        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Camera &amp; Optics</summary>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-5">
-            <div>
-              <label class="hardware-label block mb-2">Composition</label>
-              <div class="space-y-2">
-                <select id="genre" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500"></select>
-                <select id="composition" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-                <div id="productSubgenreWrap" class="hidden">
-                   <select id="productSubgenre" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-                </div>
-              </div>
+          <div class="space-y-3">
+            <label class="hardware-label block">Camera & Lens</label>
+            <div class="flex gap-2 items-center">
+              <div class="relative flex-1 min-w-0"><select id="camera" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
+              <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockCamera" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
             </div>
-            <div class="hardware-panel rounded-md p-4">
-              <div class="flex justify-between items-center mb-3">
-                <span class="hardware-label">Camera & Lens</span>
-              </div>
-              <div class="space-y-3">
-                <div class="flex gap-2 items-center">
-                  <div class="relative flex-1 min-w-0"><select id="camera" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
-                  <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockCamera" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
-                </div>
-                <div class="flex gap-2 items-center">
-                  <div class="relative flex-1 min-w-0"><select id="lens" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
-                  <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockLens" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
-                </div>
-              </div>
+            <div class="flex gap-2 items-center">
+              <div class="relative flex-1 min-w-0"><select id="lens" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
+              <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockLens" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
             </div>
           </div>
+          <div class="space-y-3">
+            <label class="hardware-label block">Exposure Triangle</label>
+            <div class="grid grid-cols-3 gap-2">
+              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Focal</span><input id="focal" type="number" class="w-full hardware-screen rounded-sm text-xs text-white p-2 text-center focus:border-indigo-500 outline-none" placeholder="35" /></div>
+              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Aperture</span><select id="aperture" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Shutter</span><select id="shutter" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+            </div>
+            <div class="mt-2"><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">ISO</span><select id="iso" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+          </div>
+        </div>
+      </details>
 
-          <div class="space-y-5">
-            <div>
-              <label class="hardware-label block mb-2">Exposure Triangle</label>
-              <div class="grid grid-cols-3 gap-2">
-                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Focal</span><input id="focal" type="number" class="w-full hardware-screen rounded-sm text-xs text-white p-2 text-center focus:border-indigo-500 outline-none" placeholder="35" /></div>
-                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Aperture</span><select id="aperture" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
-                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Shutter</span><select id="shutter" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
-              </div>
-              <div class="mt-2"><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">ISO</span><select id="iso" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+      <!-- Film & Atmosphere Panel -->
+      <details class="hardware-panel rounded-md p-5" open>
+        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Film &amp; Atmosphere</summary>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div>
+            <label class="hardware-label block mb-2">Film Stock</label>
+            <select id="film" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+          </div>
+          <div>
+            <label class="hardware-label block mb-2">White Balance & Grain</label>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="wb" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+              <select id="grain" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
             </div>
-            <div>
-               <label class="hardware-label block mb-2">Film & Atmosphere</label>
-               <div class="space-y-2">
-                 <select id="film" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-                 <div class="grid grid-cols-2 gap-2">
-                    <select id="wb" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-                    <select id="grain" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-                 </div>
-                 <select id="lensChar" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-               </div>
-            </div>
-            <div>
-              <label class="hardware-label block mb-2">Aspect Ratio</label>
-              <div class="grid grid-cols-5 gap-1.5" id="arContainer">
-                <button type="button" data-ar="1:1" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">1:1</span></button>
-                <button type="button" data-ar="16:9" class="ar-btn active px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-5 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">16:9</span></button>
-                <button type="button" data-ar="9:16" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-5 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">9:16</span></button>
-                <button type="button" data-ar="4:3" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-4 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">4:3</span></button>
-                <button type="button" data-ar="21:9" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-6 h-2 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">21:9</span></button>
-              </div>
+          </div>
+          <div>
+            <label class="hardware-label block mb-2">Lens Character</label>
+            <select id="lensChar" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+          </div>
+          <div>
+            <label class="hardware-label block mb-2">Color &amp; Influence</label>
+            <div class="space-y-2">
+              <select id="colorGrading" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
+              <select id="artisticInfluences" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
             </div>
           </div>
         </div>
+      </details>
 
-        <div class="hardware-panel rounded-md p-4">
-           <div class="flex justify-between items-center mb-3">
+      <!-- Composition & Lighting Panel -->
+      <details class="hardware-panel rounded-md p-5" open>
+        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Composition &amp; Lighting</summary>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-1 space-y-3">
+            <label class="hardware-label block mb-2">Framing</label>
+            <select id="genre" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500"></select>
+            <select id="composition" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
+            <div id="productSubgenreWrap" class="hidden">
+              <select id="productSubgenre" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
+            </div>
+            <label class="hardware-label block mb-2 mt-4">Aspect Ratio</label>
+            <div class="grid grid-cols-5 gap-1.5" id="arContainer">
+              <button type="button" data-ar="1:1" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">1:1</span></button>
+              <button type="button" data-ar="16:9" class="ar-btn active px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-5 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">16:9</span></button>
+              <button type="button" data-ar="9:16" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-5 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">9:16</span></button>
+              <button type="button" data-ar="4:3" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-4 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">4:3</span></button>
+              <button type="button" data-ar="21:9" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-6 h-2 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">21:9</span></button>
+            </div>
+          </div>
+          <div class="md:col-span-2 space-y-3">
+            <div class="flex justify-between items-center mb-3">
               <span class="hardware-label">Lighting</span>
               <label class="cursor-pointer flex items-center gap-2 hardware-label select-none">Lock <input id="lockLighting" type="checkbox" class="lock-checkbox hidden" /><div class="w-6 h-3 rounded-full border border-studio-600 flex items-center px-0.5 transition-colors"><div class="w-2 h-2 bg-studio-600 rounded-full"></div></div></label>
-           </div>
-           <select id="lighting" class="w-full hardware-screen rounded-sm text-sm text-white p-2.5 mb-3 focus:border-indigo-500"></select>
-           <div id="lightingSetups" class="flex flex-wrap gap-1.5"></div>
+            </div>
+            <select id="lighting" class="w-full hardware-screen rounded-sm text-sm text-white p-2.5 mb-3 focus:border-indigo-500"></select>
+            <div id="lightingSetups" class="flex flex-wrap gap-1.5"></div>
+          </div>
         </div>
+      </details>
 
+      <!-- Generate & Output Section -->
+      <div class="space-y-6">
         <button id="generateBtn" type="button" class="w-full rounded-sm bg-white text-black py-4 text-xs font-black hover:bg-gray-200 transition shadow-[0_0_20px_rgba(255,255,255,0.1)] uppercase tracking-[0.2em]">Generate & Save to History</button>
         
-        <div class="grid grid-cols-2 gap-3 mt-4">
-          <a href="https://buymeacoffee.com/fdashstop" target="_blank" onclick="gtag('event', 'click_buymeacoffee', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-yellow-500/50 hover:text-yellow-500 text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> Buy Coffee
-</a>
-          <a href="https://buymeacoffee.com/fdashstop/membership" target="_blank" onclick="gtag('event', 'click_membership', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-[var(--accent-color)] hover:text-white text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 group-hover:fill-current"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Become Member
-</a>
+        <div class="flex justify-center mb-2">
+           <div class="flex bg-studio-900 border border-studio-700 rounded-sm p-1 gap-1">
+              <button type="button" data-model="midjourney" class="model-btn active px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Midjourney</button>
+              <button type="button" data-model="flux" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Flux.1</button>
+              <button type="button" data-model="dalle" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">DALL-E 3 / Chat</button>
+           </div>
         </div>
-      </section>
 
-      <section class="lg:col-span-5 space-y-6">
-        <div class="sticky top-6 space-y-4">
-          <div class="flex justify-center mb-2">
-             <div class="flex bg-studio-900 border border-studio-700 rounded-sm p-1 gap-1">
-                <button type="button" data-model="midjourney" class="model-btn active px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Midjourney</button>
-                <button type="button" data-model="flux" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Flux.1</button>
-                <button type="button" data-model="dalle" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">DALL-E 3 / Chat</button>
-             </div>
+        <div class="flex items-center gap-2 text-studio-500 mb-2"><div class="h-px flex-1 bg-studio-800"></div><span class="hardware-label">Outputs</span><div class="h-px flex-1 bg-studio-800"></div></div>
+        
+        <div class="relative backdrop-blur-xl bg-black/40 border border-studio-800 rounded-md overflow-hidden shadow-2xl">
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-500 to-gray-600 opacity-0 transition duration-500" id="outputGlow"></div>
+          <div class="relative border-b border-studio-800 p-1 bg-black/20">
+            <div class="flex items-center justify-between px-3 py-2">
+               <h2 class="hardware-label text-studio-300">Master</h2>
+               <div class="flex gap-2">
+                  <button id="exportBtn" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition flex items-center gap-1">RECIPE</button>
+                  <button id="copyMain" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition">COPY</button>
+               </div>
+            </div>
+            <textarea id="outMain" rows="5" class="w-full bg-transparent border-0 text-studio-100 p-3 text-xs font-mono focus:ring-0 resize-none leading-relaxed" readonly></textarea>
           </div>
-
-          <div class="flex items-center gap-2 text-studio-500 mb-2"><div class="h-px flex-1 bg-studio-800"></div><span class="hardware-label">Outputs</span><div class="h-px flex-1 bg-studio-800"></div></div>
-          
-          <div class="relative backdrop-blur-xl bg-black/40 border border-studio-800 rounded-md overflow-hidden shadow-2xl">
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-500 to-gray-600 opacity-0 transition duration-500" id="outputGlow"></div>
-            
-            <div class="relative border-b border-studio-800 p-1 bg-black/20">
-              <div class="flex items-center justify-between px-3 py-2">
-                 <h2 class="hardware-label text-studio-300">Master</h2>
-                 <div class="flex gap-2">
-                    <button id="exportBtn" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition flex items-center gap-1">
-                        RECIPE
-                    </button>
-                    <button id="copyMain" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition">COPY</button>
-                 </div>
+          <div class="grid grid-rows-3 divide-y divide-studio-800/50">
+              <div class="relative bg-black/10">
+                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Cinematic</h3><button data-copy="outCine" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                 <textarea id="outCine" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
               </div>
-              <textarea id="outMain" rows="5" class="w-full bg-transparent border-0 text-studio-100 p-3 text-xs font-mono focus:ring-0 resize-none leading-relaxed" readonly></textarea>
-            </div>
-
-            <div class="relative border-b border-studio-800 p-1 bg-black/20 hidden">
-                <div class="flex items-center justify-between px-3 py-2">
-                    <h2 class="hardware-label text-studio-500">Director Notes (LLM Prompt)</h2>
-                    <button data-copy="outLLM" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button>
-                </div>
-                <textarea id="outLLM" rows="1" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-            </div>
-
-            <div class="grid grid-rows-3 divide-y divide-studio-800/50">
-                <div class="relative bg-black/10">
-                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Cinematic</h3><button data-copy="outCine" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                   <textarea id="outCine" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-                </div>
-                <div class="relative bg-black/10">
-                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Grit / Doc</h3><button data-copy="outGrit" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                   <textarea id="outGrit" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-                </div>
-                <div class="relative bg-black/10">
-                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Commercial</h3><button data-copy="outProd" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                   <textarea id="outProd" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-                </div>
-            </div>
+              <div class="relative bg-black/10">
+                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Grit / Doc</h3><button data-copy="outGrit" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                 <textarea id="outGrit" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+              </div>
+              <div class="relative bg-black/10">
+                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Commercial</h3><button data-copy="outProd" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                 <textarea id="outProd" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+              </div>
           </div>
         </div>
-      </section>
+
+      </div>
     </div>
   </div>
 
@@ -435,7 +443,7 @@
           <div class="flex justify-between items-end mb-6 border-b border-studio-800 pb-4 relative z-10">
               <div>
                   <h1 class="text-3xl font-bold tracking-tighter flex items-center gap-2">
-                      <span class="font-mono">f-stop<span style="color: var(--accent-color)">.ai</span></span>
+                      <span class="font-mono">phopro<span style="color: var(--accent-color)">.ai</span></span>
                   </h1>
                   <p class="text-xs text-studio-500 mt-1 font-mono uppercase tracking-widest">Visual Recipe Card</p>
               </div>
@@ -469,7 +477,7 @@
               </div>
           </div>
           <div class="flex justify-between items-center pt-4 border-t border-studio-800 text-[10px] text-studio-600 relative z-10">
-              <div class="font-mono">f-stop.ai // pro studio</div>
+              <div class="font-mono">phopro.ai // pro studio</div>
               <div>Generated with AI</div>
           </div>
       </div>
@@ -490,77 +498,79 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 /* --- Data Lists --- */
-const compositions = ["None","Rule of Thirds","Centered","Leading Lines","Over-the-shoulder","Wide Establishing","Tight Close-up","Low Angle Hero","Top-down Flat Lay","Candid Snapshot","Asymmetric Framing","Peek-through","Symmetrical Arch","Layered Depth"];
+const compositions = ["None","Rule of Thirds","Centered","Leading Lines","Over-the-shoulder","Wide Establishing","Tight Close-up","Low Angle Hero","Top-down Flat Lay","Candid Snapshot","Asymmetric Framing","Peek-through","Symmetrical Arch","Layered Depth", "Dutch Angle", "Golden Ratio"];
 
 const cameras = [
-  "None",
-  // Modern Mirrorless / Digital
-  "Sony Alpha 1","Canon EOS R3","Nikon Z9","Sony A7 IV","Sony A7R V","Canon EOS R5 II","Nikon Z5 II","Fujifilm X-T5","Fujifilm GFX 100S II","Hasselblad X2D 100C","Phase One XF IQ4","Leica SL3","iPhone 16 Pro","Hasselblad H6D","Nikon D850","Canon EOS 5D Mark IV","DJI Mavic 3",
-  // Cinema Digital
-  "Arri Alexa 35","Arri Alexa LF","Red V-Raptor","Arri Alexa 65",
-  // 35mm Film Rangefinders & SLRs
-  "Leica M3", "Leica M6", "Nikon F3", "Nikon F5", "Nikon F6", "Canon EOS 1v", "Contax T2", "Ricoh GR21", "Canon Rangefinder",
-  // Medium Format Film
-  "Rolleiflex 2.8F", "Hasselblad 500C/M", "Pentax 67", "Pentax 645", "Mamiya RZ67",
-  // Large Format & Press
-  "Speed Graphic 4x5", "Deardorff 8x10", "Large Format 4x5", "Large Format 8x10", "Voigtländer Bergheil", "Graflex Series D",
-  // Cinema Film
-  "Arriflex 35 BL", "Arricam ST", "Panavision PSR", "Mitchell BNC", "Technicolor 3-Strip Camera", "IMAX 15/65",
-  // Vintage / Specialty
-  "Polaroid SX-70", "Sony VX1000", "Contact Print"
+    "None",
+    // Modern Mirrorless / Digital
+    "Sony Alpha 1", "Canon EOS R3", "Nikon Z9", "Sony A7 IV", "Sony A7R V", "Canon EOS R5 II", "Nikon Z5 II", "Fujifilm X-T5", "Fujifilm GFX 100S II", "Hasselblad X2D 100C", "Phase One XF IQ4", "Leica SL3", "iPhone 16 Pro", "Hasselblad H6D", "Nikon D850", "Canon EOS 5D Mark IV", "DJI Mavic 3", "GoPro Hero 12",
+    // Cinema Digital
+    "Arri Alexa 35", "Arri Alexa LF", "Red V-Raptor", "Arri Alexa 65", "Blackmagic URSA Mini Pro",
+    // 35mm Film Rangefinders & SLRs
+    "Leica M3", "Leica M6", "Nikon F3", "Nikon F5", "Nikon F6", "Canon EOS 1v", "Contax T2", "Ricoh GR21", "Canon Rangefinder", "Olympus OM-1",
+    // Medium Format Film
+    "Rolleiflex 2.8F", "Hasselblad 500C/M", "Pentax 67", "Pentax 645", "Mamiya RZ67", "Fuji GW690",
+    // Large Format & Press
+    "Speed Graphic 4x5", "Deardorff 8x10", "Large Format 4x5", "Large Format 8x10", "Voigtländer Bergheil", "Graflex Series D", "Linhof Technika",
+    // Cinema Film
+    "Arriflex 35 BL", "Arricam ST", "Panavision PSR", "Mitchell BNC", "Technicolor 3-Strip Camera", "IMAX 15/65", "Bolex H16",
+    // Vintage / Specialty
+    "Polaroid SX-70", "Sony VX1000", "Contact Print", "Holga 120N", "Lomography Diana F+", "Daguerreotype Camera"
 ];
 
 const lensesByGenre = {
-  portrait: [
-    "35mm env", "50mm prime", "85mm prime", "105mm prime", "135mm prime", "70-200mm zoom",
-    "35mm prime", "80mm prime", "116mm prime", "120mm macro", "150mm prime", "300mm prime", "360mm prime"
-  ],
-  street: [
-    "24mm prime", "28mm prime", "35mm prime", "50mm prime", "24-70mm zoom",
-    "38mm prime", "45-85mm zoom", "80mm prime", "90mm tele", "105mm prime", "127mm Ektar"
-  ],
-  landscape: [
-    "14-24mm wide", "16-35mm wide", "24mm prime", "24-70mm zoom", "70-200mm tele", 
-    "50mm prime", "150mm prime", "300mm prime", "300mm prime (8x10 eq)"
-  ],
-  product: [
-    "50mm prime", "85mm prime", "60mm macro", "100mm macro", "90mm tilt-shift",
-    "80mm prime", "90mm prime", "120mm macro", "150mm prime", "210mm prime"
-  ],
-  cinematic: [
-    "24mm prime", "35mm prime", "50mm prime", "85mm prime", "40mm anamorphic", "75mm anamorphic",
-    "14mm prime", "18mm prime", "32mm prime", "45mm wide", "55mm wide", "35mm anamorphic", "50mm anamorphic", "80mm prime", "300mm tele"
-  ],
-  night: [
-    "24mm prime", "35mm prime", "50mm prime", "85mm prime",
-    "35mm anamorphic", "105mm prime", "127mm Ektar"
-  ],
-  sports: [
-    "70-200mm zoom", "100-400mm tele", "300mm prime", "400mm prime",
-    "24-70mm zoom", "80mm prime", "200mm prime", "300mm tele", "600mm prime"
-  ],
-  wildlife: [
-    "100-400mm tele", "200-600mm super-tele", "400mm prime", "600mm prime",
-    "16mm fisheye", "16-35mm wide", "24-70mm zoom", "100mm macro", "105mm prime", "105mm macro"
-  ],
-  architecture: [
-    "14-24mm wide", "16-35mm wide", "24mm tilt-shift", "17mm tilt-shift",
-    "24-70mm zoom", "28mm wide", "45mm tilt-shift", "50mm wide", "90mm wide", "90mm wide (8x10 eq)", "150mm prime"
-  ],
-  experimental: [
-     "8mm fisheye", "50mm prime", "45mm tilt-shift", "None"
-  ]
+    portrait: [
+        "35mm env", "50mm prime", "85mm prime", "105mm prime", "135mm prime", "70-200mm zoom",
+        "35mm prime", "80mm prime", "116mm prime", "120mm macro", "150mm prime", "300mm prime", "360mm prime", "Petzval Art Lens"
+    ],
+    street: [
+        "24mm prime", "28mm prime", "35mm prime", "50mm prime", "24-70mm zoom",
+        "38mm prime", "45-85mm zoom", "80mm prime", "90mm tele", "105mm prime", "127mm Ektar", "Zone Focus Pancake"
+    ],
+    landscape: [
+        "14-24mm wide", "16-35mm wide", "24mm prime", "24-70mm zoom", "70-200mm tele",
+        "50mm prime", "150mm prime", "300mm prime", "300mm prime (8x10 eq)", "Ultra-Wide Angle"
+    ],
+    product: [
+        "50mm prime", "85mm prime", "60mm macro", "100mm macro", "90mm tilt-shift",
+        "80mm prime", "90mm prime", "120mm macro", "150mm prime", "210mm prime", "Probe Lens"
+    ],
+    cinematic: [
+        "24mm prime", "35mm prime", "50mm prime", "85mm prime", "40mm anamorphic", "75mm anamorphic",
+        "14mm prime", "18mm prime", "32mm prime", "45mm wide", "55mm wide", "35mm anamorphic", "50mm anamorphic", "80mm prime", "300mm tele", "Cooke S4"
+    ],
+    night: [
+        "24mm prime", "35mm prime", "50mm prime", "85mm prime",
+        "35mm anamorphic", "105mm prime", "127mm Ektar", "Noctilux f/0.95"
+    ],
+    sports: [
+        "70-200mm zoom", "100-400mm tele", "300mm prime", "400mm prime",
+        "24-70mm zoom", "80mm prime", "200mm prime", "300mm tele", "600mm prime", "Super-Telephoto"
+    ],
+    wildlife: [
+        "100-400mm tele", "200-600mm super-tele", "400mm prime", "600mm prime",
+        "16mm fisheye", "16-35mm wide", "24-70mm zoom", "100mm macro", "105mm prime", "105mm macro", "Teleconverter Extender"
+    ],
+    architecture: [
+        "14-24mm wide", "16-35mm wide", "24mm tilt-shift", "17mm tilt-shift",
+        "24-70mm zoom", "28mm wide", "45mm tilt-shift", "50mm wide", "90mm wide", "90mm wide (8x10 eq)", "150mm prime", "Architectural Bellows"
+    ],
+    experimental: [
+        "8mm fisheye", "50mm prime", "45mm tilt-shift", "Lensbaby Composer Pro", "Pinhole Lens", "None"
+    ]
 };
 
-const apertures = ["None","f/0.7","f/1.2","f/1.4","f/1.8","f/2","f/2.8","f/4","f/4.5","f/5.6","f/8","f/11","f/16","f/22","f/32","f/45","f/64"];
-const shutters = ["None","Bulb","30s","15s","8s","4s","2s","1s","1/2s","1/4s","1/8s","1/15s","1/30s","1/48s","1/60s","1/125s","1/160s","1/200s","1/250s","1/320s","1/500s","1/1000s","1/1250s","1/2000s","1/4000s"];
-const isos = ["None","1","3","5","10","25","50","64","100","200","400","500","800","1600","3200","6400"];
-const lightings = ["None","Natural Light","Soft Overcast","Golden Hour","Studio Softbox","High Key White Cyc","Hard Strobe","Direct Flash","Neon Practical","Candlelight","Stadium Lights","Underwater Ambient"];
-const lensChars = ["None","Clinical Sharp","Vintage Softness","Dreamy Bloom","Gentle Halation","Heavy Vignette", "Swirly Bokeh", "Petzval Curvature"];
-const films = ["None","Kodak Portra 400","Kodak Portra 160","Fuji Pro 400H","Cinestill 800T","Kodak Tri-X B&W","Kodak Gold 400","Kodak Ektachrome","Ilford HP5","Kodak Vision3 500T", "Kodak Vision3 250D", "Kodak Vision3 200T", "Kodachrome 64", "Fujichrome Velvia", "Wet Plate Collodion", "Nitrate Film", "B&W Sheet Film", "Polaroid 600", "Polaroid Type 55", "Technicolor Three-Strip", "Autochrome Plate", "Kodak Aerochrome", "Digital Video Tape", "B&W Negative", "Digital"];
-const wbs = ["None","Daylight Balanced","Warm Tungsten","Cool Shade","Mixed Lighting"];
-const grains = ["None","Clean/No Grain","Subtle Grain","Medium Texture","Heavy Grit"];
-const productSubgenres = ["None","Ecommerce Packshot","Luxury Jewelry Macro","Watch Hero","Cosmetics Splash","Sneaker Floating","Tech Gadget Hero","Beverage Condensation","Food Editorial","Tabletop Styled"];
+const apertures = ["None","f/0.7","f/1.2","f/1.4","f/1.8","f/2","f/2.8","f/4","f/4.5","f/5.6","f/8","f/11","f/16","f/22","f/32","f/45","f/64", "f/90"];
+const shutters = ["None","Bulb","30s","15s","8s","4s","2s","1s","1/2s","1/4s","1/8s","1/15s","1/30s","1/48s","1/60s","1/125s","1/160s","1/200s","1/250s","1/320s","1/500s","1/1000s","1/1250s","1/2000s","1/4000s", "1/8000s"];
+const isos = ["None","1","3","5","10","25","50","64","100","200","400","500","800","1600","3200","6400", "12800", "25600"];
+const lightings = ["None","Natural Light","Soft Overcast","Golden Hour","Blue Hour", "Studio Softbox","High Key White Cyc","Hard Strobe","Direct Flash","Neon Practical","Candlelight","Stadium Lights","Underwater Ambient", "Chiaroscuro", "Rembrandt Lighting"];
+const lensChars = ["None","Clinical Sharp","Vintage Softness","Dreamy Bloom","Gentle Halation","Heavy Vignette", "Swirly Bokeh", "Petzval Curvature", "Anamorphic Flares", "Chromatic Aberration"];
+const films = ["None","Kodak Portra 400","Kodak Portra 160","Fuji Pro 400H","Cinestill 800T","Kodak Tri-X B&W","Kodak Gold 400","Kodak Ektachrome","Ilford HP5","Kodak Vision3 500T", "Kodak Vision3 250D", "Kodak Vision3 200T", "Kodachrome 64", "Fujichrome Velvia", "Wet Plate Collodion", "Nitrate Film", "B&W Sheet Film", "Polaroid 600", "Polaroid Type 55", "Technicolor Three-Strip", "Autochrome Plate", "Kodak Aerochrome", "Digital Video Tape", "B&W Negative", "Digital", "Fuji Superia 400", "Agfa Vista 200"];
+const wbs = ["None","Daylight Balanced","Warm Tungsten","Cool Shade","Mixed Lighting", "Custom Kelvin"];
+const grains = ["None","Clean/No Grain","Subtle Grain","Medium Texture","Heavy Grit", "Reticulation"];
+const productSubgenres = ["None","Ecommerce Packshot","Luxury Jewelry Macro","Watch Hero","Cosmetics Splash","Sneaker Floating","Tech Gadget Hero","Beverage Condensation","Food Editorial","Tabletop Styled", "Automotive Studio"];
+const colorGradings = ["None", "Bleach Bypass", "Two-Strip Technicolor", "Three-Strip Technicolor", "Cross-Processing", "Teal and Orange", "Sepia Tone", "Monochrome", "High Contrast B&W", "Low Contrast B&W", "Saturated", "Desaturated", "Warm Tones", "Cool Tones"];
+const artisticInfluences = ["None", "Ansel Adams", "Henri Cartier-Bresson", "Annie Leibovitz", "Richard Avedon", "Helmut Newton", "Sebastião Salgado", "Steve McCurry", "Daido Moriyama", "Cindy Sherman", "Gregory Crewdson", "Wes Anderson", "Quentin Tarantino", "David Lynch", "Andrei Tarkovsky"];
 
 const lightingSetupLibrary = [
   { label: "Softbox Key", phrase: "45 degree softbox key, white bounce fill" },
@@ -727,6 +737,8 @@ const basePresets = [
       populate("wb", wbs);
       populate("grain", grains);
       populate("productSubgenre", productSubgenres);
+      populate("colorGrading", colorGradings);
+      populate("artisticInfluences", artisticInfluences);
       populate("genre", ["portrait","street","landscape","product","cinematic","night","sports","wildlife","architecture"]);
       
       // Set defaults
@@ -971,7 +983,7 @@ const basePresets = [
              outputGlow.style.background = color;
         } else {
              glowEl.style.background = `radial-gradient(circle at 50% -20%, ${color}, transparent 70%)`;
-             glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.1" : "0.25";
+              glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.2" : "0.5";
              outputGlow.style.background = `linear-gradient(to right, ${accent}, transparent)`;
         }
         
@@ -1067,6 +1079,8 @@ const basePresets = [
         if(getVal("wb") !== "None") moodParts.push(getVal("wb"));
         if(getVal("grain") !== "None") moodParts.push(getVal("grain"));
         if(getVal("lensChar") !== "None") moodParts.push(getVal("lensChar"));
+        if(getVal("colorGrading") !== "None") moodParts.push(getVal("colorGrading") + " color grading");
+        if(getVal("artisticInfluences") !== "None") moodParts.push("influenced by " + getVal("artisticInfluences"));
         const moodString = moodParts.join(", ");
         
         const lightingNotes = Array.from(activeLightingSetups).join(", ");
@@ -1177,7 +1191,10 @@ const basePresets = [
         document.getElementById("outGrit").value = cleanAndFormat(promptGrit);
         document.getElementById("outProd").value = cleanAndFormat(promptProd);
         // Ensure outLLM is empty or hidden text for removal, but not used in logic flow
-        document.getElementById("outLLM").value = ""; 
+        const outLLMElement = document.getElementById("outLLM");
+        if (outLLMElement) {
+            outLLMElement.value = ""; 
+        }
 
         updateAmbiance();
       }
@@ -1238,7 +1255,7 @@ const basePresets = [
               scale: 2, // High Res
           }).then(canvas => {
               const link = document.createElement('a');
-              link.download = `f-stop-recipe-${Date.now()}.png`;
+              link.download = `phopro-recipe-${Date.now()}.png`;
               link.href = canvas.toDataURL();
               link.click();
           }).catch(err => {
@@ -1519,7 +1536,7 @@ const basePresets = [
       });
 
       // Add "location" and "datetime" to the list
-      ["scene", "location", "datetime", "camera", "lens", "focal", "aperture", "shutter", "iso", "lighting", "composition", "film", "wb", "grain", "lensChar", "productSubgenre", "targetYear", "dynamicTrigger"].forEach(id => {
+      ["scene", "location", "datetime", "camera", "lens", "focal", "aperture", "shutter", "iso", "lighting", "composition", "film", "wb", "grain", "lensChar", "productSubgenre", "colorGrading", "artisticInfluences", "targetYear", "dynamicTrigger"].forEach(id => {
          const el = document.getElementById(id);
          // The input type check handles text/datetime-local inputs correctly
          if(el) el.addEventListener(el.tagName === "TEXTAREA" || el.tagName === "INPUT" ? "input" : "change", updatePrompt);
