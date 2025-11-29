@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>f-stop | Professional AI Scene & Prompt Director</title>
+  <title>phopro | Professional AI Scene & Prompt Director</title>
 
   <meta name="description" content="Master your AI photography art. Convert camera settings (Aperture, ISO, Film Stock) and directorial vision into flawless prompts for Midjourney, Flux, and DALL-E 3." />
   <meta name="keywords" content="AI, Midjourney, Flux, DALL-E, prompt engineering, photography, cinematography, generative AI, gpt, chatgpt, nanobanana" />
-  <meta property="og:title" content="f-stop | Professional AI Scene & Prompt Director" />
+  <meta property="og:title" content="phopro | Professional AI Scene & Prompt Director" />
   <meta property="og:description" content="Generate cinematic, photorealistic prompts with true camera physics." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -172,92 +172,6 @@
   <div id="ambientGlow" class="fixed inset-0 z-[-1] pointer-events-none opacity-20" style="background: radial-gradient(circle at 50% -20%, var(--glow-color), transparent 70%);"></div>
   <div id="topBar" class="h-0.5 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 sticky top-0 z-50 transition-colors duration-1000 opacity-50"></div>
 
-  
-<!-- SYSTEM TICKER / MARQUEE (STICKY VERSION) -->
-  <div class="w-full bg-black/60 backdrop-blur-md border-b border-white/10 overflow-hidden py-2.5 sticky top-0 z-40">    
-    <!-- Gradient Fade Masks -->
-    <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-    <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
-
-    <div class="marquee-track whitespace-nowrap flex items-center">
-      <div class="marquee-content inline-flex items-center gap-8 text-[10px] font-mono font-bold uppercase tracking-widest text-studio-400">
-        
-        <!-- 1. SYSTEM UPDATE -->
-        <span class="flex items-center gap-2 text-white">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-            </span>
-            <span class="text-indigo-400">v8.9 ACTIVE:</span> MIDJOURNEY v7 & FLUX.2 LOGIC APPLIED
-        </span>
-
-        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
-
-        <!-- 2. NEW FEATURES (Updated) -->
-        <span class="flex items-center gap-2 text-emerald-400">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
-            NEW TOOLS: REFERENCE MODULE (--SREF), NEGATIVE PROMPTS & TUNING RACK
-        </span>
-
-        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
-
-        <!-- 3. SUPPORT DEV -->
-        <span class="flex items-center gap-3">
-            <span>SUPPORT ME:</span>
-            <a href="https://buymeacoffee.com/fdashstop" target="_blank" class="flex items-center gap-1.5 text-white hover:text-yellow-400 transition-colors group">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3 text-studio-500 group-hover:text-yellow-400"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
-                BUY COFFEE
-            </a>
-            <span class="w-px h-3 bg-studio-700"></span>
-            <a href="https://buymeacoffee.com/fdashstop/membership" target="_blank" class="flex items-center gap-1.5 text-white hover:text-indigo-400 transition-colors group">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3 text-studio-500 group-hover:text-indigo-400"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg>
-                BECOME MEMBER
-            </a>
-        </span>
-
-        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
-
-        <!-- 4. SOCIAL CALL -->
-        <span class="text-studio-300">
-            TAG <span class="text-white font-bold">#FSTOP</span> ON X.COM TO BE FEATURED
-        </span>
-
-        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
-
-        <!-- 5. NOTE -->
-        <span class="flex items-center gap-2 text-yellow-500/90">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
-            NOTE: PRESET PREVIEWS ARE UPLOADING DAILY
-        </span>
-
-        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
-
-        <span>THANKS FOR CREATING WITH <span class="text-white">F-STOP</span></span>
-
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .marquee-track {
-      width: 100%;
-      overflow: hidden;
-      mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-    }
-    .marquee-content {
-      padding-left: 100%;
-      animation: marquee-scroll 45s linear infinite;
-    }
-    .marquee-content:hover {
-      animation-play-state: paused;
-    }
-    @keyframes marquee-scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-  </style>
-
   <div class="max-w-7xl mx-auto w-full p-4 md:p-8 flex-grow">
     <header class="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-studio-800 pb-6">
       <div>
@@ -267,7 +181,7 @@
         </div>
         <h1 class="text-3xl md:text-4xl font-bold tracking-tighter text-white flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 transition-colors duration-500" style="color: var(--accent-color)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/><line x1="9.69" y1="8" x2="21.17" y2="8"/><line x1="7.38" y1="12" x2="13.12" y2="2.06"/><line x1="9.69" y1="16" x2="3.95" y2="6.06"/><line x1="14.31" y1="16" x2="2.83" y2="16"/><line x1="16.62" y1="12" x2="10.88" y2="21.94"/></svg>
-          <span class="font-mono">f-stop</span>
+          <span class="font-mono">phopro</span>
         </h1>
       </div>
 
@@ -550,33 +464,10 @@
 
         <button id="generateBtn" type="button" class="w-full rounded-sm bg-white text-black py-4 text-xs font-black hover:bg-gray-200 transition shadow-[0_0_20px_rgba(255,255,255,0.1)] uppercase tracking-[0.2em]">Generate & Save to History</button>
         
-        <div class="grid grid-cols-2 gap-3 mt-4">
-          <a href="https://buymeacoffee.com/fdashstop" target="_blank" onclick="gtag('event', 'click_buymeacoffee', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-yellow-500/50 hover:text-yellow-500 text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> Buy Coffee
-</a>
-          <a href="https://buymeacoffee.com/fdashstop/membership" target="_blank" onclick="gtag('event', 'click_membership', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-[var(--accent-color)] hover:text-white text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 group-hover:fill-current"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Become Member
-</a>
-        </div>
       </section>
 
       <section class="lg:col-span-5 space-y-6">
         <div class="sticky top-6 space-y-4">
-
-            <!-- X.COM BANNER (High Visibility Position) -->
-          <a href="https://x.com/fdashstop" target="_blank" class="flex items-center justify-between px-4 py-3 rounded-sm bg-black border border-studio-700 hover:border-studio-500 hover:bg-studio-900 transition group mb-6 relative overflow-hidden">
-              <div class="absolute left-0 top-0 w-1 h-full bg-white group-hover:bg-[var(--accent-color)] transition-colors"></div>
-              <div class="flex items-center gap-3">
-                  <div class="bg-white text-black p-1 rounded-sm">
-                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-current"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-                  </div>
-                  <div class="flex flex-col">
-                      <span class="text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">SAMPLE WORK</span>
-                      <span class="text-[9px] text-studio-500 font-mono group-hover:text-studio-300">See what's possible on X.com</span>
-                  </div>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-studio-600 group-hover:text-white transition-colors group-hover:translate-x-1 duration-300"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
 
           <div class="flex justify-center mb-2">
              <div class="flex bg-studio-900 border border-studio-700 rounded-sm p-1 gap-1">
@@ -639,7 +530,7 @@
           <div class="flex justify-between items-end mb-6 border-b border-studio-800 pb-4 relative z-10">
               <div>
                   <h1 class="text-3xl font-bold tracking-tighter flex items-center gap-2">
-    <span class="font-mono">f-stop</span>
+    <span class="font-mono">phopro</span>
 </h1>
                   <p class="text-xs text-studio-500 mt-1 font-mono uppercase tracking-widest">Visual Recipe Card</p>
               </div>
@@ -673,7 +564,7 @@
               </div>
           </div>
           <div class="flex justify-between items-center pt-4 border-t border-studio-800 text-[10px] text-studio-600 relative z-10">
-              <div class="font-mono">f-stop // pro studio</div>
+              <div class="font-mono">phopro // pro studio</div>
               <div>Generated with AI</div>
           </div>
       </div>
@@ -1251,11 +1142,11 @@ const basePresets = [
         // Apply Background Glow
         if(color.includes('gradient')) {
              glowEl.style.background = `radial-gradient(circle at 50% -20%, transparent 20%, transparent 100%), ${color}`;
-             glowEl.style.opacity = "0.15";
+             glowEl.style.opacity = "0.25";
              outputGlow.style.background = color;
         } else {
              glowEl.style.background = `radial-gradient(circle at 50% -20%, ${color}, transparent 70%)`;
-             glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.1" : "0.25";
+             glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.2" : "0.4";
              outputGlow.style.background = `linear-gradient(to right, ${accent}, transparent)`;
         }
         
