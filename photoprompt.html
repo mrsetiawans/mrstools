@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>phopro.ai | Professional AI Scene & Prompt Director</title>
+  <title>f-stop | Professional AI Scene & Prompt Director</title>
 
-  <meta name="description" content="Master your AI art. Convert camera settings (Aperture, ISO, Film Stock) and directorial vision into flawless prompts for Midjourney, Flux, and DALL-E 3." />
-  <meta name="keywords" content="AI, Midjourney, Flux, DALL-E, prompt engineering, photography, cinematography, generative AI" />
-  <meta property="og:title" content="phopro.ai | Professional AI Scene & Prompt Director" />
+  <meta name="description" content="Master your AI photography art. Convert camera settings (Aperture, ISO, Film Stock) and directorial vision into flawless prompts for Midjourney, Flux, and DALL-E 3." />
+  <meta name="keywords" content="AI, Midjourney, Flux, DALL-E, prompt engineering, photography, cinematography, generative AI, gpt, chatgpt, nanobanana" />
+  <meta property="og:title" content="f-stop | Professional AI Scene & Prompt Director" />
   <meta property="og:description" content="Generate cinematic, photorealistic prompts with true camera physics." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -140,29 +140,6 @@
     
     .focus-ring:focus-within { border-color: var(--accent-color); ring: 1px solid var(--accent-color); }
     input:focus, select:focus, textarea:focus { border-color: var(--accent-color) !important; outline: none; }
-
-    details > summary {
-      list-style: none;
-      padding: 0.5rem 0;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    details > summary:hover {
-      color: var(--accent-color);
-    }
-    details > summary::-webkit-details-marker {
-      display: none;
-    }
-    details > summary::before {
-      content: '►';
-      margin-right: 0.5rem;
-      font-size: 0.7em;
-      display: inline-block;
-      transition: transform 0.2s;
-    }
-    details[open] > summary::before {
-      transform: rotate(90deg);
-    }
     
     #grain-overlay {
       position: fixed;
@@ -192,8 +169,94 @@
   </div>
 
   <div id="grain-overlay"></div>
-  <div id="ambientGlow" class="fixed inset-0 z-[-1] pointer-events-none opacity-40" style="background: radial-gradient(circle at 50% -20%, var(--glow-color), transparent 70%);"></div>
+  <div id="ambientGlow" class="fixed inset-0 z-[-1] pointer-events-none opacity-20" style="background: radial-gradient(circle at 50% -20%, var(--glow-color), transparent 70%);"></div>
   <div id="topBar" class="h-0.5 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 sticky top-0 z-50 transition-colors duration-1000 opacity-50"></div>
+
+  
+<!-- SYSTEM TICKER / MARQUEE (STICKY VERSION) -->
+  <div class="w-full bg-black/60 backdrop-blur-md border-b border-white/10 overflow-hidden py-2.5 sticky top-0 z-40">    
+    <!-- Gradient Fade Masks -->
+    <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+    <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+
+    <div class="marquee-track whitespace-nowrap flex items-center">
+      <div class="marquee-content inline-flex items-center gap-8 text-[10px] font-mono font-bold uppercase tracking-widest text-studio-400">
+        
+        <!-- 1. SYSTEM UPDATE -->
+        <span class="flex items-center gap-2 text-white">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            <span class="text-indigo-400">v8.9 ACTIVE:</span> MIDJOURNEY v7 & FLUX.2 LOGIC APPLIED
+        </span>
+
+        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
+
+        <!-- 2. NEW FEATURES (Updated) -->
+        <span class="flex items-center gap-2 text-emerald-400">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
+            NEW TOOLS: REFERENCE MODULE (--SREF), NEGATIVE PROMPTS & TUNING RACK
+        </span>
+
+        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
+
+        <!-- 3. SUPPORT DEV -->
+        <span class="flex items-center gap-3">
+            <span>SUPPORT ME:</span>
+            <a href="https://buymeacoffee.com/fdashstop" target="_blank" class="flex items-center gap-1.5 text-white hover:text-yellow-400 transition-colors group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3 text-studio-500 group-hover:text-yellow-400"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
+                BUY COFFEE
+            </a>
+            <span class="w-px h-3 bg-studio-700"></span>
+            <a href="https://buymeacoffee.com/fdashstop/membership" target="_blank" class="flex items-center gap-1.5 text-white hover:text-indigo-400 transition-colors group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3 text-studio-500 group-hover:text-indigo-400"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg>
+                BECOME MEMBER
+            </a>
+        </span>
+
+        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
+
+        <!-- 4. SOCIAL CALL -->
+        <span class="text-studio-300">
+            TAG <span class="text-white font-bold">#FSTOP</span> ON X.COM TO BE FEATURED
+        </span>
+
+        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
+
+        <!-- 5. NOTE -->
+        <span class="flex items-center gap-2 text-yellow-500/90">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+            NOTE: PRESET PREVIEWS ARE UPLOADING DAILY
+        </span>
+
+        <span class="text-studio-700 opacity-50 text-[8px]">////////////////</span>
+
+        <span>THANKS FOR CREATING WITH <span class="text-white">F-STOP</span></span>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .marquee-track {
+      width: 100%;
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    }
+    .marquee-content {
+      padding-left: 100%;
+      animation: marquee-scroll 45s linear infinite;
+    }
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
 
   <div class="max-w-7xl mx-auto w-full p-4 md:p-8 flex-grow">
     <header class="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-studio-800 pb-6">
@@ -204,7 +267,7 @@
         </div>
         <h1 class="text-3xl md:text-4xl font-bold tracking-tighter text-white flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 transition-colors duration-500" style="color: var(--accent-color)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/><line x1="9.69" y1="8" x2="21.17" y2="8"/><line x1="7.38" y1="12" x2="13.12" y2="2.06"/><line x1="9.69" y1="16" x2="3.95" y2="6.06"/><line x1="14.31" y1="16" x2="2.83" y2="16"/><line x1="16.62" y1="12" x2="10.88" y2="21.94"/></svg>
-          <span class="font-mono">phopro<span style="color: var(--accent-color)" class="transition-colors duration-500">.ai</span></span>
+          <span class="font-mono">f-stop</span>
         </h1>
       </div>
 
@@ -242,197 +305,330 @@
       </div>
     </header>
 
-    <div class="space-y-6">
-      <input id="targetYear" type="hidden" value="2025" />
-      <input id="photographerStyle" type="hidden" value="None" />
-      <textarea id="dynamicTrigger" style="display:none"></textarea>
-
-      <!-- Scene & Style Panel -->
-      <details class="hardware-panel rounded-md p-5" open>
-        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Scene &amp; Style</summary>
+    <div class="grid lg:grid-cols-12 gap-8">
+      <section class="lg:col-span-7 space-y-6">
         <div class="space-y-4">
           <div class="relative hardware-screen rounded-sm p-1 focus-within:border-indigo-500 transition group">
             <textarea id="scene" rows="3" class="w-full bg-transparent border-0 text-white placeholder-studio-600 p-4 focus:ring-0 text-sm font-mono resize-none" placeholder="INPUT SCENE DATA..."></textarea>
             <button id="clearSceneBtn" type="button" class="absolute top-2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">Clear</button>
           </div>
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label for="location" class="hardware-label block mb-2">Location / Coordinates</label>
               <input type="text" id="location" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500 outline-none placeholder-studio-700" placeholder="e.g., Cairo, Egypt or 30.0444, 31.2357" />
             </div>
+
+            
+
             <div>
               <label for="datetime" class="hardware-label block mb-2">Date & Time</label>
               <div class="relative group w-full">
                 <input type="datetime-local" id="datetime" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500 outline-none placeholder-studio-700" />
-                <button id="clearDateBtn" type="button" class="absolute top-1/2 -translate-y-1/2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">Clear</button>
+                
+                <!-- 
+                     Clear Button Centering:
+                     top-1/2: Moves top edge to 50%
+                     -translate-y-1/2: Shifts button up by half its own height to center perfectly
+                -->
+                <button id="clearDateBtn" type="button" class="absolute top-1/2 -translate-y-1/2 right-2 text-[9px] uppercase font-bold text-studio-500 hover:text-white bg-studio-900/90 border border-studio-700 rounded-sm px-2 py-1 transition-all opacity-0 group-hover:opacity-100">
+                  Clear
+                </button>
               </div>
             </div>
-          </div>
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <label class="hardware-label">Style Engine</label>
-              <button id="randomPresetBtn" type="button" class="text-[10px] uppercase tracking-wider hover:text-white transition flex items-center gap-1 font-bold" style="color: var(--accent-color)">Randomize</button>
-            </div>
-            <div id="presetComboWrap" class="relative">
-              <div class="flex gap-2">
-                <div class="relative flex-1 group min-w-0">
-                  <input id="presetSearch" type="text" class="w-full hardware-screen rounded-sm pl-4 pr-4 py-2.5 text-xs text-white transition truncate placeholder-studio-700 focus:border-indigo-500" placeholder="SEARCH PRESETS..." autocomplete="off" />
-                </div>
-                <button id="browsePresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Browse</button>
-                <button id="clearPresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Clear</button>
-              </div>
-              <div id="presetDropdown" class="hidden absolute z-[60] mt-2 w-full max-h-80 overflow-auto rounded-sm border border-studio-700 bg-studio-900 shadow-2xl"></div>
-            </div>
-            <div id="presetInfo" class="mt-3 p-3 rounded-sm bg-black/20 border border-white/5 text-xs font-mono text-studio-300 hidden leading-relaxed"></div>
-            <div class="mt-4 pt-4 border-t border-studio-800">
-              <details class="group">
-                <summary class="cursor-pointer hardware-label hover:text-studio-300 list-none flex items-center gap-2 select-none">
-                  SAVE CONFIG <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </summary>
-                <div class="mt-3 pl-2 space-y-2">
-                  <div class="flex gap-2">
-                    <input id="customPresetName" type="text" class="flex-1 hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="PRESET NAME" />
-                    <button id="savePresetBtn" type="button" class="rounded-sm text-white px-4 py-2 text-[10px] uppercase font-bold opacity-90 hover:opacity-100" style="background-color: var(--accent-color); color: var(--accent-text);">Save</button>
-                  </div>
-                  <textarea id="customVibe" rows="1" class="w-full hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="OPTIONAL NOTES..."></textarea>
-                  <div id="saveStatus" class="text-[10px] text-green-500 h-4 font-mono"></div>
-                </div>
-              </details>
-            </div>
-          </div>
         </div>
-      </details>
-
-      <!-- Camera & Optics Panel -->
-      <details class="hardware-panel rounded-md p-5" open>
-        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Camera &amp; Optics</summary>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-3">
-            <label class="hardware-label block">Camera & Lens</label>
-            <div class="flex gap-2 items-center">
-              <div class="relative flex-1 min-w-0"><select id="camera" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
-              <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockCamera" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
-            </div>
-            <div class="flex gap-2 items-center">
-              <div class="relative flex-1 min-w-0"><select id="lens" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
-              <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockLens" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
-            </div>
-          </div>
-          <div class="space-y-3">
-            <label class="hardware-label block">Exposure Triangle</label>
-            <div class="grid grid-cols-3 gap-2">
-              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Focal</span><input id="focal" type="number" class="w-full hardware-screen rounded-sm text-xs text-white p-2 text-center focus:border-indigo-500 outline-none" placeholder="35" /></div>
-              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Aperture</span><select id="aperture" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
-              <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Shutter</span><select id="shutter" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
-            </div>
-            <div class="mt-2"><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">ISO</span><select id="iso" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Film & Atmosphere Panel -->
-      <details class="hardware-panel rounded-md p-5" open>
-        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Film &amp; Atmosphere</summary>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <label class="hardware-label block mb-2">Film Stock</label>
-            <select id="film" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-          </div>
-          <div>
-            <label class="hardware-label block mb-2">White Balance & Grain</label>
-            <div class="grid grid-cols-2 gap-2">
-              <select id="wb" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-              <select id="grain" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-            </div>
-          </div>
-          <div>
-            <label class="hardware-label block mb-2">Lens Character</label>
-            <select id="lensChar" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
-          </div>
-          <div>
-            <label class="hardware-label block mb-2">Color &amp; Influence</label>
-            <div class="space-y-2">
-              <select id="colorGrading" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-              <select id="artisticInfluences" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Composition & Lighting Panel -->
-      <details class="hardware-panel rounded-md p-5" open>
-        <summary class="cursor-pointer text-lg font-bold text-white mb-4">Composition &amp; Lighting</summary>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="md:col-span-1 space-y-3">
-            <label class="hardware-label block mb-2">Framing</label>
-            <select id="genre" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500"></select>
-            <select id="composition" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-            <div id="productSubgenreWrap" class="hidden">
-              <select id="productSubgenre" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
-            </div>
-            <label class="hardware-label block mb-2 mt-4">Aspect Ratio</label>
-            <div class="grid grid-cols-5 gap-1.5" id="arContainer">
-              <button type="button" data-ar="1:1" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">1:1</span></button>
-              <button type="button" data-ar="16:9" class="ar-btn active px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-5 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">16:9</span></button>
-              <button type="button" data-ar="9:16" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-5 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">9:16</span></button>
-              <button type="button" data-ar="4:3" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-4 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">4:3</span></button>
-              <button type="button" data-ar="21:9" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-6 h-2 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">21:9</span></button>
-            </div>
-          </div>
-          <div class="md:col-span-2 space-y-3">
-            <div class="flex justify-between items-center mb-3">
-              <span class="hardware-label">Lighting</span>
-              <label class="cursor-pointer flex items-center gap-2 hardware-label select-none">Lock <input id="lockLighting" type="checkbox" class="lock-checkbox hidden" /><div class="w-6 h-3 rounded-full border border-studio-600 flex items-center px-0.5 transition-colors"><div class="w-2 h-2 bg-studio-600 rounded-full"></div></div></label>
-            </div>
-            <select id="lighting" class="w-full hardware-screen rounded-sm text-sm text-white p-2.5 mb-3 focus:border-indigo-500"></select>
-            <div id="lightingSetups" class="flex flex-wrap gap-1.5"></div>
-          </div>
-        </div>
-      </details>
-
-      <!-- Generate & Output Section -->
-      <div class="space-y-6">
-        <button id="generateBtn" type="button" class="w-full rounded-sm bg-white text-black py-4 text-xs font-black hover:bg-gray-200 transition shadow-[0_0_20px_rgba(255,255,255,0.1)] uppercase tracking-[0.2em]">Generate & Save to History</button>
         
-        <div class="flex justify-center mb-2">
-           <div class="flex bg-studio-900 border border-studio-700 rounded-sm p-1 gap-1">
-              <button type="button" data-model="midjourney" class="model-btn active px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Midjourney</button>
-              <button type="button" data-model="flux" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Flux.1</button>
-              <button type="button" data-model="dalle" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">DALL-E 3 / Chat</button>
+        <input id="targetYear" type="hidden" value="2025" />
+        <input id="photographerStyle" type="hidden" value="None" />
+        <textarea id="dynamicTrigger" style="display:none"></textarea>
+        <div class="hardware-panel rounded-md p-5 relative z-30">
+          <div class="flex items-center justify-between mb-3">
+            <label class="hardware-label">Style Engine</label>
+            <button id="randomPresetBtn" type="button" class="text-[10px] uppercase tracking-wider hover:text-white transition flex items-center gap-1 font-bold" style="color: var(--accent-color)">Randomize</button>
+          </div>
+
+          
+          
+          <div id="presetComboWrap" class="relative group">
+            <div class="flex gap-2">
+              <div class="relative flex-1 group min-w-0">
+                <input id="presetSearch" type="text" class="w-full hardware-screen rounded-sm pl-4 pr-4 py-2.5 text-xs text-white transition truncate placeholder-studio-700 focus:border-indigo-500" placeholder="SEARCH PRESETS..." autocomplete="off" />
+              </div>
+              <button id="browsePresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Browse</button>
+              <button id="clearPresetBtn" type="button" class="shrink-0 px-4 rounded-sm bg-studio-800 hover:bg-studio-700 text-[10px] uppercase font-bold text-studio-400 border border-studio-700 transition">Clear</button>
+            </div>
+            
+            <!-- THE DROPDOWN LIST -->
+            <div id="presetDropdown" class="hidden absolute z-[60] mt-2 w-full max-h-80 overflow-auto rounded-sm border border-studio-700 bg-studio-900 shadow-2xl"></div>
+
+            
+           <!-- PREVIEW CARD (Responsive: Modal on Mobile, Corner on Desktop) -->
+            <div id="presetPreviewCard" class="hidden fixed z-[9999] transition-opacity duration-200 pointer-events-none md:pointer-events-none
+                 /* Mobile Styles: Centered Modal */
+                 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] max-w-sm bg-black border-2 border-studio-500 shadow-[0_0_100px_rgba(0,0,0,1)]
+                 /* Desktop Styles: Corner Floater */
+                 md:top-auto md:left-auto md:translate-x-0 md:translate-y-0 md:right-10 md:bottom-10 md:w-64 md:border md:border-studio-600 md:shadow-[0_0_50px_rgba(79,70,229,0.5)]">
+                
+                <div class="relative aspect-video bg-studio-800 overflow-hidden mb-2">
+                    <img id="presetPreviewImg" src="" class="w-full h-full object-cover opacity-90" />
+                    <div id="presetPreviewFallback" class="absolute inset-0 flex items-center justify-center text-[10px] text-studio-500 font-mono text-center p-2 hidden">NO PREVIEW</div>
+                    <div class="absolute inset-0 bg-black opacity-20" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, #000 1px, #000 2px);"></div>
+                </div>
+                <div class="px-3 pb-3 bg-studio-950">
+                    <div id="presetPreviewTitle" class="text-sm md:text-xs font-bold text-white uppercase tracking-wider mb-1 text-[var(--accent-color)]">Title</div>
+                    <div id="presetPreviewDesc" class="text-xs md:text-[9px] text-studio-400 font-mono leading-tight">Description text.</div>
+                    <!-- Mobile Only Close Hint -->
+                    <div class="md:hidden text-[9px] text-center text-studio-600 mt-2 border-t border-studio-800 pt-1 uppercase">Tap anywhere to close</div>
+                </div>
+            </div>
+          </div>
+          
+          <div id="presetInfo" class="mt-3 p-3 rounded-sm bg-black/20 border border-white/5 text-xs font-mono text-studio-300 hidden leading-relaxed"></div>
+          
+          
+
+  
+
+            <!-- COLLAPSIBLE TUNING RACK (Border Removed) -->
+          <details id="midjourneyTuningRack" class="group mt-4 hidden">
+             <summary class="cursor-pointer hardware-label hover:text-studio-300 list-none flex items-center justify-between select-none text-indigo-400">
+                <span class="flex items-center gap-2">
+                    MIDJOURNEY TUNING 
+                    <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </span>
+                <button id="resetTuning" type="button" class="text-[9px] text-studio-500 hover:text-white uppercase font-bold transition-colors opacity-0 group-open:opacity-100">Reset</button>
+             </summary>
+             
+             <div class="mt-4 space-y-4 pl-1 pr-1 pb-2">
+                <!-- Stylize Slider -->
+                <div class="group">
+                   <div class="flex justify-between text-[9px] mb-1.5 font-mono tracking-wider">
+                      <span class="text-studio-400">STYLIZE <span class="opacity-50">(--s)</span></span>
+                      <span id="val-stylize" class="text-indigo-400 font-bold">150</span>
+                   </div>
+                   <input type="range" id="paramStylize" min="0" max="1000" value="150" class="w-full h-1 bg-studio-800 rounded-lg appearance-none cursor-pointer border border-studio-700 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-indigo-500 [&::-webkit-slider-thumb]:rounded-sm hover:[&::-webkit-slider-thumb]:bg-white transition-all">
+                </div>
+  
+                <!-- Chaos Slider -->
+                <div class="group">
+                   <div class="flex justify-between text-[9px] mb-1.5 font-mono tracking-wider">
+                      <span class="text-studio-400">CHAOS <span class="opacity-50">(--c)</span></span>
+                      <span id="val-chaos" class="text-indigo-400 font-bold">0</span>
+                   </div>
+                   <input type="range" id="paramChaos" min="0" max="100" value="0" class="w-full h-1 bg-studio-800 rounded-lg appearance-none cursor-pointer border border-studio-700 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-indigo-500 [&::-webkit-slider-thumb]:rounded-sm hover:[&::-webkit-slider-thumb]:bg-white transition-all">
+                </div>
+  
+                <!-- Weird Slider -->
+                <div class="group">
+                   <div class="flex justify-between text-[9px] mb-1.5 font-mono tracking-wider">
+                      <span class="text-studio-400">WEIRD <span class="opacity-50">(--w)</span></span>
+                      <span id="val-weird" class="text-indigo-400 font-bold">0</span>
+                   </div>
+                   <input type="range" id="paramWeird" min="0" max="3000" value="0" class="w-full h-1 bg-studio-800 rounded-lg appearance-none cursor-pointer border border-studio-700 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-indigo-500 [&::-webkit-slider-thumb]:rounded-sm hover:[&::-webkit-slider-thumb]:bg-white transition-all">
+                </div>
+             </div>
+          </details>
+
+          <!-- SAVE CONFIG SECTION (Border Removed) -->
+          <div class="mt-4">
+            <details class="group">
+              <summary class="cursor-pointer hardware-label hover:text-studio-300 list-none flex items-center gap-2 select-none">
+                SAVE CONFIG <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+              </summary>
+              <div class="mt-3 pl-2 space-y-2">
+                <div class="flex gap-2">
+                  <input id="customPresetName" type="text" class="flex-1 hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="PRESET NAME" />
+                  <button id="savePresetBtn" type="button" class="rounded-sm text-white px-4 py-2 text-[10px] uppercase font-bold opacity-90 hover:opacity-100" style="background-color: var(--accent-color); color: var(--accent-text);">Save</button>
+                </div>
+                <textarea id="customVibe" rows="1" class="w-full hardware-screen rounded-sm p-2 text-[10px] text-white outline-none focus:border-indigo-500" placeholder="OPTIONAL NOTES..."></textarea>
+                <div id="saveStatus" class="text-[10px] text-green-500 mt-1 font-mono leading-tight min-h-[1em]"></div>
+             </div> <!-- Close Save Config Inner -->
+          </details> <!-- Close Save Config Details -->
+        </div> <!-- Close Save Config Wrapper -->
+      </div> <!-- Close Style Engine Panel -->
+
+      <!-- REFERENCE & CONSTRAINTS MODULE (Forced New Block) -->
+      <div class="hardware-panel rounded-md p-4 mt-6 mb-6 relative z-10 block">
+           <div class="flex justify-between items-center mb-3">
+              <span class="hardware-label text-studio-300">Reference & Constraints</span>
+              <button id="clearRefBtn" type="button" class="text-[9px] text-studio-500 hover:text-white uppercase font-bold transition-colors">Clear</button>
+           </div>
+           
+           <div class="space-y-3">
+            <div id="srefContainer" class="group relative">
+                 <label class="text-[9px] text-studio-500 font-mono font-bold tracking-wider block mb-1.5 flex justify-between">
+                    <span>IMAGE REF URL <span class="text-indigo-400">(--sref)</span></span>
+                    <span class="text-[8px] text-studio-600">HTTPS://...</span>
+                 </label>
+                 <input type="text" id="srefUrl" class="w-full hardware-screen rounded-sm p-2.5 text-[10px] text-indigo-300 outline-none focus:border-indigo-500 placeholder-studio-700 font-mono transition-colors" placeholder="Paste image URL here..." />
+                 <!-- Active Indicator Dot -->
+                 <div class="absolute right-2 top-8 w-1.5 h-1.5 rounded-full bg-indigo-500 opacity-0 transition-opacity" id="srefDot"></div>
+              </div>
+
+              <!-- Negative Prompt Input -->
+              <div class="group">
+                 <label class="text-[9px] text-studio-500 font-mono font-bold tracking-wider block mb-1.5 flex justify-between">
+                    <span>NEGATIVE PROMPT <span class="text-red-400">(--no)</span></span>
+                    <span class="text-[8px] text-studio-600">EXCLUDE ITEMS</span>
+                 </label>
+                 <input type="text" id="negativePrompt" class="w-full hardware-screen rounded-sm p-2.5 text-[10px] text-red-300 outline-none focus:border-red-500 placeholder-studio-700 font-mono transition-colors" placeholder="e.g. cars, text, blur, crowds, red color" />
+              </div>
            </div>
         </div>
 
-        <div class="flex items-center gap-2 text-studio-500 mb-2"><div class="h-px flex-1 bg-studio-800"></div><span class="hardware-label">Outputs</span><div class="h-px flex-1 bg-studio-800"></div></div>
-        
-        <div class="relative backdrop-blur-xl bg-black/40 border border-studio-800 rounded-md overflow-hidden shadow-2xl">
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-500 to-gray-600 opacity-0 transition duration-500" id="outputGlow"></div>
-          <div class="relative border-b border-studio-800 p-1 bg-black/20">
-            <div class="flex items-center justify-between px-3 py-2">
-               <h2 class="hardware-label text-studio-300">Master</h2>
-               <div class="flex gap-2">
-                  <button id="exportBtn" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition flex items-center gap-1">RECIPE</button>
-                  <button id="copyMain" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition">COPY</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-5">
+            <div>
+              <label class="hardware-label block mb-2">Composition</label>
+              <div class="space-y-2">
+                <select id="genre" class="w-full hardware-screen rounded-sm text-xs text-white p-2.5 focus:border-indigo-500"></select>
+                <select id="composition" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
+                <div id="productSubgenreWrap" class="hidden">
+                   <select id="productSubgenre" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2.5 focus:border-indigo-500"></select>
+                </div>
+              </div>
+            </div>
+            <div class="hardware-panel rounded-md p-4">
+              <div class="flex justify-between items-center mb-3">
+                <span class="hardware-label">Camera & Lens</span>
+              </div>
+              <div class="space-y-3">
+                <div class="flex gap-2 items-center">
+                  <div class="relative flex-1 min-w-0"><select id="camera" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
+                  <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockCamera" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
+                </div>
+                <div class="flex gap-2 items-center">
+                  <div class="relative flex-1 min-w-0"><select id="lens" class="w-full hardware-screen rounded-sm text-[10px] text-studio-300 p-2 font-mono truncate focus:border-indigo-500"></select></div>
+                  <label class="shrink-0 cursor-pointer flex items-center group"><input id="lockLens" type="checkbox" class="lock-checkbox hidden" /><div class="w-8 h-8 rounded-sm border border-studio-700 bg-studio-800 flex items-center justify-center text-studio-500 group-hover:text-studio-300 transition"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <label class="hardware-label block mb-2">Exposure Triangle</label>
+              <div class="grid grid-cols-3 gap-2">
+                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Focal</span><input id="focal" type="number" class="w-full hardware-screen rounded-sm text-xs text-white p-2 text-center focus:border-indigo-500 outline-none" placeholder="35" /></div>
+                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Aperture</span><select id="aperture" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+                <div><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">Shutter</span><select id="shutter" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+              </div>
+              <div class="mt-2"><span class="text-[9px] text-studio-600 font-bold uppercase block mb-1 pl-1">ISO</span><select id="iso" class="w-full hardware-screen rounded-sm text-xs text-white p-2 focus:border-indigo-500"></select></div>
+            </div>
+            <div>
+               <label class="hardware-label block mb-2">Film & Atmosphere</label>
+               <div class="space-y-2">
+                 <select id="film" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+                 <div class="grid grid-cols-2 gap-2">
+                    <select id="wb" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+                    <select id="grain" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
+                 </div>
+                 <select id="lensChar" class="w-full hardware-screen rounded-sm text-xs text-studio-300 p-2 truncate focus:border-indigo-500"></select>
                </div>
             </div>
-            <textarea id="outMain" rows="5" class="w-full bg-transparent border-0 text-studio-100 p-3 text-xs font-mono focus:ring-0 resize-none leading-relaxed" readonly></textarea>
-          </div>
-          <div class="grid grid-rows-3 divide-y divide-studio-800/50">
-              <div class="relative bg-black/10">
-                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Cinematic</h3><button data-copy="outCine" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                 <textarea id="outCine" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+            <div>
+              <label class="hardware-label block mb-2">Aspect Ratio</label>
+              <div class="grid grid-cols-5 gap-1.5" id="arContainer">
+                <button type="button" data-ar="1:1" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">1:1</span></button>
+                <button type="button" data-ar="16:9" class="ar-btn active px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-5 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">16:9</span></button>
+                <button type="button" data-ar="9:16" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-3 h-5 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">9:16</span></button>
+                <button type="button" data-ar="4:3" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-4 h-3 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">4:3</span></button>
+                <button type="button" data-ar="21:9" class="ar-btn px-1 py-2 rounded-sm border border-studio-700 bg-studio-900 hover:border-studio-500 transition flex flex-col items-center justify-center gap-1"><div class="w-6 h-2 border ar-icon"></div> <span class="text-[9px] text-studio-500 font-bold">21:9</span></button>
               </div>
-              <div class="relative bg-black/10">
-                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Grit / Doc</h3><button data-copy="outGrit" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                 <textarea id="outGrit" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-              </div>
-              <div class="relative bg-black/10">
-                 <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Commercial</h3><button data-copy="outProd" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
-                 <textarea id="outProd" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
-              </div>
+            </div>
           </div>
         </div>
 
-      </div>
+        <div class="hardware-panel rounded-md p-4">
+           <div class="flex justify-between items-center mb-3">
+              <span class="hardware-label">Lighting</span>
+              <label class="cursor-pointer flex items-center gap-2 hardware-label select-none">Lock <input id="lockLighting" type="checkbox" class="lock-checkbox hidden" /><div class="w-6 h-3 rounded-full border border-studio-600 flex items-center px-0.5 transition-colors"><div class="w-2 h-2 bg-studio-600 rounded-full"></div></div></label>
+           </div>
+           <select id="lighting" class="w-full hardware-screen rounded-sm text-sm text-white p-2.5 mb-3 focus:border-indigo-500"></select>
+           <div id="lightingSetups" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <button id="generateBtn" type="button" class="w-full rounded-sm bg-white text-black py-4 text-xs font-black hover:bg-gray-200 transition shadow-[0_0_20px_rgba(255,255,255,0.1)] uppercase tracking-[0.2em]">Generate & Save to History</button>
+        
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <a href="https://buymeacoffee.com/fdashstop" target="_blank" onclick="gtag('event', 'click_buymeacoffee', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-yellow-500/50 hover:text-yellow-500 text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> Buy Coffee
+</a>
+          <a href="https://buymeacoffee.com/fdashstop/membership" target="_blank" onclick="gtag('event', 'click_membership', {'event_category': 'engagement','event_label': 'sidebar_button'})" class="rounded-sm border border-studio-700 bg-studio-900 hover:border-[var(--accent-color)] hover:text-white text-studio-400 text-[10px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition group">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-70 group-hover:opacity-100 group-hover:fill-current"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Become Member
+</a>
+        </div>
+      </section>
+
+      <section class="lg:col-span-5 space-y-6">
+        <div class="sticky top-6 space-y-4">
+
+            <!-- X.COM BANNER (High Visibility Position) -->
+          <a href="https://x.com/fdashstop" target="_blank" class="flex items-center justify-between px-4 py-3 rounded-sm bg-black border border-studio-700 hover:border-studio-500 hover:bg-studio-900 transition group mb-6 relative overflow-hidden">
+              <div class="absolute left-0 top-0 w-1 h-full bg-white group-hover:bg-[var(--accent-color)] transition-colors"></div>
+              <div class="flex items-center gap-3">
+                  <div class="bg-white text-black p-1 rounded-sm">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 fill-current"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                  </div>
+                  <div class="flex flex-col">
+                      <span class="text-[10px] font-bold text-white uppercase tracking-widest leading-none mb-0.5">SAMPLE WORK</span>
+                      <span class="text-[9px] text-studio-500 font-mono group-hover:text-studio-300">See what's possible on X.com</span>
+                  </div>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-studio-600 group-hover:text-white transition-colors group-hover:translate-x-1 duration-300"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+
+          <div class="flex justify-center mb-2">
+             <div class="flex bg-studio-900 border border-studio-700 rounded-sm p-1 gap-1">
+                <button type="button" data-model="midjourney" class="model-btn active px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Midjourney v7</button>
+                <button type="button" data-model="flux" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">Flux.2</button>
+                <button type="button" data-model="dalle" class="model-btn px-3 py-1 text-[9px] font-bold uppercase text-studio-400 hover:text-white rounded-sm transition">GPT / Nano Banana</button>
+             </div>
+          </div>
+
+          <div class="flex items-center gap-2 text-studio-500 mb-2"><div class="h-px flex-1 bg-studio-800"></div><span class="hardware-label">Outputs</span><div class="h-px flex-1 bg-studio-800"></div></div>
+          
+          <div class="relative backdrop-blur-xl bg-black/40 border border-studio-800 rounded-md overflow-hidden shadow-2xl">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-gray-500 to-gray-600 opacity-0 transition duration-500" id="outputGlow"></div>
+            
+            <div class="relative border-b border-studio-800 p-1 bg-black/20">
+              <div class="flex items-center justify-between px-3 py-2">
+                 <h2 class="hardware-label text-studio-300">Master</h2>
+                 <div class="flex gap-2">
+                    <button id="exportBtn" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition flex items-center gap-1">
+                        RECIPE
+                    </button>
+                    <button id="copyMain" class="text-[9px] font-bold bg-studio-900 hover:bg-studio-700 text-studio-400 px-2 py-1 rounded-sm border border-studio-800 transition">COPY</button>
+                 </div>
+              </div>
+              <textarea id="outMain" rows="5" class="w-full bg-transparent border-0 text-studio-100 p-3 text-xs font-mono focus:ring-0 resize-none leading-relaxed" readonly></textarea>
+            </div>
+
+            <div class="relative border-b border-studio-800 p-1 bg-black/20 hidden">
+                <div class="flex items-center justify-between px-3 py-2">
+                    <h2 class="hardware-label text-studio-500">Director Notes (LLM Prompt)</h2>
+                    <button data-copy="outLLM" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button>
+                </div>
+                <textarea id="outLLM" rows="1" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+            </div>
+
+            <div class="grid grid-rows-3 divide-y divide-studio-800/50">
+                <div class="relative bg-black/10">
+                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Cinematic</h3><button data-copy="outCine" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                   <textarea id="outCine" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+                </div>
+                <div class="relative bg-black/10">
+                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Grit / Doc</h3><button data-copy="outGrit" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                   <textarea id="outGrit" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+                </div>
+                <div class="relative bg-black/10">
+                   <div class="flex items-center justify-between px-3 py-2"><h3 class="hardware-label">Commercial</h3><button data-copy="outProd" class="text-[9px] font-bold text-studio-500 hover:text-white transition">COPY</button></div>
+                   <textarea id="outProd" rows="3" class="w-full bg-transparent border-0 text-studio-400 p-3 text-[10px] font-mono focus:ring-0 resize-none" readonly></textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
@@ -443,8 +639,8 @@
           <div class="flex justify-between items-end mb-6 border-b border-studio-800 pb-4 relative z-10">
               <div>
                   <h1 class="text-3xl font-bold tracking-tighter flex items-center gap-2">
-                      <span class="font-mono">phopro<span style="color: var(--accent-color)">.ai</span></span>
-                  </h1>
+    <span class="font-mono">f-stop</span>
+</h1>
                   <p class="text-xs text-studio-500 mt-1 font-mono uppercase tracking-widest">Visual Recipe Card</p>
               </div>
               <div class="text-right">
@@ -477,7 +673,7 @@
               </div>
           </div>
           <div class="flex justify-between items-center pt-4 border-t border-studio-800 text-[10px] text-studio-600 relative z-10">
-              <div class="font-mono">phopro.ai // pro studio</div>
+              <div class="font-mono">f-stop // pro studio</div>
               <div>Generated with AI</div>
           </div>
       </div>
@@ -497,80 +693,97 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-/* --- Data Lists --- */
-const compositions = ["None","Rule of Thirds","Centered","Leading Lines","Over-the-shoulder","Wide Establishing","Tight Close-up","Low Angle Hero","Top-down Flat Lay","Candid Snapshot","Asymmetric Framing","Peek-through","Symmetrical Arch","Layered Depth", "Dutch Angle", "Golden Ratio"];
+/* --- Data Lists (Synchronized with Verified Presets) --- */
+const compositions = ["None","Rule of Thirds","Centered","Leading Lines","Over-the-shoulder","Wide Establishing","Tight Close-up","Low Angle Hero","Top-down Flat Lay","Candid Snapshot","Asymmetric Framing","Peek-through","Symmetrical Arch","Layered Depth"];
 
 const cameras = [
-    "None",
-    // Modern Mirrorless / Digital
-    "Sony Alpha 1", "Canon EOS R3", "Nikon Z9", "Sony A7 IV", "Sony A7R V", "Canon EOS R5 II", "Nikon Z5 II", "Fujifilm X-T5", "Fujifilm GFX 100S II", "Hasselblad X2D 100C", "Phase One XF IQ4", "Leica SL3", "iPhone 16 Pro", "Hasselblad H6D", "Nikon D850", "Canon EOS 5D Mark IV", "DJI Mavic 3", "GoPro Hero 12",
-    // Cinema Digital
-    "Arri Alexa 35", "Arri Alexa LF", "Red V-Raptor", "Arri Alexa 65", "Blackmagic URSA Mini Pro",
-    // 35mm Film Rangefinders & SLRs
-    "Leica M3", "Leica M6", "Nikon F3", "Nikon F5", "Nikon F6", "Canon EOS 1v", "Contax T2", "Ricoh GR21", "Canon Rangefinder", "Olympus OM-1",
-    // Medium Format Film
-    "Rolleiflex 2.8F", "Hasselblad 500C/M", "Pentax 67", "Pentax 645", "Mamiya RZ67", "Fuji GW690",
-    // Large Format & Press
-    "Speed Graphic 4x5", "Deardorff 8x10", "Large Format 4x5", "Large Format 8x10", "Voigtländer Bergheil", "Graflex Series D", "Linhof Technika",
-    // Cinema Film
-    "Arriflex 35 BL", "Arricam ST", "Panavision PSR", "Mitchell BNC", "Technicolor 3-Strip Camera", "IMAX 15/65", "Bolex H16",
-    // Vintage / Specialty
-    "Polaroid SX-70", "Sony VX1000", "Contact Print", "Holga 120N", "Lomography Diana F+", "Daguerreotype Camera"
+  "None",
+  // Modern Mirrorless / Digital
+  "Sony Alpha 1","Canon EOS R3","Nikon Z9","Sony A7 IV","Sony A7R V","Canon EOS R5 II","Nikon Z5 II","Fujifilm X-T5","Fujifilm GFX 100S II","Hasselblad X2D 100C","Phase One XF IQ4","Leica SL3","iPhone 16 Pro","Hasselblad H6D","Nikon D850","Canon EOS 5D Mark IV","DJI Mavic 3",
+  // Cinema Digital
+  "Arri Alexa 35","Arri Alexa LF","Red V-Raptor","Arri Alexa 65",
+  // 35mm Film Rangefinders & SLRs
+  "Leica M3", "Leica M6", "Nikon F3", "Nikon F5", "Nikon F6", "Canon EOS 1v", "Contax T2", "Ricoh GR21", "Canon Rangefinder",
+  // Medium Format Film
+  "Rolleiflex 2.8F", "Hasselblad 500C/M", "Pentax 67", "Pentax 645", "Mamiya RZ67",
+  // Large Format & Press
+  "Speed Graphic 4x5", "Deardorff 8x10", "Large Format 4x5", "Large Format 8x10", "Voigtländer Bergheil", "Graflex Series D",
+  // Cinema Film
+  "Arriflex 35 BL", "Arricam ST", "Panavision PSR", "Mitchell BNC", "Technicolor 3-Strip Camera", "IMAX 15/65",
+  // Vintage / Specialty
+  "Polaroid SX-70", "Sony VX1000", "Contact Print"
 ];
 
 const lensesByGenre = {
-    portrait: [
-        "35mm env", "50mm prime", "85mm prime", "105mm prime", "135mm prime", "70-200mm zoom",
-        "35mm prime", "80mm prime", "116mm prime", "120mm macro", "150mm prime", "300mm prime", "360mm prime", "Petzval Art Lens"
-    ],
-    street: [
-        "24mm prime", "28mm prime", "35mm prime", "50mm prime", "24-70mm zoom",
-        "38mm prime", "45-85mm zoom", "80mm prime", "90mm tele", "105mm prime", "127mm Ektar", "Zone Focus Pancake"
-    ],
-    landscape: [
-        "14-24mm wide", "16-35mm wide", "24mm prime", "24-70mm zoom", "70-200mm tele",
-        "50mm prime", "150mm prime", "300mm prime", "300mm prime (8x10 eq)", "Ultra-Wide Angle"
-    ],
-    product: [
-        "50mm prime", "85mm prime", "60mm macro", "100mm macro", "90mm tilt-shift",
-        "80mm prime", "90mm prime", "120mm macro", "150mm prime", "210mm prime", "Probe Lens"
-    ],
-    cinematic: [
-        "24mm prime", "35mm prime", "50mm prime", "85mm prime", "40mm anamorphic", "75mm anamorphic",
-        "14mm prime", "18mm prime", "32mm prime", "45mm wide", "55mm wide", "35mm anamorphic", "50mm anamorphic", "80mm prime", "300mm tele", "Cooke S4"
-    ],
-    night: [
-        "24mm prime", "35mm prime", "50mm prime", "85mm prime",
-        "35mm anamorphic", "105mm prime", "127mm Ektar", "Noctilux f/0.95"
-    ],
-    sports: [
-        "70-200mm zoom", "100-400mm tele", "300mm prime", "400mm prime",
-        "24-70mm zoom", "80mm prime", "200mm prime", "300mm tele", "600mm prime", "Super-Telephoto"
-    ],
-    wildlife: [
-        "100-400mm tele", "200-600mm super-tele", "400mm prime", "600mm prime",
-        "16mm fisheye", "16-35mm wide", "24-70mm zoom", "100mm macro", "105mm prime", "105mm macro", "Teleconverter Extender"
-    ],
-    architecture: [
-        "14-24mm wide", "16-35mm wide", "24mm tilt-shift", "17mm tilt-shift",
-        "24-70mm zoom", "28mm wide", "45mm tilt-shift", "50mm wide", "90mm wide", "90mm wide (8x10 eq)", "150mm prime", "Architectural Bellows"
-    ],
-    experimental: [
-        "8mm fisheye", "50mm prime", "45mm tilt-shift", "Lensbaby Composer Pro", "Pinhole Lens", "None"
-    ]
+  portrait: [
+    "35mm env", "50mm prime", "85mm prime", "105mm prime", "135mm prime", "70-200mm zoom",
+    "35mm prime", "80mm prime", "116mm prime", "120mm macro", "150mm prime", "300mm prime", "360mm prime"
+  ],
+  street: [
+    "24mm prime", "28mm prime", "35mm prime", "50mm prime", "24-70mm zoom",
+    "38mm prime", "45-85mm zoom", "80mm prime", "90mm tele", "105mm prime", "127mm Ektar"
+  ],
+  landscape: [
+    "14-24mm wide", "16-35mm wide", "24mm prime", "24-70mm zoom", "70-200mm tele", 
+    "50mm prime", "150mm prime", "300mm prime", "300mm prime (8x10 eq)"
+  ],
+  product: [
+    "50mm prime", "85mm prime", "60mm macro", "100mm macro", "90mm tilt-shift",
+    "80mm prime", "90mm prime", "120mm macro", "150mm prime", "210mm prime"
+  ],
+  cinematic: [
+    "24mm prime", "35mm prime", "50mm prime", "85mm prime", "40mm anamorphic", "50mm anamorphic", "75mm anamorphic",
+    "14mm prime", "18mm prime", "32mm prime", "45mm wide", "55mm wide", "35mm anamorphic", "65mm anamorphic", "80mm prime", "300mm tele"
+  ],
+  night: [
+    "24mm prime", "35mm prime", "50mm prime", "85mm prime",
+    "35mm anamorphic", "105mm prime", "127mm Ektar"
+  ],
+  sports: [
+    "70-200mm zoom", "100-400mm tele", "300mm prime", "400mm prime",
+    "24-70mm zoom", "80mm prime", "200mm prime", "300mm tele", "600mm prime"
+  ],
+  wildlife: [
+    "100-400mm tele", "200-600mm super-tele", "400mm prime", "600mm prime",
+    "16mm fisheye", "16-35mm wide", "24-70mm zoom", "100mm macro", "105mm prime", "105mm macro"
+  ],
+  architecture: [
+    "14-24mm wide", "16-35mm wide", "24mm tilt-shift", "17mm tilt-shift",
+    "24-70mm zoom", "28mm wide", "45mm tilt-shift", "50mm wide", "90mm wide", "90mm wide (8x10 eq)", "150mm prime"
+  ],
+  experimental: [
+     "8mm fisheye", "50mm prime", "45mm tilt-shift", "None"
+  ]
 };
 
-const apertures = ["None","f/0.7","f/1.2","f/1.4","f/1.8","f/2","f/2.8","f/4","f/4.5","f/5.6","f/8","f/11","f/16","f/22","f/32","f/45","f/64", "f/90"];
-const shutters = ["None","Bulb","30s","15s","8s","4s","2s","1s","1/2s","1/4s","1/8s","1/15s","1/30s","1/48s","1/60s","1/125s","1/160s","1/200s","1/250s","1/320s","1/500s","1/1000s","1/1250s","1/2000s","1/4000s", "1/8000s"];
-const isos = ["None","1","3","5","10","25","50","64","100","200","400","500","800","1600","3200","6400", "12800", "25600"];
-const lightings = ["None","Natural Light","Soft Overcast","Golden Hour","Blue Hour", "Studio Softbox","High Key White Cyc","Hard Strobe","Direct Flash","Neon Practical","Candlelight","Stadium Lights","Underwater Ambient", "Chiaroscuro", "Rembrandt Lighting"];
-const lensChars = ["None","Clinical Sharp","Vintage Softness","Dreamy Bloom","Gentle Halation","Heavy Vignette", "Swirly Bokeh", "Petzval Curvature", "Anamorphic Flares", "Chromatic Aberration"];
-const films = ["None","Kodak Portra 400","Kodak Portra 160","Fuji Pro 400H","Cinestill 800T","Kodak Tri-X B&W","Kodak Gold 400","Kodak Ektachrome","Ilford HP5","Kodak Vision3 500T", "Kodak Vision3 250D", "Kodak Vision3 200T", "Kodachrome 64", "Fujichrome Velvia", "Wet Plate Collodion", "Nitrate Film", "B&W Sheet Film", "Polaroid 600", "Polaroid Type 55", "Technicolor Three-Strip", "Autochrome Plate", "Kodak Aerochrome", "Digital Video Tape", "B&W Negative", "Digital", "Fuji Superia 400", "Agfa Vista 200"];
-const wbs = ["None","Daylight Balanced","Warm Tungsten","Cool Shade","Mixed Lighting", "Custom Kelvin"];
-const grains = ["None","Clean/No Grain","Subtle Grain","Medium Texture","Heavy Grit", "Reticulation"];
-const productSubgenres = ["None","Ecommerce Packshot","Luxury Jewelry Macro","Watch Hero","Cosmetics Splash","Sneaker Floating","Tech Gadget Hero","Beverage Condensation","Food Editorial","Tabletop Styled", "Automotive Studio"];
-const colorGradings = ["None", "Bleach Bypass", "Two-Strip Technicolor", "Three-Strip Technicolor", "Cross-Processing", "Teal and Orange", "Sepia Tone", "Monochrome", "High Contrast B&W", "Low Contrast B&W", "Saturated", "Desaturated", "Warm Tones", "Cool Tones"];
-const artisticInfluences = ["None", "Ansel Adams", "Henri Cartier-Bresson", "Annie Leibovitz", "Richard Avedon", "Helmut Newton", "Sebastião Salgado", "Steve McCurry", "Daido Moriyama", "Cindy Sherman", "Gregory Crewdson", "Wes Anderson", "Quentin Tarantino", "David Lynch", "Andrei Tarkovsky"];
+const apertures = ["None","f/0.7","f/1.2","f/1.4","f/1.8","f/2","f/2.8","f/4","f/4.5","f/5.6","f/8","f/11","f/16","f/22","f/32","f/45","f/64"];
+const shutters = ["None","Bulb","30s","15s","8s","4s","2s","1s","1/2s","1/4s","1/8s","1/15s","1/30s","1/48s","1/60s","1/125s","1/160s","1/200s","1/250s","1/320s","1/500s","1/1000s","1/1250s","1/2000s","1/4000s"];
+const isos = ["None","1","3","5","10","25","50","64","100","200","400","500","800","1600","3200","6400"];
+const lightings = ["None","Natural Light","Soft Overcast","Golden Hour","Studio Softbox","High Key White Cyc","Hard Strobe","Direct Flash","Neon Practical","Candlelight","Stadium Lights","Underwater Ambient"];
+const lensChars = ["None","Clinical Sharp","Vintage Softness","Dreamy Bloom","Gentle Halation","Heavy Vignette", "Swirly Bokeh", "Petzval Curvature"];
+
+// UPDATED FILM LIST TO MATCH VERIFIED PRESETS
+const films = [
+  "None",
+  // Color Negative
+  "Kodak Portra 400","Kodak Portra 160","Kodak Portra 800", "Fuji Pro 400H", "Kodak Gold 200", "Kodak Gold 400",
+  // Cinema Modern
+  "Kodak Vision3 500T (5219)", "Kodak Vision3 250D (5207)", "Kodak Vision3 200T (5213)", "Cinestill 800T",
+  // Cinema Vintage
+  "Kodak 5247 100T (70s/80s)", "Kodak 5293 200T", "Technicolor Three-Strip",
+  // B&W
+  "Kodak Tri-X 400", "Kodak Tri-X B&W", "Ilford HP5", "Ilford HP5 Plus", "Ilford Delta 3200", "B&W Sheet Film", "B&W Negative",
+  // Slide
+  "Kodachrome 64", "Fujichrome Velvia", "Kodak Ektachrome", "Kodak Ektachrome E100",
+  // Vintage/Alt
+  "Wet Plate Collodion", "Nitrate Film", "Autochrome Plate", "Kodak Aerochrome (IR)", "Polaroid 600", "Polaroid Type 55",
+  // Digital
+  "Digital Sensor", "Digital Video Tape (DV)", "Digital"
+];
+
+const wbs = ["None","Daylight Balanced","Warm Tungsten","Cool Shade","Mixed Lighting"];
+const grains = ["None","Clean/No Grain","Subtle Grain","Medium Texture","Heavy Grit"];
+const productSubgenres = ["None","Ecommerce Packshot","Luxury Jewelry Macro","Watch Hero","Cosmetics Splash","Sneaker Floating","Tech Gadget Hero","Beverage Condensation","Food Editorial","Tabletop Styled"];
 
 const lightingSetupLibrary = [
   { label: "Softbox Key", phrase: "45 degree softbox key, white bounce fill" },
@@ -593,97 +806,90 @@ const lightingSetupLibrary = [
   { label: "High Contrast", phrase: "high contrast rim lighting" }
 ];
 
-/* --- PRESETS DATA --- */
+/* --- PRESETS DATA (VERIFIED v2.0) --- */
 const basePresets = [
   { id:"none", title:"None", desc:"Manual mode", category:"Core", data:{} },
-  { id:"leiter-street", title:"Saul Leiter", category:"Street", desc:"Reflections, layered color panes.", data:{ genre:"street", camera:"Leica M3", lens:"90mm tele", focal:90, aperture:"f/4", shutter:"1/60s", iso:"100", lighting:"Natural Light", composition:"Candid Snapshot", lightingSetups:["window side light, soft falloff"], vibe:"Saul Leiter style, shooting through windows and rain-specked glass, stacked reflections, soft focus edges, muted reds and ambers, street scenes as abstract color blocks with a human silhouette implied.", lensChar:"Vintage Softness", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"maier-doc", title:"Vivian Maier", category:"Street", desc:"Observational candid, sharp moments.", data:{ genre:"street", camera:"Rolleiflex 2.8F", lens:"80mm prime", focal:80, aperture:"f/8", shutter:"1/250s", iso:"100", lighting:"Soft Overcast", composition:"Rule of Thirds", vibe:"Vivian Maier style, candid pedestrian life, clean geometry, mirror and shadow play, decisive everyday moments, waist-level perspective.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Medium Texture" } },
-  { id:"cartier-bresson", title:"Henri Cartier-Bresson", category:"Street", desc:"The decisive moment.", data:{ genre:"street", camera:"Leica M3", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"Natural Light", composition:"Leading Lines", vibe:"Henri Cartier-Bresson style, decisive moment timing, balanced negative space, geometric street composition.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"moriyama-flash", title:"Daido Moriyama", category:"Street", desc:"High contrast grit.", data:{ genre:"street", camera:"Ricoh GR21", lens:"28mm prime", focal:28, aperture:"f/11", shutter:"1/60s", iso:"1600", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Daido Moriyama style, aggressive close range flash, blur and grain embraced, high contrast blacks, cropped bodies and signage, restless night street energy.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Mixed Lighting", grain:"Heavy Grit" } },
+  
+  // STREET
+  { id:"leiter-street", title:"Saul Leiter", category:"Street", desc:"Reflections, layered color panes.", data:{ genre:"street", camera:"Leica M3", lens:"90mm tele", focal:90, aperture:"f/4", shutter:"1/60s", iso:"100", lighting:"Natural Light", composition:"Candid Snapshot", lightingSetups:["window side light, soft falloff"], vibe:"Saul Leiter style, shooting through windows and rain-specked glass, stacked reflections, soft focus edges, muted reds and ambers, street scenes as abstract color blocks.", lensChar:"Vintage Softness", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"maier-doc", title:"Vivian Maier", category:"Street", desc:"Observational candid, sharp moments.", data:{ genre:"street", camera:"Rolleiflex 2.8F", lens:"80mm prime", focal:80, aperture:"f/8", shutter:"1/250s", iso:"100", lighting:"Soft Overcast", composition:"Rule of Thirds", vibe:"Vivian Maier style, candid pedestrian life, clean geometry, mirror and shadow play, waist-level perspective.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"cartier-bresson", title:"Henri Cartier-Bresson", category:"Street", desc:"The decisive moment.", data:{ genre:"street", camera:"Leica M3", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"400", lighting:"Natural Light", composition:"Leading Lines", vibe:"Henri Cartier-Bresson style, decisive moment timing, balanced negative space, geometric street composition.", lensChar:"Vintage Softness", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"moriyama-flash", title:"Daido Moriyama", category:"Street", desc:"High contrast grit.", data:{ genre:"street", camera:"Ricoh GR21", lens:"28mm prime", focal:28, aperture:"f/11", shutter:"1/60s", iso:"1600", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Daido Moriyama style, aggressive close range flash, blur and grain embraced, high contrast blacks, cropped bodies and signage, restless night street energy.", lensChar:"Heavy Vignette", film:"Kodak Tri-X 400", wb:"Mixed Lighting", grain:"Heavy Grit" } },
   { id:"eggleston-color", title:"William Eggleston", category:"Street", desc:"Saturated color, mundane iconic.", data:{ genre:"street", camera:"Leica M3", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/250s", iso:"100", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"William Eggleston style, vivid but believable color, quiet mundane subjects, southern daylight, dye-transfer print look.", lensChar:"Vintage Softness", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"webb-layered", title:"Alex Webb", category:"Street", desc:"Dense frames, hot color, shadows.", data:{ genre:"street", camera:"Leica M6", lens:"35mm prime", focal:35, aperture:"f/8", shutter:"1/500s", iso:"100", lighting:"Natural Light", composition:"Layered Depth", vibe:"Alex Webb style, complex multi-subject street scenes, saturated color in harsh light, deep shadow zones.", lensChar:"Clinical Sharp", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"weegee-noir", title:"Weegee", category:"Street", desc:"Hard flash night noir.", data:{ genre:"night", camera:"Speed Graphic 4x5", lens:"127mm Ektar", focal:127, aperture:"f/8", shutter:"1/200s", iso:"100", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Weegee style, hard on-camera flash, gritty nocturnal realism, high contrast blacks, crime scene aesthetic.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Mixed Lighting", grain:"Heavy Grit" } },
+  { id:"webb-layered", title:"Alex Webb", category:"Street", desc:"Dense frames, hot color, shadows.", data:{ genre:"street", camera:"Leica M6", lens:"35mm prime", focal:35, aperture:"f/8", shutter:"1/500s", iso:"100", lighting:"Golden Hour", composition:"Layered Depth", vibe:"Alex Webb style, complex multi-subject street scenes, saturated color in harsh light, deep shadow zones, complex layering.", lensChar:"Clinical Sharp", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"weegee-noir", title:"Weegee", category:"Street", desc:"Hard flash night noir.", data:{ genre:"night", camera:"Speed Graphic 4x5", lens:"127mm Ektar", focal:127, aperture:"f/11", shutter:"1/200s", iso:"100", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Weegee style, hard on-camera flash bulb, gritty nocturnal realism, high contrast blacks, crime scene aesthetic, near-black backgrounds.", lensChar:"Vintage Softness", film:"B&W Sheet Film", wb:"Mixed Lighting", grain:"Heavy Grit" } },
   { id:"mccurry-travel", title:"Steve McCurry", category:"Street", desc:"Vivid travel portraits.", data:{ genre:"street", camera:"Nikon F6", lens:"105mm prime", focal:105, aperture:"f/2.8", shutter:"1/250s", iso:"64", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"Steve McCurry style, saturated yet believable color, intimate travel portraiture, strong eye contact, warm daylight, Kodachrome aesthetic.", lensChar:"Clinical Sharp", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"salgado-humanity", title:"Sebastião Salgado", category:"Street", desc:"Dramatic B&W documentary.", data:{ genre:"street", camera:"Pentax 645", lens:"45-85mm zoom", focal:45, aperture:"f/8", shutter:"1/250s", iso:"400", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"High-contrast humanist reportage, strong silhouettes, epic scale, deep blacks and rich mid-tones, silver gelatin print look.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Medium Texture" } },
-  { id:"lindbergh-raw", title:"Peter Lindbergh", category:"Portrait & Fashion", desc:"Raw black and white realism.", data:{ genre:"portrait", camera:"Nikon F5", lens:"85mm prime", focal:85, aperture:"f/2.8", shutter:"1/250s", iso:"400", lighting:"Soft Overcast", composition:"Centered", lightingSetups:["window side light, soft falloff"], vibe:"Peter Lindbergh style, raw emotive portrait realism, natural skin texture, minimal retouch, strong eye contact, wind-blown hair, coastal or industrial backdrops, classic monochrome contrast.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"penn-studio", title:"Irving Penn", category:"Portrait & Fashion", desc:"Sculptural minimal portrait.", data:{ genre:"portrait", camera:"Deardorff 8x10", lens:"300mm prime", focal:300, aperture:"f/32", shutter:"1/2s", iso:"25", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["clamshell beauty lighting"], vibe:"Irving Penn style, minimalist studio portrait, sculptural shadows, tactile fabric and skin detail, neutral backdrops, platinum print quality.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"weir-soft", title:"Harley Weir", category:"Portrait & Fashion", desc:"Soft daylight, intimate.", data:{ genre:"portrait", camera:"Pentax 67", lens:"105mm prime", focal:105, aperture:"f/2.4", shutter:"1/125s", iso:"400", lighting:"Natural Light", composition:"Leading Lines", lightingSetups:["window side light, soft falloff"], vibe:"Harley Weir style, soft natural light, intimate close distance, gentle color, slight blur or bloom allowed, candid energy, editorial but lived-in mood.", lensChar:"Dreamy Bloom", film:"Fuji Pro 400H", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"salgado-humanity", title:"Sebastião Salgado", category:"Street", desc:"Dramatic B&W documentary.", data:{ genre:"street", camera:"Pentax 645", lens:"45-85mm zoom", focal:45, aperture:"f/8", shutter:"1/250s", iso:"400", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"High-contrast humanist reportage, strong silhouettes, epic scale, deep blacks and rich mid-tones, silver gelatin print look.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Medium Texture" } },
+
+  // PORTRAIT & FASHION
+  { id:"lindbergh-raw", title:"Peter Lindbergh", category:"Portrait & Fashion", desc:"Raw black and white realism.", data:{ genre:"portrait", camera:"Nikon F5", lens:"85mm prime", focal:85, aperture:"f/2.8", shutter:"1/250s", iso:"400", lighting:"Soft Overcast", composition:"Centered", lightingSetups:["window side light, soft falloff"], vibe:"Peter Lindbergh style, raw emotive portrait realism, natural skin texture, minimal retouch, strong eye contact, wind-blown hair, coastal or industrial backdrops, high contrast monochrome.", lensChar:"Vintage Softness", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"penn-studio", title:"Irving Penn", category:"Portrait & Fashion", desc:"Sculptural minimal portrait.", data:{ genre:"portrait", camera:"Deardorff 8x10", lens:"300mm prime", focal:300, aperture:"f/32", shutter:"1/2s", iso:"25", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["clamshell beauty lighting"], vibe:"Irving Penn style, minimalist studio portrait, sculptural shadows, tactile fabric and skin detail, neutral backdrops, platinum print quality.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"weir-soft", title:"Harley Weir", category:"Portrait & Fashion", desc:"Soft daylight, intimate.", data:{ genre:"portrait", camera:"Pentax 67", lens:"105mm prime", focal:105, aperture:"f/2.4", shutter:"1/125s", iso:"400", lighting:"Natural Light", composition:"Leading Lines", lightingSetups:["window side light, soft falloff"], vibe:"Harley Weir style, soft natural light, intimate close distance, gentle color, slight blur or bloom allowed, candid energy, editorial but lived-in mood.", lensChar:"Dreamy Bloom", film:"Kodak Portra 400", wb:"Daylight Balanced", grain:"Subtle Grain" } },
   { id:"leibovitz-celeb", title:"Annie Leibovitz", category:"Portrait & Fashion", desc:"Theatrical staged storytelling.", data:{ genre:"cinematic", camera:"Hasselblad 500C/M", lens:"80mm prime", focal:80, aperture:"f/5.6", shutter:"1/60s", iso:"400", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["softbox key plus bounce"], vibe:"Annie Leibovitz style, cinematic celebrity portraiture, strong storytelling through set and light, rich color, confident subjects in staged environments.", lensChar:"Clinical Sharp", film:"Kodak Portra 400", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"avedon-highkey", title:"Richard Avedon", category:"Portrait & Fashion", desc:"White background, crisp gestures.", data:{ genre:"portrait", camera:"Deardorff 8x10", lens:"360mm prime", focal:360, aperture:"f/22", shutter:"1/60s", iso:"100", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Richard Avedon style, high-key white cyc fashion portraits, sharp edges, expressive movement, clean modern contrast, dark edges of the negative visible.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"newton-edgy", title:"Helmut Newton", category:"Portrait & Fashion", desc:"Hard light luxury provocation.", data:{ genre:"portrait", camera:"Hasselblad 500C/M", lens:"80mm prime", focal:80, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"Hard Strobe", composition:"Rule of Thirds", lightingSetups:["strip rim light, edge definition"], vibe:"Helmut Newton style, hard directional light, glossy high-contrast fashion, controlled provocation, sculpted bodies and luxury attitude.", lensChar:"Clinical Sharp", film:"Kodak Ektachrome", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"platon-close", title:"Platon", category:"Portrait & Fashion", desc:"Intense wide close-ups.", data:{ genre:"portrait", camera:"Hasselblad 500C/M", lens:"120mm macro", focal:120, aperture:"f/16", shutter:"1/250s", iso:"100", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["clamshell beauty lighting"], vibe:"Platon style, tight symmetrical headshots, bold eye contact, sculpted studio light, graphic simplicity.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"goldin-diary", title:"Nan Goldin", category:"Portrait & Fashion", desc:"Diaristic flash, warm interiors.", data:{ genre:"night", camera:"Leica M6", lens:"35mm prime", focal:35, aperture:"f/8", shutter:"1/60s", iso:"400", lighting:"Direct Flash", composition:"Candid Snapshot", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Nan Goldin style, diaristic nightlife portraiture, emotional immediacy, on-camera flash, warm mixed interiors, Cibachrome print look.", lensChar:"Vintage Softness", film:"Kodak Gold 400", wb:"Warm Tungsten", grain:"Heavy Grit" } },
-  { id:"dijkstra-env", title:"Rineke Dijkstra", category:"Portrait & Fashion", desc:"Calm frontal daylight.", data:{ genre:"portrait", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/11", shutter:"1/60s", iso:"100", lighting:"Soft Overcast", composition:"Centered", vibe:"Rineke Dijkstra style, restrained environmental portraits, frontal compositions, soft natural light, quiet stillness, detailed background context.", lensChar:"Clinical Sharp", film:"Kodak Portra 160", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"testino-fashion", title:"Mario Testino", category:"Portrait & Fashion", desc:"High-glam editorial polish.", data:{ genre:"portrait", camera:"Canon EOS 5D Mark IV", lens:"70-200mm zoom", focal:85, aperture:"f/5.6", shutter:"1/200s", iso:"100", lighting:"Studio Softbox", composition:"Rule of Thirds", lightingSetups:["45 degree softbox key, white bounce fill","strip rim light, edge definition"], vibe:"Mario Testino style, polished high fashion portraiture, confident energy, clean glamour lighting, bright editorial color.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"weber-romance", title:"Bruce Weber", category:"Portrait & Fashion", desc:"Airy romance, soft grain.", data:{ genre:"portrait", camera:"Pentax 67", lens:"105mm prime", focal:105, aperture:"f/2.4", shutter:"1/125s", iso:"400", lighting:"Golden Hour", composition:"Rule of Thirds", vibe:"Bruce Weber style, breezy sunlit romance, candid youth, gentle haze, warm tones, understated grain and intimacy, B&W or soft color.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"walker-surreal", title:"Tim Walker", category:"Portrait & Fashion", desc:"Whimsical theatrical surrealism.", data:{ genre:"cinematic", camera:"Pentax 67", lens:"45mm wide", focal:45, aperture:"f/5.6", shutter:"1/60s", iso:"400", lighting:"Studio Softbox", composition:"Asymmetric Framing", lightingSetups:["dual softbox symmetric lighting"], vibe:"Tim Walker style, whimsical surreal fashion staging, oversized props, theatrical scale, dreamy pastel or jewel palette, gentle bloom.", lensChar:"Dreamy Bloom", film:"Kodak Portra 400", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"sherman-concept", title:"Cindy Sherman", category:"Portrait & Fashion", desc:"Conceptual constructed identity.", data:{ genre:"portrait", camera:"Nikon F3", lens:"50mm prime",focal:50,aperture:"f/8",shutter:"1/125s",iso:"100",lighting:"Studio Softbox",composition:"Centered",lightingSetups:["softbox key plus bounce"],vibe:"Cindy Sherman style, carefully staged conceptual portrait, performative identity, cinematic disguise, controlled studio light.",lensChar:"Clinical Sharp",film:"Kodak Portra 160",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"bourdin-surreal", title:"Guy Bourdin", category:"Portrait & Fashion", desc:"Bold color, surreal fashion.", data:{ genre:"cinematic", camera:"Pentax 67", lens:"55mm wide",focal:55,aperture:"f/11",shutter:"1/125s",iso:"100",lighting:"Hard Strobe",composition:"Asymmetric Framing",lightingSetups:["strip rim light, edge definition"],vibe:"Guy Bourdin style, surreal fashion narrative, bold saturated color, strong graphic composition, uncanny poses and props, high-contrast studio light.",lensChar:"Clinical Sharp",film:"Kodak Ektachrome",wb:"Mixed Lighting",grain:"Subtle Grain" } },
-  { id:"deakins-cine", title:"Roger Deakins", category:"Cinematic", desc:"Naturalistic film precision.", data:{ genre:"cinematic", camera:"Arri Alexa 35", lens:"32mm prime", focal:32, aperture:"f/2.8", shutter:"1/48s", iso:"800", lighting:"Neon Practical", composition:"Leading Lines", lightingSetups:["window side light, soft falloff"], vibe:"Roger Deakins style, grounded cinematic realism, subtle contrast, motivated practical light, careful negative fill, clean compositions, atmospheric depth without exaggeration.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T", wb:"Mixed Lighting", grain:"Subtle Grain" } },
-  { id:"doyle-neon", title:"Christopher Doyle", category:"Cinematic", desc:"Neon wash, rain, handheld.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"32mm prime", focal:32, aperture:"f/2", shutter:"1/48s", iso:"500", lighting:"Neon Practical", composition:"Rule of Thirds", vibe:"Christopher Doyle style, saturated neon color wash, rainy streets, handheld intimacy, motion blur as emotion, step printing effect.", lensChar:"Vintage Softness", film:"Kodak Vision3 500T", wb:"Mixed Lighting", grain:"Medium Texture" } },
+  { id:"avedon-highkey", title:"Richard Avedon", category:"Portrait & Fashion", desc:"White background, crisp gestures.", data:{ genre:"portrait", camera:"Deardorff 8x10", lens:"360mm prime", focal:360, aperture:"f/22", shutter:"1/60s", iso:"100", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Richard Avedon style, high-key white cyc fashion portraits, sharp edges, expressive movement, clean modern contrast, dark edges of the negative visible.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"newton-edgy", title:"Helmut Newton", category:"Portrait & Fashion", desc:"Hard light luxury provocation.", data:{ genre:"portrait", camera:"Hasselblad 500C/M", lens:"80mm prime", focal:80, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"Hard Strobe", composition:"Rule of Thirds", lightingSetups:["strip rim light, edge definition"], vibe:"Helmut Newton style, hard directional light, glossy high-contrast fashion, controlled provocation, sculpted bodies and luxury attitude.", lensChar:"Clinical Sharp", film:"Kodak Ektachrome E100", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"platon-close", title:"Platon", category:"Portrait & Fashion", desc:"Intense wide close-ups.", data:{ genre:"portrait", camera:"Hasselblad 500C/M", lens:"120mm macro", focal:120, aperture:"f/16", shutter:"1/250s", iso:"100", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["clamshell beauty lighting"], vibe:"Platon style, tight symmetrical headshots, bold eye contact, sculpted studio light, graphic simplicity, scanned film borders.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"goldin-diary", title:"Nan Goldin", category:"Portrait & Fashion", desc:"Diaristic flash, warm interiors.", data:{ genre:"night", camera:"Leica M6", lens:"35mm prime", focal:35, aperture:"f/8", shutter:"1/60s", iso:"400", lighting:"Direct Flash", composition:"Candid Snapshot", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Nan Goldin style, diaristic nightlife portraiture, emotional immediacy, on-camera flash, warm mixed interiors, Cibachrome print look.", lensChar:"Vintage Softness", film:"Kodak Gold 200", wb:"Warm Tungsten", grain:"Heavy Grit" } },
+  { id:"testino-fashion", title:"Mario Testino", category:"Portrait & Fashion", desc:"High-glam editorial polish.", data:{ genre:"portrait", camera:"Canon EOS 5D Mark IV", lens:"70-200mm zoom", focal:85, aperture:"f/5.6", shutter:"1/200s", iso:"100", lighting:"Studio Softbox", composition:"Rule of Thirds", lightingSetups:["45 degree softbox key, white bounce fill","strip rim light, edge definition"], vibe:"Mario Testino style, polished high fashion portraiture, confident energy, clean glamour lighting, bright editorial color.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"walker-surreal", title:"Tim Walker", category:"Portrait & Fashion", desc:"Whimsical theatrical surrealism.", data:{ genre:"cinematic", camera:"Pentax 67", lens:"45mm wide", focal:45, aperture:"f/5.6", shutter:"1/60s", iso:"400", lighting:"Studio Softbox", composition:"Asymmetric Framing", lightingSetups:["dual softbox symmetric lighting"], vibe:"Tim Walker style, whimsical surreal fashion staging, oversized props, theatrical scale, dreamy pastel or jewel palette, gentle bloom.", lensChar:"Dreamy Bloom", film:"Kodak Portra 160", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"bourdin-surreal", title:"Guy Bourdin", category:"Portrait & Fashion", desc:"Bold color, surreal fashion.", data:{ genre:"cinematic", camera:"Pentax 67", lens:"55mm wide",focal:55,aperture:"f/11",shutter:"1/125s",iso:"100",lighting:"Hard Strobe",composition:"Asymmetric Framing",lightingSetups:["strip rim light, edge definition"],vibe:"Guy Bourdin style, surreal fashion narrative, bold saturated color, strong graphic composition, uncanny poses and props, high-contrast studio light.",lensChar:"Clinical Sharp",film:"Kodak Ektachrome E100",wb:"Mixed Lighting",grain:"Subtle Grain" } },
+
+  // CINEMATIC
+  { id:"deakins-cine", title:"Roger Deakins", category:"Cinematic", desc:"Naturalistic film precision.", data:{ genre:"cinematic", camera:"Arri Alexa 35", lens:"32mm prime", focal:32, aperture:"f/2.8", shutter:"1/48s", iso:"800", lighting:"Neon Practical", composition:"Leading Lines", lightingSetups:["window side light, soft falloff"], vibe:"Roger Deakins style, grounded cinematic realism, subtle contrast, motivated practical light, careful negative fill, clean compositions, atmospheric depth without exaggeration.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T (5219)", wb:"Mixed Lighting", grain:"Subtle Grain" } },
+  { id:"doyle-neon", title:"Christopher Doyle", category:"Cinematic", desc:"Neon wash, rain, handheld.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"32mm prime", focal:32, aperture:"f/2", shutter:"1/48s", iso:"500", lighting:"Neon Practical", composition:"Rule of Thirds", vibe:"Christopher Doyle style, saturated neon color wash, rainy streets, handheld intimacy, motion blur as emotion, step printing effect.", lensChar:"Vintage Softness", film:"Kodak Vision3 500T (5219)", wb:"Mixed Lighting", grain:"Medium Texture" } },
   { id:"crewdson-tableau", title:"Gregory Crewdson", category:"Cinematic", desc:"Staged suburban eeriness.", data:{ genre:"cinematic", camera:"Phase One XF IQ4", lens:"35mm prime", focal:35, aperture:"f/11", shutter:"1/2s", iso:"100", lighting:"Natural Light", composition:"Wide Establishing", lightingSetups:["softbox key plus bounce"], vibe:"Gregory Crewdson style, staged cinematic suburbia, eerie calm, fog or haze, practical motivated light, meticulous tableau framing, high budget production design.", lensChar:"Clinical Sharp", film:"Kodak Portra 400", wb:"Mixed Lighting", grain:"Subtle Grain" } },
-  { id:"anderson-symmetry", title:"Wes Anderson", category:"Cinematic", desc:"Symmetrical, pastel, flat.", data:{ genre:"cinematic", camera:"Arricam ST", lens:"40mm anamorphic", focal:40, aperture:"f/5.6", shutter:"1/48s", iso:"200", lighting:"Soft Overcast", composition:"Symmetrical Arch", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Wes Anderson style (Robert Yeoman), perfectly symmetrical composition, flat planar staging, pastel color palette, whimsical attention to detail, soft even lighting, storybook aesthetic.", lensChar:"Clinical Sharp", film:"Kodak Vision3 200T", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"kubrick-perspective", title:"Stanley Kubrick", category:"Cinematic", desc:"One-point perspective, clinical.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"18mm prime", focal:18, aperture:"f/0.7", shutter:"1/48s", iso:"100", lighting:"Candlelight", composition:"Centered", lightingSetups:["practical lighting"], vibe:"Stanley Kubrick style, obsessive one-point perspective, clinical detachment, deep focus or extreme shallow (Barry Lyndon), Steadicam fluidity, uncanny symmetry, cold or high-contrast practical lighting.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T", wb:"Cool Shade", grain:"Subtle Grain" } },
-  { id:"fraser-darkness", title:"Greig Fraser", category:"Cinematic", desc:"Modern dark epic (Dune/Batman).", data:{ genre:"cinematic", camera:"Arri Alexa LF", lens:"50mm prime", focal:50, aperture:"f/1.8", shutter:"1/48s", iso:"1600", lighting:"Soft Overcast", composition:"Rule of Thirds", lightingSetups:["soft top down ambient"], vibe:"Greig Fraser style, modern dark epic cinematography, soft falloff, rich blacks, textured shadows, atmospheric haze, grounded sci-fi realism, anamorphic depth.", lensChar:"Vintage Softness", film:"Kodak Vision3 500T", wb:"Daylight Balanced", grain:"Medium Texture" } },
-  { id:"hoytema-imax", title:"Hoyte van Hoytema", category:"Cinematic", desc:"IMAX scale, grounded reality.", data:{ genre:"cinematic", camera:"IMAX 15/65", lens:"80mm prime", focal:80, aperture:"f/4", shutter:"1/48s", iso:"50", lighting:"Natural Light", composition:"Low Angle Hero", lightingSetups:["huge soft natural sources"], vibe:"Hoyte van Hoytema style (Christopher Nolan), massive IMAX scale, shallow depth of field on large format, grounded reality, practical effects, tactile texture, muted color palette.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"scott-atmosphere", title:"Ridley Scott", category:"Cinematic", desc:"Atmospheric shafts of light.", data:{ genre:"cinematic", camera:"Red V-Raptor", lens:"35mm prime", focal:35, aperture:"f/4", shutter:"1/48s", iso:"800", lighting:"Hard Strobe", composition:"Layered Depth", lightingSetups:["atmospheric smoke and light shafts"], vibe:"Ridley Scott style, dense atmospheric layering, smoke and haze, distinct shafts of light (god rays), high detail production design, high contrast, blue/orange color separation.", lensChar:"Clinical Sharp", film:"Fuji Pro 400H", wb:"Mixed Lighting", grain:"Medium Texture" } },
-  { id:"lubezki-natural", title:"Emmanuel Lubezki", category:"Cinematic", desc:"Immersive natural light.", data:{ genre:"cinematic", camera:"Arri Alexa 65", lens:"14mm prime", focal:14, aperture:"f/2.8", shutter:"1/48s", iso:"800", lighting:"Natural Light", composition:"Wide Establishing", vibe:"Emmanuel Lubezki style, available-light realism, wide-lens proximity, soft backlight haze, handheld presence, long-take feeling, Malick/Inarritu aesthetic.", lensChar:"Vintage Softness", film:"Kodak Vision3 500T", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"storaro-period", title:"Vittorio Storaro", category:"Cinematic", desc:"Rich period color.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"50mm prime", focal:50, aperture:"f/2.8", shutter:"1/48s", iso:"200", lighting:"Candlelight", composition:"Centered", lightingSetups:["backlit translucent diffusion, soft halos"], vibe:"Vittorio Storaro style, dramatic chiaroscuro, warm practical sources, saturated period palette, deep blacks with painterly light contour.", lensChar:"Dreamy Bloom", film:"Kodak Vision3 200T", wb:"Warm Tungsten", grain:"Subtle Grain" } },
-  { id:"kurosawa-epic", title:"Akira Kurosawa", category:"Cinematic", desc:"Epic tableau, weather.", data:{ genre:"cinematic", camera:"Mitchell BNC", lens:"300mm tele", focal:300, aperture:"f/11", shutter:"1/48s", iso:"100", lighting:"Soft Overcast", composition:"Wide Establishing", vibe:"Akira Kurosawa style, epic tableau framing, telephoto compression to stack armies/crowds, strong weather like rain fog wind, layered depth, disciplined wides.", lensChar:"Vintage Softness", film:"B&W Negative", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"anderson-symmetry", title:"Wes Anderson", category:"Cinematic", desc:"Symmetrical, pastel, flat.", data:{ genre:"cinematic", camera:"Arricam ST", lens:"40mm anamorphic", focal:40, aperture:"f/5.6", shutter:"1/48s", iso:"200", lighting:"Soft Overcast", composition:"Symmetrical Arch", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Wes Anderson style (Robert Yeoman), perfectly symmetrical composition, flat planar staging, pastel color palette, whimsical attention to detail, soft even lighting, storybook aesthetic.", lensChar:"Clinical Sharp", film:"Kodak Vision3 200T (5213)", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"kubrick-perspective", title:"Stanley Kubrick", category:"Cinematic", desc:"One-point perspective, clinical.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"18mm prime", focal:18, aperture:"f/0.7", shutter:"1/48s", iso:"100", lighting:"Candlelight", composition:"Centered", lightingSetups:["practical lighting"], vibe:"Stanley Kubrick style, obsessive one-point perspective, clinical detachment, deep focus or extreme shallow (Barry Lyndon), Steadicam fluidity, uncanny symmetry, cold or high-contrast practical lighting.", lensChar:"Clinical Sharp", film:"Kodak 5247 100T (70s/80s)", wb:"Cool Shade", grain:"Subtle Grain" } },
+  { id:"fraser-darkness", title:"Greig Fraser", category:"Cinematic", desc:"Modern dark epic (Dune/Batman).", data:{ genre:"cinematic", camera:"Arri Alexa LF", lens:"50mm anamorphic", focal:50, aperture:"f/2.8", shutter:"1/48s", iso:"1600", lighting:"Soft Overcast", composition:"Rule of Thirds", lightingSetups:["soft top down ambient"], vibe:"Greig Fraser style, modern dark epic cinematography, soft falloff, rich blacks, textured shadows, atmospheric haze, grounded sci-fi realism, anamorphic depth, distinct oval bokeh.", lensChar:"Vintage Softness", film:"Kodak Vision3 500T (5219)", wb:"Daylight Balanced", grain:"Medium Texture" } }, 
+  { id:"scott-atmosphere", title:"Ridley Scott", category:"Cinematic", desc:"Atmospheric shafts of light, industrial haze.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"50mm anamorphic", focal:50, aperture:"f/2.8", shutter:"1/48s", iso:"100", lighting:"Neon Practical", composition:"Layered Depth", lightingSetups:["atmospheric smoke and light shafts", "backlit translucent diffusion, soft halos"], vibe:"Ridley Scott style (Blade Runner/Alien), dense atmospheric layering, smoke and haze, distinct shafts of light (god rays), high contrast, industrial texture, anamorphic lens flares, cyan and orange grading, chiaroscuro.", lensChar:"Gentle Halation", film:"Kodak 5247 100T (70s/80s)", wb:"Mixed Lighting", grain:"Medium Texture" } },  
+  { id:"lubezki-natural", title:"Emmanuel Lubezki", category:"Cinematic", desc:"Immersive wide-angle naturalism.", data:{ genre:"cinematic", camera:"Arri Alexa 65", lens:"14mm prime", focal:14, aperture:"f/5.6", shutter:"1/48s", iso:"800", lighting:"Natural Light", composition:"Layered Depth", lightingSetups:[], vibe:"Emmanuel Lubezki style (The Revenant/Birdman), extreme wide angle close-up, immersive proximity, natural light only (magic hour or overcast), cold blue tones contrasting with warm breath/fire, hyper-realistic resolution, floating camera movement.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },  { id:"storaro-period", title:"Vittorio Storaro", category:"Cinematic", desc:"Rich period color.", data:{ genre:"cinematic", camera:"Arriflex 35 BL", lens:"50mm prime", focal:50, aperture:"f/2.8", shutter:"1/48s", iso:"200", lighting:"Candlelight", composition:"Centered", lightingSetups:["backlit translucent diffusion, soft halos"], vibe:"Vittorio Storaro style, dramatic chiaroscuro, warm practical sources, saturated period palette, deep blacks with painterly light contour.", lensChar:"Dreamy Bloom", film:"Kodak Vision3 200T (5213)", wb:"Warm Tungsten", grain:"Subtle Grain" } },
+  { id:"kurosawa-epic", title:"Akira Kurosawa", category:"Cinematic", desc:"Epic tableau, weather.", data:{ genre:"cinematic", camera:"Mitchell BNC", lens:"300mm tele", focal:300, aperture:"f/11", shutter:"1/48s", iso:"100", lighting:"Soft Overcast", composition:"Wide Establishing", vibe:"Akira Kurosawa style, epic tableau framing, telephoto compression to stack armies/crowds, strong weather like rain fog wind, layered depth, disciplined wides.", lensChar:"Vintage Softness", film:"B&W Sheet Film", wb:"Daylight Balanced", grain:"Medium Texture" } },
+
+  // ANALOG VAULT
   { id:"wet-plate", title:"Wet Plate Collodion", category:"Analog Vault", desc:"1850s ghostly chemical imperfection.", data:{ genre:"portrait", camera:"Large Format 8x10", lens:"300mm prime", focal:300, aperture:"f/5.6", shutter:"4s", iso:"1", lighting:"Natural Light", composition:"Centered", lightingSetups:["window side light, soft falloff"], vibe:"Wet plate collodion process (1850s), ghostly silver nitrate texture, chemical stains and poured edges, extremely shallow depth of field, eyes rendered pale/white due to UV sensitivity, antique sepia monochrome.", lensChar:"Vintage Softness", film:"Wet Plate Collodion", wb:"Cool Shade", grain:"Heavy Grit" } },
   { id:"kodachrome-64", title:"Kodachrome 64", category:"Analog Vault", desc:"The National Geographic look.", data:{ genre:"street", camera:"Nikon F3", lens:"35mm prime", focal:35, aperture:"f/5.6", shutter:"1/125s", iso:"64", lighting:"Natural Light", composition:"Rule of Thirds", lightingSetups:[], vibe:"Kodachrome 64 film stock, iconic National Geographic aesthetic (80s), deep rich reds and yellows, high contrast, distinct archival sharpness, nostalgic vacation mood.", lensChar:"Clinical Sharp", film:"Kodachrome 64", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"polaroid-sx70", title:"Polaroid SX-70", category:"Analog Vault", desc:"Soft, dreamy instant film.", data:{ genre:"portrait", camera:"Polaroid SX-70", lens:"116mm prime", focal:116, aperture:"f/8", shutter:"1/60s", iso:"100", lighting:"Direct Flash", composition:"Centered", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Polaroid SX-70 instant film, creamy soft focus, warm chemical color cast, blown-out highlights, nostalgic memory, square format aesthetic.", lensChar:"Dreamy Bloom", film:"Polaroid 600", wb:"Warm Tungsten", grain:"Medium Texture" } },
-  { id:"solarization", title:"Solarization (Man Ray)", category:"The Darkroom", desc:"Surreal inverted highlights.", data:{ genre:"portrait", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/11", shutter:"1s", iso:"10", lighting:"Hard Strobe", composition:"Centered", lightingSetups:["high contrast rim lighting"], vibe:"Solarization effect (Sabattier effect), surreal reversal of tone, metallic skin, dark outlines around highlights, dreamlike high contrast monochrome.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Cool Shade", grain:"Medium Texture" } },
+  { id:"solarization", title:"Solarization (Man Ray)", category:"The Darkroom", desc:"Surreal inverted highlights.", data:{ genre:"portrait", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/11", shutter:"1s", iso:"10", lighting:"Hard Strobe", composition:"Centered", lightingSetups:["high contrast rim lighting"], vibe:"Solarization effect (Sabattier effect), surreal reversal of tone, metallic skin, dark outlines around highlights, dreamlike high contrast monochrome.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Cool Shade", grain:"Medium Texture" } },
   { id:"cyanotype", title:"Cyanotype (Blueprint)", category:"The Darkroom", desc:"Deep Prussian blue monochrome.", data:{ genre:"experimental", camera:"Contact Print", lens:"None", focal:0, aperture:"None", shutter:"30s", iso:"1", lighting:"Natural Light", composition:"Top-down Flat Lay", lightingSetups:[], vibe:"Cyanotype print, deep Prussian blue and white monochrome, high contrast, architectural blueprint aesthetic, botanical textures, sun-printed look.", lensChar:"Vintage Softness", film:"None", wb:"Cool Shade", grain:"Heavy Grit" } },
-  { id:"cross-process", title:"Cross-Processed", category:"The Darkroom", desc:"90s skate style, skewed colors.", data:{ genre:"street", camera:"Contax T2", lens:"38mm prime", focal:38, aperture:"f/5.6", shutter:"1/250s", iso:"400", lighting:"Direct Flash", composition:"Low Angle Hero", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Cross-processed film look (slide film in C-41 chemicals), high contrast, skewed colors with yellow highlights and blue shadows, 90s skate magazine aesthetic.", lensChar:"Clinical Sharp", film:"Kodak Ektachrome", wb:"Mixed Lighting", grain:"Medium Texture" } },
-  { id:"cyberpunk-neon", title:"Cyberpunk / Neo-Noir", category:"Genre Cinema", desc:"Rain, neon, high tech, low life.", data:{ genre:"night", camera:"Arri Alexa LF", lens:"35mm anamorphic", focal:35, aperture:"f/2", shutter:"1/48s", iso:"1600", lighting:"Neon Practical", composition:"Leading Lines", lightingSetups:["neon sign spill","atmospheric smoke and light shafts"], vibe:"Cyberpunk Neo-Noir aesthetic, rain-slicked streets reflecting pink and blue neon, high contrast, wet texture, steam and smoke, futuristic urban decay, anamorphic lens flares.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T", wb:"Mixed Lighting", grain:"Medium Texture" } },
-  { id:"folk-horror", title:"Folk Horror", category:"Genre Cinema", desc:"Dread in bright daylight.", data:{ genre:"cinematic", camera:"Arri Alexa 35", lens:"24mm prime", focal:24, aperture:"f/8", shutter:"1/125s", iso:"200", lighting:"High Key White Cyc", composition:"Symmetrical Arch", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Folk Horror aesthetic (Midsommar style), uncomfortably bright daylight, pastel florals, white linens, blinding sun, pagan symbolism, dread concealed by beauty, overexposed highlights.", lensChar:"Clinical Sharp", film:"Kodak Vision3 250D", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"space-opera", title:"Space Opera (70s)", category:"Genre Cinema", desc:"Practical models, lens flares.", data:{ genre:"cinematic", camera:"Panavision PSR", lens:"50mm anamorphic", focal:50, aperture:"f/4", shutter:"1/48s", iso:"100", lighting:"Hard Strobe", composition:"Wide Establishing", lightingSetups:["rim light, edge definition"], vibe:"70s Space Opera aesthetic (Star Wars / Alien), practical model effects, star fields, sterile white corridors, industrial sci-fi texture, anamorphic lens flares, matte painting backgrounds.", lensChar:"Vintage Softness", film:"Kodak 5247 100T", wb:"Cool Shade", grain:"Medium Texture" } },
-  { id:"fisheye-90s", title:"Fisheye (90s Music Video)", category:"Extreme Perspectives", desc:"Circular distortion, world-bending.", data:{ genre:"experimental", camera:"Sony VX1000", lens:"8mm fisheye", focal:8, aperture:"f/4", shutter:"1/60s", iso:"400", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:[], vibe:"Fisheye lens distortion, Hype Williams music video aesthetic, massive curvature of straight lines, exaggerated close-up features, circular vignette, Sony VX1000 texture.", lensChar:"Heavy Vignette", film:"Digital Video Tape", wb:"Mixed Lighting", grain:"Medium Texture" } },
-  { id:"drone-topdown", title:"Top-Down Drone", category:"Extreme Perspectives", desc:"God's eye view geometry.", data:{ genre:"landscape", camera:"DJI Mavic 3", lens:"24mm prime", focal:24, aperture:"f/5.6", shutter:"1/500s", iso:"100", lighting:"Natural Light", composition:"Top-down Flat Lay", lightingSetups:[], vibe:"Top-down drone photography, perfect geometric patterns from above, flat lay of landscape or crowds, high altitude perspective, even sharpness edge-to-edge.", lensChar:"Clinical Sharp", film:"None", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"micro-macro", title:"Micro-Macro (Insect Eye)", category:"Extreme Perspectives", desc:"Alien textures, razor depth.", data:{ genre:"wildlife", camera:"Canon EOS R5 II", lens:"100mm macro", focal:100, aperture:"f/16", shutter:"1/200s", iso:"100", lighting:"Soft Overcast", composition:"Tight Close-up", lightingSetups:["ring light fill"], vibe:"Extreme macro photography, 2:1 magnification, alien textures of insect eyes or water drops, razor-thin depth of field, soft diffuse lighting to reveal microscopic detail.", lensChar:"Clinical Sharp", film:"None", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"cross-process", title:"Cross-Processed", category:"The Darkroom", desc:"90s skate style, skewed colors.", data:{ genre:"street", camera:"Contax T2", lens:"38mm prime", focal:38, aperture:"f/5.6", shutter:"1/250s", iso:"400", lighting:"Direct Flash", composition:"Low Angle Hero", lightingSetups:["hard direct flash, fast falloff shadows"], vibe:"Cross-processed film look (slide film in C-41 chemicals), high contrast, skewed colors with yellow highlights and blue shadows, 90s skate magazine aesthetic.", lensChar:"Clinical Sharp", film:"Kodak Ektachrome E100", wb:"Mixed Lighting", grain:"Medium Texture" } },
+
+  // GENRE CINEMA
+  { id:"cyberpunk-neon", title:"Cyberpunk / Neo-Noir", category:"Genre Cinema", desc:"Rain, neon, high tech, low life.", data:{ genre:"night", camera:"Arri Alexa LF", lens:"35mm anamorphic", focal:35, aperture:"f/2", shutter:"1/48s", iso:"1600", lighting:"Neon Practical", composition:"Leading Lines", lightingSetups:["neon sign spill","atmospheric smoke and light shafts"], vibe:"Cyberpunk Neo-Noir aesthetic, rain-slicked streets reflecting pink and blue neon, high contrast, wet texture, steam and smoke, futuristic urban decay, anamorphic lens flares.", lensChar:"Clinical Sharp", film:"Kodak Vision3 500T (5219)", wb:"Mixed Lighting", grain:"Medium Texture" } },
+  { id:"folk-horror", title:"Folk Horror", category:"Genre Cinema", desc:"Dread in bright daylight.", data:{ genre:"cinematic", camera:"Arri Alexa 35", lens:"24mm prime", focal:24, aperture:"f/8", shutter:"1/125s", iso:"200", lighting:"High Key White Cyc", composition:"Symmetrical Arch", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Folk Horror aesthetic (Midsommar style), uncomfortably bright daylight, pastel florals, white linens, blinding sun, pagan symbolism, dread concealed by beauty, overexposed highlights.", lensChar:"Clinical Sharp", film:"Kodak Vision3 250D (5207)", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"space-opera", title:"Space Opera (70s)", category:"Genre Cinema", desc:"Practical models, lens flares.", data:{ genre:"cinematic", camera:"Panavision PSR", lens:"50mm anamorphic", focal:50, aperture:"f/4", shutter:"1/48s", iso:"100", lighting:"Hard Strobe", composition:"Wide Establishing", lightingSetups:["rim light, edge definition"], vibe:"70s Space Opera aesthetic (Star Wars / Alien), practical model effects, star fields, sterile white corridors, industrial sci-fi texture, anamorphic lens flares, matte painting backgrounds.", lensChar:"Vintage Softness", film:"Kodak 5247 100T (70s/80s)", wb:"Cool Shade", grain:"Medium Texture" } },
+  { id:"fisheye-90s", title:"Fisheye (90s Music Video)", category:"Extreme Perspectives", desc:"Circular distortion, world-bending.", data:{ genre:"experimental", camera:"Sony VX1000", lens:"8mm fisheye", focal:8, aperture:"f/4", shutter:"1/60s", iso:"400", lighting:"Direct Flash", composition:"Tight Close-up", lightingSetups:[], vibe:"Fisheye lens distortion, Hype Williams music video aesthetic, massive curvature of straight lines, exaggerated close-up features, circular vignette, Sony VX1000 texture.", lensChar:"Heavy Vignette", film:"Digital Video Tape (DV)", wb:"Mixed Lighting", grain:"Medium Texture" } },
+  { id:"drone-topdown", title:"Top-Down Drone", category:"Extreme Perspectives", desc:"God's eye view geometry.", data:{ genre:"landscape", camera:"DJI Mavic 3", lens:"24mm prime", focal:24, aperture:"f/5.6", shutter:"1/500s", iso:"100", lighting:"Natural Light", composition:"Top-down Flat Lay", lightingSetups:[], vibe:"Top-down drone photography, perfect geometric patterns from above, flat lay of landscape or crowds, high altitude perspective, even sharpness edge-to-edge.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"micro-macro", title:"Micro-Macro (Insect Eye)", category:"Extreme Perspectives", desc:"Alien textures, razor depth.", data:{ genre:"wildlife", camera:"Canon EOS R5 II", lens:"100mm macro", focal:100, aperture:"f/16", shutter:"1/200s", iso:"100", lighting:"Soft Overcast", composition:"Tight Close-up", lightingSetups:["ring light fill"], vibe:"Extreme macro photography, 2:1 magnification, alien textures of insect eyes or water drops, razor-thin depth of field, soft diffuse lighting to reveal microscopic detail.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
   { id:"technicolor", title:"Technicolor 3-Strip", category:"Color Eras", desc:"Hyper-saturated 1939 look.", data:{ genre:"cinematic", camera:"Technicolor 3-Strip Camera", lens:"35mm prime", focal:35, aperture:"f/2.8", shutter:"1/48s", iso:"5", lighting:"Hard Strobe", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Technicolor 3-Strip process (Wizard of Oz era), hyper-saturated unreal reds and greens, low contrast but very bright, dye-transfer look, golden age of Hollywood studio lighting, extreme amount of light required.", lensChar:"Dreamy Bloom", film:"Technicolor Three-Strip", wb:"Warm Tungsten", grain:"Clean/No Grain" } },
   { id:"autochrome", title:"Autochrome Lumière", category:"Color Eras", desc:"1907 pointillist potato starch.", data:{ genre:"portrait", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/5.6", shutter:"2s", iso:"5", lighting:"Natural Light", composition:"Centered", lightingSetups:[], vibe:"Autochrome Lumière (1907), first color photography process, pointillist painting look due to potato starch grain, pastel colors, soft focus, ethereal and dreamlike, long exposure.", lensChar:"Vintage Softness", film:"Autochrome Plate", wb:"Daylight Balanced", grain:"Heavy Grit" } },
-  { id:"infrared-aero", title:"Infrared Aerochrome", category:"Experimental", desc:"Surreal pink foliage.", data:{ genre:"landscape", camera:"Hasselblad 500C/M", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/250s", iso:"400", lighting:"Natural Light", composition:"Wide Establishing", lightingSetups:[], vibe:"Kodak Aerochrome Infrared film, surreal color shift, green foliage rendered as vibrant hot pink/red, deep dark blue skies, dreamlike high contrast.", lensChar:"Clinical Sharp", film:"Kodak Aerochrome", wb:"Daylight Balanced", grain:"Medium Texture" } },
-  { id:"tilt-shift-mini", title:"Tilt-Shift Miniature", category:"Experimental", desc:"Faking a miniature world.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"45mm tilt-shift", focal:45, aperture:"f/2.8", shutter:"1/500s", iso:"100", lighting:"Natural Light", composition:"High Angle", lightingSetups:[], vibe:"Tilt-Shift photography, selective focus plane, blurring top and bottom to create a miniature 'toy world' effect, high angle city or crowd, vibrant saturation.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"double-exposure", title:"Double Exposure", category:"Experimental", desc:"Silhouette landscape blend.", data:{ genre:"portrait", camera:"Canon EOS 5D Mark IV", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Double Exposure art, silhouette of a subject filled with a secondary landscape image (forest or city), white background, surreal blending, True Detective intro style.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"burkard-coast", title:"Chris Burkard", category:"Landscape", desc:"Cold coast, minimal palettes.", data:{ genre:"landscape", camera:"Sony A7R V", lens:"16-35mm wide", focal:16, aperture:"f/8", shutter:"1/320s", iso:"200", lighting:"Soft Overcast", composition:"Wide Establishing", vibe:"Chris Burkard style, cold coastal drama, minimal palettes, moody skies, tiny human scale against nature.", lensChar:"Clinical Sharp", film:"Digital", wb:"Cool Shade", grain:"Subtle Grain" } },
-  { id:"adams-bw", title:"Ansel Adams", category:"Landscape", desc:"Epic B&W mountains.", data:{ genre:"landscape", camera:"Deardorff 8x10", lens:"300mm prime (8x10 eq)", focal:300, aperture:"f/64", shutter:"1s", iso:"25", lighting:"Natural Light", composition:"Leading Lines", vibe:"Ansel Adams style, dramatic black and white landscapes, Zone System tonal separation, crisp detail, large format clarity, deep red filter effect.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"sugimoto-minimal", title:"Hiroshi Sugimoto", category:"Landscape", desc:"Ultra-minimal long exposure.", data:{ genre:"landscape", camera:"Deardorff 8x10", lens:"300mm prime", focal:300, aperture:"f/45", shutter:"Bulb", iso:"100", lighting:"Natural Light", composition:"Centered", vibe:"Hiroshi Sugimoto style, minimal long exposure seascapes or theaters, smooth tonal gradients, contemplative distance, restrained monochrome.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"kenna-minimal", title:"Michael Kenna", category:"Landscape", desc:"Quiet monochrome, fog.", data:{ genre:"landscape", camera:"Hasselblad 500C/M", lens:"150mm prime", focal:150, aperture:"f/22", shutter:"30s", iso:"50", lighting:"Natural Light", composition:"Centered", vibe:"Michael Kenna style, minimalist long exposure landscapes, quiet geometry, fog or snow, deep blacks and soft highlights, square format.", lensChar:"Vintage Softness", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"knowles-luxury", title:"John Knowles", category:"Product", desc:"Luxury glossy control.", data:{ genre:"product", camera:"Phase One XF IQ4", lens:"120mm macro", focal:120, aperture:"f/16", shutter:"1/125s", iso:"50", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["cross-polarized lighting to control reflections","strip rim light, edge definition"], vibe:"High-end luxury product photography, controlled specular highlights, rich blacks, elegant negative space.", lensChar:"Clinical Sharp", film:"None", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Luxury Jewelry Macro" } },
-  { id:"brandl-packshot", title:"Karl Taylor", category:"Product", desc:"Clean ecommerce accuracy.", data:{ genre:"product", camera:"Hasselblad H6D", lens:"80mm prime", focal:80, aperture:"f/11", shutter:"1/125s", iso:"50", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Clean ecommerce packshot, color accurate, minimal shadows, crisp edges, neutral background.", lensChar:"Clinical Sharp", film:"None", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Ecommerce Packshot" } },
-  { id:"kleiner-playful-stilllife", title:"Carl Kleiner", category:"Product", desc:"Geometric, colorful, playful.", data:{ genre:"product", camera:"Hasselblad X2D 100C", lens:"90mm prime", focal:90, aperture:"f/11", shutter:"1/125s", iso:"64", lighting:"Studio Softbox", composition:"Top-down Flat Lay", lightingSetups:["dual softbox symmetric lighting", "gradient sweep background, tabletop product lighting"], vibe:"Carl Kleiner style, vibrant geometric still life, clean color blocking, handmade objects, graphic precision.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Tabletop Styled" } },
-  { id:"kander-editorial-polish", title:"Nadav Kander", category:"Product", desc:"Quiet, large-format polish.", data:{ genre:"product", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/22", shutter:"1/15s", iso:"100", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["softbox key plus bounce", "top down scrim, negative fill"], vibe:"Nadav Kander style, large-format stillness and editorial polish, restrained color, sculpted shadows, spacious negative space.", lensChar:"Vintage Softness", film:"Kodak Portra 400", wb:"Daylight Balanced", grain:"Subtle Grain", productSubgenre:"Luxury Jewelry Macro" } },
-  { id:"illenberger-surreal-tabletop", title:"Sarah Illenberger", category:"Product", desc:"Cheerful, surreal objects.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"High Key White Cyc", composition:"Asymmetric Framing", lightingSetups:["high key white cyc, even wraparound light", "backlit translucent diffusion, soft halos"], vibe:"Sarah Illenberger style, playful surreal product concepts, everyday objects turned into witty visual puns, vivid color.", lensChar:"Dreamy Bloom", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Tabletop Styled" } },
-  { id:"koloskov-gloss", title:"Alex Koloskov", category:"Product", desc:"High-gloss premium product.", data:{ genre:"product", camera:"Phase One XF IQ4", lens:"120mm macro",focal:120,aperture:"f/22",shutter:"1/125s",iso:"50",lighting:"Hard Strobe",composition:"Tight Close-up",productSubgenre:"Tech Gadget Hero",lightingSetups:["cross-polarized lighting to control reflections","strip rim light, edge definition","gradient sweep background, tabletop product lighting"],vibe:"Alex Koloskov style, crisp product hero imagery, sculpted reflections, deep blacks and clean gradients.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"belanger-minimal", title:"Peter Belanger", category:"Product", desc:"Clean Apple-like minimal.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"100mm macro",focal:100,aperture:"f/11",shutter:"1/160s",iso:"100",lighting:"High Key White Cyc",composition:"Centered",productSubgenre:"Tech Gadget Hero",lightingSetups:["high key white cyc, even wraparound light","softbox key plus bounce"],vibe:"Peter Belanger style, ultra-clean minimal product hero shots, soft controlled wrap light, seamless backgrounds, Apple advertising aesthetic.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"hogan-speed", title:"Timothy Hogan", category:"Product", desc:"High-speed liquids.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"100mm macro",focal:100,aperture:"f/16",shutter:"1/4000s",iso:"800",lighting:"Hard Strobe",composition:"Tight Close-up",productSubgenre:"Beverage Condensation",lightingSetups:["strip rim light, edge definition","gradient sweep background, tabletop product lighting"],vibe:"Timothy Hogan style, high-speed tabletop liquids, crisp freeze, luminous gels and splashes, tight macro detail.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"hargreaves-food", title:"Henry Hargreaves", category:"Product", desc:"Conceptual food still life.", data:{ genre:"product", camera:"Canon EOS 5D Mark IV", lens:"50mm prime",focal:50,aperture:"f/8",shutter:"1/125s",iso:"200",lighting:"Studio Softbox",composition:"Top-down Flat Lay",productSubgenre:"Food Editorial",lightingSetups:["top down scrim, negative fill"],vibe:"Henry Hargreaves style, concept-first food still life, clean tabletop geometry, editorial humor, soft directional studio light.",lensChar:"Vintage Softness",film:"Digital",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"parker-poetic", title:"Olivia Parker", category:"Product", desc:"Quiet symbolic still life.", data:{ genre:"product", camera:"Large Format 4x5", lens:"210mm prime",focal:210,aperture:"f/22",shutter:"1/8s",iso:"100",lighting:"Natural Light",composition:"Leading Lines",productSubgenre:"Tabletop Styled",lightingSetups:["window side light, soft falloff"],vibe:"Olivia Parker style, poetic symbolic still life, gentle window light, carefully arranged objects with quiet narrative, split toning.",lensChar:"Vintage Softness",film:"Polaroid Type 55",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"brassai-night", title:"Brassaï", category:"Night", desc:"Paris night, wet cobblestones.", data:{ genre:"night", camera:"Voigtländer Bergheil", lens:"105mm prime", focal:105, aperture:"f/4.5", shutter:"4s", iso:"25", lighting:"Neon Practical", composition:"Leading Lines", vibe:"Brassaï style, foggy night streets, wet reflections, noir mood, slow shutter ambience, deep shadows, magnesium flash powder feel.", lensChar:"Vintage Softness", film:"B&W Sheet Film", wb:"Mixed Lighting", grain:"Heavy Grit" } },
-  { id:"shulman-midcentury-arch", title:"Julius Shulman", category:"Architecture", desc:"Clean mid-century hero shots.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"90mm wide", focal:90, aperture:"f/22", shutter:"1/15s", iso:"50", lighting:"Natural Light", composition:"Symmetrical Arch", lightingSetups:["window side light, soft falloff"], vibe:"Julius Shulman style, mid‑century modern hero shots, razor detail, corrected verticals, crisp daylight, black and white architectural mastery.", lensChar:"Clinical Sharp", film:"Kodak Tri-X B&W", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"baan-livedin-arch", title:"Iwan Baan", category:"Architecture", desc:"Documentary lived-in spaces.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"24-70mm zoom", focal:24, aperture:"f/5.6", shutter:"1/250s", iso:"800", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"Iwan Baan style, documentary architecture, buildings shown as lived spaces, natural light only, candid human activity.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"stoller-clarity", title:"Ezra Stoller", category:"Architecture", desc:"Clean orthogonal hero shots.", data:{ genre:"architecture", camera:"Deardorff 8x10", lens:"90mm wide (8x10 eq)",focal:90,aperture:"f/64",shutter:"1s",iso:"25",lighting:"Natural Light",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Ezra Stoller style, meticulous architectural documentation, parallel verticals, crisp mid-century modern clarity, calm daylight, deep focus.",lensChar:"Clinical Sharp",film:"Kodak Tri-X B&W",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"binet-poetry", title:"Hélène Binet", category:"Architecture", desc:"Deep shadow poetry.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"150mm prime",focal:150,aperture:"f/16",shutter:"1/60s",iso:"100",lighting:"Natural Light",composition:"Leading Lines",lightingSetups:[],vibe:"Hélène Binet style, architectural photography as light study, deep shadows, beams of sun, quiet human presence for scale, poetic abstraction.",lensChar:"Vintage Softness",film:"Kodak Tri-X B&W",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"guerra-living", title:"Fernando Guerra", category:"Architecture", desc:"Warm lived-in architecture.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"16-35mm wide",focal:20,aperture:"f/5.6",shutter:"1/250s",iso:"400",lighting:"Natural Light",composition:"Wide Establishing",lightingSetups:[],vibe:"Fernando Guerra style, lived-in architecture with people and everyday motion, warm daylight, rich materials, balanced wide framing.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"hufton-crow", title:"Hufton + Crow", category:"Architecture", desc:"Crisp contemporary geometry.", data:{ genre:"architecture", camera:"Phase One XF IQ4", lens:"28mm wide",focal:28,aperture:"f/11",shutter:"1/125s",iso:"50",lighting:"Natural Light",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Hufton + Crow style, clean contemporary architecture, precise lines, high dynamic range daylight, powerful scale and geometry.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
+  { id:"infrared-aero", title:"Infrared Aerochrome", category:"Experimental", desc:"Surreal pink foliage.", data:{ genre:"landscape", camera:"Hasselblad 500C/M", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/250s", iso:"400", lighting:"Natural Light", composition:"Wide Establishing", lightingSetups:[], vibe:"Kodak Aerochrome Infrared film, surreal color shift, green foliage rendered as vibrant hot pink/red, deep dark blue skies, dreamlike high contrast.", lensChar:"Clinical Sharp", film:"Kodak Aerochrome (IR)", wb:"Daylight Balanced", grain:"Medium Texture" } },
+  { id:"tilt-shift-mini", title:"Tilt-Shift Miniature", category:"Experimental", desc:"Faking a miniature world.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"45mm tilt-shift", focal:45, aperture:"f/2.8", shutter:"1/500s", iso:"100", lighting:"Natural Light", composition:"High Angle", lightingSetups:[], vibe:"Tilt-Shift photography, selective focus plane, blurring top and bottom to create a miniature 'toy world' effect, high angle city or crowd, vibrant saturation.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"double-exposure", title:"Double Exposure", category:"Experimental", desc:"Silhouette landscape blend.", data:{ genre:"portrait", camera:"Canon EOS 5D Mark IV", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Double Exposure art, silhouette of a subject filled with a secondary landscape image (forest or city), white background, surreal blending, True Detective intro style.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+
+  // LANDSCAPE & ARCHITECTURE
+  { id:"burkard-coast", title:"Chris Burkard", category:"Landscape", desc:"Cold coast, minimal palettes.", data:{ genre:"landscape", camera:"Sony A7R V", lens:"16-35mm wide", focal:16, aperture:"f/8", shutter:"1/320s", iso:"200", lighting:"Soft Overcast", composition:"Wide Establishing", vibe:"Chris Burkard style, cold coastal drama, minimal palettes, moody skies, tiny human scale against nature.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Cool Shade", grain:"Subtle Grain" } },
+  { id:"adams-bw", title:"Ansel Adams", category:"Landscape", desc:"Epic B&W mountains.", data:{ genre:"landscape", camera:"Deardorff 8x10", lens:"300mm prime (8x10 eq)", focal:300, aperture:"f/64", shutter:"1s", iso:"25", lighting:"Natural Light", composition:"Leading Lines", vibe:"Ansel Adams style, dramatic black and white landscapes, Zone System tonal separation, crisp detail, large format clarity, deep red filter effect.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"sugimoto-minimal", title:"Hiroshi Sugimoto", category:"Landscape", desc:"Ultra-minimal long exposure.", data:{ genre:"landscape", camera:"Deardorff 8x10", lens:"300mm prime", focal:300, aperture:"f/45", shutter:"Bulb", iso:"100", lighting:"Natural Light", composition:"Centered", vibe:"Hiroshi Sugimoto style, minimal long exposure seascapes or theaters, smooth tonal gradients, contemplative distance, restrained monochrome.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"kenna-minimal", title:"Michael Kenna", category:"Landscape", desc:"Quiet monochrome, fog.", data:{ genre:"landscape", camera:"Hasselblad 500C/M", lens:"150mm prime", focal:150, aperture:"f/22", shutter:"30s", iso:"50", lighting:"Natural Light", composition:"Centered", vibe:"Michael Kenna style, minimalist long exposure landscapes, quiet geometry, fog or snow, deep blacks and soft highlights, square format.", lensChar:"Vintage Softness", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"shulman-midcentury-arch", title:"Julius Shulman", category:"Architecture", desc:"Clean mid-century hero shots.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"90mm wide", focal:90, aperture:"f/22", shutter:"1/15s", iso:"50", lighting:"Natural Light", composition:"Symmetrical Arch", lightingSetups:["window side light, soft falloff"], vibe:"Julius Shulman style, mid‑century modern hero shots, razor detail, corrected verticals, crisp daylight, black and white architectural mastery.", lensChar:"Clinical Sharp", film:"Kodak Tri-X 400", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
+  { id:"baan-livedin-arch", title:"Iwan Baan", category:"Architecture", desc:"Documentary lived-in spaces.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"24-70mm zoom", focal:24, aperture:"f/5.6", shutter:"1/250s", iso:"800", lighting:"Natural Light", composition:"Rule of Thirds", vibe:"Iwan Baan style, documentary architecture, buildings shown as lived spaces, natural light only, candid human activity.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Subtle Grain" } },
+  { id:"stoller-clarity", title:"Ezra Stoller", category:"Architecture", desc:"Clean orthogonal hero shots.", data:{ genre:"architecture", camera:"Deardorff 8x10", lens:"90mm wide (8x10 eq)",focal:90,aperture:"f/64",shutter:"1s",iso:"25",lighting:"Natural Light",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Ezra Stoller style, meticulous architectural documentation, parallel verticals, crisp mid-century modern clarity, calm daylight, deep focus.",lensChar:"Clinical Sharp",film:"Kodak Tri-X 400",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
+  { id:"binet-poetry", title:"Hélène Binet", category:"Architecture", desc:"Deep shadow poetry.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"150mm prime",focal:150,aperture:"f/16",shutter:"1/60s",iso:"100",lighting:"Natural Light",composition:"Leading Lines",lightingSetups:[],vibe:"Hélène Binet style, architectural photography as light study, deep shadows, beams of sun, quiet human presence for scale, poetic abstraction.",lensChar:"Vintage Softness",film:"Kodak Tri-X 400",wb:"Daylight Balanced",grain:"Subtle Grain" } },
+  { id:"guerra-living", title:"Fernando Guerra", category:"Architecture", desc:"Warm lived-in architecture.", data:{ genre:"architecture", camera:"Canon EOS R5 II", lens:"16-35mm wide",focal:20,aperture:"f/5.6",shutter:"1/250s",iso:"400",lighting:"Natural Light",composition:"Wide Establishing",lightingSetups:[],vibe:"Fernando Guerra style, lived-in architecture with people and everyday motion, warm daylight, rich materials, balanced wide framing.",lensChar:"Clinical Sharp",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Subtle Grain" } },
+  { id:"hufton-crow", title:"Hufton + Crow", category:"Architecture", desc:"Crisp contemporary geometry.", data:{ genre:"architecture", camera:"Phase One XF IQ4", lens:"28mm wide",focal:28,aperture:"f/11",shutter:"1/125s",iso:"50",lighting:"Natural Light",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Hufton + Crow style, clean contemporary architecture, precise lines, high dynamic range daylight, powerful scale and geometry.",lensChar:"Clinical Sharp",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
   { id:"attali-landscape", title:"Erieta Attali", category:"Architecture", desc:"Buildings as terrain.", data:{ genre:"architecture", camera:"Hasselblad 500C/M", lens:"50mm wide",focal:50,aperture:"f/8",shutter:"1/125s",iso:"100",lighting:"Golden Hour",composition:"Layered Depth",lightingSetups:[],vibe:"Erieta Attali style, architecture embedded in landscape, golden hour tones, long shadows, subtle atmosphere, calm cinematic wide framing.",lensChar:"Vintage Softness",film:"Kodak Portra 160",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"basilico-rigor", title:"Gabriele Basilico", category:"Architecture", desc:"Urban rigor, cool monochrome.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"90mm wide",focal:90,aperture:"f/22",shutter:"1/30s",iso:"100",lighting:"Soft Overcast",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Gabriele Basilico style, rigorous cityscapes, calm frontal viewpoints, ordered grids, soft overcast light, precise black and white tonality.",lensChar:"Clinical Sharp",film:"Kodak Tri-X B&W",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"leifer-iconic-action", title:"Neil Leifer", category:"Sports", desc:"Iconic frozen action.", data:{ genre:"sports", camera:"Hasselblad 500C/M", lens:"80mm prime", focal:80, aperture:"f/5.6", shutter:"1/500s", iso:"100", lighting:"Stadium Lights", composition:"Low Angle Hero", lightingSetups:["stadium top light, crisp action freeze"], vibe:"Neil Leifer style, iconic peak‑moment sports frames, bright punchy color (Ali vs Liston), remote or low‑angle placement, perfectly timed action freeze, square format.", lensChar:"Clinical Sharp", film:"Kodak Ektachrome", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"iooss-commercial-sport", title:"Walter Iooss Jr.", category:"Sports", desc:"Clean commercial portraits.", data:{ genre:"sports", camera:"Canon EOS R3", lens:"24-70mm zoom", focal:50, aperture:"f/4", shutter:"1/1000s", iso:"400", lighting:"Studio Softbox", composition:"Rule of Thirds", lightingSetups:["softbox key plus bounce", "strip rim light, edge definition"], vibe:"Walter Iooss Jr. style, crisp commercial sports portraiture, athletes lit like icons, clean backgrounds, controlled studio light.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Clean/No Grain" } },
-  { id:"frissell-classic-sport", title:"Toni Frissell", category:"Sports", desc:"Classic daylight action.", data:{ genre:"sports", camera:"Rolleiflex 2.8F", lens:"80mm prime",focal:80,aperture:"f/11",shutter:"1/500s",iso:"100",lighting:"Natural Light",composition:"Low Angle Hero",lightingSetups:[],vibe:"Toni Frissell style, heroic sports moments, strong gesture and athletic form, clean outdoor light, decisive framing, low angle silhouette.",lensChar:"Clinical Sharp",film:"Kodak Ektachrome",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"conlon-reportage", title:"Charles M. Conlon", category:"Sports", desc:"Early sports reportage.", data:{ genre:"sports", camera:"Graflex Series D", lens:"200mm prime",focal:200,aperture:"f/8",shutter:"1/500s",iso:"50",lighting:"Natural Light",composition:"Rule of Thirds",lightingSetups:[],vibe:"Charles M. Conlon style, reportage sports timing, clean framing of decisive athletic moments (Ty Cobb era), subtle grain and history.",lensChar:"Vintage Softness",film:"Nitrate Film",wb:"Daylight Balanced",grain:"Medium Texture" } },
-  { id:"kluettmeier-si", title:"Heinz Kluetmeier", category:"Sports", desc:"Sports Illustrated era.", data:{ genre:"sports", camera:"Nikon F3", lens:"600mm prime",focal:600,aperture:"f/4",shutter:"1/1000s",iso:"400",lighting:"Stadium Lights",composition:"Rule of Thirds",lightingSetups:["stadium top light, crisp action freeze"],vibe:"Heinz Kluetmeier style, classic Sports Illustrated action, clean separation, bold color, frozen peak moments with clear backgrounds.",lensChar:"Clinical Sharp",film:"Kodachrome 64",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"chang-surf", title:"Aaron Chang", category:"Sports", desc:"Surf and ocean action.", data:{ genre:"sports", camera:"Nikon F5", lens:"300mm tele",focal:300,aperture:"f/5.6",shutter:"1/2000s",iso:"100",lighting:"Natural Light",composition:"Low Angle Hero",lightingSetups:[],vibe:"Aaron Chang style, surf and ocean action, bright coastal color, low angles near water, crisp splashes and lifestyle grit.",lensChar:"Clinical Sharp",film:"Kodachrome 64",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"lanting-intimate-wildlife", title:"Frans Lanting", category:"Wildlife", desc:"Intimate nature storytelling.", data:{ genre:"wildlife", camera:"Nikon Z9", lens:"600mm prime", focal:600, aperture:"f/4", shutter:"1/1000s", iso:"800", lighting:"Golden Hour", composition:"Rule of Thirds", vibe:"Frans Lanting style, intimate wildlife storytelling, respectful distance yet emotional closeness, warm natural light.", lensChar:"Clinical Sharp", film:"Digital", wb:"Daylight Balanced", grain:"Subtle Grain" } },
-  { id:"nicklen-dramatic-polar", title:"Paul Nicklen", category:"Wildlife", desc:"Dramatic polar and ocean.", data:{ genre:"wildlife", camera:"Sony Alpha 1", lens:"16-35mm wide", focal:16, aperture:"f/5.6", shutter:"1/1250s", iso:"1600", lighting:"Underwater Ambient", composition:"Leading Lines", lightingSetups:["underwater strobe fill, particle sparkle"], vibe:"Paul Nicklen style, dramatic polar and ocean wildlife, cold atmospheric light, spray and ice texture, underwater proximity.", lensChar:"Clinical Sharp", film:"Digital", wb:"Cool Shade", grain:"Medium Texture" } },
-  { id:"vitale-conservation", title:"Ami Vitale", category:"Wildlife", desc:"Conservation storytelling.", data:{ genre:"wildlife", camera:"Nikon D850", lens:"24-70mm zoom",focal:35,aperture:"f/5.6",shutter:"1/250s",iso:"400",lighting:"Natural Light",composition:"Rule of Thirds",lightingSetups:[],vibe:"Ami Vitale style, conservation storytelling, intimate distance, human-animal relationships, warm natural color, respectful documentary tone.",lensChar:"Vintage Softness",film:"Digital",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"sartore-ark", title:"Joel Sartore", category:"Wildlife", desc:"Studio wildlife portraits.", data:{ genre:"wildlife", camera:"Nikon D850", lens:"105mm macro",focal:105,aperture:"f/16",shutter:"1/250s",iso:"64",lighting:"Studio Softbox",composition:"Centered",lightingSetups:["softbox key plus bounce"],vibe:"Joel Sartore Photo Ark style, clean centered wildlife portraits, simple black or white backgrounds, direct gaze, clear taxonomy with empathy.",lensChar:"Clinical Sharp",film:"Digital",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
-  { id:"nichols-natgeo", title:"Nick Nichols", category:"Wildlife", desc:"Epic NatGeo wildlife.", data:{ genre:"wildlife", camera:"Canon EOS 1v", lens:"400mm prime",focal:400,aperture:"f/5.6",shutter:"1/500s",iso:"100",lighting:"Natural Light",composition:"Layered Depth",lightingSetups:[],vibe:"Nick Nichols style, epic NatGeo wildlife, strong environmental context, patient timing, natural color and dramatic light without exaggeration.",lensChar:"Clinical Sharp",film:"Kodachrome 64",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"brandt-monochrome", title:"Nick Brandt", category:"Wildlife", desc:"Conservation monochrome.", data:{ genre:"wildlife", camera:"Pentax 67", lens:"105mm prime",focal:105,aperture:"f/4",shutter:"1/250s",iso:"100",lighting:"Soft Overcast",composition:"Centered",lightingSetups:[],vibe:"Nick Brandt style, black and white conservation portraiture, slow contemplative framing, animals as dignified subjects, subtle dust haze.",lensChar:"Vintage Softness",film:"Kodak Tri-X B&W",wb:"Daylight Balanced",grain:"Subtle Grain" } },
-  { id:"skerry-marine", title:"Brian Skerry", category:"Wildlife", desc:"Underwater marine.", data:{ genre:"wildlife", camera:"Nikon D850", lens:"16mm fisheye",focal:16,aperture:"f/8",shutter:"1/250s",iso:"400",lighting:"Underwater Ambient",composition:"Wide Establishing",lightingSetups:["underwater strobe fill, particle sparkle"],vibe:"Brian Skerry style, underwater marine wildlife, wide-angle proximity, clear blue or green water, storytelling with scale and motion.",lensChar:"Clinical Sharp",film:"Digital",wb:"Cool Shade",grain:"Subtle Grain" } },
-  { id:"mangelsen-wild", title:"Thomas D. Mangelsen", category:"Wildlife", desc:"Classic wilderness.", data:{ genre:"wildlife", camera:"Nikon F3", lens:"600mm prime",focal:600,aperture:"f/5.6",shutter:"1/500s",iso:"100",lighting:"Golden Hour",composition:"Rule of Thirds",lightingSetups:[],vibe:"Thomas D. Mangelsen style, classic wilderness scenes, dramatic golden light, clean silhouettes, patient timing and expansive habitat.",lensChar:"Clinical Sharp",film:"Fujichrome Velvia",wb:"Daylight Balanced",grain:"Subtle Grain" } }
+  { id:"basilico-rigor", title:"Gabriele Basilico", category:"Architecture", desc:"Urban rigor, cool monochrome.", data:{ genre:"architecture", camera:"Large Format 4x5", lens:"90mm wide",focal:90,aperture:"f/22",shutter:"1/30s",iso:"100",lighting:"Soft Overcast",composition:"Symmetrical Arch",lightingSetups:[],vibe:"Gabriele Basilico style, rigorous cityscapes, calm frontal viewpoints, ordered grids, soft overcast light, precise black and white tonality.",lensChar:"Clinical Sharp",film:"Kodak Tri-X 400",wb:"Daylight Balanced",grain:"Subtle Grain" } },
+
+  // PRODUCT & LIFESTYLE
+  { id:"knowles-luxury", title:"John Knowles", category:"Product", desc:"Luxury glossy control.", data:{ genre:"product", camera:"Phase One XF IQ4", lens:"120mm macro", focal:120, aperture:"f/16", shutter:"1/125s", iso:"50", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["cross-polarized lighting to control reflections","strip rim light, edge definition"], vibe:"High-end luxury product photography, controlled specular highlights, rich blacks, elegant negative space.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Luxury Jewelry Macro" } },
+  { id:"brandl-packshot", title:"Karl Taylor", category:"Product", desc:"Clean ecommerce accuracy.", data:{ genre:"product", camera:"Hasselblad H6D", lens:"80mm prime", focal:80, aperture:"f/11", shutter:"1/125s", iso:"50", lighting:"High Key White Cyc", composition:"Centered", lightingSetups:["high key white cyc, even wraparound light"], vibe:"Clean ecommerce packshot, color accurate, minimal shadows, crisp edges, neutral background.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Ecommerce Packshot" } },
+  { id:"kleiner-playful-stilllife", title:"Carl Kleiner", category:"Product", desc:"Geometric, colorful, playful.", data:{ genre:"product", camera:"Hasselblad X2D 100C", lens:"90mm prime", focal:90, aperture:"f/11", shutter:"1/125s", iso:"64", lighting:"Studio Softbox", composition:"Top-down Flat Lay", lightingSetups:["dual softbox symmetric lighting", "gradient sweep background, tabletop product lighting"], vibe:"Carl Kleiner style, vibrant geometric still life, clean color blocking, handmade objects, graphic precision.", lensChar:"Clinical Sharp", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Tabletop Styled" } },
+  { id:"kander-editorial-polish", title:"Nadav Kander", category:"Product", desc:"Quiet, large-format polish.", data:{ genre:"product", camera:"Large Format 4x5", lens:"150mm prime", focal:150, aperture:"f/22", shutter:"1/15s", iso:"100", lighting:"Studio Softbox", composition:"Centered", lightingSetups:["softbox key plus bounce", "top down scrim, negative fill"], vibe:"Nadav Kander style, large-format stillness and editorial polish, restrained color, sculpted shadows, spacious negative space.", lensChar:"Vintage Softness", film:"Kodak Portra 400", wb:"Daylight Balanced", grain:"Subtle Grain", productSubgenre:"Luxury Jewelry Macro" } },
+  { id:"illenberger-surreal-tabletop", title:"Sarah Illenberger", category:"Product", desc:"Cheerful, surreal objects.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"50mm prime", focal:50, aperture:"f/8", shutter:"1/125s", iso:"100", lighting:"High Key White Cyc", composition:"Asymmetric Framing", lightingSetups:["high key white cyc, even wraparound light", "backlit translucent diffusion, soft halos"], vibe:"Sarah Illenberger style, playful surreal product concepts, everyday objects turned into witty visual puns, vivid color.", lensChar:"Dreamy Bloom", film:"Digital Sensor", wb:"Daylight Balanced", grain:"Clean/No Grain", productSubgenre:"Tabletop Styled" } },
+  { id:"koloskov-gloss", title:"Alex Koloskov", category:"Product", desc:"High-gloss premium product.", data:{ genre:"product", camera:"Phase One XF IQ4", lens:"120mm macro",focal:120,aperture:"f/22",shutter:"1/125s",iso:"50",lighting:"Hard Strobe",composition:"Tight Close-up",productSubgenre:"Tech Gadget Hero",lightingSetups:["cross-polarized lighting to control reflections","strip rim light, edge definition","gradient sweep background, tabletop product lighting"],vibe:"Alex Koloskov style, crisp product hero imagery, sculpted reflections, deep blacks and clean gradients.",lensChar:"Clinical Sharp",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
+  { id:"belanger-minimal", title:"Peter Belanger", category:"Product", desc:"Clean Apple-like minimal.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"100mm macro",focal:100,aperture:"f/11",shutter:"1/160s",iso:"100",lighting:"High Key White Cyc",composition:"Centered",productSubgenre:"Tech Gadget Hero",lightingSetups:["high key white cyc, even wraparound light","softbox key plus bounce"],vibe:"Peter Belanger style, ultra-clean minimal product hero shots, soft controlled wrap light, seamless backgrounds, Apple advertising aesthetic.",lensChar:"Clinical Sharp",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
+  { id:"hogan-speed", title:"Timothy Hogan", category:"Product", desc:"High-speed liquids.", data:{ genre:"product", camera:"Canon EOS R5 II", lens:"100mm macro",focal:100,aperture:"f/16",shutter:"1/4000s",iso:"800",lighting:"Hard Strobe",composition:"Tight Close-up",productSubgenre:"Beverage Condensation",lightingSetups:["strip rim light, edge definition","gradient sweep background, tabletop product lighting"],vibe:"Timothy Hogan style, high-speed tabletop liquids, crisp freeze, luminous gels and splashes, tight macro detail.",lensChar:"Clinical Sharp",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Clean/No Grain" } },
+  { id:"hargreaves-food", title:"Henry Hargreaves", category:"Product", desc:"Conceptual food still life.", data:{ genre:"product", camera:"Canon EOS 5D Mark IV", lens:"50mm prime",focal:50,aperture:"f/8",shutter:"1/125s",iso:"200",lighting:"Studio Softbox",composition:"Top-down Flat Lay",productSubgenre:"Food Editorial",lightingSetups:["top down scrim, negative fill"],vibe:"Henry Hargreaves style, concept-first food still life, clean tabletop geometry, editorial humor, soft directional studio light.",lensChar:"Vintage Softness",film:"Digital Sensor",wb:"Daylight Balanced",grain:"Subtle Grain" } },
+  { id:"parker-poetic", title:"Olivia Parker", category:"Product", desc:"Quiet symbolic still life.", data:{ genre:"product", camera:"Large Format 4x5", lens:"210mm prime",focal:210,aperture:"f/22",shutter:"1/8s",iso:"100",lighting:"Natural Light",composition:"Leading Lines",productSubgenre:"Tabletop Styled",lightingSetups:["window side light, soft falloff"],vibe:"Olivia Parker style, poetic symbolic still life, gentle window light, carefully arranged objects with quiet narrative, split toning.",lensChar:"Vintage Softness",film:"Polaroid Type 55",wb:"Daylight Balanced",grain:"Subtle Grain" } },
 ];
   /* --- State & Init --- */
   let activeLightingSetups = new Set();
@@ -737,8 +943,6 @@ const basePresets = [
       populate("wb", wbs);
       populate("grain", grains);
       populate("productSubgenre", productSubgenres);
-      populate("colorGrading", colorGradings);
-      populate("artisticInfluences", artisticInfluences);
       populate("genre", ["portrait","street","landscape","product","cinematic","night","sports","wildlife","architecture"]);
       
       // Set defaults
@@ -773,8 +977,14 @@ const basePresets = [
       const pInput = document.getElementById("presetSearch");
       
       function getAllPresets() { return [...basePresets, ...customPresets]; }
-
       function renderDropdown(filter = "") {
+        const pDrop = document.getElementById("presetDropdown");
+        const pPreview = document.getElementById("presetPreviewCard");
+        const pImg = document.getElementById("presetPreviewImg");
+        const pFallback = document.getElementById("presetPreviewFallback");
+        const pTitle = document.getElementById("presetPreviewTitle");
+        const pDesc = document.getElementById("presetPreviewDesc");
+
         pDrop.innerHTML = "";
         const ft = filter.toLowerCase();
         const list = getAllPresets().filter(p => 
@@ -793,24 +1003,86 @@ const basePresets = [
             grouped[c].push(p);
         });
 
+        // --- PREVIEW LOADER FUNCTION ---
+        const showPreview = (preset) => {
+            // 1. Text
+            pTitle.innerText = preset.title;
+            pDesc.innerText = preset.desc;
+            
+            // 2. Image
+            pImg.style.display = 'none'; 
+            pFallback.classList.remove('hidden');
+            pFallback.innerText = "LOADING...";
+            const imagePath = `presets/${preset.id}.jpg`; // Ensure .jpg
+
+            pImg.onload = () => { pImg.style.display = 'block'; pFallback.classList.add('hidden'); };
+            pImg.onerror = () => { pImg.style.display = 'none'; pFallback.classList.remove('hidden'); pFallback.innerText = "NO PREVIEW"; };
+            pImg.src = imagePath;
+
+            // 3. Show
+            pPreview.classList.remove("hidden");
+        };
+
+        const hidePreview = () => {
+            pPreview.classList.add("hidden");
+        };
+
         Object.keys(grouped).sort().forEach(cat => {
             const header = document.createElement("div");
-            header.className = "px-3 py-2 text-[9px] font-bold text-studio-500 bg-studio-950 sticky top-0 border-b border-studio-800 uppercase tracking-wider";
+            header.className = "px-3 py-2 text-[9px] font-bold text-studio-500 bg-studio-950 sticky top-0 border-b border-studio-800 uppercase tracking-wider z-10";
             header.textContent = cat;
             pDrop.appendChild(header);
 
             grouped[cat].forEach(p => {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "w-full text-left px-3 py-2 text-sm hover:bg-studio-800 transition border-b border-studio-800 last:border-0 group";
-                btn.innerHTML = `<div class="font-bold text-xs uppercase text-studio-200 group-hover:text-white tracking-wide">${p.title}</div><div class="text-[11px] text-studio-400 group-hover:text-studio-300 truncate font-mono">${p.desc}</div>`;
-                btn.addEventListener("click", () => {
+                // ROW CONTAINER (Flexbox)
+                const row = document.createElement("div");
+                row.className = "flex w-full border-b border-studio-800 last:border-0 hover:bg-studio-800 transition group";
+
+                // 1. SELECT BUTTON (The Text)
+                const selectBtn = document.createElement("button");
+                selectBtn.type = "button";
+                selectBtn.className = "flex-1 text-left px-3 py-2 min-w-0";
+                selectBtn.innerHTML = `<div class="font-bold text-xs uppercase text-studio-200 group-hover:text-white tracking-wide truncate">${p.title}</div><div class="text-[11px] text-studio-400 group-hover:text-studio-300 truncate font-mono">${p.desc}</div>`;
+                
+                selectBtn.addEventListener("click", () => {
                     applyPreset(p.id);
                     pDrop.classList.add("hidden");
+                    hidePreview();
                 });
-                pDrop.appendChild(btn);
+
+                // Desktop Hover on Text also triggers preview (Optional, keeping consistent behavior)
+                selectBtn.addEventListener("mouseenter", () => { if(window.innerWidth >= 768) showPreview(p); });
+                selectBtn.addEventListener("mouseleave", () => { if(window.innerWidth >= 768) hidePreview(); });
+
+                // 2. PREVIEW BUTTON (The Eye Icon) - Visible/Touchable on Mobile
+                const eyeBtn = document.createElement("button");
+                eyeBtn.type = "button";
+                eyeBtn.className = "md:hidden px-4 flex items-center justify-center text-studio-500 hover:text-white hover:bg-studio-700 border-l border-studio-800 transition";                eyeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+                
+                // CLICKING THE EYE (Mobile/Desktop)
+                eyeBtn.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Don't close dropdown
+                    e.preventDefault();
+                    showPreview(p);
+                });
+
+                row.appendChild(selectBtn);
+                row.appendChild(eyeBtn);
+                pDrop.appendChild(row);
             });
         });
+        
+        // Mobile: Tap anywhere on screen (outside preview) to close preview
+        // We use a global listener that we attach once
+        if (!window.mobilePreviewListenerAttached) {
+            document.addEventListener('click', (e) => {
+               // If clicking outside the preview card AND the dropdown...
+               if (!pPreview.contains(e.target) && !e.target.closest('button')) {
+                   pPreview.classList.add("hidden");
+               }
+            });
+            window.mobilePreviewListenerAttached = true;
+        }
       }
 
       // --- Apply Preset ---
@@ -983,7 +1255,7 @@ const basePresets = [
              outputGlow.style.background = color;
         } else {
              glowEl.style.background = `radial-gradient(circle at 50% -20%, ${color}, transparent 70%)`;
-              glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.2" : "0.5";
+             glowEl.style.opacity = (lighting === "High Key White Cyc") ? "0.1" : "0.25";
              outputGlow.style.background = `linear-gradient(to right, ${accent}, transparent)`;
         }
         
@@ -1022,17 +1294,14 @@ const basePresets = [
           return "standard aspect ratio";
       }
 
-      // --- Update Prompt ---
+      // --- Update Prompt Function (Updated with Ref & Constraints) ---
       function updatePrompt() {
         const getVal = (id) => { const el = document.getElementById(id); return el ? el.value : ""; };
         
+        // --- 1. Gather Data ---
         const scene = getVal("scene").trim() || "a compelling photography scene";
-        
-        // Get new location and datetime values
         const locationVal = getVal("location").trim();
         const datetimeVal = getVal("datetime");
-
-        // Format them
         let locationPart = locationVal ? ` at ${locationVal}` : "";
         let datetimePart = "";
         if (datetimeVal) {
@@ -1052,149 +1321,195 @@ const basePresets = [
         const film = getVal("film");
         const lighting = getVal("lighting");
         const composition = getVal("composition");
-        const styleName = document.getElementById("photographerStyle").value;
         const vibe = activePresetVibe;
         
-        // These are hidden now, but we keep the variables for safety/future use
-        const targetYear = getVal("targetYear"); 
-        const dynamicTrigger = getVal("dynamicTrigger").trim();
+        // --- 2. New Inputs (Ref & Negatives) ---
+        const srefUrl = getVal("srefUrl").trim();
+        const userNeg = getVal("negativePrompt").trim();
         
-        // UPDATE LCD (NEW)
+        // UI Feedback: Show dot if URL exists
+        const srefDot = document.getElementById("srefDot");
+        if(srefDot) srefDot.style.opacity = srefUrl ? "1" : "0";
+
+        // --- 3. Dynamic Physics Translators ---
+        const isoNum = parseInt(iso) || 0;
+        let isoDesc = "";
+        if (iso !== "None") {
+            if (isoNum <= 100) isoDesc = "pristine, noise-free, crystal clear, smooth gradation";
+            else if (isoNum >= 800 && isoNum < 3200) isoDesc = "noticeable film grain, analog texture";
+            else if (isoNum >= 3200) isoDesc = "heavy high-iso sensor noise, gritty texture, chromatic noise";
+            else isoDesc = "authentic texture";
+        }
+
+        const lensCharMap = {
+            "None": "standard optical clarity",
+            "Clinical Sharp": "razor sharp edge-to-edge, high micro-contrast, zero distortion",
+            "Vintage Softness": "soft focus corners, low contrast, organic bloom, optical imperfections",
+            "Dreamy Bloom": "strong halation, glowing highlights, ethereal softness, diffusion filter",
+            "Gentle Halation": "subtle highlight bleed, warm glow, pro-mist effect",
+            "Heavy Vignette": "dark falloff in corners, tunnel vision effect, antique optic",
+            "Swirly Bokeh": "circular background swirl, petzval lens distortion, busy bokeh",
+            "Petzval Curvature": "extreme field curvature, sharp center with blurred edges"
+        };
+        const lensCharDesc = lensCharMap[getVal("lensChar")] || "";
+
+        // --- 4. LCD Update ---
         const lcdSafe = (val) => (val && val !== "None") ? val : "--";
         document.getElementById("lcd-shutter").innerText = lcdSafe(shutter);
         document.getElementById("lcd-aperture").innerText = lcdSafe(aperture);
         document.getElementById("lcd-iso").innerText = (iso && iso !== "None") ? iso : "--";
         document.getElementById("lcd-focal").innerText = (focal && focal !== "mm") ? focal.replace("mm","") : "--";
 
-        // Build Tech Strings
+        // --- 5. Build Parts ---
         let techParts = [];
         if(aperture !== "None") techParts.push(aperture);
         if(shutter !== "None") techParts.push(shutter);
         if(iso !== "None") techParts.push("ISO " + iso);
         const techString = techParts.join(", ");
 
-        // Build Mood Strings
         let moodParts = [];
         if(film !== "None") moodParts.push(film);
         if(getVal("wb") !== "None") moodParts.push(getVal("wb"));
         if(getVal("grain") !== "None") moodParts.push(getVal("grain"));
-        if(getVal("lensChar") !== "None") moodParts.push(getVal("lensChar"));
-        if(getVal("colorGrading") !== "None") moodParts.push(getVal("colorGrading") + " color grading");
-        if(getVal("artisticInfluences") !== "None") moodParts.push("influenced by " + getVal("artisticInfluences"));
         const moodString = moodParts.join(", ");
         
         const lightingNotes = Array.from(activeLightingSetups).join(", ");
-        
-        // --- BRANCH LOGIC BASED ON MODEL ---
         
         let promptMain = "";
         let promptCine = "";
         let promptGrit = "";
         let promptProd = "";
-        let promptLLM = ""; // Director Notes are empty now
-        
-        // Helper to format prompt content
-        const clean = (s) => s.replace(/\.\./g, ".").replace(/,,/g, ",").replace(/ +/g, " ").trim();
-        
-        // 1. Generate DIRECTOR NOTES (Structured LLM Prompt) - Removed the verbose structure logic
-        promptLLM = "";
 
+  
+        // --- UI VISIBILITY LOGIC ---
+        const tuningRack = document.getElementById("midjourneyTuningRack");
+        const srefContainer = document.getElementById("srefContainer");
+        
+        if (activeModel === "midjourney") {
+            // Show MJ-specific tools
+            if(tuningRack) tuningRack.classList.remove("hidden");
+            if(srefContainer) srefContainer.classList.remove("hidden");
+        } else {
+            // Hide MJ-specific tools for Flux/GPT
+            if(tuningRack) tuningRack.classList.add("hidden");
+            if(srefContainer) srefContainer.classList.add("hidden");
+        }
 
-        // 2. Generate FINAL PROMPTS based on Model selection
+        // --- 7. Model Logic ---
 
         if (activeModel === "midjourney") {
-            // --- MIDJOURNEY LOGIC (Paragraphs) ---
-            
+            // MJ v7 Logic
             let blocks = [];
-            // Add location and datetime to the scene description
-            blocks.push(`${scene}${locationPart}${datetimePart}, ${genre} photography`);
-            blocks.push(`Shot on ${cam}, ${lens} ${focal}${techString ? `, ${techString}` : ""}`);
+            blocks.push(`${scene}${locationPart}${datetimePart}. ${genre} photography.`);
+            blocks.push(`Shot on ${cam} with a ${lens} lens at ${focal}. Settings: ${techString || "Auto"}.`);
             
             let styleBlock = [];
             if(lighting !== "None") styleBlock.push(lighting);
             if(lightingNotes) styleBlock.push(lightingNotes);
-            if(composition !== "None") styleBlock.push(composition);
             if(moodString) styleBlock.push(moodString);
+            if(isoDesc) styleBlock.push(isoDesc); 
+            if(getVal("lensChar") !== "None") styleBlock.push(lensCharDesc);
             if(vibe) styleBlock.push(vibe);
-            if(genre === "product" && getVal("productSubgenre") !== "None") styleBlock.push(getVal("productSubgenre"));
             if(styleBlock.length > 0) blocks.push(styleBlock.join(", "));
 
             let coreText = blocks.join(".\n\n"); 
             
-            promptMain = coreText + "\n\n--style raw --s 250" + activeAR;
-            promptCine = coreText + "\n\n--style raw --s 250" + activeAR;
-            promptGrit = coreText + ", high contrast, gritty texture\n\n--style raw" + activeAR; 
-            promptProd = coreText + ", commercial lighting, hyper-detailed, 8k\n\n" + activeAR;
+            // --- PARAMS CONSTRUCTION ---
+            // 1. Negatives (Base + User)
+            let baseNegs = "illustration, 3d render, painting, drawing, cgi, text, watermark, smooth skin";
+            if(userNeg) baseNegs += `, ${userNeg}`;
+            const finalNegs = ` --no ${baseNegs}`;
+
+            // 2. SREF
+            const finalSref = srefUrl ? ` --sref ${srefUrl}` : "";
+
+            // 3. Tuning Sliders
+            const sVal = document.getElementById("paramStylize") ? document.getElementById("paramStylize").value : "150";
+            const cVal = document.getElementById("paramChaos") ? document.getElementById("paramChaos").value : "0";
+            const wVal = document.getElementById("paramWeird") ? document.getElementById("paramWeird").value : "0";
+            
+            let baseParams = ` --v 7 --style raw`;
+            if(cVal > 0) baseParams += ` --c ${cVal}`;
+            if(wVal > 0) baseParams += ` --w ${wVal}`;
+
+            // Master
+            const masterParams = baseParams + ` --s ${sVal}`;
+            
+            // Combine
+            const extras = finalSref + finalNegs + activeAR;
+
+            promptMain = coreText + "\n\n" + masterParams + extras;
+            
+            // Variations
+            promptCine = coreText + "\n\nCinematic color grading, teal and orange, IMAX quality." + baseParams + " --s 250" + extras;
+            promptGrit = coreText + "\n\nTactile texture, micro-contrast, raw documentary aesthetic." + baseParams + " --s 50" + extras; 
+            promptProd = coreText + "\n\nCommercial studio lighting, advertising standard, 8k resolution." + baseParams + " --s 400" + extras;
 
         } else if (activeModel === "flux") {
-            // --- FLUX.1 LOGIC (Grouped Sentences) ---
-
-            // Add location and datetime to the scene description
-            let p1 = `${scene}${locationPart}${datetimePart}.`;
-            
-            let p2 = `This is a ${genre} photograph shot on a ${cam} with a ${lens} lens ${focal ? `at ${focal}` : ""}.`;
-            if(techString) p2 += ` Camera settings: ${techString}.`;
+            // Flux.2 Logic
+            let p1 = `${scene}${locationPart}${datetimePart}. The image is a ${genre} photograph.`;
+            let p2 = `Captured on a ${cam} using a ${lens} lens set to ${focal || "35mm"}.`;
+            if(aperture && aperture !== "None") {
+                const isWide = aperture.includes('1.2') || aperture.includes('1.4') || aperture.includes('1.8') || aperture.includes('2.8');
+                p2 += ` Aperture ${aperture} applied for ${isWide ? "a shallow depth of field with blurry bokeh background" : "deep focus and edge-to-edge sharpness"}.`;
+            }
+            if(shutter && shutter !== "None") p2 += ` Shutter speed ${shutter} to control motion blur.`;
             
             let p3 = [];
-            if(lighting !== "None") p3.push(`The lighting is ${lighting}${lightingNotes ? ` featuring ${lightingNotes}` : ""}.`);
-            if(composition !== "None") p3.push(`Composition utilizes ${composition}.`);
-            if(moodString) p3.push(`The image has the look of ${moodString}.`);
-            if(vibe) p3.push(`Overall vibe: ${vibe}.`);
-            if(genre === "product" && getVal("productSubgenre") !== "None") p3.push(`Style: ${getVal("productSubgenre")}.`);
-            let p3Text = p3.join(" ");
+            if(lighting !== "None") p3.push(`Lighting configuration: ${lighting}${lightingNotes ? ` featuring ${lightingNotes}` : ""}.`);
+            if(moodString) p3.push(`Visual characteristics: ${moodString}.`);
+            if(vibe) p3.push(`Vibe: ${vibe}.`);
             
-            let p4 = `Aspect ratio is ${getARText(activeAR)}.`;
-            
-            let parts = [p1, p2, p3Text, p4].filter(x => x.trim().length > 0);
-            let core = parts.join("\n\n");
+            let isoText = isoDesc ? `, ${isoDesc}` : "";
+            let lensText = lensCharDesc ? `, ${lensCharDesc}` : "";
+            let p4 = `Texture Quality: High fidelity${isoText}${lensText}, raw sensor data, uncompressed.`;
+
+            // Append Negatives naturally
+            if(userNeg) p4 += `\nExclude: ${userNeg}.`;
+
+            let core = [p1, p2, p3.join(" "), p4].join("\n\n");
             
             promptMain = core;
-            promptCine = core + "\n\nThe style is cinematic and realistic.";
-            promptGrit = core + "\n\nThe image has high contrast and gritty texture.";
-            promptProd = core + "\n\nThe lighting is clean and commercial with hyper-detail.";
+            promptCine = core + "\n\nLook: Big budget cinema, anamorphic lens flares, volumetric fog, color graded.";
+            promptGrit = core + "\n\nLook: War photography, heavy grain, dirty lens, handheld camera shake.";
+            promptProd = core + "\n\nLook: Luxury advertising, macro contrast, specular highlights, clean background.";
 
         } else if (activeModel === "dalle") {
-            // --- DALL-E 3 / CHAT LOGIC (Instruction Blocks) ---
+            // GPT Logic
+            let header = "GENERATE A PHOTOREALISTIC IMAGE BASED ON THESE SPECIFICATIONS:\n\n";
+            
+            let dataBlock = `SUBJECT: ${scene}${locationPart}${datetimePart}
+CAMERA: ${cam}
+LENS: ${lens} (${focal}) ${lensCharDesc ? `-> Look: ${lensCharDesc}` : ""}
+LIGHTING: ${lighting} (${lightingNotes})
+ISO/TEXTURE: ${iso} ${isoDesc ? `(${isoDesc})` : ""}
+STYLE: ${moodString}
+VIBE: ${vibe}
+COMPOSITION: ${composition}
+${userNeg ? `AVOID/EXCLUDE: ${userNeg}` : ""}`;
 
-            // Add location and datetime to the scene description
-            let p1 = `Please generate a photorealistic image of: ${scene}${locationPart}${datetimePart}.`;
-            
-            let p2 = `Simulate the physics of a ${genre} photo taken with ${cam} using a ${lens} lens ${focal ? `at ${focal}` : ""}.`;
-            if(techString) p2 += ` Configure camera settings to: ${techString}.`;
-            
-            let p3 = [];
-            if(lighting !== "None") p3.push(`Set lighting to ${lighting}${lightingNotes ? ` combined with ${lightingNotes}` : ""}.`);
-            if(composition !== "None") p3.push(`Frame the shot using ${composition}.`);
-            if(moodString) p3.push(`Grade the colors and texture to mimic ${moodString}.`);
-            if(vibe) p3.push(`Capture this specific mood: ${vibe}.`);
-            let p3Text = p3.join(" ");
-            
-            let p4 = `Ensure the image is strictly photorealistic with no text overlays or graphics. The final output should be a ${getARText(activeAR)}.`;
-            
-            let parts = [p1, p2, p3Text, p4].filter(x => x.trim().length > 0);
-            let core = parts.join("\n\n");
+            let instructions = `\n\nCRITICAL INSTRUCTIONS:
+1. Visualize the scene using the optical characteristics of the ${lens} (DOF, distortion).
+2. Render the lighting exactly as "${lighting}".
+3. Aspect Ratio: ${getARText(activeAR)}.
+4. IMPORTANT: USE THE PROMPT EXACTLY AS WRITTEN. DO NOT REWRITE OR "ENHANCE" THE DESCRIPTION. 
+5. NO TEXT OVERLAYS OR GRAPHICS. Just the raw photo.`;
+
+            let core = header + dataBlock + instructions;
             
             promptMain = core;
-            promptCine = core + "\n\nPrioritize a dramatic, cinematic look.";
-            promptGrit = core + "\n\nEmphasize raw textures and high contrast.";
-            promptProd = core + "\n\nEnsure perfect, clean commercial lighting.";
+            promptCine = core + "\n\nSTYLE: Cinematic, IMAX quality, teal & orange grading.";
+            promptGrit = core + "\n\nSTYLE: Raw, documentary, high contrast, unpolished.";
+            promptProd = core + "\n\nSTYLE: Commercial advertising standard, perfect studio lighting, 8k.";
         }
 
-        // Clean up formatting
-        const cleanAndFormat = (s) => {
-            // Replaces newlines with actual line breaks for output textarea
-            return clean(s).replace(/\n\n/g, "\n\n").replace(/\n /g, "\n"); 
-        };
-        
+        // 8. Output
+        const cleanAndFormat = (s) => s.replace(/\.\./g, ".").replace(/,,/g, ",").replace(/ +/g, " ").trim();
         document.getElementById("outMain").value = cleanAndFormat(promptMain);
         document.getElementById("outCine").value = cleanAndFormat(promptCine);
         document.getElementById("outGrit").value = cleanAndFormat(promptGrit);
         document.getElementById("outProd").value = cleanAndFormat(promptProd);
-        // Ensure outLLM is empty or hidden text for removal, but not used in logic flow
-        const outLLMElement = document.getElementById("outLLM");
-        if (outLLMElement) {
-            outLLMElement.value = ""; 
-        }
+        document.getElementById("outLLM").value = ""; 
 
         updateAmbiance();
       }
@@ -1219,8 +1534,9 @@ const basePresets = [
           });
       });
       
-      // Set Default Active State
-      document.querySelector('[data-model="midjourney"]').click();
+      
+      // Set Default Active State to GPT / NanoBanana
+      document.querySelector('[data-model="dalle"]').click();
 
       // --- Export Recipe Logic ---
       document.getElementById("exportBtn").addEventListener("click", () => {
@@ -1255,7 +1571,7 @@ const basePresets = [
               scale: 2, // High Res
           }).then(canvas => {
               const link = document.createElement('a');
-              link.download = `phopro-recipe-${Date.now()}.png`;
+              link.download = `f-stop-recipe-${Date.now()}.png`;
               link.href = canvas.toDataURL();
               link.click();
           }).catch(err => {
@@ -1482,9 +1798,12 @@ const basePresets = [
           customPresets.push(newPreset);
           try { localStorage.setItem("customPresets", JSON.stringify(customPresets)); } catch(e) {}
           
+          // --- UPDATED MESSAGE LOGIC ---
           const status = document.getElementById("saveStatus");
-          status.innerText = "Saved!";
-          setTimeout(() => status.innerText = "", 2000);
+          // Using innerHTML allows us to color the second half of the sentence gray
+          status.innerHTML = "SAVED! <span class='text-studio-500'>Find it in 'Browse' menu.</span>";
+          
+          setTimeout(() => status.innerText = "", 4000); // Increased to 4 seconds
           renderDropdown();
       });
 
@@ -1536,11 +1855,47 @@ const basePresets = [
       });
 
       // Add "location" and "datetime" to the list
-      ["scene", "location", "datetime", "camera", "lens", "focal", "aperture", "shutter", "iso", "lighting", "composition", "film", "wb", "grain", "lensChar", "productSubgenre", "colorGrading", "artisticInfluences", "targetYear", "dynamicTrigger"].forEach(id => {
+      ["scene", "location", "datetime", "camera", "lens", "focal", "aperture", "shutter", "iso", "lighting", "composition", "film", "wb", "grain", "lensChar", "productSubgenre", "targetYear", "dynamicTrigger"].forEach(id => {
          const el = document.getElementById(id);
          // The input type check handles text/datetime-local inputs correctly
          if(el) el.addEventListener(el.tagName === "TEXTAREA" || el.tagName === "INPUT" ? "input" : "change", updatePrompt);
       });
+
+      // --- Tuning Rack Listeners ---
+      const tuningParams = ["paramStylize", "paramChaos", "paramWeird"];
+      tuningParams.forEach(id => {
+          const el = document.getElementById(id);
+          if(el) {
+              el.addEventListener("input", updatePrompt);
+          }
+      });
+
+      // Reset Button Logic
+      const resetBtn = document.getElementById("resetTuning");
+      if(resetBtn) {
+          resetBtn.addEventListener("click", () => {
+              document.getElementById("paramStylize").value = 150;
+              document.getElementById("paramChaos").value = 0;
+              document.getElementById("paramWeird").value = 0;
+              updatePrompt();
+          });
+      }
+
+      // Reference & Constraints Listeners
+      ["srefUrl", "negativePrompt"].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.addEventListener("input", updatePrompt);
+      });
+
+      // Clear Ref Button
+      const clearRefBtn = document.getElementById("clearRefBtn");
+      if(clearRefBtn) {
+          clearRefBtn.addEventListener("click", () => {
+              document.getElementById("srefUrl").value = "";
+              document.getElementById("negativePrompt").value = "";
+              updatePrompt();
+          });
+      }
 
       // Remove Loader
       const l = document.getElementById('app-loader');
@@ -1557,5 +1912,8 @@ const basePresets = [
     }
   });
 </script>
+
+
+
 </body>
 </html>
