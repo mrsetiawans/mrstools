@@ -18,100 +18,181 @@
         rel="stylesheet">
 
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #22d3ee;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f0f1a;
+            --bg-darker: #0a0a12;
+            --bg-card: #1a1a2e;
+            --bg-hover: #252540;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
         }
 
         .font-mono {
             font-family: 'Fira Code', monospace;
         }
 
-        /* Scrollbar kustom Global */
+        /* Premium Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
-            /* Lebar scrollbar dipertegas */
-            height: 10px;
+            width: 8px;
+            height: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #1e1e1e;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #4b5563;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
             border-radius: 4px;
-            border: 2px solid #1e1e1e;
-            /* Memberi jarak agar terlihat rapi */
+            border: 2px solid transparent;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #6b7280;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
         }
 
-        /* Styling khusus untuk area editor agar mirip IDE */
+        /* Premium Header Gradient */
+        .header-gradient {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Glass Effect for Panels */
+        .glass-panel {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Modern Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        /* Editor Styling - IDE Look */
         .editor-wrapper {
             position: relative;
-            background-color: #1e1e1e;
+            background: linear-gradient(180deg, #1e1e2e 0%, #181825 100%);
             counter-reset: line;
         }
 
         #line-numbers {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 40px;
-            background-color: #2d2d2d;
-            color: #858585;
+            width: 50px;
+            background: linear-gradient(180deg, #1a1a28 0%, #151520 100%);
+            color: #6272a4;
             text-align: right;
-            padding-right: 8px;
+            padding-right: 12px;
             padding-top: 10px;
             font-family: 'Fira Code', monospace;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
             user-select: none;
             overflow: hidden;
-            border-right: 1px solid #404040;
-            z-index: 20;
+            border-right: 1px solid rgba(98, 114, 164, 0.3);
+            flex-shrink: 0;
         }
 
-        /* KONFIGURASI WRAPPING YANG SANGAT PENTING */
+        #line-numbers-inner {
+            white-space: pre;
+            padding-bottom: 50vh;
+        }
+
+        #editor-scroller {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            /* Scroller hanya sebagai container */
+            background: transparent;
+        }
+
+        /* Code Style Configuration */
         .code-style {
             font-family: 'Fira Code', monospace;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.5;
-            white-space: pre-wrap;
-            /* Wajib sama */
-            word-wrap: break-word;
-            /* Wajib sama */
-            overflow-wrap: break-word;
-            /* Wajib sama */
-            padding-left: 50px;
-            /* Wajib sama */
-            padding-top: 10px;
-            /* Wajib sama */
-            padding-right: 10px;
-            /* Wajib sama */
+            white-space: pre;
+            word-wrap: normal !important;
+            overflow-wrap: normal !important;
+            padding: 10px 20px 50vh 10px;
             box-sizing: border-box;
-            /* Wajib sama */
-        }
-
-        /* INPUT TEXTAREA (DEPAN) */
-        #code-input {
-            position: relative;
+            color: #cdd6f4;
+            position: absolute;
+            /* Tumpuk di dalam editor-scroller */
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: transparent;
-            border: none;
-            color: #d4d4d4;
-            resize: none;
-            outline: none;
-            z-index: 10;
-            overflow-y: scroll;
-            /* PERBAIKAN: Selalu tampilkan scrollbar agar lebar konsisten */
         }
 
-        /* HIGHLIGHT LAYER (BELAKANG) */
+        #code-input {
+            z-index: 10;
+            background: transparent;
+            overflow: auto;
+            /* Aktifkan scroll di sini */
+            resize: none;
+            outline: none;
+            border: none;
+            caret-color: var(--accent);
+        }
+
+        #highlight-layer {
+            z-index: 5;
+            overflow: hidden;
+            border: none;
+        }
+
+        #code-input::placeholder {
+            color: #45475a;
+        }
+
+        #code-input:focus {
+            outline: none;
+        }
+
         #highlight-layer {
             position: absolute;
             top: 0;
@@ -121,16 +202,13 @@
             color: transparent;
             pointer-events: none;
             z-index: 5;
-            overflow-y: scroll;
-            /* PERBAIKAN: Ikut punya scrollbar agar wrapping text sama persis */
+            overflow: hidden;
+            /* Sembunyikan scrollbar layer highlight, sinkronisasi via JS */
         }
 
-        /* Sembunyikan scrollbar pada highlight layer agar tidak dobel visualnya, 
-           tapi fungsinya tetap mengambil ruang (space) */
         #highlight-layer::-webkit-scrollbar {
             background: transparent;
-            width: 10px;
-            /* Harus sama persis dengan scrollbar utama */
+            width: 8px;
         }
 
         #highlight-layer::-webkit-scrollbar-thumb {
@@ -138,28 +216,27 @@
             border: none;
         }
 
-        /* WARNA HIGHLIGHT */
+        /* Search Highlight */
         mark {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(249, 226, 175, 0.2);
             color: transparent;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         mark.current-match {
-            background-color: rgba(255, 193, 7, 0.5);
-            border: 1px solid rgba(255, 193, 7, 0.8);
-            box-shadow: none;
-            z-index: 10;
+            background-color: rgba(249, 226, 175, 0.5);
+            border: 1px solid #f9e2af;
+            box-shadow: 0 0 8px rgba(249, 226, 175, 0.4);
         }
 
-        /* Animasi loader */
+        /* Premium Loader */
         .loader {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-top: 2px solid var(--primary);
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
             display: none;
         }
 
@@ -172,43 +249,146 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Tab Styling */
+        .tab-active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+            color: white !important;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .tab-inactive {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .tab-inactive:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* Preview Panel */
+        .preview-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .preview-container-bg {
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Device Frame Enhancement */
+        .device-frame-preview {
+            border: 6px solid #1f2937;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Split View Divider */
+        .split-divider {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        /* Pulse Animation for Active Elements */
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .pulse-active {
+            animation: pulse-subtle 2s ease-in-out infinite;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Hover Glow Effect */
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* URL Preview Mode Badge */
+        .mode-badge {
+            background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
+            box-shadow: 0 2px 8px rgba(34, 211, 238, 0.3);
+        }
     </style>
 </head>
 
-<body class="bg-gray-900 text-white h-screen flex flex-col overflow-hidden">
+<body class="text-white h-screen flex flex-col overflow-hidden">
 
     <!-- HEADER / TOOLBAR -->
-    <header class="bg-gray-800 border-b border-gray-700 h-14 flex items-center justify-between px-4 shrink-0">
-        <div class="flex items-center gap-2">
-            <i data-lucide="code-2" class="text-blue-400"></i>
-            <h1 class="font-semibold text-lg tracking-tight">HTML Viewer <span
-                    class="text-xs bg-blue-600 px-1.5 py-0.5 rounded text-white ml-1">Pro</span></h1>
+    <header class="header-gradient h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center gap-3">
+            <div
+                class="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">
+                <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+                <h1 class="font-semibold text-lg tracking-tight flex items-center gap-2">
+                    HTML Viewer
+                    <span
+                        class="text-[10px] bg-gradient-to-r from-indigo-500 to-purple-500 px-2 py-0.5 rounded-full text-white font-bold uppercase tracking-wider">Pro</span>
+                </h1>
+                <p class="text-[10px] text-gray-500 -mt-0.5 hidden sm:block">Editor & Live Preview</p>
+            </div>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
             <button onclick="runCode()"
-                class="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded text-sm font-medium transition"
+                class="btn-success flex items-center gap-1.5 text-white px-4 py-2 rounded-lg text-sm font-medium hover-glow"
                 title="Jalankan Manual (Ctrl+Enter)">
                 <i data-lucide="play" class="w-4 h-4"></i> <span class="hidden sm:inline">Run</span>
             </button>
 
             <button onclick="openInNewTab()"
-                class="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm font-medium transition"
+                class="btn-primary flex items-center gap-1.5 text-white px-4 py-2 rounded-lg text-sm font-medium hover-glow"
                 title="Buka di Tab Baru">
                 <i data-lucide="external-link" class="w-4 h-4"></i> <span class="hidden sm:inline">Full Page</span>
             </button>
 
-            <button onclick="downloadCode()"
-                class="flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded text-sm font-medium transition"
-                title="Unduh file .html">
-                <i data-lucide="download" class="w-4 h-4"></i> <span class="hidden sm:inline">Unduh</span>
-            </button>
+            <div class="hidden sm:flex items-center gap-2 ml-2 pl-2 border-l border-gray-700">
+                <button onclick="downloadCode()"
+                    class="btn-ghost flex items-center gap-1.5 text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium"
+                    title="Unduh file .html">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                </button>
 
-            <button onclick="copyCode()"
-                class="flex items-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1.5 rounded text-sm font-medium transition"
-                title="Salin ke Clipboard">
-                <i data-lucide="copy" class="w-4 h-4"></i>
-            </button>
+                <button onclick="copyCode()"
+                    class="btn-ghost flex items-center gap-1.5 text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium"
+                    title="Salin ke Clipboard">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -216,75 +396,97 @@
     <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
 
         <!-- EDITOR PANEL (LEFT) -->
-        <div class="w-full md:w-1/2 flex flex-col border-r border-gray-700 relative group">
+        <div class="w-full md:w-1/2 flex flex-col border-r border-indigo-500/20 relative group">
             <!-- EDITOR HEADER -->
-            <div
-                class="bg-gray-800 px-4 py-2 text-xs text-gray-400 flex justify-between items-center select-none border-b border-gray-700 shrink-0">
-                <span class="uppercase font-bold tracking-wider">Source Code</span>
-                <div class="flex items-center gap-3">
-                    <!-- Fitur Baru: Total Lines -->
-                    <span id="line-count" class="hidden sm:inline">0 Baris</span>
-                    <span class="hidden sm:inline w-px h-3 bg-gray-600"></span>
+            <div class="glass-panel px-4 py-2 text-xs flex justify-between items-center select-none shrink-0">
+                <!-- Tab Controls -->
+                <div class="flex items-center gap-1">
+                    <button id="editor-tab-1" onclick="switchTab(1)"
+                        class="tab-active px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                        <i data-lucide="file-code" class="w-3 h-3"></i> Tab 1
+                    </button>
+                    <button id="editor-tab-2" onclick="switchTab(2)"
+                        class="tab-inactive px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                        <i data-lucide="file-code" class="w-3 h-3"></i> Tab 2
+                    </button>
+                </div>
 
-                    <span id="char-count">0 Karakter</span>
+                <div class="flex items-center gap-3 text-gray-400">
+                    <span id="line-count" class="hidden sm:inline text-indigo-400">0 Baris</span>
+                    <span class="hidden sm:inline w-px h-3 bg-indigo-500/30"></span>
+                    <span id="char-count" class="text-cyan-400">0 Karakter</span>
 
-                    <button onclick="toggleSearch()" class="hover:text-blue-400 transition flex items-center gap-1 ml-2"
-                        title="Cari (Ctrl+F)">
-                        <i data-lucide="search" class="w-3 h-3"></i> Cari
+                    <button onclick="toggleSearch()"
+                        class="hover:text-indigo-400 transition flex items-center gap-1 ml-2" title="Cari (Ctrl+F)">
+                        <i data-lucide="search" class="w-3 h-3"></i> <span class="hidden sm:inline">Cari</span>
                     </button>
                     <button onclick="clearEditor()"
                         class="text-red-400 hover:text-red-300 transition flex items-center gap-1">
-                        <i data-lucide="trash-2" class="w-3 h-3"></i> Bersihkan
+                        <i data-lucide="trash-2" class="w-3 h-3"></i>
                     </button>
                 </div>
             </div>
 
             <!-- SEARCH BAR -->
-            <div id="search-bar"
-                class="hidden bg-gray-700 p-2 border-b border-gray-600 flex items-center gap-2 shrink-0 transition-all z-30 relative">
+            <div id="search-bar" class="hidden glass-panel p-2 flex items-center gap-2 shrink-0 z-30 relative fade-in">
                 <div class="relative flex-1">
                     <i data-lucide="search"
-                        class="w-4 h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="search-input" placeholder="Cari..."
-                        class="w-full bg-gray-800 text-white text-sm rounded border border-gray-600 focus:outline-none focus:border-blue-500 pl-8 pr-2 py-1"
+                        class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400"></i>
+                    <input type="text" id="search-input" placeholder="Cari dalam kode..."
+                        class="w-full bg-black/30 text-white text-sm rounded-lg border border-indigo-500/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 pl-10 pr-3 py-2"
                         autocomplete="off">
                 </div>
-                <span id="search-stats" class="text-xs text-gray-400 whitespace-nowrap w-16 text-center">0 of 0</span>
-                <button onclick="findNext(false)" class="p-1 hover:bg-gray-600 rounded text-gray-300"
+                <span id="search-stats" class="text-xs text-indigo-300 whitespace-nowrap w-16 text-center font-mono">0 /
+                    0</span>
+                <button onclick="findNext(false)"
+                    class="p-2 hover:bg-white/10 rounded-lg text-gray-300 hover:text-white"
                     title="Sebelumnya (Shift+Enter)">
                     <i data-lucide="chevron-up" class="w-4 h-4"></i>
                 </button>
-                <button onclick="findNext(true)" class="p-1 hover:bg-gray-600 rounded text-gray-300"
+                <button onclick="findNext(true)" class="p-2 hover:bg-white/10 rounded-lg text-gray-300 hover:text-white"
                     title="Selanjutnya (Enter)">
                     <i data-lucide="chevron-down" class="w-4 h-4"></i>
                 </button>
-                <button onclick="toggleSearch()" class="p-1 hover:bg-gray-600 rounded text-red-400 ml-1">
+                <button onclick="toggleSearch()"
+                    class="p-2 hover:bg-red-500/20 rounded-lg text-red-400 hover:text-red-300">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
 
-            <div class="editor-wrapper flex-1 overflow-hidden relative">
-                <div id="line-numbers">1</div>
-                <!-- Highlight Layer (Background) -->
-                <!-- Menambahkan class code-style agar properti CSS identik -->
-                <div id="highlight-layer" class="code-style"></div>
-                <!-- Input Layer (Foreground) -->
-                <textarea id="code-input" class="code-style" spellcheck="false"
-                    placeholder="Tulis kode HTML Anda di sini..."></textarea>
+            <div class="editor-wrapper flex-1 flex overflow-hidden relative">
+                <div id="line-numbers">
+                    <div id="line-numbers-inner">1</div>
+                </div>
+                <div id="editor-scroller">
+                    <!-- Highlight Layer (Background) -->
+                    <div id="highlight-layer" class="code-style"></div>
+                    <!-- Input Layer (Foreground) -->
+                    <textarea id="code-input" class="code-style" spellcheck="false"
+                        placeholder="Tulis kode HTML Anda di sini..."></textarea>
+                </div>
             </div>
         </div>
 
         <!-- PREVIEW PANEL (RIGHT) -->
-        <div class="w-full md:w-1/2 flex flex-col bg-gray-100">
-            <div class="bg-gray-200 border-b border-gray-300 px-4 py-2 flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Hasil Pratinjau</span>
+        <div class="w-full md:w-1/2 flex flex-col bg-slate-100">
+            <div class="preview-header px-4 py-2 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="text-xs font-bold text-slate-500 uppercase tracking-widest bg-slate-200 px-3 py-1 rounded-md">Live
+                            Preview</span>
+                    </div>
                     <div class="loader" id="preview-loader"></div>
                 </div>
-
-                <!-- Device Toggles -->
                 <!-- Device Toggles -->
                 <div class="flex items-center gap-2">
+                    <!-- Split View Toggle -->
+                    <button id="btn-split" onclick="toggleSplitView()"
+                        class="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-slate-200 text-slate-500 hover:text-indigo-600 transition"
+                        title="Dual Preview (Split View)">
+                        <i data-lucide="columns" class="w-4 h-4"></i>
+                    </button>
+
                     <!-- Scale Control -->
                     <div class="flex items-center gap-1 bg-gray-200 rounded px-2 py-1 mr-2" title="Mode Skala">
                         <i data-lucide="zoom-in" class="w-3 h-3 text-gray-500"></i>
@@ -311,22 +513,51 @@
                 </div>
             </div>
 
-            <div id="preview-container" class="flex-1 bg-gray-300 relative overflow-hidden">
-                <div id="scale-wrapper" class="origin-top-left transition-all duration-200">
-                    <div id="iframe-container" class="bg-white transition-all duration-300 shadow-lg overflow-hidden">
-                        <iframe id="preview-frame" class="w-full h-full border-none"
-                            sandbox="allow-scripts allow-same-origin allow-modals allow-forms"></iframe>
+
+
+            <div id="preview-container" class="flex-1 preview-container-bg relative overflow-hidden flex">
+
+                <!-- PREVIEW PANE 1 (DEFAULT) -->
+                <div id="preview-pane-1" class="flex-1 relative flex flex-col overflow-auto transition-all">
+                    <div
+                        class="absolute top-3 left-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full opacity-0 pointer-events-none transition-opacity z-20 tag-tab-1 shadow-lg">
+                        TAB 1</div>
+                    <div id="scale-wrapper-1" class="origin-top-left transition-all duration-200 mx-auto">
+                        <div id="iframe-container-1"
+                            class="bg-white transition-all duration-300 shadow-2xl overflow-hidden w-full h-full">
+                            <iframe id="preview-frame-1" class="w-full h-full border-none"
+                                sandbox="allow-scripts allow-same-origin allow-modals allow-forms"></iframe>
+                        </div>
                     </div>
                 </div>
+
+                <!-- PREVIEW PANE 2 (HIDDEN BY DEFAULT) -->
+                <div id="preview-pane-2"
+                    class="hidden w-0 flex-1 relative flex-col overflow-auto border-l-4 split-divider bg-slate-200 transition-all">
+                    <div
+                        class="absolute top-3 left-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-3 py-1 rounded-full opacity-80 pointer-events-none z-20 shadow-lg">
+                        TAB 2</div>
+                    <div id="scale-wrapper-2" class="origin-top-left transition-all duration-200 mx-auto">
+                        <div id="iframe-container-2"
+                            class="bg-white transition-all duration-300 shadow-2xl overflow-hidden w-full h-full">
+                            <iframe id="preview-frame-2" class="w-full h-full border-none"
+                                sandbox="allow-scripts allow-same-origin allow-modals allow-forms"></iframe>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
 
     <!-- TOAST NOTIFICATION -->
     <div id="toast"
-        class="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-2 rounded shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
-        <i data-lucide="check-circle" class="w-4 h-4"></i>
-        <span id="toast-msg">Berhasil</span>
+        class="fixed bottom-5 right-5 toast-notification text-white px-5 py-3 rounded-xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3">
+        <div
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-500">
+            <i data-lucide="check" class="w-4 h-4"></i>
+        </div>
+        <span id="toast-msg" class="font-medium">Berhasil</span>
     </div>
 
     <script>
@@ -334,21 +565,52 @@
 
         const codeInput = document.getElementById('code-input');
         const highlightLayer = document.getElementById('highlight-layer');
-        const previewFrame = document.getElementById('preview-frame');
+        // Preview elements now target ID 1 by default, dynamic access handled in logic
         const lineNumbers = document.getElementById('line-numbers');
+        const lineNumbersInner = document.getElementById('line-numbers-inner');
         const charCount = document.getElementById('char-count');
         const lineCount = document.getElementById('line-count');
 
-        const iframeContainer = document.getElementById('iframe-container');
-        const loader = document.getElementById('preview-loader');
-
+        const editorScroller = document.getElementById('editor-scroller');
         const searchBar = document.getElementById('search-bar');
         const searchInput = document.getElementById('search-input');
         const searchStats = document.getElementById('search-stats');
 
+
+
+        // New Element Refs
+        const previewFrame1 = document.getElementById('preview-frame-1');
+        const iframeContainer1 = document.getElementById('iframe-container-1');
+        const scaleWrapper1 = document.getElementById('scale-wrapper-1');
+        const previewPane1 = document.getElementById('preview-pane-1');
+
+        const previewFrame2 = document.getElementById('preview-frame-2');
+        const iframeContainer2 = document.getElementById('iframe-container-2');
+        const scaleWrapper2 = document.getElementById('scale-wrapper-2');
+        const previewPane2 = document.getElementById('preview-pane-2');
+
+        const btnSplit = document.getElementById('btn-split');
+        const editorTab1 = document.getElementById('editor-tab-1');
+        const editorTab2 = document.getElementById('editor-tab-2');
+
         let searchMatches = [];
         let currentMatchIndex = -1;
         let currentDevice = { width: '100%', height: '100%', name: 'Desktop' };
+
+        // Multi-Tab State
+        let activeTabId = 1;
+        let isSplitView = false;
+
+        let tabsData = {
+            1: {
+                code: '', // Will be populated with defaultCode
+                blobUrl: null
+            },
+            2: {
+                code: '',
+                blobUrl: null
+            }
+        };
 
         const devices = {
             'desktop': { width: '100%', height: '100%', name: 'Desktop' },
@@ -410,54 +672,197 @@
 </body>
 </html>`;
 
-        codeInput.value = defaultCode;
+        // Initial Data for Tab 1
+        tabsData[1].code = defaultCode;
+        tabsData[2].code = `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #eee; text-align: center; }
+        .box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Tab 2 Content</h2>
+        <p>This is separate content.</p>
+    </div>
+</body>
+</html>`;
 
-        const updateLineNumbers = () => {
-            const lines = codeInput.value.split('\n').length;
-            lineNumbers.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+        // Set UI to Tab 1 Data
+        codeInput.value = tabsData[1].code;
 
-            // Update Text Total Baris
-            lineCount.innerText = `${lines} Baris`;
-        };
-
-        let currentUrl = null;
-
-        const updatePreview = () => {
-            loader.style.display = 'block';
+        let lastLineCount = 0;
+        const updateLineNumbers = (force = false) => {
             const code = codeInput.value;
-            charCount.innerText = `${code.length} Karakter`;
+            const lines = code.split('\n').length;
 
-            if (currentUrl) {
-                URL.revokeObjectURL(currentUrl);
+            if (lines !== lastLineCount || force) {
+                // Optimasi Performa: Gunakan Array push/join daripada string concatenation
+                const lineNumbersArray = new Array(lines);
+                for (let i = 0; i < lines; i++) {
+                    lineNumbersArray[i] = i + 1;
+                }
+                lineNumbersInner.innerText = lineNumbersArray.join('\n');
+                lastLineCount = lines;
+                lineCount.innerText = `${lines} Baris`;
             }
 
+            // Sync Current Tab Data
+            tabsData[activeTabId].code = code;
+        };
+
+        const updatePreview = () => {
+            // Logic handled by updateTabPreview for specific tabs
+            // Or if we just want to update ACTIVE tab
+            updateTabPreview(activeTabId);
+
+            // If Split View is ON, we should ensure the OTHER tab is also up to date (usually it is, but to be sure)
+            if (isSplitView) {
+                const otherTab = activeTabId === 1 ? 2 : 1;
+                updateTabPreview(otherTab);
+            }
+        };
+
+        // Core function to update a specific tab's preview
+        const updateTabPreview = (tabId) => {
+            const data = tabsData[tabId];
+            const frame = tabId === 1 ? previewFrame1 : previewFrame2;
+
+            // If split view is OFF and this tab is NOT the active one, no need to render heavier things
+            if (!isSplitView && tabId !== activeTabId) return;
+
+            const code = data.code;
+
+            // Only update char count if it's the active tab
+            if (tabId === activeTabId) {
+                charCount.innerText = `${code.length} Karakter`;
+            }
+
+            if (data.blobUrl) URL.revokeObjectURL(data.blobUrl);
+
             const blob = new Blob([code], { type: 'text/html' });
-            currentUrl = URL.createObjectURL(blob);
-            previewFrame.src = currentUrl;
+            data.blobUrl = URL.createObjectURL(blob);
+            frame.src = data.blobUrl;
         };
 
-        previewFrame.onload = () => {
-            loader.style.display = 'none';
-        };
 
+
+        // Initialize
         updateLineNumbers();
-        setTimeout(updatePreview, 100);
+        setTimeout(() => {
+            updateTabPreview(1);
+            updateTabPreview(2);
+        }, 100);
+
+        // Function to switch active tab
+        function switchTab(id) {
+            activeTabId = id;
+            const data = tabsData[id];
+
+            // 1. Update Tab UI with new classes
+            if (id === 1) {
+                editorTab1.className = "tab-active px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5";
+                editorTab2.className = "tab-inactive px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5";
+
+                document.querySelector('.tag-tab-1').classList.remove('opacity-0');
+            } else {
+                editorTab2.className = "tab-active px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5";
+                editorTab1.className = "tab-inactive px-4 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5";
+
+                document.querySelector('.tag-tab-1').classList.add('opacity-0');
+            }
+
+            // 2. Restore Editor Content
+            codeInput.value = data.code;
+            highlightLayer.innerHTML = escapeHtml(data.code);
+
+            updateLineNumbers(true);
+
+            // 3. Handle Single Preview Swapping (if not split)
+            if (!isSplitView) {
+                if (id === 1) {
+                    previewPane1.classList.remove('hidden');
+                    previewPane2.classList.add('hidden');
+                } else {
+                    previewPane1.classList.add('hidden');
+                    previewPane2.classList.remove('hidden');
+                }
+            }
+
+            // Update highlight
+            // run highlight logic manually...
+            if (!searchBar.classList.contains('hidden')) performSearch();
+
+            showToast(`Switched to Tab ${id}`);
+        }
+
+        function toggleSplitView() {
+            isSplitView = !isSplitView;
+
+            if (isSplitView) {
+                // Enable Split
+                previewPane1.classList.remove('hidden');
+                previewPane2.classList.remove('hidden');
+
+                // Show Tab 2 content
+                previewPane2.classList.remove('w-0');
+
+                btnSplit.classList.add('bg-blue-100', 'text-blue-600');
+
+                // Refresh both previews to be safe
+                updateTabPreview(1);
+                updateTabPreview(2);
+
+                showToast('Split View Aktif');
+            } else {
+                // Disable Split
+                // Hide the one that is NOT active
+                if (activeTabId === 1) {
+                    previewPane2.classList.add('hidden');
+                    previewPane2.classList.add('w-0'); // collapse
+                    previewPane1.classList.remove('hidden');
+                } else {
+                    previewPane1.classList.add('hidden');
+                    previewPane2.classList.remove('hidden');
+                }
+
+                btnSplit.classList.remove('bg-blue-100', 'text-blue-600');
+                showToast('Single View');
+            }
+
+            // Recalculate Scales because container size changed
+            setTimeout(applyScale, 50);
+        }
 
         // Event Listeners
         codeInput.addEventListener('input', () => {
             updateLineNumbers();
+
+            // Debounce Search
             if (!searchBar.classList.contains('hidden')) {
-                performSearch();
+                clearTimeout(window.searchTimeout);
+                window.searchTimeout = setTimeout(performSearch, 300);
             }
+
+            // Debounce Preview (Dipercepat sedikit ke 800ms untuk responsivitas lebih baik)
             clearTimeout(window.updateTimeout);
-            window.updateTimeout = setTimeout(updatePreview, 1000);
+            window.updateTimeout = setTimeout(updatePreview, 800);
         });
 
-        // SINKRONISASI SCROLL
+        // SINKRONISASI SCROLL (Optimized with requestAnimationFrame)
+        let isSyncingScroll = false;
         codeInput.addEventListener('scroll', () => {
-            lineNumbers.scrollTop = codeInput.scrollTop;
-            highlightLayer.scrollTop = codeInput.scrollTop; // Sync Vertikal
-            highlightLayer.scrollLeft = codeInput.scrollLeft; // Sync Horizontal (jika ada)
+            if (!isSyncingScroll) {
+                window.requestAnimationFrame(() => {
+                    lineNumbers.scrollTop = codeInput.scrollTop;
+                    highlightLayer.scrollTop = codeInput.scrollTop;
+                    highlightLayer.scrollLeft = codeInput.scrollLeft;
+                    isSyncingScroll = false;
+                });
+                isSyncingScroll = true;
+            }
         });
 
         codeInput.addEventListener('keydown', (e) => {
@@ -472,8 +877,17 @@
             if (e.ctrlKey && e.key === 'Enter') {
                 runCode();
             }
+        });
+
+        // Global Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            // Ctrl+F or Cmd+F for Search
             if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
                 e.preventDefault();
+                toggleSearch();
+            }
+            // Escape to close search
+            if (e.key === 'Escape' && !searchBar.classList.contains('hidden')) {
                 toggleSearch();
             }
         });
@@ -599,14 +1013,22 @@
             const activeMark = marks[index];
 
             if (activeMark) {
+                // Vertical centering
                 const topPos = activeMark.offsetTop;
                 const markHeight = activeMark.offsetHeight;
                 const editorHeight = codeInput.clientHeight;
+                const centerTop = topPos - (editorHeight / 2) + (markHeight / 2);
 
-                const centerPos = topPos - (editorHeight / 2) + (markHeight / 2);
+                // Horizontal centering (untuk baris yang sangat panjang)
+                const leftPos = activeMark.offsetLeft;
+                const markWidth = activeMark.offsetWidth;
+                const editorWidth = codeInput.clientWidth;
+                // Geser ke tengah jika memungkinkan, atau minimal pastikan terlihat
+                const centerLeft = leftPos - (editorWidth / 2) + (markWidth / 2);
 
-                codeInput.scrollTop = centerPos;
-                highlightLayer.scrollTop = centerPos;
+                // Update scroll pada codeInput (highlightLayer akan sinkron otomatis via event listener)
+                codeInput.scrollTop = centerTop;
+                codeInput.scrollLeft = Math.max(0, centerLeft); // Jangan scroll negatif
             }
         }
 
@@ -647,17 +1069,11 @@
 
         let currentScaleMode = 'fit';
 
-        const scaleWrapper = document.getElementById('scale-wrapper');
+        // Scale Logic Enhancement for Split/Multi
         const previewContainer = document.getElementById('preview-container');
 
         // Ensure preview container allows safe centering and scrolling via Flexbox + Margin Auto
-        previewContainer.style.display = 'flex';
-        previewContainer.style.flexDirection = 'column';
-        previewContainer.style.overflow = 'auto';
-
-        // Wrapper style for safe centering
-        scaleWrapper.style.margin = 'auto';
-        scaleWrapper.style.flex = '0 0 auto';
+        // Modified for Split: Default styles are good.
 
         // Update 5.0" to better aspect ratio
         devices['5.0'] = { width: '360px', height: '760px', name: 'Mobile 5.0"' };
@@ -667,21 +1083,25 @@
             const device = devices[deviceKey];
             currentDevice = device;
 
-            if (deviceKey !== 'desktop') {
-                // Mobile Mode
-                iframeContainer.style.width = device.width;
-                iframeContainer.style.height = device.height;
-                iframeContainer.style.maxHeight = 'none';
-                iframeContainer.style.border = '8px solid #333';
-                iframeContainer.style.borderRadius = '20px';
-            } else {
-                // Desktop Mode
-                iframeContainer.style.width = '100%';
-                iframeContainer.style.height = '100%';
-                iframeContainer.style.maxHeight = '100%';
-                iframeContainer.style.border = 'none';
-                iframeContainer.style.borderRadius = '0';
-            }
+            [1, 2].forEach(id => {
+                const container = document.getElementById(`iframe-container-${id}`);
+
+                if (deviceKey !== 'desktop') {
+                    // Mobile Mode
+                    container.style.width = device.width;
+                    container.style.height = device.height;
+                    container.style.maxHeight = 'none';
+                    container.style.border = '8px solid #333';
+                    container.style.borderRadius = '20px';
+                } else {
+                    // Desktop Mode
+                    container.style.width = '100%';
+                    container.style.height = '100%';
+                    container.style.maxHeight = '100%';
+                    container.style.border = 'none';
+                    container.style.borderRadius = '0';
+                }
+            });
 
             applyScale();
             showToast(`Mode: ${device.name}`);
@@ -693,48 +1113,60 @@
         }
 
         function applyScale() {
-            // Desktop Logic
-            if (currentDevice.name === 'Desktop') {
-                iframeContainer.style.transform = 'none';
-                scaleWrapper.style.width = '100%';
-                scaleWrapper.style.height = '100%';
-                previewContainer.style.overflow = 'hidden';
-                return;
-            }
+            // Apply scale to BOTH wrappers if they exist
+            [1, 2].forEach(id => {
+                const container = document.getElementById(`iframe-container-${id}`);
+                const wrapper = document.getElementById(`scale-wrapper-${id}`);
+                const pane = document.getElementById(`preview-pane-${id}`);
 
-            // Mobile Logic
-            previewContainer.style.overflow = 'auto';
+                // Skip if hidden/collapsed check (optional, but good for perf)
+                if (pane.classList.contains('hidden')) return;
 
-            let scale = 1.0;
-            const padding = 40;
-            const parentWidth = previewContainer.clientWidth;
-            const parentHeight = previewContainer.clientHeight;
+                // Desktop Logic
+                if (currentDevice.name === 'Desktop') {
+                    container.style.transform = 'none';
+                    wrapper.style.width = '100%';
+                    wrapper.style.height = '100%';
+                    pane.style.overflow = 'hidden'; // Scroll handled by iframe content
+                    return;
+                }
 
-            const deviceWidth = parseInt(currentDevice.width);
-            const deviceHeight = parseInt(currentDevice.height);
+                // Mobile Scale Logic
+                pane.style.overflow = 'auto'; // Pane scrolls
 
-            if (currentScaleMode === 'fit') {
-                // Calculation for Fit
-                const availableWidth = parentWidth - padding;
-                const availableHeight = parentHeight - padding;
-                const scaleX = availableWidth / deviceWidth;
-                const scaleY = availableHeight / deviceHeight;
-                scale = Math.min(scaleX, scaleY, 1.0);
+                let scale = 1.0;
+                const padding = 40;
+                // Use Pane client dimensions, not global container
+                const parentWidth = pane.clientWidth;
+                const parentHeight = pane.clientHeight;
 
-                previewContainer.style.overflow = 'hidden';
-            } else {
-                // Fixed Scale
-                scale = parseFloat(currentScaleMode);
-                previewContainer.style.overflow = 'auto';
-            }
+                const deviceWidth = parseInt(currentDevice.width);
+                const deviceHeight = parseInt(currentDevice.height);
 
-            // Apply Transform
-            iframeContainer.style.transform = `scale(${scale})`;
-            iframeContainer.style.transformOrigin = 'top left';
+                if (currentScaleMode === 'fit') {
+                    // Calculation for Fit
+                    // Prevent divide by zero or negative
+                    if (parentWidth > 0 && parentHeight > 0) {
+                        const availableWidth = parentWidth - padding;
+                        const availableHeight = parentHeight - padding;
+                        const scaleX = Math.max(0.1, availableWidth / deviceWidth);
+                        const scaleY = Math.max(0.1, availableHeight / deviceHeight);
+                        scale = Math.min(scaleX, scaleY, 1.0);
+                    }
+                    pane.style.overflow = 'hidden';
+                } else {
+                    scale = parseFloat(currentScaleMode);
+                    pane.style.overflow = 'auto';
+                }
 
-            // Resize Wrapper to match Visual Size
-            scaleWrapper.style.width = `${deviceWidth * scale}px`;
-            scaleWrapper.style.height = `${deviceHeight * scale}px`;
+                // Apply Transform
+                container.style.transform = `scale(${scale})`;
+                container.style.transformOrigin = 'top left';
+
+                // Resize Wrapper to match Visual Size
+                wrapper.style.width = `${deviceWidth * scale}px`;
+                wrapper.style.height = `${deviceHeight * scale}px`;
+            });
         }
 
         // Re-calculate scale on window resize
@@ -746,15 +1178,238 @@
 
 
         function openInNewTab() {
-            const code = codeInput.value;
+            const data1 = tabsData[1];
+            const data2 = tabsData[2];
+
+            // DUAL MODE (Jika Split View Aktif)
+            if (isSplitView) {
+                // Determine content type for both
+                const getSrc = (data) => {
+                    const b64 = btoa(unescape(encodeURIComponent(data.code)));
+                    return `data:text/html;base64,${b64}`;
+                };
+
+                const frame1Src = getSrc(data1);
+                const frame2Src = getSrc(data2);
+
+                const isMobile = currentDevice.name !== 'Desktop';
+                const deviceWidth = currentDevice.width;
+                const deviceHeight = currentDevice.height;
+
+                const dualTemplate = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dual Preview Comparison - HTML Viewer Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            height: 100vh; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Inter', sans-serif; 
+            color: white;
+        }
+        
+        /* Top Header */
+        .top-header {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .top-header h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-header h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .device-info {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            padding: ${isMobile ? '20px' : '0'};
+            gap: ${isMobile ? '20px' : '0'};
+            justify-content: center;
+            align-items: ${isMobile ? 'flex-start' : 'stretch'};
+            overflow-y: ${isMobile ? 'auto' : 'hidden'};
+        }
+        
+        /* Pane */
+        .pane { 
+            flex: ${isMobile ? '0 0 auto' : '1'};
+            display: flex; 
+            flex-direction: column;
+            ${isMobile ? '' : 'border-right: 1px solid rgba(255,255,255,0.1);'}
+            background: ${isMobile ? 'transparent' : 'rgba(0,0,0,0.2)'};
+        }
+        .pane:last-child { border-right: none; }
+        
+        /* Pane Header */
+        .pane-header { 
+            background: ${isMobile ? 'transparent' : 'rgba(0,0,0,0.3)'};
+            padding: ${isMobile ? '8px 0' : '10px 16px'};
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            ${isMobile ? 'justify-content: center;' : ''}
+        }
+        .pane-header .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .pane-header .badge.tab1 { background: #3b82f6; }
+        .pane-header .badge.tab2 { background: #22c55e; }
+        .pane-header .mode-label {
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
+            font-size: 10px;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Device Frame for Mobile */
+        .device-frame {
+            width: ${deviceWidth};
+            height: ${deviceHeight};
+            background: white;
+            border: 10px solid #2d2d2d;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.1);
+            flex-shrink: 0;
+        }
+        
+        /* Iframe */
+        iframe { 
+            flex: 1; 
+            width: 100%; 
+            height: 100%;
+            border: none; 
+            background: white; 
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            text-align: center;
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        /* Responsive for smaller screens */
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+            }
+            .pane {
+                flex: 1;
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            Dual Preview Comparison
+            <span>SPLIT VIEW</span>
+        </h1>
+        <div class="device-info">
+            Mode: ${currentDevice.name} ${isMobile ? `(${deviceWidth} x ${deviceHeight})` : ''}
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="pane">
+            <div class="pane-header">
+                <span class="badge tab1">TAB 1</span>
+            </div>
+            ${isMobile ? `
+            <div class="device-frame">
+                <iframe src="${frame1Src}"></iframe>
+            </div>
+            ` : `
+            <iframe src="${frame1Src}"></iframe>
+            `}
+        </div>
+        
+        <div class="pane">
+            <div class="pane-header">
+                <span class="badge tab2">TAB 2</span>
+            </div>
+            ${isMobile ? `
+            <div class="device-frame">
+                <iframe src="${frame2Src}"></iframe>
+            </div>
+            ` : `
+            <iframe src="${frame2Src}"></iframe>
+            `}
+        </div>
+    </div>
+    
+    <div class="footer">
+        Dibuat dengan HTML Viewer Pro &bull; Dual Preview Mode
+    </div>
+</body>
+</html>`;
+                const blob = new Blob([dualTemplate], { type: 'text/html' });
+                window.open(URL.createObjectURL(blob), '_blank');
+                showToast('Membuka Dual Full Page...');
+                return;
+            }
+
+            // SINGLE MODE
+            const currentData = tabsData[activeTabId];
+            const code = currentData.code;
 
             if (currentDevice.name === 'Desktop') {
                 const blob = new Blob([code], { type: 'text/html' });
                 const url = URL.createObjectURL(blob);
                 window.open(url, '_blank');
             } else {
-                const encodedCode = btoa(unescape(encodeURIComponent(code)));
-                const wrapperContent = `
+                openMobileWrapper(code);
+            }
+        }
+
+        function openMobileWrapper(content) {
+            const b64 = btoa(unescape(encodeURIComponent(content)));
+            const iframeContent = `<iframe src="data:text/html;base64,${b64}"></iframe>`;
+
+            const wrapperContent = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -807,30 +1462,15 @@
 <body>
     <div class="info">Mode: ${currentDevice.name} (${currentDevice.width} x ${currentDevice.height})</div>
     <div class="device-frame">
-        <iframe id="content-frame"></iframe>
+        ${iframeContent}
     </div>
     <div class="rotated-msg">Dibuat dengan HTML Viewer Pro</div>
-    <script>
-        try {
-            const encoded = "${encodedCode}";
-            const content = decodeURIComponent(escape(window.atob(encoded)));
-            
-            const frame = document.getElementById('content-frame');
-            const blob = new Blob([content], {type: 'text/html'});
-            frame.src = URL.createObjectURL(blob);
-        } catch (e) {
-            console.error(e);
-            document.body.innerHTML += '<p style="color:red; text-align:center; margin-top:20px;">Gagal memuat pratinjau.</p>';
-        }
-    <\/script>
 </body>
 </html>`;
-                const wrapperBlob = new Blob([wrapperContent], { type: 'text/html' });
-                const wrapperUrl = URL.createObjectURL(wrapperBlob);
-                window.open(wrapperUrl, '_blank');
-            }
-
-            showToast('Dibuka di tab baru (Emulator Mode)');
+            const wrapperBlob = new Blob([wrapperContent], { type: 'text/html' });
+            const wrapperUrl = URL.createObjectURL(wrapperBlob);
+            window.open(wrapperUrl, '_blank');
+            showToast('Dibuka di tab baru (Mode Mobile)');
         }
 
         function showToast(message) {
@@ -842,6 +1482,11 @@
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, 3000);
         }
+
+        // Save code to tab data on input
+        codeInput.addEventListener('input', () => {
+            tabsData[activeTabId].code = codeInput.value;
+        });
     </script>
 </body>
 
