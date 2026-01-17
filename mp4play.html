@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="id" class="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pro-Player HTML vMaster</title>
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Google Font Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         * {
             font-family: 'Inter', sans-serif;
         }
-        
+
         :root {
             --primary-color: #ef4444;
             --bg-main: #ffffff;
@@ -29,7 +30,7 @@
             --text-secondary: #6b7280;
             --border-color: #e5e7eb;
         }
-        
+
         html.dark {
             --bg-main: #0f0f0f;
             --bg-secondary: #1a1a1a;
@@ -37,13 +38,13 @@
             --text-secondary: #aaaaaa;
             --border-color: #303030;
         }
-        
+
         body {
             background-color: var(--bg-main);
             color: var(--text-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        
+
         /* Video Container */
         .video-container {
             position: relative;
@@ -53,18 +54,18 @@
             overflow: hidden;
             max-width: 100%;
         }
-        
+
         .video-container.theater-mode {
             aspect-ratio: unset;
             height: 85vh;
         }
-        
+
         .video-container.fullscreen-mode {
             aspect-ratio: unset;
             height: 100vh;
             width: 100vw;
         }
-        
+
         video {
             width: 100%;
             height: 100%;
@@ -74,7 +75,7 @@
             max-width: 100%;
             max-height: 100%;
         }
-        
+
         /* Prevent zoom on double tap */
         .video-container * {
             touch-action: manipulation;
@@ -82,11 +83,11 @@
             -webkit-user-select: none;
             user-select: none;
         }
-        
+
         .video-controls * {
             touch-action: manipulation;
         }
-        
+
         /* Video Overlay */
         .video-overlay {
             position: absolute;
@@ -96,28 +97,28 @@
             bottom: 0;
             pointer-events: none;
         }
-        
-        .video-overlay > * {
+
+        .video-overlay>* {
             pointer-events: auto;
         }
-        
+
         /* Controls */
         .video-controls {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.05) 70%, transparent 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 70%, transparent 100%);
             backdrop-filter: blur(2px);
             padding: 0 12px 12px;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
+
         .video-controls.hide {
             opacity: 0;
             transform: translateY(100%);
         }
-        
+
         /* Progress Bar */
         .progress-container {
             width: 100%;
@@ -128,25 +129,25 @@
             margin-bottom: 8px;
             transition: height 0.2s ease;
         }
-        
+
         .progress-container:hover {
             height: 7px;
         }
-        
+
         .progress-bar {
             height: 100%;
             background: var(--primary-color);
             position: relative;
             transition: width 0.1s linear;
         }
-        
+
         .progress-buffer {
             position: absolute;
             height: 100%;
             background: rgba(255, 255, 255, 0.5);
             transition: width 0.3s ease;
         }
-        
+
         .progress-handle {
             position: absolute;
             right: -6px;
@@ -158,11 +159,11 @@
             border-radius: 50%;
             transition: transform 0.2s ease;
         }
-        
+
         .progress-container:hover .progress-handle {
             transform: translateY(-50%) scale(1);
         }
-        
+
         /* Time Tooltip */
         .time-tooltip {
             position: absolute;
@@ -177,11 +178,11 @@
             transition: opacity 0.2s ease;
             white-space: nowrap;
         }
-        
+
         .progress-container:hover .time-tooltip {
             opacity: 1;
         }
-        
+
         /* Volume Slider */
         .volume-slider-container {
             position: absolute;
@@ -197,12 +198,12 @@
             pointer-events: none;
             transition: opacity 0.2s ease;
         }
-        
+
         .volume-slider-container.show {
             opacity: 1;
             pointer-events: auto;
         }
-        
+
         .volume-slider {
             width: 4px;
             height: 100px;
@@ -211,7 +212,7 @@
             position: relative;
             cursor: pointer;
         }
-        
+
         .volume-slider-fill {
             position: absolute;
             bottom: 0;
@@ -220,7 +221,7 @@
             border-radius: 2px;
             transition: height 0.1s ease;
         }
-        
+
         .volume-slider-handle {
             position: absolute;
             left: 50%;
@@ -231,7 +232,7 @@
             border-radius: 50%;
             transition: bottom 0.1s ease;
         }
-        
+
         /* Settings Menu */
         .settings-menu {
             position: absolute;
@@ -249,12 +250,12 @@
             overflow: hidden;
             z-index: 10;
         }
-        
+
         .settings-menu.show {
             opacity: 1;
             pointer-events: auto;
         }
-        
+
         .settings-panel {
             position: absolute;
             top: 0;
@@ -264,19 +265,19 @@
             transition: transform 0.3s ease;
             min-height: 200px;
         }
-        
+
         .settings-panel.slide-left {
             transform: translateX(-100%);
         }
-        
+
         .settings-panel.slide-right {
             transform: translateX(100%);
         }
-        
+
         .settings-panel.active {
             transform: translateX(0);
         }
-        
+
         .settings-item {
             padding: 12px 16px;
             cursor: pointer;
@@ -285,15 +286,15 @@
             justify-content: space-between;
             transition: background 0.2s ease;
         }
-        
+
         .settings-item:hover {
             background: rgba(255, 255, 255, 0.1);
         }
-        
+
         .settings-item.active {
             color: var(--primary-color);
         }
-        
+
         /* Buttons */
         .control-btn {
             background: transparent;
@@ -309,15 +310,15 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .control-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
+
         .control-btn:active {
             transform: scale(0.95);
         }
-        
+
         /* Big Play Button */
         .big-play-btn {
             position: absolute;
@@ -338,18 +339,18 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .big-play-btn:hover {
             transform: translate(-50%, -50%) scale(1.1);
             background: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
+
         .big-play-btn.hide {
             opacity: 0;
             pointer-events: none;
         }
-        
+
         /* Loading Spinner */
         .loading-spinner {
             position: absolute;
@@ -366,15 +367,17 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        
+
         .loading-spinner.show {
             opacity: 1;
         }
-        
+
         @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
-        
+
         /* Notification */
         .notification {
             position: absolute;
@@ -392,11 +395,11 @@
             transition: opacity 0.3s ease;
             z-index: 100;
         }
-        
+
         .notification.show {
             opacity: 1;
         }
-        
+
         /* Skip Animation */
         .skip-animation {
             position: absolute;
@@ -408,25 +411,32 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        
+
         .skip-animation.left {
             left: 20%;
         }
-        
+
         .skip-animation.right {
             right: 20%;
         }
-        
+
         .skip-animation.show {
             opacity: 1;
             animation: skipPulse 0.5s ease;
         }
-        
+
         @keyframes skipPulse {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-50%) scale(1.2); }
+
+            0%,
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.2);
+            }
         }
-        
+
         /* Modal */
         .modal {
             position: fixed;
@@ -440,12 +450,12 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        
+
         .modal.show {
             opacity: 1;
             pointer-events: auto;
         }
-        
+
         .modal-content {
             position: absolute;
             bottom: 0;
@@ -458,11 +468,11 @@
             transition: transform 0.3s ease;
             overflow: hidden;
         }
-        
+
         .modal.show .modal-content {
             transform: translateY(0);
         }
-        
+
         /* Playlist Item */
         .playlist-item {
             padding: 12px;
@@ -470,47 +480,50 @@
             cursor: pointer;
             transition: background 0.2s ease;
         }
-        
+
         .playlist-item:hover {
             background: rgba(0, 0, 0, 0.05);
         }
-        
+
         html.dark .playlist-item:hover {
             background: rgba(255, 255, 255, 0.05);
         }
-        
+
         .playlist-item.active {
             background: rgba(239, 68, 68, 0.1);
             border-left: 3px solid var(--primary-color);
         }
-        
+
         /* Scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
-        
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: var(--border-color);
             border-radius: 4px;
         }
-        
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: var(--text-secondary);
         }
-        
+
         /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
         }
-        
+
         /* Mobile Adjustments */
         @media (max-width: 1024px) {
             .control-btn {
@@ -518,32 +531,32 @@
                 min-height: 48px;
                 padding: 12px;
             }
-            
+
             .progress-container {
                 height: 8px;
                 margin-bottom: 12px;
             }
-            
+
             .progress-handle {
                 width: 18px;
                 height: 18px;
                 transform: translateY(-50%) scale(1);
             }
-            
+
             .video-controls {
                 padding: 0 16px 16px;
             }
-            
+
             .big-play-btn {
                 width: 70px;
                 height: 70px;
                 font-size: 28px;
             }
-            
+
             #timeDisplay {
                 font-size: 13px;
             }
-            
+
             .settings-menu {
                 position: fixed;
                 bottom: 80px;
@@ -553,18 +566,18 @@
                 max-width: 400px;
                 margin: 0 auto;
             }
-            
+
             /* Portrait mode adjustments */
             .video-container {
                 max-height: 40vh;
                 aspect-ratio: 16/9;
             }
-            
+
             .video-container video {
                 object-fit: contain;
             }
         }
-        
+
         /* Fullscreen Adjustments */
         @media (orientation: landscape) {
             .video-container.fullscreen-mode {
@@ -572,34 +585,36 @@
                 height: 100vh;
                 max-height: 100vh;
             }
-            
+
             .video-container.fullscreen-mode video {
                 object-fit: contain;
             }
         }
-        
+
         @media (orientation: portrait) {
             .video-container.fullscreen-mode {
                 width: 100vw;
                 height: 100vh;
                 max-height: 100vh;
             }
-            
+
             .video-container.fullscreen-mode video {
                 object-fit: contain;
             }
         }
-        
+
         /* Hidden */
         .hide-cursor {
             cursor: none;
         }
     </style>
 </head>
+
 <body class="min-h-screen">
-    
+
     <!-- Header -->
-    <header class="sticky top-0 z-50 border-b" style="background-color: var(--bg-main); border-color: var(--border-color);">
+    <header class="sticky top-0 z-50 border-b"
+        style="background-color: var(--bg-main); border-color: var(--border-color);">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <i class="fas fa-play-circle text-3xl" style="color: var(--primary-color);"></i>
@@ -610,31 +625,31 @@
             </button>
         </div>
     </header>
-    
+
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             <!-- Main Column (Player & Input) -->
             <div class="lg:col-span-2 space-y-6">
-                
+
                 <!-- Video Player Container -->
                 <div id="videoContainer" class="video-container rounded-lg overflow-hidden shadow-2xl">
                     <video id="videoElement" preload="metadata"></video>
-                    
+
                     <!-- Video Overlay -->
                     <div class="video-overlay">
                         <!-- Loading Spinner -->
                         <div id="loadingSpinner" class="loading-spinner"></div>
-                        
+
                         <!-- Big Play Button -->
                         <button id="bigPlayBtn" class="big-play-btn" aria-label="Play video">
                             <i class="fas fa-play"></i>
                         </button>
-                        
+
                         <!-- Notification -->
                         <div id="notification" class="notification"></div>
-                        
+
                         <!-- Skip Animations -->
                         <div id="skipLeft" class="skip-animation left">
                             <i class="fas fa-backward"></i>
@@ -642,7 +657,7 @@
                         <div id="skipRight" class="skip-animation right">
                             <i class="fas fa-forward"></i>
                         </div>
-                        
+
                         <!-- Video Controls -->
                         <div id="videoControls" class="video-controls">
                             <!-- Progress Bar -->
@@ -653,7 +668,7 @@
                                 </div>
                                 <div id="timeTooltip" class="time-tooltip">0:00</div>
                             </div>
-                            
+
                             <!-- Control Buttons -->
                             <div class="flex items-center justify-between gap-2">
                                 <!-- Left Controls -->
@@ -673,17 +688,21 @@
                                         </button>
                                         <div id="volumeSliderContainer" class="volume-slider-container">
                                             <div id="volumeSlider" class="volume-slider">
-                                                <div id="volumeSliderFill" class="volume-slider-fill" style="height: 100%"></div>
-                                                <div id="volumeSliderHandle" class="volume-slider-handle" style="bottom: 100%"></div>
+                                                <div id="volumeSliderFill" class="volume-slider-fill"
+                                                    style="height: 100%"></div>
+                                                <div id="volumeSliderHandle" class="volume-slider-handle"
+                                                    style="bottom: 100%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <span id="timeDisplay" class="text-white text-sm font-medium ml-2">0:00 / 0:00</span>
+                                    <span id="timeDisplay" class="text-white text-sm font-medium ml-2">0:00 /
+                                        0:00</span>
                                 </div>
-                                
+
                                 <!-- Right Controls -->
                                 <div class="flex items-center gap-1 relative">
-                                    <button id="speedBtn" class="control-btn text-sm font-bold" aria-label="Playback Speed">
+                                    <button id="speedBtn" class="control-btn text-sm font-bold"
+                                        aria-label="Playback Speed">
                                         1x
                                     </button>
                                     <button id="pipBtn" class="control-btn" aria-label="Picture in Picture">
@@ -697,45 +716,59 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Video Input Form -->
                 <div class="rounded-lg p-6 shadow-lg" style="background-color: var(--bg-secondary);">
                     <h2 class="text-xl font-semibold mb-4">Tambah Video</h2>
                     <div class="space-y-4">
                         <div>
-                            <label for="videoUrlInput" class="block text-sm font-medium mb-2">URL Video (MP4, WebM, dll.)</label>
-                            <input type="text" id="videoUrlInput" class="w-full px-4 py-2 rounded-lg border" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);" placeholder="https://example.com/video.mp4">
-                            <p id="videoUrlError" class="text-red-500 text-sm mt-1 hidden">URL video tidak boleh kosong</p>
+                            <label for="videoUrlInput" class="block text-sm font-medium mb-2">URL Video (MP4, WebM,
+                                dll.)</label>
+                            <input type="text" id="videoUrlInput" class="w-full px-4 py-2 rounded-lg border"
+                                style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);"
+                                placeholder="https://example.com/video.mp4">
+                            <p id="videoUrlError" class="text-red-500 text-sm mt-1 hidden">URL video tidak boleh kosong
+                            </p>
                         </div>
                         <div>
-                            <label for="subtitleUrlInput" class="block text-sm font-medium mb-2">URL Subtitle (VTT, opsional)</label>
-                            <input type="text" id="subtitleUrlInput" class="w-full px-4 py-2 rounded-lg border" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);" placeholder="https://example.com/subtitle.vtt">
+                            <label for="subtitleUrlInput" class="block text-sm font-medium mb-2">URL Subtitle (VTT,
+                                opsional)</label>
+                            <input type="text" id="subtitleUrlInput" class="w-full px-4 py-2 rounded-lg border"
+                                style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);"
+                                placeholder="https://example.com/subtitle.vtt">
                         </div>
                         <div>
                             <label for="videoTitleInput" class="block text-sm font-medium mb-2">Judul Video</label>
-                            <input type="text" id="videoTitleInput" class="w-full px-4 py-2 rounded-lg border" style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);" placeholder="Video Saya">
+                            <input type="text" id="videoTitleInput" class="w-full px-4 py-2 rounded-lg border"
+                                style="background-color: var(--bg-main); border-color: var(--border-color); color: var(--text-primary);"
+                                placeholder="Video Saya">
                         </div>
-                        <button id="addVideoBtn" class="w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90" style="background-color: var(--primary-color);">
+                        <button id="addVideoBtn"
+                            class="w-full py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90"
+                            style="background-color: var(--primary-color);">
                             <i class="fas fa-play mr-2"></i>Putar Video
                         </button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Sidebar (Desktop Only) -->
             <div class="hidden lg:block space-y-6">
                 <!-- Tab Buttons -->
                 <div class="flex gap-2">
-                    <button id="tabPlaylist" class="flex-1 py-2 px-4 rounded-lg font-medium transition-all" style="background-color: var(--primary-color); color: white;">
+                    <button id="tabPlaylist" class="flex-1 py-2 px-4 rounded-lg font-medium transition-all"
+                        style="background-color: var(--primary-color); color: white;">
                         Playlist
                     </button>
-                    <button id="tabHistory" class="flex-1 py-2 px-4 rounded-lg font-medium transition-all" style="background-color: var(--bg-secondary); color: var(--text-secondary);">
+                    <button id="tabHistory" class="flex-1 py-2 px-4 rounded-lg font-medium transition-all"
+                        style="background-color: var(--bg-secondary); color: var(--text-secondary);">
                         Riwayat
                     </button>
                 </div>
-                
+
                 <!-- Playlist Panel -->
-                <div id="playlistPanel" class="rounded-lg shadow-lg overflow-hidden" style="background-color: var(--bg-secondary);">
+                <div id="playlistPanel" class="rounded-lg shadow-lg overflow-hidden"
+                    style="background-color: var(--bg-secondary);">
                     <div class="p-4 border-b" style="border-color: var(--border-color);">
                         <h3 class="font-semibold">Playlist Saya</h3>
                     </div>
@@ -746,12 +779,16 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- History Panel -->
-                <div id="historyPanel" class="rounded-lg shadow-lg overflow-hidden hidden" style="background-color: var(--bg-secondary);">
-                    <div class="p-4 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+                <div id="historyPanel" class="rounded-lg shadow-lg overflow-hidden hidden"
+                    style="background-color: var(--bg-secondary);">
+                    <div class="p-4 border-b flex items-center justify-between"
+                        style="border-color: var(--border-color);">
                         <h3 class="font-semibold">Riwayat Tontonan</h3>
-                        <button id="clearDataBtn" class="text-sm px-3 py-1 rounded hover:bg-red-500 hover:text-white transition-all" style="color: var(--primary-color);">
+                        <button id="clearDataBtn"
+                            class="text-sm px-3 py-1 rounded hover:bg-red-500 hover:text-white transition-all"
+                            style="color: var(--primary-color);">
                             Hapus Data
                         </button>
                     </div>
@@ -765,17 +802,21 @@
             </div>
         </div>
     </main>
-    
+
     <!-- Mobile Action Buttons -->
     <div class="lg:hidden fixed bottom-6 right-6 flex flex-col gap-3 z-40">
-        <button id="mobilePlaylistBtn" class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white" style="background-color: var(--primary-color);" aria-label="Open playlist">
+        <button id="mobilePlaylistBtn"
+            class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white"
+            style="background-color: var(--primary-color);" aria-label="Open playlist">
             <i class="fas fa-list text-xl"></i>
         </button>
-        <button id="mobileHistoryBtn" class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white" style="background-color: var(--primary-color);" aria-label="Open history">
+        <button id="mobileHistoryBtn"
+            class="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white"
+            style="background-color: var(--primary-color);" aria-label="Open history">
             <i class="fas fa-history text-xl"></i>
         </button>
     </div>
-    
+
     <!-- Mobile Modal -->
     <div id="mobileModal" class="modal lg:hidden">
         <div class="modal-content">
@@ -785,10 +826,11 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div id="modalContent" class="custom-scrollbar overflow-y-auto" style="max-height: calc(80vh - 64px);"></div>
+            <div id="modalContent" class="custom-scrollbar overflow-y-auto" style="max-height: calc(80vh - 64px);">
+            </div>
         </div>
     </div>
-    
+
     <!-- Template for Playlist/History Items -->
     <template id="playlistItemTemplate">
         <div class="playlist-item">
@@ -803,7 +845,7 @@
             </div>
         </div>
     </template>
-    
+
     <script type="module">
         // ==================== STATE MANAGEMENT ====================
         const state = {
@@ -816,13 +858,13 @@
                 playbackRate: 1
             }
         };
-        
+
         // ==================== DOM ELEMENTS ====================
         const elements = {
             // Video
             video: document.getElementById('videoElement'),
             videoContainer: document.getElementById('videoContainer'),
-            
+
             // Controls
             videoControls: document.getElementById('videoControls'),
             bigPlayBtn: document.getElementById('bigPlayBtn'),
@@ -833,33 +875,33 @@
             speedBtn: document.getElementById('speedBtn'),
             pipBtn: document.getElementById('pipBtn'),
             fullscreenBtn: document.getElementById('fullscreenBtn'),
-            
+
             // Progress
             progressContainer: document.getElementById('progressContainer'),
             progressBar: document.getElementById('progressBar'),
             progressBuffer: document.getElementById('progressBuffer'),
             timeTooltip: document.getElementById('timeTooltip'),
             timeDisplay: document.getElementById('timeDisplay'),
-            
+
             // Volume
             volumeSliderContainer: document.getElementById('volumeSliderContainer'),
             volumeSlider: document.getElementById('volumeSlider'),
             volumeSliderFill: document.getElementById('volumeSliderFill'),
             volumeSliderHandle: document.getElementById('volumeSliderHandle'),
-            
+
             // Overlays
             loadingSpinner: document.getElementById('loadingSpinner'),
             notification: document.getElementById('notification'),
             skipLeft: document.getElementById('skipLeft'),
             skipRight: document.getElementById('skipRight'),
-            
+
             // Input
             videoUrlInput: document.getElementById('videoUrlInput'),
             subtitleUrlInput: document.getElementById('subtitleUrlInput'),
             videoTitleInput: document.getElementById('videoTitleInput'),
             addVideoBtn: document.getElementById('addVideoBtn'),
             videoUrlError: document.getElementById('videoUrlError'),
-            
+
             // Sidebar
             tabPlaylist: document.getElementById('tabPlaylist'),
             tabHistory: document.getElementById('tabHistory'),
@@ -868,7 +910,7 @@
             playlistContainer: document.getElementById('playlistContainer'),
             historyContainer: document.getElementById('historyContainer'),
             clearDataBtn: document.getElementById('clearDataBtn'),
-            
+
             // Mobile
             mobilePlaylistBtn: document.getElementById('mobilePlaylistBtn'),
             mobileHistoryBtn: document.getElementById('mobileHistoryBtn'),
@@ -876,14 +918,14 @@
             modalTitle: document.getElementById('modalTitle'),
             modalContent: document.getElementById('modalContent'),
             closeModalBtn: document.getElementById('closeModalBtn'),
-            
+
             // Theme
             themeToggle: document.getElementById('themeToggle'),
-            
+
             // Template
             playlistItemTemplate: document.getElementById('playlistItemTemplate')
         };
-        
+
         // ==================== UTILITY FUNCTIONS ====================
         function formatTime(seconds) {
             if (isNaN(seconds)) return '0:00';
@@ -895,7 +937,7 @@
             }
             return `${m}:${s.toString().padStart(2, '0')}`;
         }
-        
+
         function showNotification(message, duration = 2000) {
             elements.notification.textContent = message;
             elements.notification.classList.add('show');
@@ -903,7 +945,7 @@
                 elements.notification.classList.remove('show');
             }, duration);
         }
-        
+
         function showSkipAnimation(direction) {
             const element = direction === 'left' ? elements.skipLeft : elements.skipRight;
             element.classList.add('show');
@@ -911,7 +953,7 @@
                 element.classList.remove('show');
             }, 500);
         }
-        
+
         // ==================== LOCAL STORAGE ====================
         function saveToStorage() {
             try {
@@ -922,13 +964,13 @@
                 console.error('Failed to save to localStorage:', e);
             }
         }
-        
+
         function loadFromStorage() {
             try {
                 const playlist = localStorage.getItem('pro-player-playlist');
                 const history = localStorage.getItem('pro-player-history');
                 const preferences = localStorage.getItem('pro-player-preferences');
-                
+
                 if (playlist) state.playlist = JSON.parse(playlist);
                 if (history) state.history = JSON.parse(history);
                 if (preferences) {
@@ -939,7 +981,7 @@
                 console.error('Failed to load from localStorage:', e);
             }
         }
-        
+
         function applyPreferences() {
             // Apply theme
             if (state.preferences.theme === 'light') {
@@ -949,18 +991,18 @@
                 document.documentElement.classList.add('dark');
                 elements.themeToggle.querySelector('i').className = 'fas fa-moon text-xl';
             }
-            
+
             // Apply volume
             elements.video.volume = state.preferences.volume;
             updateVolumeUI();
-            
+
             // Apply playback rate
             elements.video.playbackRate = state.preferences.playbackRate;
         }
-        
+
         const playbackSpeeds = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
         let currentSpeedIndex = 3; // Corresponds to 1x speed
-        
+
         elements.speedBtn.addEventListener('click', () => {
             currentSpeedIndex = (currentSpeedIndex + 1) % playbackSpeeds.length;
             const newSpeed = playbackSpeeds[currentSpeedIndex];
@@ -968,26 +1010,26 @@
             elements.speedBtn.textContent = `${newSpeed}x`;
             showNotification(`Kecepatan ${newSpeed}x`);
         });
-        
+
         // ==================== VIDEO PLAYER FUNCTIONS ====================
         function loadVideo(index) {
             if (index < 0 || index >= state.playlist.length) return;
-            
+
             const video = state.playlist[index];
             state.currentVideoIndex = index;
-            
+
             // Show loading
             elements.loadingSpinner.classList.add('show');
             elements.bigPlayBtn.classList.add('hide');
-            
+
             // Load video
             elements.video.src = video.url;
-            
+
             // Remove old subtitle tracks
             while (elements.video.firstChild) {
                 elements.video.removeChild(elements.video.firstChild);
             }
-            
+
             // Load subtitle if available
             if (video.subtitleUrl) {
                 const track = document.createElement('track');
@@ -996,33 +1038,33 @@
                 track.srclang = 'id';
                 track.src = video.subtitleUrl;
                 elements.video.appendChild(track);
-                
+
                 track.addEventListener('error', () => {
                     showNotification('Gagal memuat subtitle');
                 });
-                
+
                 track.addEventListener('load', () => {
                 });
             }
-            
+
             // Update UI
             renderPlaylist();
-            
+
             // Add to history
             addToHistory(video);
         }
-        
+
         function playVideo() {
             elements.video.play().catch(e => {
                 console.error('Play failed:', e);
                 showNotification('Gagal memutar video');
             });
         }
-        
+
         function pauseVideo() {
             elements.video.pause();
         }
-        
+
         function togglePlayPause() {
             if (elements.video.paused) {
                 playVideo();
@@ -1030,31 +1072,31 @@
                 pauseVideo();
             }
         }
-        
+
         function playNextVideo() {
             if (state.currentVideoIndex < state.playlist.length - 1) {
                 loadVideo(state.currentVideoIndex + 1);
                 playVideo();
             }
         }
-        
+
         function skipTime(seconds) {
             elements.video.currentTime = Math.max(0, Math.min(elements.video.duration, elements.video.currentTime + seconds));
             showSkipAnimation(seconds < 0 ? 'left' : 'right');
         }
-        
+
         function toggleMute() {
             elements.video.muted = !elements.video.muted;
             updateMuteButton();
         }
-        
+
         function setVolume(volume) {
             elements.video.volume = Math.max(0, Math.min(1, volume));
             state.preferences.volume = elements.video.volume;
             saveToStorage();
             updateVolumeUI();
         }
-        
+
         function togglePiP() {
             if (document.pictureInPictureElement) {
                 document.exitPictureInPicture();
@@ -1064,7 +1106,7 @@
                 });
             }
         }
-        
+
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 elements.videoContainer.requestFullscreen().catch(e => {
@@ -1077,7 +1119,7 @@
                         showNotification('Fullscreen tidak didukung');
                     }
                 });
-                
+
                 // Lock orientation to landscape on mobile
                 if (screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('landscape').catch(e => {
@@ -1090,19 +1132,19 @@
                         document.webkitExitFullscreen();
                     }
                 });
-                
+
                 // Unlock orientation
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
             }
         }
-        
+
         // ==================== UI UPDATE FUNCTIONS ====================
         function updatePlayPauseButton() {
             const icon = elements.playPauseBtn.querySelector('i');
             const bigIcon = elements.bigPlayBtn.querySelector('i');
-            
+
             if (elements.video.paused) {
                 icon.className = 'fas fa-play text-xl';
                 bigIcon.className = 'fas fa-play';
@@ -1117,7 +1159,7 @@
                 elements.bigPlayBtn.classList.add('hide');
             }
         }
-        
+
         function updateMuteButton() {
             const icon = elements.muteBtn.querySelector('i');
             if (elements.video.muted || elements.video.volume === 0) {
@@ -1131,7 +1173,7 @@
                 elements.muteBtn.setAttribute('aria-label', 'Mute');
             }
         }
-        
+
         function updateVolumeUI() {
             const volume = elements.video.volume;
             const height = volume * 100;
@@ -1139,7 +1181,7 @@
             elements.volumeSliderHandle.style.bottom = `${height}%`;
             updateMuteButton();
         }
-        
+
         function updateNextButton() {
             if (state.currentVideoIndex >= 0 && state.currentVideoIndex < state.playlist.length - 1) {
                 elements.nextBtn.classList.remove('hide');
@@ -1147,18 +1189,18 @@
                 elements.nextBtn.classList.add('hide');
             }
         }
-        
+
         function updateTimeDisplay() {
             const current = formatTime(elements.video.currentTime);
             const duration = formatTime(elements.video.duration);
             elements.timeDisplay.textContent = `${current} / ${duration}`;
         }
-        
+
         function updateProgress() {
             const percent = (elements.video.currentTime / elements.video.duration) * 100;
             elements.progressBar.style.width = `${percent}%`;
         }
-        
+
         function updateBuffer() {
             if (elements.video.buffered.length > 0) {
                 const bufferedEnd = elements.video.buffered.end(elements.video.buffered.length - 1);
@@ -1166,7 +1208,7 @@
                 elements.progressBuffer.style.width = `${percent}%`;
             }
         }
-        
+
         // ==================== PLAYLIST & HISTORY ====================
         function addToPlaylist(videoData) {
             const video = {
@@ -1177,18 +1219,18 @@
                 duration: 0,
                 addedAt: new Date().toISOString()
             };
-            
+
             state.playlist.push(video);
             saveToStorage();
             renderPlaylist();
-            
+
             return video;
         }
-        
+
         function removeFromPlaylist(id) {
             const index = state.playlist.findIndex(v => v.id === id);
             if (index === -1) return;
-            
+
             if (index === state.currentVideoIndex) {
                 // If removing current video, stop playback
                 elements.video.src = '';
@@ -1198,33 +1240,33 @@
                 // Adjust current index if removing video before current
                 state.currentVideoIndex--;
             }
-            
+
             state.playlist.splice(index, 1);
             saveToStorage();
             renderPlaylist();
         }
-        
+
         function addToHistory(video) {
             const existingIndex = state.history.findIndex(h => h.url === video.url);
-            
+
             if (existingIndex !== -1) {
                 state.history.splice(existingIndex, 1);
             }
-            
+
             state.history.unshift({
                 ...video,
                 watchedAt: new Date().toISOString()
             });
-            
+
             // Keep only last 50 items
             if (state.history.length > 50) {
                 state.history = state.history.slice(0, 50);
             }
-            
+
             saveToStorage();
             renderHistory();
         }
-        
+
         function clearAllData() {
             if (confirm('Hapus semua data playlist dan riwayat?')) {
                 state.playlist = [];
@@ -1238,10 +1280,10 @@
                 showNotification('Data berhasil dihapus');
             }
         }
-        
+
         function renderPlaylist() {
             const container = elements.playlistContainer;
-            
+
             if (state.playlist.length === 0) {
                 container.innerHTML = `
                     <div class="p-8 text-center" style="color: var(--text-secondary);">
@@ -1251,42 +1293,42 @@
                 `;
                 return;
             }
-            
+
             container.innerHTML = '';
-            
+
             state.playlist.forEach((video, index) => {
                 const clone = elements.playlistItemTemplate.content.cloneNode(true);
                 const item = clone.querySelector('.playlist-item');
                 const title = clone.querySelector('h4');
                 const info = clone.querySelector('p');
                 const deleteBtn = clone.querySelector('.delete-btn');
-                
+
                 title.textContent = video.title;
                 info.textContent = video.duration ? formatTime(video.duration) : 'Durasi tidak diketahui';
-                
+
                 if (index === state.currentVideoIndex) {
                     item.classList.add('active');
                 }
-                
+
                 item.addEventListener('click', (e) => {
                     if (!e.target.closest('.delete-btn')) {
                         loadVideo(index);
                         playVideo();
                     }
                 });
-                
+
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     removeFromPlaylist(video.id);
                 });
-                
+
                 container.appendChild(clone);
             });
         }
-        
+
         function renderHistory() {
             const container = elements.historyContainer;
-            
+
             if (state.history.length === 0) {
                 container.innerHTML = `
                     <div class="p-8 text-center" style="color: var(--text-secondary);">
@@ -1296,22 +1338,22 @@
                 `;
                 return;
             }
-            
+
             container.innerHTML = '';
-            
+
             state.history.forEach((video) => {
                 const clone = elements.playlistItemTemplate.content.cloneNode(true);
                 const item = clone.querySelector('.playlist-item');
                 const title = clone.querySelector('h4');
                 const info = clone.querySelector('p');
                 const deleteBtn = clone.querySelector('.delete-btn');
-                
+
                 title.textContent = video.title;
                 const date = new Date(video.watchedAt);
                 info.textContent = `Ditonton: ${date.toLocaleDateString('id-ID')} ${date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`;
-                
+
                 deleteBtn.remove();
-                
+
                 item.addEventListener('click', () => {
                     // Try to find in playlist
                     const playlistIndex = state.playlist.findIndex(v => v.url === video.url);
@@ -1325,24 +1367,24 @@
                         playVideo();
                     }
                 });
-                
+
                 container.appendChild(clone);
             });
         }
-        
+
         // ==================== CONTROL HIDE/SHOW ====================
         let controlsTimeout;
         let lastMouseMove = Date.now();
         let isFullscreen = false;
-        
+
         function showControls() {
             elements.videoControls.classList.remove('hide');
             elements.videoContainer.classList.remove('hide-cursor');
         }
-        
+
         function hideControls() {
             const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
-            
+
             // Always hide controls in fullscreen after timeout
             if (isFullscreen) {
                 if (!elements.video.paused) {
@@ -1355,13 +1397,13 @@
                 elements.videoContainer.classList.add('hide-cursor');
             }
         }
-        
+
         function resetControlsTimeout() {
             const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
-            
+
             showControls();
             clearTimeout(controlsTimeout);
-            
+
             // In fullscreen, always use timeout (mobile and desktop)
             if (isFullscreen && !elements.video.paused) {
                 controlsTimeout = setTimeout(hideControls, 5000);
@@ -1370,54 +1412,54 @@
                 controlsTimeout = setTimeout(hideControls, 3000);
             }
         }
-        
+
         // ==================== PROGRESS BAR INTERACTION ====================
         let isDraggingProgress = false;
-        
+
         function handleProgressClick(e) {
             const rect = elements.progressContainer.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             elements.video.currentTime = percent * elements.video.duration;
         }
-        
+
         function handleProgressMouseMove(e) {
             const rect = elements.progressContainer.getBoundingClientRect();
             const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
             const time = percent * elements.video.duration;
-            
+
             elements.timeTooltip.textContent = formatTime(time);
             elements.timeTooltip.style.left = `${percent * 100}%`;
-            
+
             if (isDraggingProgress) {
                 elements.video.currentTime = time;
             }
         }
-        
+
         // ==================== VOLUME SLIDER INTERACTION ====================
         let isDraggingVolume = false;
-        
+
         function handleVolumeSliderInteraction(e) {
             const rect = elements.volumeSlider.getBoundingClientRect();
             const percent = Math.max(0, Math.min(1, 1 - (e.clientY - rect.top) / rect.height));
             setVolume(percent);
         }
-        
-        
+
+
         // ==================== DOUBLE CLICK/TAP ====================
         function handleDoubleClick(e) {
             // Double click to toggle fullscreen
             toggleFullscreen();
         }
-        
+
         // ==================== MOBILE MODAL ====================
         function openMobileModal(type) {
             elements.mobileModal.classList.add('show');
             elements.modalTitle.textContent = type === 'playlist' ? 'Playlist Saya' : 'Riwayat Tontonan';
-            
+
             // Clone content from sidebar
             const source = type === 'playlist' ? elements.playlistContainer : elements.historyContainer;
             elements.modalContent.innerHTML = source.innerHTML;
-            
+
             // Re-attach event listeners
             elements.modalContent.querySelectorAll('.playlist-item').forEach((item, index) => {
                 item.addEventListener('click', (e) => {
@@ -1440,7 +1482,7 @@
                         closeMobileModal();
                     }
                 });
-                
+
                 const deleteBtn = item.querySelector('.delete-btn');
                 if (deleteBtn && type === 'playlist') {
                     deleteBtn.addEventListener('click', (e) => {
@@ -1450,25 +1492,25 @@
                     });
                 }
             });
-            
+
             document.body.style.overflow = 'hidden';
         }
-        
+
         function closeMobileModal() {
             elements.mobileModal.classList.remove('show');
             document.body.style.overflow = '';
         }
-        
+
         // ==================== EVENT LISTENERS ====================
-        
+
         // Video Events
         elements.video.addEventListener('loadstart', () => {
             elements.loadingSpinner.classList.add('show');
         });
-        
+
         elements.video.addEventListener('canplay', () => {
             elements.loadingSpinner.classList.remove('show');
-            
+
             // Update duration in playlist
             if (state.currentVideoIndex >= 0) {
                 state.playlist[state.currentVideoIndex].duration = elements.video.duration;
@@ -1476,44 +1518,44 @@
                 renderPlaylist();
             }
         });
-        
+
         elements.video.addEventListener('play', () => {
             updatePlayPauseButton();
             resetControlsTimeout();
         });
-        
+
         elements.video.addEventListener('pause', () => {
             updatePlayPauseButton();
             showControls();
         });
-        
+
         elements.video.addEventListener('timeupdate', () => {
             updateTimeDisplay();
             updateProgress();
         });
-        
+
         elements.video.addEventListener('progress', updateBuffer);
-        
+
         elements.video.addEventListener('ended', () => {
             playNextVideo();
         });
-        
+
         elements.video.addEventListener('error', () => {
             elements.loadingSpinner.classList.remove('show');
             elements.bigPlayBtn.classList.remove('hide');
             showNotification('Gagal memuat video. Periksa URL atau masalah CORS.');
         });
-        
+
         elements.video.addEventListener('volumechange', updateVolumeUI);
-        
+
         // Play/Pause Controls
         elements.bigPlayBtn.addEventListener('click', togglePlayPause);
         elements.playPauseBtn.addEventListener('click', togglePlayPause);
-        
+
         // Backward & Forward Buttons
         elements.backwardBtn.addEventListener('click', () => skipTime(-5));
         elements.forwardBtn.addEventListener('click', () => skipTime(5));
-        
+
         // Mute & Volume
         elements.muteBtn.addEventListener('click', toggleMute);
         elements.muteBtn.addEventListener('mouseenter', () => {
@@ -1527,45 +1569,45 @@
         elements.volumeSliderContainer.addEventListener('mouseleave', () => {
             elements.volumeSliderContainer.classList.remove('show');
         });
-        
+
         elements.volumeSlider.addEventListener('mousedown', (e) => {
             isDraggingVolume = true;
             handleVolumeSliderInteraction(e);
         });
-        
+
         document.addEventListener('mousemove', (e) => {
             if (isDraggingVolume) {
                 handleVolumeSliderInteraction(e);
             }
         });
-        
+
         document.addEventListener('mouseup', () => {
             isDraggingVolume = false;
         });
-        
+
         // PiP, Fullscreen
         elements.pipBtn.addEventListener('click', togglePiP);
         elements.fullscreenBtn.addEventListener('click', toggleFullscreen);
-        
+
         // Progress Bar
         elements.progressContainer.addEventListener('click', handleProgressClick);
         elements.progressContainer.addEventListener('mousemove', handleProgressMouseMove);
-        
+
         elements.progressContainer.addEventListener('mousedown', (e) => {
             isDraggingProgress = true;
             handleProgressClick(e);
         });
-        
+
         document.addEventListener('mousemove', (e) => {
             if (isDraggingProgress) {
                 handleProgressClick(e);
             }
         });
-        
+
         document.addEventListener('mouseup', () => {
             isDraggingProgress = false;
         });
-        
+
         // Touch events for progress bar (mobile)
         elements.progressContainer.addEventListener('touchstart', (e) => {
             const touch = e.touches[0];
@@ -1573,7 +1615,7 @@
             const percent = (touch.clientX - rect.left) / rect.width;
             elements.video.currentTime = percent * elements.video.duration;
         });
-        
+
         elements.progressContainer.addEventListener('touchmove', (e) => {
             e.preventDefault();
             try {
@@ -1585,32 +1627,32 @@
                 console.log('Touch move error:', error);
             }
         });
-        
+
         // Mouse movement for control visibility
         elements.videoContainer.addEventListener('mousemove', () => {
             resetControlsTimeout();
         });
-        
+
         elements.videoContainer.addEventListener('touchmove', () => {
             if (isFullscreen) {
                 resetControlsTimeout();
             }
         });
-        
+
         elements.videoContainer.addEventListener('mouseleave', () => {
             const isMobileDevice = window.matchMedia('(max-width: 1024px)').matches;
             if (!isMobileDevice && !isFullscreen) {
                 hideControls();
             }
         });
-        
+
         // Mobile tap to show/hide controls
         const checkMobile = () => window.matchMedia('(max-width: 1024px)').matches;
-        
+
         let tapCount = 0;
         let tapTimeout;
         let lastTouchTime = 0;
-        
+
         elements.videoContainer.addEventListener('touchstart', (e) => {
             // Prevent default zoom behavior
             const now = Date.now();
@@ -1618,11 +1660,11 @@
                 e.preventDefault();
             }
             lastTouchTime = now;
-            
+
             if (e.target.closest('.video-controls')) return;
-            
+
             tapCount++;
-            
+
             if (tapCount === 1) {
                 tapTimeout = setTimeout(() => {
                     // Single tap - toggle controls
@@ -1651,98 +1693,115 @@
                 tapCount = 0;
             }
         }, { passive: false });
-        
+
         // Double click for desktop
         elements.videoContainer.addEventListener('dblclick', (e) => {
             if (!e.target.closest('.video-controls') && !checkMobile()) {
                 handleDoubleClick(e);
             }
         });
-        
+
         // Click anywhere to close volume slider
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#volumeSliderContainer') && !e.target.closest('#muteBtn')) {
                 elements.volumeSliderContainer.classList.remove('show');
             }
         });
-        
+
         // Input Form
         elements.addVideoBtn.addEventListener('click', () => {
             const url = elements.videoUrlInput.value.trim();
             const subtitleUrl = elements.subtitleUrlInput.value.trim();
-            const title = elements.videoTitleInput.value.trim() || 'Video Tanpa Judul';
-            
+
+            let title = elements.videoTitleInput.value.trim();
+            if (!title && url) {
+                try {
+                    // Ambil nama file dari URL
+                    const cleanUrl = url.split('?')[0].split('#')[0];
+                    const filename = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
+                    if (filename) {
+                        // Decode, hapus ekstensi, dan ganti separator dengan spasi
+                        title = decodeURIComponent(filename)
+                            .replace(/\.[^/.]+$/, "")
+                            .replace(/[-_]/g, " ");
+                    }
+                } catch (e) {
+                    console.log('Error parsing title from URL:', e);
+                }
+            }
+            title = title || 'Video Tanpa Judul';
+
             if (!url) {
                 elements.videoUrlError.classList.remove('hidden');
                 elements.videoUrlInput.focus();
                 return;
             }
-            
+
             elements.videoUrlError.classList.add('hidden');
-            
+
             const video = addToPlaylist({ url, subtitleUrl, title });
             loadVideo(state.playlist.length - 1);
             playVideo();
-            
+
             // Clear inputs
             elements.videoUrlInput.value = '';
             elements.subtitleUrlInput.value = '';
             elements.videoTitleInput.value = '';
-            
+
             showNotification('Video ditambahkan ke playlist');
         });
-        
+
         // Theme Toggle
         elements.themeToggle.addEventListener('click', () => {
             const isDark = document.documentElement.classList.toggle('dark');
             state.preferences.theme = isDark ? 'dark' : 'light';
             saveToStorage();
-            
+
             const icon = elements.themeToggle.querySelector('i');
             icon.className = isDark ? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
         });
-        
+
         // Tab Switching
         elements.tabPlaylist.addEventListener('click', () => {
             elements.tabPlaylist.style.backgroundColor = 'var(--primary-color)';
             elements.tabPlaylist.style.color = 'white';
             elements.tabHistory.style.backgroundColor = 'var(--bg-secondary)';
             elements.tabHistory.style.color = 'var(--text-secondary)';
-            
+
             elements.playlistPanel.classList.remove('hidden');
             elements.historyPanel.classList.add('hidden');
         });
-        
+
         elements.tabHistory.addEventListener('click', () => {
             elements.tabHistory.style.backgroundColor = 'var(--primary-color)';
             elements.tabHistory.style.color = 'white';
             elements.tabPlaylist.style.backgroundColor = 'var(--bg-secondary)';
             elements.tabPlaylist.style.color = 'var(--text-secondary)';
-            
+
             elements.historyPanel.classList.remove('hidden');
             elements.playlistPanel.classList.add('hidden');
         });
-        
+
         // Clear Data
         elements.clearDataBtn.addEventListener('click', clearAllData);
-        
+
         // Mobile Modal
         elements.mobilePlaylistBtn.addEventListener('click', () => openMobileModal('playlist'));
         elements.mobileHistoryBtn.addEventListener('click', () => openMobileModal('history'));
         elements.closeModalBtn.addEventListener('click', closeMobileModal);
-        
+
         elements.mobileModal.addEventListener('click', (e) => {
             if (e.target === elements.mobileModal) {
                 closeMobileModal();
             }
         });
-        
+
         // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
             // Don't trigger if typing in input
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            
-            switch(e.key.toLowerCase()) {
+
+            switch (e.key.toLowerCase()) {
                 case ' ':
                 case 'k':
                     e.preventDefault();
@@ -1793,7 +1852,7 @@
                     break;
             }
         });
-        
+
         // Fullscreen change
         document.addEventListener('fullscreenchange', () => {
             const icon = elements.fullscreenBtn.querySelector('i');
@@ -1801,7 +1860,7 @@
                 icon.className = 'fas fa-compress text-xl';
                 isFullscreen = true;
                 elements.videoContainer.classList.add('fullscreen-mode');
-                
+
                 // Start auto-hide timer in fullscreen
                 if (!elements.video.paused) {
                     resetControlsTimeout();
@@ -1810,12 +1869,12 @@
                 icon.className = 'fas fa-expand text-xl';
                 isFullscreen = false;
                 elements.videoContainer.classList.remove('fullscreen-mode');
-                
+
                 // Show controls when exiting fullscreen
                 showControls();
             }
         });
-        
+
         // Webkit fullscreen change (for Safari/iOS)
         document.addEventListener('webkitfullscreenchange', () => {
             const icon = elements.fullscreenBtn.querySelector('i');
@@ -1823,7 +1882,7 @@
                 icon.className = 'fas fa-compress text-xl';
                 isFullscreen = true;
                 elements.videoContainer.classList.add('fullscreen-mode');
-                
+
                 if (!elements.video.paused) {
                     resetControlsTimeout();
                 }
@@ -1834,19 +1893,19 @@
                 showControls();
             }
         });
-        
+
         // PiP change
         elements.video.addEventListener('enterpictureinpicture', () => {
             showNotification('Mode Picture-in-Picture aktif');
         });
-        
+
         elements.video.addEventListener('leavepictureinpicture', () => {
             showNotification('Mode Picture-in-Picture nonaktif');
         });
-        
+
         // Responsive behavior
         const mediaQuery = window.matchMedia('(max-width: 1024px)');
-        
+
         function handleResponsiveChange(e) {
             if (e.matches) {
                 // Mobile
@@ -1859,31 +1918,31 @@
                 }
             }
         }
-        
+
         if (mediaQuery.addEventListener) {
             mediaQuery.addEventListener('change', handleResponsiveChange);
         } else {
             mediaQuery.addListener(handleResponsiveChange);
         }
-        
+
         // Prevent context menu on video
         elements.video.addEventListener('contextmenu', (e) => {
             e.preventDefault();
         });
-        
+
         // Focus trap for modal
         elements.mobileModal.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeMobileModal();
             }
-            
+
             if (e.key === 'Tab' && elements.mobileModal.classList.contains('show')) {
                 const focusableElements = elements.mobileModal.querySelectorAll(
                     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
                 );
                 const firstElement = focusableElements[0];
                 const lastElement = focusableElements[focusableElements.length - 1];
-                
+
                 if (e.shiftKey && document.activeElement === firstElement) {
                     e.preventDefault();
                     lastElement.focus();
@@ -1893,36 +1952,37 @@
                 }
             }
         });
-        
+
         // Accessibility: Skip to content
         elements.video.setAttribute('tabindex', '0');
-        
+
         // ==================== INITIALIZATION ====================
         function init() {
             // Load data from storage
             loadFromStorage();
-            
+
             // Render initial UI
             renderPlaylist();
             renderHistory();
-            
+
             // Show controls initially
             showControls();
-            
+
             // Check for prefers-reduced-motion
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
             if (prefersReducedMotion.matches) {
                 document.documentElement.style.setProperty('--transition-duration', '0.01ms');
             }
-            
+
             // Initialize volume UI
             updateVolumeUI();
-            
+
             console.log('Pro-Player HTML vMaster v3.1 initialized');
         }
-        
+
         // Start the application
         init();
     </script>
 </body>
+
 </html>
