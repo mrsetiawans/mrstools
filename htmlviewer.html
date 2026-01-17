@@ -341,6 +341,227 @@
             background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
             box-shadow: 0 2px 8px rgba(34, 211, 238, 0.3);
         }
+
+        /* ======================== */
+        /* MOBILE RESPONSIVE STYLES */
+        /* ======================== */
+
+        /* Mobile First: Breakpoint at 768px */
+        @media screen and (max-width: 768px) {
+
+            /* Header Adjustments */
+            header.header-gradient {
+                height: auto;
+                min-height: 56px;
+                padding: 10px 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            header .text-lg {
+                font-size: 14px;
+            }
+
+            /* Main Layout - Stack Vertically */
+            main {
+                flex-direction: column !important;
+            }
+
+            /* Editor Panel Mobile */
+            main>div:first-child {
+                width: 100% !important;
+                min-height: 40vh;
+                max-height: 50vh;
+                border-right: none !important;
+                border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+            }
+
+            /* Preview Panel Mobile */
+            main>div:last-child {
+                width: 100% !important;
+                flex: 1;
+                min-height: 40vh;
+            }
+
+            /* Editor Header Mobile */
+            .glass-panel {
+                padding: 8px 10px;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            /* Tab Buttons Mobile */
+            .glass-panel button {
+                padding: 6px 10px !important;
+                font-size: 11px !important;
+            }
+
+            /* Search Bar Mobile */
+            #search-bar {
+                flex-wrap: wrap;
+                padding: 8px;
+            }
+
+            #search-bar>div:first-child {
+                width: 100%;
+                margin-bottom: 6px;
+            }
+
+            #search-input {
+                padding: 10px 10px 10px 36px;
+            }
+
+            /* Preview Header Mobile */
+            .preview-header {
+                padding: 10px 8px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .preview-header>div:first-child {
+                width: 100%;
+            }
+
+            .preview-header>div:last-child {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            /* Device Selector Mobile */
+            #device-selector {
+                flex: 1;
+                min-width: 120px;
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            #scale-selector {
+                width: 60px;
+            }
+
+            /* Editor Line Numbers Mobile */
+            #line-numbers {
+                width: 40px;
+                padding-right: 8px;
+                font-size: 11px;
+            }
+
+            /* Code Input Mobile */
+            .code-style {
+                font-size: 12px;
+                padding: 8px 12px 50vh 8px;
+            }
+
+            /* Toast Notification Mobile */
+            #toast {
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
+                width: auto;
+            }
+        }
+
+        /* Extra Small Screens (< 480px) */
+        @media screen and (max-width: 480px) {
+
+            /* Header even more compact */
+            header.header-gradient {
+                padding: 8px 10px;
+            }
+
+            header h1 {
+                font-size: 13px !important;
+            }
+
+            header h1 span {
+                font-size: 9px !important;
+                padding: 2px 6px !important;
+            }
+
+            /* Editor takes more space on very small screens */
+            main>div:first-child {
+                min-height: 35vh;
+                max-height: 45vh;
+            }
+
+            /* Buttons more compact */
+            .btn-success,
+            .btn-primary {
+                padding: 8px 12px !important;
+            }
+
+            /* Hide less important buttons */
+            #btn-split {
+                display: none;
+            }
+
+            /* Scale selector more compact */
+            #scale-selector {
+                display: none;
+            }
+
+            /* Preview container pad */
+            #preview-container {
+                padding: 8px;
+            }
+
+            /* Search Stats */
+            #search-stats {
+                font-size: 10px;
+                width: auto;
+            }
+
+            /* Line Numbers even smaller */
+            #line-numbers {
+                width: 32px;
+                font-size: 10px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+
+            /* Larger touch targets */
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            select {
+                min-height: 44px;
+            }
+
+            input[type="text"] {
+                min-height: 44px;
+            }
+
+            /* Larger scrollbar for touch */
+            ::-webkit-scrollbar {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Landscape Mobile Orientation */
+        @media screen and (max-width: 900px) and (orientation: landscape) {
+            main {
+                flex-direction: row !important;
+            }
+
+            main>div:first-child {
+                width: 50% !important;
+                min-height: auto;
+                max-height: none;
+                border-bottom: none !important;
+                border-right: 2px solid rgba(99, 102, 241, 0.3) !important;
+            }
+
+            main>div:last-child {
+                width: 50% !important;
+            }
+        }
     </style>
 </head>
 
